@@ -1,0 +1,17 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.tx</groupId>
+    <artifactId>corp-obl-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>corp-obl parent</name>
+    <description>corp-obl parent</description>
+
+    <modules>
+        <module>corp-obl-backend</module>
+        <module>corp-obl-frontend</module>
+    </modules>
+
+</project>

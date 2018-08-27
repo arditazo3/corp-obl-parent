@@ -1,0 +1,70 @@
+package com.tx.co.user.service;
+
+import com.tx.co.cache.service.UpdateCacheData;
+import com.tx.co.user.domain.User;
+import com.tx.co.user.repository.UserRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.ehcache.impl.internal.classes.commonslang.ArrayUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.cache.Cache;
+import javax.cache.CacheManager;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static com.tx.co.common.constants.AppConstants.STORAGE_DATA_CACHE;
+import static com.tx.co.common.constants.AppConstants.USER_LIST_CACHE;
+import static org.springframework.util.ObjectUtils.isEmpty;
+
+/**
+ * Service for {@link com.tx.co.user.domain.User}s.
+ *
+ * @author Ardit Azo
+ */
+@Service
+public class UserService extends UpdateCacheData implements IUserService {
+
+    private static final Logger logger = LogManager.getLogger(UserService.class);
+
+    private final UserRepository userRepository;
+
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    /**
+     * @return get all the Users
+     */
+    @Override
+    public List<User> findAllUsers() {
+        List<User> userList = new ArrayList<>();
+
+        List<User> userListFromCache = getUsersFromCache();
+        if(!isEmpty(userListFromCache)) {
+            userList = userListFromCache;
+        } else {
+            userRepository.findAll().forEach(userList::add);
+        }
+
+        logger.info("The number of the users: " + userList.size());
+
+        return userList;
+    }
+
+    /**
+     * @param username
+     * @return get the user by username
+     */
+    @Override
+    public User findByUsername(String username) {
+
+        logger.info("The username " + username);
+
+        return userRepository.findByUsername(username);
+    }
+}
+
