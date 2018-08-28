@@ -1,6 +1,6 @@
 /*
 Template Name: Admin Template
-Author: Niravjoshi / Wrappixel
+Author: Niravjoshi / TX
 File: scss
 */
 /*******************************/
@@ -4601,7 +4601,7 @@ button.close {
   .bs-popover-top .arrow::before, .bs-popover-auto[x-placement^="top"] .arrow::before {
     bottom: 0;
     border-top-color: rgba(0, 0, 0, 0.25); }
-  
+
   .bs-popover-top .arrow::after,
   .bs-popover-auto[x-placement^="top"] .arrow::after {
     bottom: 1px;
@@ -4621,7 +4621,7 @@ button.close {
   .bs-popover-right .arrow::before, .bs-popover-auto[x-placement^="right"] .arrow::before {
     left: 0;
     border-right-color: rgba(0, 0, 0, 0.25); }
-  
+
   .bs-popover-right .arrow::after,
   .bs-popover-auto[x-placement^="right"] .arrow::after {
     left: 1px;
@@ -4638,7 +4638,7 @@ button.close {
   .bs-popover-bottom .arrow::before, .bs-popover-auto[x-placement^="bottom"] .arrow::before {
     top: 0;
     border-bottom-color: rgba(0, 0, 0, 0.25); }
-  
+
   .bs-popover-bottom .arrow::after,
   .bs-popover-auto[x-placement^="bottom"] .arrow::after {
     top: 1px;
@@ -4667,7 +4667,7 @@ button.close {
   .bs-popover-left .arrow::before, .bs-popover-auto[x-placement^="left"] .arrow::before {
     right: 0;
     border-left-color: rgba(0, 0, 0, 0.25); }
-  
+
   .bs-popover-left .arrow::after,
   .bs-popover-auto[x-placement^="left"] .arrow::after {
     right: 1px;
@@ -6957,7 +6957,7 @@ a.text-purple:hover, a.text-purple:focus {
     border: 1px solid #dee2e6 !important; } }
 
 /*******************
-Padding margin property 
+Padding margin property
 *******************/
 html[dir="ltr"] body .m-t-5 {
   margin-top: 5px; }
@@ -7274,8 +7274,8 @@ html[dir="ltr"] body .p-l-0 {
     #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin6"] .create-btn, #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin6"] .create-btn {
       background: #4fc3f7; }
 
-/*============================================================== 
- For all pages 
+/*==============================================================
+ For all pages
  ============================================================== */
 #main-wrapper {
   width: 100%;
@@ -8030,7 +8030,7 @@ Topbar Responsive
 
 /*
 Template Name: Admin Template
-Author: Wrappixel
+Author: TX
 
 File: scss
 */
@@ -11061,7 +11061,7 @@ customizer
 
 /*
 Template Name: Admin Template
-Author: Niravjoshi / Wrappixel
+Author: Niravjoshi / TX
 File: scss
 */
 html body .jqstooltip,
@@ -11307,7 +11307,7 @@ label {
 
 html[dir="rtl"] {
   /*******************
-Padding margin property 
+Padding margin property
 *******************/
   /** * Zero */
   /* Stickey inner-left-part */
@@ -12414,7 +12414,7 @@ Earnings
 
 /*
 Template Name: Admin Template
-Author: Wrappixel
+Author: TX
 
 File: scss
 */
@@ -12545,7 +12545,7 @@ User card page
 
 /*
 Template Name: Admin Template
-Author: Wrappixel
+Author: TX
 
 File: scss
 */
@@ -12640,7 +12640,7 @@ vector map Page
 
 /*
 Template Name: Admin Template
-Author: Wrappixel
+Author: TX
 
 File: scss
 */
@@ -13073,13 +13073,13 @@ Horizontal Timeline page
 
 /*
 Template Name: Admin Template
-Author: Wrappixel
+Author: TX
 
 File: scss
 */
 /*
 Template Name: Admin Template
-Author: Wrappixel
+Author: TX
 
 File: scss
 */
@@ -13532,7 +13532,7 @@ File: scss
 
 /*
 Template Name: Admin Template
-Author: Niravjoshi / Wrappixel
+Author: Niravjoshi / TX
 File: scss
 */
 #main-wrapper[data-layout="horizontal"] {
@@ -13680,28 +13680,28 @@ This is for the horizontal layout
 
 /*
 Template Name: Admin Template
-Author: Wrappixel
+Author: TX
 
 File: scss
 */
-/*============================================================== 
- For Desktop & above all (1650px) 
+/*==============================================================
+ For Desktop & above all (1650px)
  ============================================================== */
-/*============================================================== 
- For Laptop & above all (1370px) 
+/*==============================================================
+ For Laptop & above all (1370px)
  ============================================================== */
-/*-- ============================================================== 
- Small Desktop & above all (1024px) 
+/*-- ==============================================================
+ Small Desktop & above all (1024px)
  ============================================================== */
-/*-- ============================================================== 
- Ipad & above all(768px) 
+/*-- ==============================================================
+ Ipad & above all(768px)
  ============================================================== */
 @media (min-width: 768px) {
   .bc-content {
     justify-content: flex-end; } }
 
-/*-- ============================================================== 
- Phone and below ipad(767px) 
+/*-- ==============================================================
+ Phone and below ipad(767px)
  ============================================================== */
 @media (max-width: 991.98px) {
   .do-block {
