@@ -19,5 +19,51 @@ export const ROUTES: RouteInfo[] = [
         submenu: []
       },
     ]
+  },
+  {
+    path: '',
+    title: 'Back office',
+    icon: 'mdi mdi-desktop-mac',
+    class: 'has-arraw',
+    ddclass: '',
+    extralink: false,
+    submenu: [
+      {
+        path: '/back-office/company',
+        title: 'Company',
+        icon: 'mdi mdi-briefcase',
+        class: '',
+        ddclass: '',
+        extralink: false,
+        submenu: []
+      },
+      {
+        path: '/back-office/office',
+        title: 'Office',
+        icon: 'mdi mdi-glassdoor',
+        class: '',
+        ddclass: '',
+        extralink: false,
+        submenu: []
+      },
+      {
+        path: '/back-office/topic',
+        title: 'Topic',
+        icon: 'mdi mdi-network-question',
+        class: '',
+        ddclass: '',
+        extralink: false,
+        submenu: []
+      },
+      {
+        path: '/back-office/consultant',
+        title: 'Consultant',
+        icon: 'mdi mdi-account-settings',
+        class: '',
+        ddclass: '',
+        extralink: false,
+        submenu: []
+      }
+    ]
   }
 ];

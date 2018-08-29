@@ -19,6 +19,7 @@ export const Approutes: Routes = [
         path: 'starter',
         loadChildren: './starter/starter.module#StarterModule'
       },
+      { path: 'back-office', loadChildren: './back_office/back_office.module#BackOfficeModule' },
     ]
   },
   {

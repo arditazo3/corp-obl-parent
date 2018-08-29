@@ -37,7 +37,7 @@ export class FullComponent implements OnInit {
 
   ngOnInit() {
     if (this.router.url === '/') {
-      this.router.navigate(['/dashboard/classic']);
+      this.router.navigate(['/dashboard/trendy']);
     }
     this.defaultSidebar = this.options.sidebartype;
     this.handleSidebar();
