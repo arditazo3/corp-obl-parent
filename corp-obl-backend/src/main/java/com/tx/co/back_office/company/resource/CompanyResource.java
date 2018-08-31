@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -43,7 +44,7 @@ public class CompanyResource {
     @GET
     @Path(COMPANY_LIST)
     @Produces(MediaType.APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response getCompanies() {
 
         Iterable<Company> companyIterable = companyService.findAllCompany();
@@ -103,10 +104,10 @@ public class CompanyResource {
     @Path(COMPANY_DELETE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
-    public Response deleteCompany(@PathParam("idCompany") Long idCompany) {
+ //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+    public Response deleteCompany(CompanyResult company) {
 
-        companyService.deleteCompany(idCompany);
+        companyService.deleteCompany(company.getIdCompany());
 
         return Response.noContent().build();
     }
@@ -121,7 +122,6 @@ public class CompanyResource {
         CompanyResult result = new CompanyResult();
         result.setIdCompany(company.getIdCompany());
         result.setDescription(company.getDescription());
-        result.setEnabled(company.getEnabled());
         result.setCreatedBy(company.getCreatedBy());
         result.setModifiedBy(company.getModifiedBy());
         return result;

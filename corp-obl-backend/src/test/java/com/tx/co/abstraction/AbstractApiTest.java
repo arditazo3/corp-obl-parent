@@ -37,7 +37,7 @@ public abstract class AbstractApiTest {
     protected String getTokenForUser() {
 
         UserCredentials credentials = new UserCredentials();
-        credentials.setUsername("CORPOBLIG_USER");
+        credentials.setUsername("USER");
         // credentials.setPassword("password");
 
         AuthenticationTokenUser authenticationToken = client.target(baseUri).path(AUTH).request()
@@ -48,7 +48,7 @@ public abstract class AbstractApiTest {
     protected String getTokenForAdmin() {
 
         UserCredentials credentials = new UserCredentials();
-        credentials.setUsername("CORPOBLIG_ADMIN");
+        credentials.setUsername("ADMIN");
         // credentials.setPassword("password");
 
         AuthenticationTokenUser authenticationToken = client.target(baseUri).path(AUTH).request()

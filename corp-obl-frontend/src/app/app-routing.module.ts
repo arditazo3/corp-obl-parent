@@ -15,10 +15,6 @@ export const Approutes: Routes = [
         path: 'dashboard',
         loadChildren: './dashboards/dashboard.module#DashboardModule'
       },
-      {
-        path: 'starter',
-        loadChildren: './starter/starter.module#StarterModule'
-      },
       { path: 'back-office', loadChildren: './back_office/back_office.module#BackOfficeModule' },
     ]
   },

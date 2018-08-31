@@ -29,7 +29,7 @@ public class AuthenticationResourceTest extends AbstractApiTest {
     public void authenticateWithValidCredentials() {
 
         UserCredentials credentials = new UserCredentials();
-        credentials.setUsername("CORPOBLIG_ADMIN");
+        credentials.setUsername("ADMIN");
         //     credentials.setPassword("password");
 
         Response response = client.target(baseUri).path(AUTH).request()

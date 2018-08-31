@@ -15,6 +15,21 @@ export class AppConfig {
   public apiBasePath = 'admin-rest';
   public baseApiPath: string;
 
+  // User
+  public userPath = 'user';
+  public userList = this.userPath + '/user';
+
+  // Back office
+  public backOfficePath = 'back-office';
+
+  // Company URL's
+  public companyPath = '/company';
+  public getCompanies = this.backOfficePath + this.companyPath + '/list';                 // GET
+  public getCompanyById = this.backOfficePath + this.companyPath + '/{idCompany}';        // GET
+  public createCompany = this.backOfficePath + this.companyPath + '/create';              // POST
+  public editCompany = this.backOfficePath + this.companyPath + '/edit';                  // PUT
+  public deleteCompany = this.backOfficePath + this.companyPath + '/delete';  // PUT
+
 
   constructor() {
     console.log('AppConfig - constructor');

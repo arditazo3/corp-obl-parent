@@ -67,7 +67,7 @@ public class UserResourceTest extends AbstractApiTest {
     @Test
     public void getAdminAsUser() {
 
-        String username = "CORPOBLIG_ADMIN";
+        String username = "ADMIN";
 
         String authorizationHeader = composeAuthorizationHeader(getTokenForUser());
 
@@ -79,7 +79,7 @@ public class UserResourceTest extends AbstractApiTest {
     @Test
     public void getUserAsAdmin() {
 
-        String username = "CORPOBLIG_USER";
+        String username = "USER";
 
         String authorizationHeader = composeAuthorizationHeader(getTokenForAdmin());
 
@@ -110,7 +110,7 @@ public class UserResourceTest extends AbstractApiTest {
 
         UserResult queryResults = response.readEntity(UserResult.class);
         assertNotNull(queryResults.getUsername());
-        assertEquals(USER_ROLE, queryResults.getUsername());
+        assertEquals("USER", queryResults.getUsername());
         assertThat(queryResults.getAuthorities(), containsInAnyOrder(Authority.CORPOBLIG_USER));
     }
 
@@ -125,7 +125,7 @@ public class UserResourceTest extends AbstractApiTest {
 
         UserResult queryResults = response.readEntity(UserResult.class);
         assertNotNull(queryResults.getUsername());
-        assertEquals(ADMIN_ROLE, queryResults.getUsername());
+        assertEquals("ADMIN", queryResults.getUsername());
         assertThat(queryResults.getAuthorities(), containsInAnyOrder(Authority.CORPOBLIG_ADMIN));
     }
 }

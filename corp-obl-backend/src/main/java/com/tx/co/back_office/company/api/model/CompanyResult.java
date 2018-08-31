@@ -12,7 +12,6 @@ public class CompanyResult {
 
     private Long idCompany;
     private String description;
-    private Boolean enabled;
     private String createdBy;
     private String modifiedBy;
 
@@ -30,14 +29,6 @@ public class CompanyResult {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
     }
 
     public String getCreatedBy() {

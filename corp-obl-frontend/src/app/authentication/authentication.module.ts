@@ -14,6 +14,7 @@ import {UserInfoService} from '../user/service/user-info.service';
 import {ApiRequestService} from '../shared/common/service/api-request.service';
 import {LoginService} from './service/login.service';
 import {AppConfig} from '../shared/common/api/app-config';
+import {AuthGuard} from './service/auth_guard.service';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import {AppConfig} from '../shared/common/api/app-config';
     UserInfoService,
     ApiRequestService,
     LoginService,
-    AppConfig
+    AppConfig,
+    AuthGuard
   ]
 })
 export class AuthenticationModule {}

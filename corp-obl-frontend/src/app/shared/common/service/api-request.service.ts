@@ -25,11 +25,11 @@ export class ApiRequestService {
     const token = this.userInfoService.getStoredToken();
 
     headers = headers.append('Accept', 'application/json');
-    headers = headers.append('Content-Type', 'application/json');
+    headers = headers.append('Content-Type', 'application/json;charset=ISO-8859-1');
     headers = headers.append('Access-Control-Allow-Origin', '*');
 
     if (token !== null) {
-      headers = headers.append('Authorization', token);
+      headers = headers.append('Authorization', 'Bearer ' + token);
     }
     return headers;
   }

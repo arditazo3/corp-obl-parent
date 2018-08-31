@@ -1,8 +1,10 @@
 package com.tx.co.cache.service;
 
 import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.back_office.company.repository.CompanyRepository;
 import com.tx.co.back_office.company.service.ICompanyService;
 import com.tx.co.user.domain.User;
+import com.tx.co.user.repository.UserRepository;
 import com.tx.co.user.service.IUserService;
 import org.ehcache.impl.internal.classes.commonslang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +31,8 @@ import static com.tx.co.common.constants.AppConstants.*;
 public abstract class CacheDataLoader {
 
     private javax.cache.CacheManager cacheManager;
-    private IUserService userService;
-    private ICompanyService companyService;
+    private UserRepository userRepository;
+    private CompanyRepository companyRepository;
 
     // Split the string with operator ; to get all the languages
     @Value("${web.app.langualge}")
@@ -42,13 +44,13 @@ public abstract class CacheDataLoader {
     }
 
     @Autowired
-    public void setUserService(IUserService userService) {
-        this.userService = userService;
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Autowired
-    public void setCompanyService(ICompanyService companyService) {
-        this.companyService = companyService;
+    public void setCompanyRepository(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
     }
 
     /**
@@ -60,7 +62,7 @@ public abstract class CacheDataLoader {
         final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
         // Load all the users
-        List<User> userList = userService.findAllUsers();
+        List<User> userList = (List<User>) userRepository.findAll();
         storageDataCacheManager.put(USER_LIST_CACHE, userList);
 
         // Load all the languages used on the web app
@@ -72,7 +74,7 @@ public abstract class CacheDataLoader {
         }
 
         // Load all the companies
-        List<Company> companyList = companyService.findAllCompany();
+        List<Company> companyList = (List<Company>) companyRepository.findAll();
         storageDataCacheManager.put(COMPANY_LIST_CACHE, companyList);
     }
 }

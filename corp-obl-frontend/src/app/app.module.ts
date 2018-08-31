@@ -26,6 +26,8 @@ import {ApiRequestService} from './shared/common/service/api-request.service';
 import {LoginService} from './authentication/service/login.service';
 import {AppConfig} from './shared/common/api/app-config';
 import {AuthGuard} from './authentication/service/auth_guard.service';
+import {TransferDataService} from "./shared/common/service/transfer-data.service";
+import {SweetAlert2Module} from "@toverux/ngx-sweetalert2";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -52,9 +54,15 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ReactiveFormsModule,
     HttpClientModule,
     NgbModule.forRoot(),
-    RouterModule.forRoot(Approutes, { useHash: true }),
+    RouterModule.forRoot(Approutes, { useHash: false }),
     PerfectScrollbarModule,
-    AgmCoreModule.forRoot({ apiKey: 'AIzaSyBUb3jDWJQ28vDJhuQZxkC0NXr_zycm8D0' })
+    AgmCoreModule.forRoot({ apiKey: 'AIzaSyBUb3jDWJQ28vDJhuQZxkC0NXr_zycm8D0' }),
+    SweetAlert2Module.forRoot({
+      buttonsStyling: false,
+      customClass: 'modal-content',
+      confirmButtonClass: 'btn btn-primary',
+      cancelButtonClass: 'btn'
+    }),
   ],
   providers: [
     UserInfoService,
@@ -62,6 +70,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     LoginService,
     AppConfig,
     AuthGuard,
+    TransferDataService,
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
@@ -69,7 +78,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })

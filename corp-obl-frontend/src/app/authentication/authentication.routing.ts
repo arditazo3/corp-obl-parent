@@ -23,7 +23,6 @@ export const AuthenticationRoutes: Routes = [
       {
         path: 'logout',
         redirectTo: 'login',
-        component: LoginComponent,
         data: {
           title: 'Admin - Corporate obligations',
           urls: [

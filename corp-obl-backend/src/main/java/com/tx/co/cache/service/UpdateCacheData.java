@@ -1,6 +1,7 @@
 package com.tx.co.cache.service;
 
 import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.common.utils.UtilStatic;
 import com.tx.co.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,7 +37,10 @@ public abstract class UpdateCacheData {
         final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
         List<Company> companyList = getCompaniesFromCache();
-        companyList.add(company);
+
+        int indexToUpdate = UtilStatic.getIndexByPropertyCompanyList(company.getIdCompany(), companyList);
+
+        companyList.add(indexToUpdate, company);
         storageDataCacheManager.put(COMPANY_LIST_CACHE, companyList);
     }
 

@@ -39,7 +39,7 @@ export class LoginService {
     */
 
     // Will use this BehaviorSubject to emit data that we want after ajax login attempt
-    let loginDataSubject: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+    const loginDataSubject: BehaviorSubject<any> = new BehaviorSubject<any>([]);
     // Object that we want to send back to Login Page
     let loginInfoReturn: LoginInfoInStorage;
 

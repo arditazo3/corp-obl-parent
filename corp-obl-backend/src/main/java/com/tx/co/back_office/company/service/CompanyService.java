@@ -44,9 +44,9 @@ public class CompanyService extends UpdateCacheData implements ICompanyService {
     public List<Company> findAllCompany() {
         List<Company> companyList = new ArrayList<>();
 
-        List<Company> userListFromCache = getCompaniesFromCache();
+        List<Company> companyListFromCache = getCompaniesFromCache();
         if(!isEmpty(getCompaniesFromCache())) {
-            companyList = userListFromCache;
+            companyList = companyListFromCache;
         } else {
             companyRepository.findAll().forEach(companyList::add);
         }

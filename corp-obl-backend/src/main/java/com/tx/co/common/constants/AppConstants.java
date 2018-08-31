@@ -32,14 +32,14 @@ public final class AppConstants {
     public static final String COMPANY_LIST = COMPANY + "/list";
     public static final String COMPANY_CREATE = COMPANY + "/create";
     public static final String COMPANY_EDIT = COMPANY + "/edit";
-    public static final String COMPANY_DELETE = COMPANY + "/delete/{idCompany}";
+    public static final String COMPANY_DELETE = COMPANY + "/delete";
     /* End list of Routes */
 
     /**
      * List of authorization Role
      * */
-    public static final String ADMIN_ROLE = "ADMIN";
-    public static final String USER_ROLE = "USER";
+    public static final String ADMIN_ROLE = "CORPOBLIG_ADMIN";
+    public static final String USER_ROLE = "CORPOBLIG_USER";
     /* End of authorization Role list */
 
     /**
