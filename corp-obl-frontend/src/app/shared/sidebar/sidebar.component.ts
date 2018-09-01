@@ -3,6 +3,7 @@ import { ROUTES } from './menu-items';
 import { RouteInfo } from './sidebar.metadata';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {FullComponent} from "../../layouts/full/full.component";
 declare var $: any;
 
 @Component({
@@ -13,6 +14,9 @@ export class SidebarComponent implements OnInit {
   showMenu = '';
   showSubMenu = '';
   public sidebarnavItems: any[];
+
+  public fullComponent: FullComponent = new FullComponent();
+
   // this is for the open close
   addExpandClass(element: any) {
     if (element === this.showMenu) {

@@ -11,7 +11,7 @@ import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 export class FullComponent implements OnInit {
   public config: PerfectScrollbarConfigInterface = {};
 
-  constructor(public router: Router) {}
+  constructor(public router?: Router) {}
 
   tabStatus = 'justified';
 

@@ -36,7 +36,7 @@ sidebar navigation
       .sidebar-link {
         color: $sidebar-text;
         padding: $sidebar-link-padding;
-        display: flex;
+     //   display: flex;
         white-space: nowrap;
         align-items: center;
         line-height: 25px;
@@ -74,7 +74,7 @@ sidebar navigation
           }
         }
       }
-    }    
+    }
   }
 }
 
@@ -96,7 +96,7 @@ sidebar navigation
   }
 }
 
-    
+
 /*******************
  common m-p removed
 ******************/

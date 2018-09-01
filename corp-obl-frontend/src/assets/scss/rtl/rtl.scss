@@ -39,6 +39,30 @@
                     left: 220px;
                 }
             }
+          #sidebarnav-left > .sidebar-item {
+            border-left: 1px solid rgba(0, 0, 0, 0.1);
+            border-right: none;
+            &:last-child {
+              border-left: none;
+              > .first-level {
+                left: 0;
+                right: auto;
+              }
+            }
+            ul {
+              left: auto;
+              right: 0;
+              &.second-level {
+                left: auto;
+                right: 220px;
+              }
+            }
+            &:last-child > .first-level ul.second-level,
+            .first-level .right-side-dd ul.second-level {
+              right: auto;
+              left: 220px;
+            }
+          }
         }
     }
 
@@ -402,7 +426,7 @@
                 left: auto;
             }
         }
-        
+
         .right-part {
             margin-right: 0px;
         }

@@ -1,6 +1,6 @@
 /*
 Template Name: Admin Template
-Author: Niravjoshi / TX
+Author:  / TX
 File: scss
 */
 $sidebarheight:54px;
@@ -62,6 +62,12 @@ This is for the horizontal layout
                         display: block;
                     }
                 }
+              #sidebarnav-left {
+                flex-wrap: wrap;
+                >.sidebar-item > .has-arrow:after{
+                  display: block;
+                }
+              }
                 .sidebar-item {
                     flex: 1 1 0;
                 }
@@ -84,11 +90,12 @@ This is for the horizontal layout
             display: none;
         }
         .left-sidebar{
+            margin-top: -60px;
             width: 100%;
             height: auto;
             position: relative;
             padding-top:0px;
-            z-index: 45;
+            z-index: 99;
             transition: 0s;
             .scroll-sidebar{
                 height: $sidebarheight;
@@ -182,6 +189,9 @@ This is for the horizontal layout
                     top:0px;
                     left: auto;
                 }
+                >.sidebar-item:last-child {
+                  display: block;
+                }
                 ul.first-level >.sidebar-item:hover ul.second-level{
                     display: block;
                 }
@@ -194,7 +204,97 @@ This is for the horizontal layout
                     display: none;
                 }
             }
+            #sidebarnav-left {
+            display: flex;
 
+            width: 100%;
+            .sidebar-item {
+              position: relative;
+              width: auto;
+            }
+            >.sidebar-item {
+              border-right: 1px solid rgba(0, 0, 0, 0.1);
+              &:last-child {
+                border-right: none;
+              }
+              >.has-arrow:after{
+                transform: rotate(-135deg) translate(0,-50%);
+              }
+              &:last-child > .first-level {
+                right: 0px;
+                left: auto;
+              }
+              &.two-column {
+                .first-level{
+                  width: 400px;
+                  > .sidebar-item{
+                    float: $lft;
+                    width: 50%;
+                    vertical-align: top;
+                  }
+                }
+              }
+            }
+            >.sidebar-item ul{
+              position: absolute;
+              left: 0px;
+              top: auto;
+              width: 220px;
+              padding-bottom: 0px;
+              z-index: 100;
+              display: none;
+              box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.1);
+            }
+            >.mega-dropdown{
+              position: static;
+              .first-level{
+                width: 100%;
+                > li{
+                  width: 25%;
+                  float: $lft;
+                }
+              }
+            }
+            >.sidebar-item:hover{
+              background: rgba(0, 0, 0, 0.025);
+            }
+            >.sidebar-item:hover ul.first-level,
+            >.sidebar-item:hover ul.first-level.collapse {
+              display: block;
+              &:after {
+                position: absolute;
+                content: "";
+                background:rgba(0, 0, 0, 0.025);
+                top: 0;
+                height: 100%;
+                width: 100%;
+                left: 0;
+                z-index: -1;
+              }
+            }
+            >.sidebar-item ul.second-level{
+              left:220px;
+              top:0px;
+
+            }
+            >.sidebar-item:last-child > .first-level ul.second-level,
+            >.sidebar-item .first-level .right-side-dd ul.second-level{
+              right:220px;
+              top:0px;
+              left: auto;
+            }
+            ul.first-level >.sidebar-item:hover ul.second-level{
+              display: block;
+            }
+            >.sidebar-item > .has-arrow:after,
+            .nav-small-cap,
+            .sidebar-footer,
+            .user-pro,
+            .badge
+            {
+              display: none;
+            }
+          }
         }
     }
 }
@@ -202,11 +302,11 @@ This is for the horizontal layout
 @media (min-width:768px) and (max-width:1023px) {
     #main-wrapper[data-layout="horizontal"]{
         .sidebar-nav > ul > .sidebar-item > .sidebar-link i{
-            display: none;
+        //    display: none;
         }
 
         .sidebar-nav #sidebarnav>.sidebar-item{
-                flex: auto;
+          //      flex: auto;
             }
 
     }
