@@ -26,6 +26,6 @@ export class CompanyService {
   deleteCompany(company): Observable<any> {
     console.log('CompanyService - deleteCopany');
 
-    return this.apiRequest.post(this.appConfig.deleteCompany, company);
+    return this.apiRequest.put(this.appConfig.deleteCompany, company);
   }
 }
