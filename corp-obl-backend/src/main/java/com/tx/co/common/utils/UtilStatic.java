@@ -6,6 +6,8 @@ import java.util.List;
 
 public class UtilStatic {
 
+    private UtilStatic() {}
+
     public static int getIndexByPropertyCompanyList(Long idCompany, List<Company> comparableList) {
 
         for (int i = 0; i < comparableList.size(); i++) {

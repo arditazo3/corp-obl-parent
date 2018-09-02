@@ -1,6 +1,5 @@
 package com.tx.co;
 
-import com.tx.co.user.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;

@@ -26,9 +26,8 @@ export class AppConfig {
   public companyPath = '/company';
   public getCompanies = this.backOfficePath + this.companyPath + '/list';                 // GET
   public getCompanyById = this.backOfficePath + this.companyPath + '/{idCompany}';        // GET
-  public createCompany = this.backOfficePath + this.companyPath + '/create';              // POST
-  public editCompany = this.backOfficePath + this.companyPath + '/edit';                  // PUT
-  public deleteCompany = this.backOfficePath + this.companyPath + '/delete';  // PUT
+  public createUpdateCompany = this.backOfficePath + this.companyPath + '/create-update'; // POST
+  public deleteCompany = this.backOfficePath + this.companyPath + '/delete';              // PUT
 
 
   constructor() {

@@ -60,7 +60,7 @@ export class UserInfoService {
   getUsername(): string {
     const userInStorage: UserTokenInStorage = this.getUserInfo();
     if (userInStorage !== null) {
-      return userInStorage.user.username;
+      return userInStorage.user.fullName;
     }
     return 'no-user';
   }

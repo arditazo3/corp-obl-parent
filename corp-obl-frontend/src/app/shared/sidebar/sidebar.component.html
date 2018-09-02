@@ -4,7 +4,7 @@
     <li class="sidebar-item">
       <!-- Logo -->
       <!-- ============================================================== -->
-      <a class="navbar-brand sidebar-link">
+      <a class="sidebar-link">
         <div class="" [attr.data-logobg]="fullComponent.options.logobg">
           <!-- Logo icon -->
             <img src="assets/images/logo-icon.png" alt="homepage" class="dark-logo"/>
@@ -96,12 +96,12 @@
       </div>
     </li>
     <li class="sidebar-item" placement="bottom-right">
-      <div style="display: flex; margin-right: 10px; margin-left: -10px;">
+      <div style="display: flex; margin-right: 10px;">
         <!-- ============================================================== -->
         <!-- User profile -->
         <!-- ============================================================== -->
         <a class="sidebar-link">
-          <i class="ti-user m-r-5 m-l-5"></i> {{ username }}
+          <b>{{ fullname }}</b>
         </a>
         <!-- ============================================================== -->
         <!-- Logout -->

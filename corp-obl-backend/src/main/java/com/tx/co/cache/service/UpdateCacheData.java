@@ -12,6 +12,7 @@ import java.util.List;
 import static com.tx.co.common.constants.AppConstants.COMPANY_LIST_CACHE;
 import static com.tx.co.common.constants.AppConstants.STORAGE_DATA_CACHE;
 import static com.tx.co.common.constants.AppConstants.USER_LIST_CACHE;
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 public abstract class UpdateCacheData {
 
@@ -32,16 +33,44 @@ public abstract class UpdateCacheData {
         return (List<Company>) storageDataCacheManager.get(COMPANY_LIST_CACHE);
     }
 
+    /**
+     * @param company
+     */
     public void updateCompaniesCache(Company company) {
 
         final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
         List<Company> companyList = getCompaniesFromCache();
 
-        int indexToUpdate = UtilStatic.getIndexByPropertyCompanyList(company.getIdCompany(), companyList);
+        // Object to update or to save as new one
+        int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyCompanyList(company.getIdCompany(), companyList);
 
-        companyList.add(indexToUpdate, company);
+        if(indexToUpdateOrInsert == -1) {
+            companyList.add(company);
+        } else if(!company.getEnabled()) {
+            companyList.remove(indexToUpdateOrInsert);
+        } else {
+            companyList.set(indexToUpdateOrInsert, company);
+        }
+
         storageDataCacheManager.put(COMPANY_LIST_CACHE, companyList);
+    }
+
+    /**
+     * @param idCompany
+     * @return the existing Company on the cache
+     */
+    public Company getCompanyById(Long idCompany) {
+        Company company = null;
+        if(!isEmpty(getCompaniesFromCache())) {
+            for (Company companyLoop : getCompaniesFromCache()) {
+                if(idCompany.compareTo(companyLoop.getIdCompany()) == 0) {
+                    company = companyLoop;
+                    break;
+                }
+            }
+        }
+        return company;
     }
 
     /**

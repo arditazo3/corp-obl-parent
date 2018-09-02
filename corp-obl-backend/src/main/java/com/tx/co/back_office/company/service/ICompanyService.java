@@ -9,7 +9,7 @@ public interface ICompanyService {
 
     List<Company> findAllCompany();
 
-    Company saveCompany(Company company);
+    Company saveUpdateCompany(Company company);
 
     Optional<Company> findByIdCompany(Long idCompany);
 

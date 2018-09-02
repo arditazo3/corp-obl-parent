@@ -21,7 +21,7 @@ public class GeneralExceptionMapper implements ExceptionMapper<GeneralException>
     @Override
     public Response toResponse(GeneralException exception) {
 
-        Response.Status status = Response.Status.FORBIDDEN;
+        Response.Status status = Response.Status.NOT_ACCEPTABLE;
 
         ApiErrorDetails errorDetails = new ApiErrorDetails();
         errorDetails.setStatus(status.getStatusCode());

@@ -1,7 +1,6 @@
 package com.tx.co.security.api.resource;
 
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
-import com.tx.co.security.api.exceptionmapper.GeneralExceptionMapper;
 import com.tx.co.security.api.model.AuthenticationTokenUser;
 import com.tx.co.security.api.model.UserCredentials;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;

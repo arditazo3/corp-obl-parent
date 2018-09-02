@@ -5,18 +5,12 @@ import com.tx.co.user.domain.User;
 import com.tx.co.user.repository.UserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.ehcache.impl.internal.classes.commonslang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.cache.Cache;
-import javax.cache.CacheManager;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static com.tx.co.common.constants.AppConstants.STORAGE_DATA_CACHE;
-import static com.tx.co.common.constants.AppConstants.USER_LIST_CACHE;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 /**

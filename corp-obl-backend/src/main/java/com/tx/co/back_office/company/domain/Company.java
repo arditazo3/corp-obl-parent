@@ -93,34 +93,4 @@ public class Company implements Serializable {
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Company company = (Company) o;
-
-        if (idCompany != null ? !idCompany.equals(company.idCompany) : company.idCompany != null) return false;
-        if (description != null ? !description.equals(company.description) : company.description != null) return false;
-        if (enabled != null ? !enabled.equals(company.enabled) : company.enabled != null) return false;
-        if (creationDate != null ? !creationDate.equals(company.creationDate) : company.creationDate != null)
-            return false;
-        if (createdBy != null ? !createdBy.equals(company.createdBy) : company.createdBy != null) return false;
-        if (modifcationDate != null ? !modifcationDate.equals(company.modifcationDate) : company.modifcationDate != null)
-            return false;
-        return modifiedBy != null ? modifiedBy.equals(company.modifiedBy) : company.modifiedBy == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = idCompany != null ? idCompany.hashCode() : 0;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (enabled != null ? enabled.hashCode() : 0);
-        result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
-        result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
-        result = 31 * result + (modifcationDate != null ? modifcationDate.hashCode() : 0);
-        result = 31 * result + (modifiedBy != null ? modifiedBy.hashCode() : 0);
-        return result;
-    }
 }

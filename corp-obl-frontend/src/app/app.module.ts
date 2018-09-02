@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
@@ -26,8 +26,8 @@ import {ApiRequestService} from './shared/common/service/api-request.service';
 import {LoginService} from './authentication/service/login.service';
 import {AppConfig} from './shared/common/api/app-config';
 import {AuthGuard} from './authentication/service/auth_guard.service';
-import {TransferDataService} from "./shared/common/service/transfer-data.service";
-import {SweetAlert2Module} from "@toverux/ngx-sweetalert2";
+import {TransferDataService} from './shared/common/service/transfer-data.service';
+import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,

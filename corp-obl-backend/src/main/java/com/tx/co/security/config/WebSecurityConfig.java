@@ -17,17 +17,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.session.SessionManagementFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-
-import javax.servlet.Filter;
-import javax.ws.rs.HttpMethod;
-
-import java.util.Arrays;
-import java.util.Collections;
 
 import static com.tx.co.common.constants.AppConstants.APP_PATH;
 import static com.tx.co.common.constants.AppConstants.AUTH;
@@ -42,14 +34,24 @@ import static com.tx.co.common.constants.AppConstants.AUTH;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private UserDetailsService userDetailsService;
-
-    @Autowired
     private JwtAuthenticationProvider jwtAuthenticationProvider;
+    private JwtAuthenticationEntryPoint authenticationEntryPoint;
 
     @Autowired
-    private JwtAuthenticationEntryPoint authenticationEntryPoint;
+    public void setUserDetailsService(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Autowired
+    public void setJwtAuthenticationProvider(JwtAuthenticationProvider jwtAuthenticationProvider) {
+        this.jwtAuthenticationProvider = jwtAuthenticationProvider;
+    }
+
+    @Autowired
+    public void setAuthenticationEntryPoint(JwtAuthenticationEntryPoint authenticationEntryPoint) {
+        this.authenticationEntryPoint = authenticationEntryPoint;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

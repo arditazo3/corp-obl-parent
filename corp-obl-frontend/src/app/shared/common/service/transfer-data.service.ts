@@ -13,7 +13,10 @@ export class TransferDataService {
   ) {}
 
   get singleParam() {
-    return this._singleParam;
+    const _singleParamTemp = this._singleParam;
+
+    this.cleanParams();
+    return _singleParamTemp;
   }
 
   set singleParam(value) {
@@ -21,7 +24,10 @@ export class TransferDataService {
   }
 
   get objectParam() {
-    return this._objectParam;
+    const _objectParamTemp = this._objectParam;
+
+    this.cleanParams();
+    return _objectParamTemp;
   }
 
   set objectParam(value) {
@@ -29,7 +35,10 @@ export class TransferDataService {
   }
 
   get arrayParam() {
-    return this._arrayParam;
+    const _arrayParamTemp = this._arrayParam;
+
+    this.cleanParams();
+    return _arrayParamTemp;
   }
 
   set arrayParam(value) {

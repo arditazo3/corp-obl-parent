@@ -1,7 +1,9 @@
 import {Observable} from 'rxjs/Rx';
 import {AppConfig} from '../../shared/common/api/app-config';
 import {ApiRequestService} from '../../shared/common/service/api-request.service';
+import {Injectable} from "@angular/core";
 
+@Injectable()
 export class UserService {
 
   constructor(

@@ -34,7 +34,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
      * @throws AuthenticationException
      */
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) {
 
         String authenticationToken = (String) authentication.getCredentials();
         AuthenticationTokenUserDetails authenticationTokenUserDetails = authenticationTokenService.parseToken(authenticationToken);

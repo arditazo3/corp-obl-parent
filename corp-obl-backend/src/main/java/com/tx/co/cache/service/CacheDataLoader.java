@@ -2,14 +2,11 @@ package com.tx.co.cache.service;
 
 import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.repository.CompanyRepository;
-import com.tx.co.back_office.company.service.ICompanyService;
 import com.tx.co.user.domain.User;
 import com.tx.co.user.repository.UserRepository;
-import com.tx.co.user.service.IUserService;
 import org.ehcache.impl.internal.classes.commonslang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -69,12 +66,12 @@ public abstract class CacheDataLoader {
         List<String> languagesList = new ArrayList<>();
         String[] languagesArray = languagesString.split(";");
         if(!ArrayUtils.isEmpty(languagesArray)) {
-            languagesList = Arrays.stream(languagesArray).collect(Collectors.toList());
+            languagesList.addAll(Arrays.stream(languagesArray).collect(Collectors.toList()));
             storageDataCacheManager.put(LANGUAGE_LIST_CACHE, languagesList);
         }
 
         // Load all the companies
-        List<Company> companyList = (List<Company>) companyRepository.findAll();
+        List<Company> companyList = (List<Company>) companyRepository.findAllByOrderByDescriptionAsc();
         storageDataCacheManager.put(COMPANY_LIST_CACHE, companyList);
     }
 }

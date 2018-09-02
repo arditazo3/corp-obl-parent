@@ -30,7 +30,7 @@ public final class AppConstants {
     public static final String COMPANY = "company";
     public static final String COMPANY_GET_BY_ID = COMPANY + "/{idCompany}";
     public static final String COMPANY_LIST = COMPANY + "/list";
-    public static final String COMPANY_CREATE = COMPANY + "/create";
+    public static final String COMPANY_CREATE_UPDATE = COMPANY + "/create-update";
     public static final String COMPANY_EDIT = COMPANY + "/edit";
     public static final String COMPANY_DELETE = COMPANY + "/delete";
     /* End list of Routes */

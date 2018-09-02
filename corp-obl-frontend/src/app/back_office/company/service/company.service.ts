@@ -17,11 +17,15 @@ export class CompanyService {
     return this.apiRequest.get(this.appConfig.getCompanies);
   }
 
-  deleteCompany(idCompany): void {
+  saveUpdateCompany(company): Observable<any> {
+
+
+    return this.apiRequest.post(this.appConfig.createUpdateCompany, company);
+  }
+
+  deleteCompany(company): Observable<any> {
     console.log('CompanyService - deleteCopany');
 
-    let body = { idCompany: idCompany};
-
-    this.apiRequest.put(this.appConfig.deleteCompany, body);
+    return this.apiRequest.post(this.appConfig.deleteCompany, company);
   }
 }

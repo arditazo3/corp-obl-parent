@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {Company} from '../../model/Company';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
+import {ApiErrorDetails} from "../../../../shared/common/api/model/api-error-details";
 
 @Component({
   selector: 'app-company-table',
@@ -12,7 +13,7 @@ import {TransferDataService} from '../../../../shared/common/service/transfer-da
 })
 export class CompanyTableComponent implements OnInit {
 
-  @ViewChild('table') tableNgx: any;
+  @ViewChild('myTable') table: any;
   @ViewChild('deleteCompanySwal') private deleteCompanySwal: SwalComponent;
 
   columns: any[];
@@ -21,11 +22,11 @@ export class CompanyTableComponent implements OnInit {
   temp = [];
   expanded: any = {};
   rowSelected: Company;
+  errorDetails: ApiErrorDetails;
 
   loadingIndicator = true;
   reorderable = true;
 
-  @ViewChild(CompanyTableComponent) table: CompanyTableComponent;
   constructor(
     private router: Router,
     private companyService: CompanyService,
@@ -79,7 +80,7 @@ export class CompanyTableComponent implements OnInit {
 
   toggleExpandRow(row) {
     console.log('CompanyTableComponent - Toggled Expand Row!', row);
-    this.tableNgx.rowDetail.toggleExpandRow(row);
+    this.table.rowDetail.toggleExpandRow(row);
   }
 
   onDetailToggle(event) {
@@ -105,7 +106,7 @@ export class CompanyTableComponent implements OnInit {
 
     this.rowSelected = row;
 
-    this.deleteCompanySwal.title = 'Delete ' + row.description + '?';
+    this.deleteCompanySwal.title = 'Delete: ' + row.description + '?';
 
     this.deleteCompanySwal.show();
   }
@@ -113,11 +114,20 @@ export class CompanyTableComponent implements OnInit {
   deleteCompanyCofirm() {
     console.log('CompanyTableComponent - deleteCompanySwal' + this.rowSelected.idCompany);
 
-    const idCompany = this.rowSelected.idCompany;
+    const companySelected = this.rowSelected;
 
-    this.companyService.deleteCompany(idCompany);
+    this.companyService.deleteCompany(companySelected).subscribe(
+      (data) => {
+        this.errorDetails = undefined;
+        this.getCompanies();
+        console.log('CompanyTableComponent - deleteCompanyCofirm - next');
+      }, error => {
+        this.errorDetails = error.error;
+        console.log('CompanyTableComponent - deleteCompanyCofirm - error');
+      }
+    );
 
-    this.getCompanies();
+
   }
 
 }

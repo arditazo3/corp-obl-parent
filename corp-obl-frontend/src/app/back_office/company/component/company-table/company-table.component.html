@@ -3,37 +3,44 @@
   <div class="col-lg-12">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-subtitle">The table of Companies</h5>
-        <form>
-          <div class="row">
-            <div class="col-md-9">
-              <input type='text' class="form-control" placeholder='Type to filter the name column...'
-                     (keyup)='updateFilter($event)'/>
-            </div>
-            <div class="col-md-3 text-right">
-              <button class="btn btn-info btn-block" type="button" (click)="createNewCompany()">Create new Company</button>
-            </div>
+        <h5 class="card-subtitle">List of Companies</h5>
+        <div class="row">
+          <div class="col-md-9">
+            <input type='text' class="form-control" placeholder='Type to filter the name column...'
+                   (keyup)='updateFilter($event)'/>
           </div>
-        </form>
+          <div class="col-md-3 text-right">
+            <button class="btn btn-info btn-block" type="button" (click)="createNewCompany()">Create new Company
+            </button>
+          </div>
+        </div>
         <hr>
-        <ngx-datatable style="height: 439px;"
-                       #table class='material expandable'
-                       [columns]="columns"
+        <ngx-datatable #myTable
+                       class='material expandable'
                        [columnMode]="'force'"
                        [headerHeight]="50"
                        [footerHeight]="50"
                        [rowHeight]="55"
-                       [scrollbarV]="true"
-                       [limit]="10" [rows]='rows'>
+                       [rows]='rows'
+                       [limit]="10">
+
 
           <!-- Row Detail Template -->
-          <ngx-datatable-row-detail [rowHeight]="50" #myDetailRow (toggle)="onDetailToggle($event)">
-            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <ngx-datatable-row-detail
+            [rowHeight]="50"
+            #myDetailRow
+            (toggle)="onDetailToggle($event)">
+            <ng-template let-row="row"
+                         let-expanded="expanded"
+                         ngx-datatable-row-detail-template>
               <div style="padding-left:60px; font-size:14px">
-                <button class="btn btn-info waves-effect waves-light" type="button" (click)="editCompany(row)">Edit
+                <button class="btn btn-info waves-effect waves-light" type="button"
+                        (click)="editCompany(row)">
+                  <i class="fas fa-pencil-alt"></i>
                 </button>
                 <button class="btn btn-warning waves-effect waves-light" type="button"
-                        (click)="deleteCompanyAlert(row)">Remove
+                        (click)="deleteCompanyAlert(row)">
+                  <i class="far fa-trash-alt"></i>
                 </button>
               </div>
             </ng-template>
@@ -58,41 +65,63 @@
             </ng-template>
           </ngx-datatable-column>
 
+          <ngx-datatable-column name="Options" [sortable]="false" [flexGrow]="1">
+
+            <ng-template let-column="column" ngx-datatable-header-template>
+              <span class="mobile-hidden">{{column.name}}</span>
+            </ng-template>
+
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <span class="mobile-hidden">
+              <button class="btn btn-info
+              waves-effect waves-light" type="button"
+                      (click)="editCompany(row)">Edit</button>
+              </span>
+
+              <span class="mobile-hidden">
+              <button class="btn btn-warning
+              waves-effect waves-light"
+                      type="button" (click)="deleteCompanyAlert(row)">Remove</button>
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
           <ngx-datatable-column name="Description" [flexGrow]="3" [minWidth]="150">
             <ng-template let-row="row" ngx-datatable-cell-template>
-              <p>{{row.description}}</p>
+              {{row.description}}
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Created By" [flexGrow]="1">
+          <ngx-datatable-column name="Created By" [sortable]="true" [flexGrow]="1">
+            <ng-template let-column="column"  ngx-datatable-header-template>
+              <span class="mobile-hidden">{{column.name}}</span>
+            </ng-template>
+
             <ng-template let-row="row" ngx-datatable-cell-template>
-              <p>{{row.createdBy}}</p>
+              <span class="mobile-hidden">
+              {{row.createdBy}}
+              </span>
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Modified By" [flexGrow]="1">
+          <ngx-datatable-column name="Modified By" [flexGrow]="1" [sortable]="true">
+            <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+              <span class="mobile-hidden">{{column.name}}</span>
+            </ng-template>
+
             <ng-template let-row="row" ngx-datatable-cell-template>
-              <p>{{row.modifiedBy}}</p>
+              <span class="mobile-hidden">
+              {{row.modifiedBy}}
+              </span>
             </ng-template>
           </ngx-datatable-column>
-
-          <ngx-datatable-column name="Options" [sortable]="false" [flexGrow]="1">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <button class="btn btn-info waves-effect waves-light" type="button" (click)="editCompany(row)">Edit
-              </button>
-              <button class="btn btn-warning waves-effect waves-light" type="button" (click)="deleteCompanyAlert(row)">
-                Remove
-              </button>
-            </ng-template>
-          </ngx-datatable-column>
-
           <!-- End Column Templates -->
         </ngx-datatable>
 
         <swal
           #deleteCompanySwal
-          title="Delete {{ rowSelected?.description }}?"
-          text="This cannot be undone"
+          title=""
+          text="This cannot be undone."
           type="question"
           [showCancelButton]="true"
           [focusCancel]="true"

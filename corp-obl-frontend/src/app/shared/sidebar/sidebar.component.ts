@@ -1,9 +1,10 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import {Component, AfterViewInit, OnInit, ChangeDetectorRef} from '@angular/core';
 import { ROUTES } from './menu-items';
 import { RouteInfo } from './sidebar.metadata';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {FullComponent} from "../../layouts/full/full.component";
+import {UserInfoService} from "../../user/service/user-info.service";
 declare var $: any;
 
 @Component({
@@ -14,6 +15,8 @@ export class SidebarComponent implements OnInit {
   showMenu = '';
   showSubMenu = '';
   public sidebarnavItems: any[];
+  fullname = '';
+  public logoutVariable = '/authentication/logout';
 
   public fullComponent: FullComponent = new FullComponent();
 
@@ -36,11 +39,15 @@ export class SidebarComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userInfoService: UserInfoService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   // End open close
   ngOnInit() {
     this.sidebarnavItems = ROUTES.filter(sidebarnavItem => sidebarnavItem);
+    this.fullname = this.userInfoService.getUsername();
+    this.cdr.detectChanges();
   }
 }
