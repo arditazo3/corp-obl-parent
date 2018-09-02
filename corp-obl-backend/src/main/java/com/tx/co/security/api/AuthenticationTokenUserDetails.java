@@ -7,7 +7,11 @@ import java.time.ZonedDateTime;
 
 public class AuthenticationTokenUserDetails implements Serializable {
 
-    private final String id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final String id;
     private final User user;
     private final ZonedDateTime issuedDate;
     private final ZonedDateTime expirationDate;

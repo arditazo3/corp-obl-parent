@@ -71,7 +71,7 @@ public abstract class CacheDataLoader {
         }
 
         // Load all the companies
-        List<Company> companyList = (List<Company>) companyRepository.findAllByOrderByDescriptionAsc();
+        List<Company> companyList = companyRepository.findAllByOrderByDescriptionAsc();
         storageDataCacheManager.put(COMPANY_LIST_CACHE, companyList);
     }
 }

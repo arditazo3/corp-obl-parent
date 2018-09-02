@@ -13,7 +13,12 @@ import java.util.Date;
 @Table(name = "co_company")
 public class Company implements Serializable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long idCompany;
