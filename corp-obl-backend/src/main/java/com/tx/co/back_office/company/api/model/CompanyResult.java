@@ -1,5 +1,7 @@
 package com.tx.co.back_office.company.api.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
@@ -14,6 +16,7 @@ public class CompanyResult {
     private String description;
     private String createdBy;
     private String modifiedBy;
+    private List<CompanyUserResult> usersAssociated;
 
     public Long getIdCompany() {
         return idCompany;
@@ -46,4 +49,14 @@ public class CompanyResult {
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
+
+	public List<CompanyUserResult> getUsersAssociated() {
+		return usersAssociated;
+	}
+
+	public void setUsersAssociated(List<CompanyUserResult> usersAssociated) {
+		this.usersAssociated = usersAssociated;
+	}
+
+	
 }

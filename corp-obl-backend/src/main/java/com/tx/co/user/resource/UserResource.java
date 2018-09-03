@@ -43,7 +43,7 @@ public class UserResource {
     @GET
     @Path(USER_LIST)
     @Produces(MediaType.APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response getUsers() {
 
         Iterable<User> userIterable = userService.findAllUsers();
@@ -55,6 +55,24 @@ public class UserResource {
         return Response.ok(queryDetailsList).build();
     }
 
+    /**
+     * @return get all the user except roles...
+     */
+    @GET
+    @Path(USER_LIST_EXCEPT)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+    public Response getUsersExceptRole(@QueryParam("role") String role) {
+
+        List<User> userList = userService.findAllUsersExceptRole(role);
+        List<UserResult> queryDetailsList =
+                StreamSupport.stream(userList.spliterator(), false)
+                        .map(this::toQueryResult)
+                        .collect(Collectors.toList());
+
+        return Response.ok(queryDetailsList).build();
+    }
 
     /**
      * @param username

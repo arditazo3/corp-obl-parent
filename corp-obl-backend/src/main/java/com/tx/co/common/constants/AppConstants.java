@@ -20,6 +20,7 @@ public final class AppConstants {
     // User URL
     public static final String USER = "user";
     public static final String USER_LIST = "list";
+    public static final String USER_LIST_EXCEPT = "user-except";
     public static final String USER_BY_USERNAME = "{username}";
     public static final String ME = "me";
 
@@ -33,6 +34,7 @@ public final class AppConstants {
     public static final String COMPANY_CREATE_UPDATE = COMPANY + "/create-update";
     public static final String COMPANY_EDIT = COMPANY + "/edit";
     public static final String COMPANY_DELETE = COMPANY + "/delete";
+    public static final String ASSOC_USER_COMPANY = COMPANY + "/assoc-user-company";
     /* End list of Routes */
 
     /**

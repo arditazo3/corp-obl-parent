@@ -1,8 +1,10 @@
 package com.tx.co.user.service;
 
 import com.tx.co.cache.service.UpdateCacheData;
+import com.tx.co.security.domain.Authority;
 import com.tx.co.user.domain.User;
 import com.tx.co.user.repository.UserRepository;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +61,22 @@ public class UserService extends UpdateCacheData implements IUserService {
         logger.info("The username " + username);
 
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public List<User> findAllUsersExceptRole(String role) {
+    	List<User> userList = findAllUsers();
+    	List<User> userListToRemove = new ArrayList<>();
+
+    	for (User user : userList) {
+    		if(!isEmpty(user.getAuthorities()) && 
+    				user.getAuthorities().contains(Authority.valueOf(role))) {
+    			userListToRemove.add(user);
+    		}
+    	}
+
+    	userList.removeAll(userListToRemove);
+    	return userList;
     }
 }
 

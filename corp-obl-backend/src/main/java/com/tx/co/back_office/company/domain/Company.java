@@ -1,8 +1,13 @@
 package com.tx.co.back_office.company.domain;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.Where;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Domain model that represents a company.
@@ -36,12 +41,16 @@ public class Company implements Serializable {
     @Column(nullable = false, name = "createdby")
     private String createdBy;
 
-    @Column(nullable = false, name = "modifcationdate")
+    @Column(nullable = false, name = "modificationdate")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date modifcationDate;
+    private Date modificationDate;
 
     @Column(nullable = false, name = "modifiedby")
     private String modifiedBy;
+    
+    @OneToMany(mappedBy="company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Where(clause = "enabled = 1")
+    private Set<CompanyUser> companyUsers = new HashSet<CompanyUser>();
 
     public Long getIdCompany() {
         return idCompany;
@@ -83,12 +92,12 @@ public class Company implements Serializable {
         this.createdBy = createdBy;
     }
 
-    public Date getModifcationDate() {
-        return modifcationDate;
+    public Date getModificationDate() {
+        return modificationDate;
     }
 
-    public void setModifcationDate(Date modifcationDate) {
-        this.modifcationDate = modifcationDate;
+    public void setModificationDate(Date modificationDate) {
+        this.modificationDate = modificationDate;
     }
 
     public String getModifiedBy() {
@@ -98,4 +107,12 @@ public class Company implements Serializable {
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
+
+	public Set<CompanyUser> getCompanyUsers() {
+		return companyUsers;
+	}
+
+	public void setCompanyUsers(Set<CompanyUser> companyUsers) {
+		this.companyUsers = companyUsers;
+	}
 }

@@ -14,4 +14,6 @@ public interface ICompanyService {
     Optional<Company> findByIdCompany(Long idCompany);
 
     void deleteCompany(Long idCompany);
+    
+    void associateUserToCompany(Company company);
 }

@@ -1,7 +1,9 @@
 package com.tx.co.back_office.company.resource;
 
 import com.tx.co.back_office.company.api.model.CompanyResult;
+import com.tx.co.back_office.company.api.model.CompanyUserResult;
 import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.back_office.company.domain.CompanyUser;
 import com.tx.co.back_office.company.service.ICompanyService;
 import com.tx.co.security.exception.GeneralException;
 import org.apache.logging.log4j.LogManager;
@@ -15,6 +17,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,7 +53,7 @@ public class CompanyResource {
         Iterable<Company> companyIterable = companyService.findAllCompany();
         List<CompanyResult> queryDetailsList =
                 StreamSupport.stream(companyIterable.spliterator(), false)
-                        .map(this::toQueryResult)
+                        .map(this::toCompanyResult)
                         .collect(Collectors.toList());
 
         return Response.ok(queryDetailsList).build();
@@ -69,7 +73,7 @@ public class CompanyResource {
                 throw new NotFoundException();
             }
 
-            CompanyResult result = toQueryResult(company.get());
+            CompanyResult result = toCompanyResult(company.get());
             return Response.ok(result).build();
         } catch (Exception e) {
             throw new GeneralException("Company not found");
@@ -98,6 +102,18 @@ public class CompanyResource {
 
         return Response.noContent().build();
     }
+    
+    @POST
+    @Path(ASSOC_USER_COMPANY)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+ //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+    public Response associateUserToCompany(CompanyResult companyUserListResult) {
+
+        companyService.associateUserToCompany(toCompany(companyUserListResult));
+
+        return Response.noContent().build();
+    }
 
     /**
      * Map a {@link Company} instance to a {@link CompanyResult} instance.
@@ -105,12 +121,19 @@ public class CompanyResource {
      * @param company
      * @return UserResult
      */
-    private CompanyResult toQueryResult(Company company) {
+    private CompanyResult toCompanyResult(Company company) {
         CompanyResult result = new CompanyResult();
         result.setIdCompany(company.getIdCompany());
         result.setDescription(company.getDescription());
         result.setCreatedBy(company.getCreatedBy());
         result.setModifiedBy(company.getModifiedBy());
+        
+        if(!isEmpty(company.getCompanyUsers())) {
+        	result.setUsersAssociated(new ArrayList<>());
+        	for (CompanyUser companyUser : company.getCompanyUsers()) {
+        		result.getUsersAssociated().add(toCompanyUserResult(companyUser));
+			}
+        }
         return result;
     }
 
@@ -125,7 +148,43 @@ public class CompanyResource {
         if(!isEmpty(companyResult.getDescription())) {
             company.setDescription(companyResult.getDescription().trim());
         }
+        if(!isEmpty(companyResult.getUsersAssociated())) {
+        	for (CompanyUserResult companyUserResylt : companyResult.getUsersAssociated()) {
+        		company.getCompanyUsers().add(toCompanyUser(company, companyUserResylt));
+			}
+        }
 
         return company;
+    }
+    
+    private CompanyUserResult toCompanyUserResult(CompanyUser companyUser) {
+    	CompanyUserResult result = new CompanyUserResult();
+    	result.setIdCompanyUser(companyUser.getIdCompanyUser());
+    	result.setUsername(companyUser.getUsername());
+    	result.setCompanyAdmin(companyUser.getCompanyAdmin());
+    	return result;
+    }
+    
+    private CompanyUser toCompanyUser(Company company, CompanyUserResult companyUserResult) {
+    	CompanyUser companyUser = new CompanyUser();
+    	companyUser.setIdCompanyUser(companyUserResult.getIdCompanyUser());
+    	companyUser.setUsername(companyUserResult.getUsername());
+    	companyUser.setCompany(company);
+    	if(isEmpty(companyUserResult.getCompanyAdmin())) {
+    		companyUser.setCompanyAdmin(false);
+    	} else {
+    		companyUser.setCompanyAdmin(companyUserResult.getCompanyAdmin());
+    	}
+    	return companyUser;
+    }
+    
+    private List<CompanyUser> toCompanyUserList(Company company, List<CompanyUserResult> companyUserResultList) {
+    	List<CompanyUser> companyUserList = new ArrayList<>();
+    	if(!isEmpty(companyUserResultList)) {
+    		for (CompanyUserResult companyUserResult : companyUserResultList) {
+    			companyUserList.add(toCompanyUser(company, companyUserResult));
+			}
+    	}
+    	return companyUserList;
     }
 }
