@@ -9,4 +9,6 @@ public interface IUserService {
     List<User> findAllUsers();
 
     User findByUsername(String username);
+    
+    List<User> findAllUsersExceptRole(String role);
 }

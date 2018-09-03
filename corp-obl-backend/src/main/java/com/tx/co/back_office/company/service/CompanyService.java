@@ -1,7 +1,9 @@
 package com.tx.co.back_office.company.service;
 
 import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.back_office.company.domain.CompanyUser;
 import com.tx.co.back_office.company.repository.CompanyRepository;
+import com.tx.co.back_office.company.repository.CompanyUserRespository;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
@@ -9,7 +11,6 @@ import com.tx.co.security.exception.GeneralException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -31,15 +32,20 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 
     private static final Logger logger = LogManager.getLogger(CompanyService.class);
 
-    private final CompanyRepository companyRepository;
-
+    private CompanyRepository companyRepository;
+    private CompanyUserRespository companyUserRespository;
 
     @Autowired
-    public CompanyService(CompanyRepository companyRepository) {
-        this.companyRepository = companyRepository;
-    }
+    public void setCompanyRepository(CompanyRepository companyRepository) {
+		this.companyRepository = companyRepository;
+	}
 
-    /**
+    @Autowired
+	public void setCompanyUserRespository(CompanyUserRespository companyUserRespository) {
+		this.companyUserRespository = companyUserRespository;
+	}
+
+	/**
      * @return get all the Companies
      */
     @Override
@@ -86,12 +92,12 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
             companyStored.setDescription(company.getDescription());
         }
 
-        companyStored.setModifcationDate(new Date());
+        companyStored.setModificationDate(new Date());
         companyStored.setModifiedBy(username);
 
         companyStored = companyRepository.save(companyStored);
 
-        updateCompaniesCache(companyStored);
+        updateCompaniesCache(companyStored, false);
 
         return companyStored;
     }
@@ -147,7 +153,7 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 
             companyRepository.save(company);
 
-            updateCompaniesCache(company);
+            updateCompaniesCache(company, false);
         } catch (Exception e) {
             throw new GeneralException("Company not found");
         }
@@ -159,4 +165,41 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
         return (AuthenticationTokenUserDetails)
                 SecurityContextHolder.getContext().getAuthentication().getDetails();
     }
+
+	@Override
+	public void associateUserToCompany(Company company) {
+		if(!isEmpty(company) && !isEmpty(company.getCompanyUsers())) {
+			List<String> userListIncluded = new ArrayList<>();
+			// The modification of User
+	        String username = getTokenUserDetails().getUser().getUsername();
+			for (CompanyUser companyUser : company.getCompanyUsers()) {
+				
+				CompanyUser companyUserStored = null;
+				// New CompanyUser
+		        if(isEmpty(companyUser.getIdCompanyUser())) {
+		        	companyUser.setCreationDate(new Date());
+		        	companyUser.setCreatedBy(username);
+		        	companyUserStored = companyUser;
+		        } else {
+		        	Optional<CompanyUser> retrievedCompanyUser = companyUserRespository.findById(companyUser.getIdCompanyUser());
+		        	
+		        	if(retrievedCompanyUser.isPresent()) {
+		        		companyUserStored = retrievedCompanyUser.get();
+		        	} else {
+		        		throw new GeneralException("Not row found exception");
+		        	}
+		        }
+				companyUserStored.setEnabled(true);
+				companyUserStored.setModificationDate(new Date());
+				companyUserStored.setModifiedBy(username);
+				companyUserStored.setCompanyAdmin(companyUser.getCompanyAdmin());
+				
+				companyUserStored = companyUserRespository.save(companyUserStored);
+				userListIncluded.add(companyUserStored.getUsername());
+			}	
+			companyUserRespository.updateCompanyUserNotEnable(company, userListIncluded);
+			updateCompaniesCache(company, true);
+		}
+	}
+
 }
