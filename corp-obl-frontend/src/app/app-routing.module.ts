@@ -10,7 +10,7 @@ export const Approutes: Routes = [
     component: FullComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', redirectTo: '/dashboard/trendy', pathMatch: 'full' },
+      { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
       {
         path: 'dashboard',
         loadChildren: './dashboards/dashboard.module#DashboardModule'

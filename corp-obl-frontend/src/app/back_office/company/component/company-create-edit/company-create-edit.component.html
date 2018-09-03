@@ -1,71 +1,89 @@
 <!-- Row -->
 <div class="row">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">Company Form</h4>
-        <hr>
-        <form class="form-horizontal" [formGroup]="createEditCompany"
-              (ngSubmit)="createEditCompanySubmit()">
-          <div class="card-body">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Company Form</h4>
+                <hr>
+                <form class="form-horizontal" [formGroup]="createEditCompany"
+                      (ngSubmit)="createEditCompanySubmit()">
+                    <div class="card-body">
 
-            <div class="form-group row">
-              <label for="description" class="col-sm-3 text-right control-label col-form-label">Description</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control"
-                       formControlName="description"
-                       id="description"
-                       [ngClass]="{'is-invalid': submitted && f.description.errors }">
-                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors.required">Description is required</div>
-                </div>
-              </div>
-            </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-sm-3 text-right control-label col-form-label">Description</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control"
+                                       formControlName="description"
+                                       id="description"
+                                       [ngClass]="{'is-invalid': submitted && f.description.errors }">
+                                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                    <div *ngIf="f.description.errors.required">Description is required</div>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="form-group row">
-              <label for="createdBy"
-                     class="col-sm-3 text-right control-label
+                        <div class="form-group row">
+                            <label for="createdBy"
+                                   class="col-sm-3 text-right control-label
                      col-form-label">Created by</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control"
-                       formControlName="createdBy"
-                       id="createdBy">
-              </div>
-            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control"
+                                       formControlName="createdBy"
+                                       id="createdBy">
+                            </div>
+                        </div>
 
-            <div class="form-group row">
-              <label for="modifiedBy"
-                     class="col-sm-3 text-right control-label
+                        <div class="form-group row">
+                            <label for="modifiedBy"
+                                   class="col-sm-3 text-right control-label
                      col-form-label">Modified by</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control"
-                       id="modifiedBy"
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control"
+                                       id="modifiedBy"
+                                       formControlName="modifiedBy">
+                            </div>
+                        </div>
 
-                       formControlName="modifiedBy">
-              </div>
+
+                    </div>
+                    <hr>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col m-b-0">
+                                <button #associateUsersToCompany type="button" (click)="openAssociateUsersToCompany()"
+                                        class="btn btn-info waves-effect waves-light">Associate Users To Company
+                                </button>
+                            </div>
+                            <div class="m-b-0 col text-right">
+                                <button #cancelBtn type="button" routerLink="//back-office/company"
+                                        class="btn btn-outline-secondary waves-effect waves-light">
+                                    Cancel
+                                </button>
+                                <button #submitBtn class="btn btn-warning waves-effect waves-light">Save Company
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <swal
+                        #errorDescriptionSwal
+                        title=""
+                        text="Can not save company with the same description."
+                        type="error">
+                </swal>
+
+                <swal
+                        #confirmationCompanySwal
+                        title=""
+                        text=""
+                        [showCancelButton]="true"
+                        confirmButtonText="Yes, save it!"
+                        cancelButtonText="No, cancel!"
+                        type="warning">
+                </swal>
+
             </div>
-
-
-          </div>
-          <hr>
-          <div class="card-body">
-            <div class="form-group m-b-0 text-right">
-                <button #cancelBtn type="button" routerLink="//back-office/company" class="btn btn-outline-secondary waves-effect waves-light">
-                  Cancel
-                </button>
-              <button #submitBtn class="btn btn-warning waves-effect waves-light">Save Company</button>
-            </div>
-          </div>
-        </form>
-
-        <swal
-          #errorDescriptionSwal
-          title=""
-          text="Can not save company with the same description."
-          type="error">
-        </swal>
-
-      </div>
+        </div>
     </div>
-  </div>
-  <!-- End Row -->
+    <!-- End Row -->

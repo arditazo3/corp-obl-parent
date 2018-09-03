@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {CompanyService} from '../../service/company.service';
 import {Router} from '@angular/router';
-import {Company} from '../../model/Company';
+import {Company} from '../../model/company';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {ApiErrorDetails} from "../../../../shared/common/api/model/api-error-details";

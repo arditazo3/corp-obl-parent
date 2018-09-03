@@ -28,4 +28,10 @@ export class CompanyService {
 
     return this.apiRequest.put(this.appConfig.deleteCompany, company);
   }
+
+  saveAssociationCompanyUsers(usersCompany): Observable<any> {
+      console.log('CompanyService - saveAssociationCompanyUsers');
+
+      return this.apiRequest.post(this.appConfig.assocCompanyUsers, usersCompany);
+  }
 }

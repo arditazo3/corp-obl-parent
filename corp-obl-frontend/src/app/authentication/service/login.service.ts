@@ -49,7 +49,7 @@ export class LoginService {
           if (jsonResp !== undefined && jsonResp !== null) {
             loginInfoReturn = {
               'message': jsonResp.operationMessage,
-              'landingPage': '/dashboard/trendy',
+              'landingPage': '/dashboard',
               'userAndToken': {
                 'user': {
                   'username': jsonResp.user.username,
