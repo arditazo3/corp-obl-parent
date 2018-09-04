@@ -1,6 +1,0 @@
-{
-  "Bar": {
-    "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "july"],
-    "series": [[5, 4, 3, 7, 5, 10, 3]]
-  }
-}

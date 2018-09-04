@@ -7,13 +7,13 @@ export const DashboardRoutes: Routes = [
     path: '',
     children: [
       {
-        path: 'trendy',
+        path: '',
         component: Dashboard8Component,
         data: {
-          title: 'Trendy Dashboard',
+          title: 'Dashboard',
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
-            { title: 'Trendy Dashboard' }
+            { title: 'Dashboard' }
           ]
         }
       }

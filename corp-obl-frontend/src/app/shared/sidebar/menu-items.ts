@@ -2,29 +2,19 @@ import { RouteInfo } from './sidebar.metadata';
 
 export const ROUTES: RouteInfo[] = [
   {
-    path: '',
+    path: '/dashboard',
     title: 'Dashboard',
     icon: 'mdi mdi-view-dashboard',
-    class: 'has-arrow',
+    class: '',
     ddclass: '',
     extralink: false,
-    submenu: [
-      {
-        path: '/dashboard/trendy',
-        title: 'Trendy',
-        icon: 'mdi mdi-adjust',
-        class: '',
-        ddclass: '',
-        extralink: false,
-        submenu: []
-      },
-    ]
+    submenu: []
   },
   {
     path: '',
     title: 'Back office',
     icon: 'mdi mdi-desktop-mac',
-    class: 'has-arraw',
+    class: 'has-arrow',
     ddclass: '',
     extralink: false,
     submenu: [
