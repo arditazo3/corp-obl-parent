@@ -17,6 +17,10 @@ import {CompanyCreateEditComponent} from './company/component/company-create-edi
 import {UserService} from '../user/service/user.service';
 import {NgSelectModule} from '@ng-select/ng-select';
 import { CompanyAssociateUsersComponent } from './company/component/company-associate-users/company-associate-users.component';
+import { OfficeComponent } from './office/component/office.component';
+import { OfficeTableComponent } from './office/component/office-table/office-table.component';
+import {OfficeService} from './office/service/office.service';
+import { OfficeCreateEditComponent } from './office/component/office-create-edit/office-create-edit.component';
 
 @NgModule({
     imports: [
@@ -44,11 +48,15 @@ import { CompanyAssociateUsersComponent } from './company/component/company-asso
         CompanyComponent,
         CompanyTableComponent,
         CompanyCreateEditComponent,
-        CompanyAssociateUsersComponent
+        CompanyAssociateUsersComponent,
+        OfficeComponent,
+        OfficeTableComponent,
+        OfficeCreateEditComponent
     ],
     providers: [
         CompanyService,
         UserService,
+        OfficeService
     ]
 })
 export class BackOfficeModule {

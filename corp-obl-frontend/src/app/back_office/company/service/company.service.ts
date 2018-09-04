@@ -18,8 +18,6 @@ export class CompanyService {
   }
 
   saveUpdateCompany(company): Observable<any> {
-
-
     return this.apiRequest.post(this.appConfig.createUpdateCompany, company);
   }
 

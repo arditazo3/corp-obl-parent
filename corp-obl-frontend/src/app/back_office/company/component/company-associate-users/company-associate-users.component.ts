@@ -167,14 +167,10 @@ export class CompanyAssociateUsersComponent implements OnInit {
 
     onAddAsAdmin($event) {
         console.log('CompanyAssociateUsersComponent - onAddAsAdmin');
-        // this.selectedUsers.forEach( (user) => {
-        //     user. = element.product_desc.substring(0,10);
-        // });
     }
 
     onRemoveAsAdmin($event) {
         console.log('CompanyAssociateUsersComponent - onRemoveAsAdmin');
-
     }
 
     mapIdCompanyUser(companyUsers): CompanyUser[] {
