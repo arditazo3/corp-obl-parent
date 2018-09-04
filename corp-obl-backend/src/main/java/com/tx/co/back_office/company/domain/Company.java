@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Where;
 
+import com.tx.co.back_office.office.domain.Office;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -50,8 +52,12 @@ public class Company implements Serializable {
     
     @OneToMany(mappedBy="company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Where(clause = "enabled = 1")
-    private Set<CompanyUser> companyUsers = new HashSet<CompanyUser>();
+    private Set<CompanyUser> companyUsers = new HashSet<>();
 
+    @OneToMany(mappedBy="company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Where(clause = "enabled = 1")
+    private Set<Office> office = new HashSet<>();
+    
     public Long getIdCompany() {
         return idCompany;
     }
@@ -114,5 +120,13 @@ public class Company implements Serializable {
 
 	public void setCompanyUsers(Set<CompanyUser> companyUsers) {
 		this.companyUsers = companyUsers;
+	}
+
+	public Set<Office> getOffice() {
+		return office;
+	}
+
+	public void setOffice(Set<Office> office) {
+		this.office = office;
 	}
 }

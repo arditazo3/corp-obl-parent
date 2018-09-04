@@ -9,7 +9,12 @@ import org.springframework.security.core.AuthenticationException;
  */
 public class InvalidAuthenticationTokenException extends AuthenticationException {
 
-    public InvalidAuthenticationTokenException(String message, Throwable cause) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public InvalidAuthenticationTokenException(String message, Throwable cause) {
         super(message, cause);
     }
 }

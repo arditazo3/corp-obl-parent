@@ -2,6 +2,8 @@ package com.tx.co.cache.service;
 
 import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.repository.CompanyRepository;
+import com.tx.co.back_office.office.domain.Office;
+import com.tx.co.back_office.office.repository.OfficeRepository;
 import com.tx.co.user.domain.User;
 import com.tx.co.user.repository.UserRepository;
 import org.ehcache.impl.internal.classes.commonslang.ArrayUtils;
@@ -30,6 +32,7 @@ public abstract class CacheDataLoader {
     private javax.cache.CacheManager cacheManager;
     private UserRepository userRepository;
     private CompanyRepository companyRepository;
+    private OfficeRepository officeRepository;
 
     // Split the string with operator ; to get all the languages
     @Value("${web.app.langualge}")
@@ -49,8 +52,13 @@ public abstract class CacheDataLoader {
     public void setCompanyRepository(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
     }
+    
+    @Autowired
+    public void setOfficeRepository(OfficeRepository officeRepository) {
+		this.officeRepository = officeRepository;
+	}
 
-    /**
+	/**
      * Store the data to the cache before to start the application
      */
     @PostConstruct
@@ -73,5 +81,9 @@ public abstract class CacheDataLoader {
         // Load all the companies
         List<Company> companyList = companyRepository.findAllByOrderByDescriptionAsc();
         storageDataCacheManager.put(COMPANY_LIST_CACHE, companyList);
+        
+        // Load all the offices
+        List<Office> officeList = officeRepository.findAllByOrderByDescriptionAsc();
+        storageDataCacheManager.put(OFFICE_LIST_CACHE, officeList);
     }
 }

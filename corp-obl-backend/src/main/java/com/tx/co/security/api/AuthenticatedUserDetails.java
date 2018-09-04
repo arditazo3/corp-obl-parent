@@ -15,7 +15,11 @@ import java.util.Set;
  */
 public final class AuthenticatedUserDetails implements UserDetails, CredentialsContainer {
 
-    private final String username;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final String username;
     private final Set<GrantedAuthority> authorities;
     private final boolean active;
 

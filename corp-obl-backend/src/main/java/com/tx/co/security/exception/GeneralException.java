@@ -7,7 +7,12 @@ package com.tx.co.security.exception;
  */
 public class GeneralException extends RuntimeException {
 
-    public GeneralException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public GeneralException(String message) {
         super(message);
     }
 

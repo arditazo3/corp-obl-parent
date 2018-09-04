@@ -2,6 +2,7 @@ package com.tx.co.cache.service;
 
 import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.service.CompanyService;
+import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.common.utils.UtilStatic;
 import com.tx.co.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.tx.co.common.constants.AppConstants.COMPANY_LIST_CACHE;
+import static com.tx.co.common.constants.AppConstants.OFFICE_LIST_CACHE;
 import static com.tx.co.common.constants.AppConstants.STORAGE_DATA_CACHE;
 import static com.tx.co.common.constants.AppConstants.USER_LIST_CACHE;
 import static org.springframework.util.ObjectUtils.isEmpty;
@@ -41,6 +43,15 @@ public abstract class UpdateCacheData {
         return (List<Company>) storageDataCacheManager.get(COMPANY_LIST_CACHE);
     }
 
+	/**
+     * @return get the Offices from the cache in order to not execute the query to the database
+     */
+    public List<Office> getOfficesFromCache() {
+
+        final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+        return (List<Office>) storageDataCacheManager.get(OFFICE_LIST_CACHE);
+    }
     
     /**
      * @param company

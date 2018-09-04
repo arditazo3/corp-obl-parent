@@ -15,7 +15,11 @@ import java.util.Collection;
  */
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
-    private String authenticationToken;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String authenticationToken;
     private UserDetails userDetails;
     private AuthenticationTokenUserDetails authenticationTokenUserDetails;
 

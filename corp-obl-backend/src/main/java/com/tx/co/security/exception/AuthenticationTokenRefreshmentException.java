@@ -7,7 +7,12 @@ package com.tx.co.security.exception;
  */
 public class AuthenticationTokenRefreshmentException extends RuntimeException {
 
-    public AuthenticationTokenRefreshmentException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public AuthenticationTokenRefreshmentException(String message) {
         super(message);
     }
 

@@ -51,12 +51,12 @@ public class CompanyResource {
     public Response getCompanies() {
 
         Iterable<Company> companyIterable = companyService.findAllCompany();
-        List<CompanyResult> queryDetailsList =
+        List<CompanyResult> queryCompanyList =
                 StreamSupport.stream(companyIterable.spliterator(), false)
                         .map(this::toCompanyResult)
                         .collect(Collectors.toList());
 
-        return Response.ok(queryDetailsList).build();
+        return Response.ok(queryCompanyList).build();
     }
 
     @GET
