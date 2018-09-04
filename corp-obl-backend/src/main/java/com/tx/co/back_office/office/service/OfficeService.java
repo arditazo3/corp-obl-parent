@@ -59,4 +59,10 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
                 SecurityContextHolder.getContext().getAuthentication().getDetails();
 	}
 
+	@Override
+	public Office saveUpdateOffice(Office office) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

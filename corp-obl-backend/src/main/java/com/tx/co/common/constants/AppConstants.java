@@ -40,6 +40,7 @@ public final class AppConstants {
     /* End list of Routes */
     public static final String OFFICE = "office";
     public static final String OFFICE_LIST = OFFICE + "/list";
+    public static final String OFFICE_CREATE_UPDATE = OFFICE + "/create-update";
     public static final String OFFICE_EDIT = OFFICE + "/edit";
     public static final String OFFICE_DELETE = OFFICE + "/delete";
     /**
