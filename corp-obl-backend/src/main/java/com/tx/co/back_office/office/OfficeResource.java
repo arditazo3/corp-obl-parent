@@ -32,7 +32,7 @@ public class OfficeResource {
 	private static final Logger logger = LogManager.getLogger(OfficeResource.class);
 	
 	@Context
-    private UriInfo uriInfo;
+    private UriInfo uriInfo; 
 	
 	private IOfficeService officeService;
 
