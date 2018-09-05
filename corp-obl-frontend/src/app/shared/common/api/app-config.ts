@@ -9,7 +9,7 @@ export class AppConfig {
   public dateFormat = {day: 'numeric', month: 'short', year: 'numeric'};
 
   // API Related configs
-  public apiPort = '8060';
+  public apiPort = '8100';
   public apiProtocol: string;
   public apiHostName: string;
   public apiBasePath = 'admin-rest';

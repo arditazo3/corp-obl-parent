@@ -10,6 +10,7 @@ import {CompanyService} from '../../service/company.service';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {Observable} from 'rxjs';
+import {CompanyAssociateUsersComponent} from '../company-associate-users/company-associate-users.component';
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -26,9 +27,9 @@ export class CompanyCreateEditComponent implements OnInit {
 
     @ViewChild('cancelBtn') cancelBtn;
     @ViewChild('submitBtn') submitBtn;
-    @ViewChild('associateUsersToCompany') associateUsersToCompany;
     @ViewChild('errorDescriptionSwal') private errorDescriptionSwal: SwalComponent;
     @ViewChild('confirmationCompanySwal') private confirmationCompanySwal: SwalComponent;
+    @ViewChild('appCompanyAssociateUserComponent') private appCompanyAssociateUserComponent: CompanyAssociateUsersComponent;
     createEditCompany: FormGroup;
 
     constructor(
@@ -45,15 +46,12 @@ export class CompanyCreateEditComponent implements OnInit {
         if (this.company === undefined) {
             this.isNewForm = true;
             this.company = new Company();
-            this.associateUsersToCompany.nativeElement.style.display = 'none';
         } else {
             this.submitBtn.nativeElement.innerText = 'Update Company';
         }
 
         this.createEditCompany = this.formBuilder.group({
-            description: new FormControl({value: this.company.description, disabled: false}, Validators.required),
-            createdBy: new FormControl({value: this.company.createdBy, disabled: true}),
-            modifiedBy: new FormControl({value: this.company.modifiedBy, disabled: true})
+            description: new FormControl({value: this.company.description, disabled: false}, Validators.required)
         });
 
     }
@@ -84,7 +82,18 @@ export class CompanyCreateEditComponent implements OnInit {
                     (data) => {
                         me.errorDetails = undefined;
                         console.log('CompanyCreateEditComponent - createEditCompanySubmit - next');
-                        me.router.navigate(['/back-office/company']);
+
+                        const company: Company = data;
+                        me.appCompanyAssociateUserComponent.company = company;
+                        me.appCompanyAssociateUserComponent.associateUsersToCompanySubmit(me.isNewForm);
+
+                        // If it is new form the route back should be from the child
+                        // after it is done all the process
+                        if (!me.isNewForm ||
+                            me.appCompanyAssociateUserComponent.selectedUsers.length === 0) {
+
+                            me.router.navigate(['/back-office/company']);
+                        }
                     }, error => {
                         me.errorDetails = error.error;
                         me.showErrorDescriptionSwal();
@@ -103,13 +112,6 @@ export class CompanyCreateEditComponent implements OnInit {
             this.errorDescriptionSwal.title = 'Seems that ' + this.company.description + ' already exist!';
             this.errorDescriptionSwal.show();
         }
-    }
-
-    openAssociateUsersToCompany() {
-        console.log('CompanyCreateEditComponent - openAssociateUsersToCompany');
-
-        this.transferService.objectParam = this.company;
-        this.router.navigate(['back-office/company/associate-users-company']);
     }
 
 }

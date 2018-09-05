@@ -10,7 +10,7 @@
                    (keyup)='updateFilter($event)'/>
           </div>
           <div class="col-md-3 text-right">
-            <button class="btn btn-info btn-block" type="button" (click)="createNewCompany()">Create new Company
+            <button class="btn-tnx btn-info btn-block" type="button" (click)="createNewCompany()">Create new Company
             </button>
           </div>
         </div>
@@ -24,48 +24,31 @@
                        [rows]='rows'
                        [limit]="10">
 
-
-          <!-- Row Detail Template -->
-          <ngx-datatable-row-detail
-            [rowHeight]="50"
-            #myDetailRow
-            (toggle)="onDetailToggle($event)">
-            <ng-template let-row="row"
-                         let-expanded="expanded"
-                         ngx-datatable-row-detail-template>
-              <div style="padding-left:60px; font-size:14px">
-                <button class="btn btn-info waves-effect waves-light" type="button"
-                        (click)="editCompany(row)">
-                  <i class="fas fa-pencil-alt"></i>
-                </button>
-                <button class="btn btn-warning waves-effect waves-light" type="button"
-                        (click)="deleteCompanyAlert(row)">
-                  <i class="far fa-trash-alt"></i>
-                </button>
-              </div>
-            </ng-template>
-          </ngx-datatable-row-detail>
-
           <!-- Column Templates -->
 
           <ngx-datatable-column
-            [width]="50"
+            [width]="80"
             [resizeable]="false"
             [sortable]="false"
             [draggable]="false"
             [canAutoResize]="false">
             <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-              <a
-                [class.datatable-icon-right]="!expanded"
-                [class.datatable-icon-down]="expanded"
-                title="Expand/Collapse Row"
-                (click)="toggleExpandRow(row)"
-                class="desktop-hidden">
-              </a>
+                <div style="font-size:9px" class="desktop-hidden">
+                  <button class="btn btn-info waves-effect waves-light btn-sm" type="button"
+                          (click)="editCompany(row)">
+                    <i class="fas fa-pencil-alt fa-xs"></i>
+                  </button>
+                  <button class="btn btn-warning waves-effect waves-light btn-sm" type="button"
+                          (click)="deleteCompanyAlert(row)">
+                    <i class="far fa-trash-alt fa-xs"></i>
+                  </button>
+                </div>
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Options" [sortable]="false" [flexGrow]="1">
+          <ngx-datatable-column name="Options"
+                                [maxWidth]="200"
+                                [sortable]="false" [flexGrow]="1">
 
             <ng-template let-column="column" ngx-datatable-header-template>
               <span class="mobile-hidden">{{column.name}}</span>
@@ -73,13 +56,13 @@
 
             <ng-template let-row="row" ngx-datatable-cell-template>
               <span class="mobile-hidden">
-              <button class="btn btn-info
+              <button class="btn-tnx btn-info
               waves-effect waves-light" type="button"
                       (click)="editCompany(row)">Edit</button>
               </span>
 
               <span class="mobile-hidden">
-              <button class="btn btn-warning
+              <button class="btn-tnx btn-warning
               waves-effect waves-light"
                       type="button" (click)="deleteCompanyAlert(row)">Remove</button>
               </span>
@@ -92,29 +75,6 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Created By" [sortable]="true" [flexGrow]="1">
-            <ng-template let-column="column"  ngx-datatable-header-template>
-              <span class="mobile-hidden">{{column.name}}</span>
-            </ng-template>
-
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <span class="mobile-hidden">
-              {{row.createdBy}}
-              </span>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <ngx-datatable-column name="Modified By" [flexGrow]="1" [sortable]="true">
-            <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
-              <span class="mobile-hidden">{{column.name}}</span>
-            </ng-template>
-
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <span class="mobile-hidden">
-              {{row.modifiedBy}}
-              </span>
-            </ng-template>
-          </ngx-datatable-column>
           <!-- End Column Templates -->
         </ngx-datatable>
 

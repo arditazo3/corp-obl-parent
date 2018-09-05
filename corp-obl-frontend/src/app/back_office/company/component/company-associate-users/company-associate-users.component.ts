@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {User} from '../../../../user/model/user';
 import { Observable } from 'rxjs/Rx';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
@@ -23,7 +23,7 @@ export class CompanyAssociateUsersComponent implements OnInit {
     selectedUsersAsAdmin = [];
     submitted = false;
     errorDetails: ApiErrorDetails;
-    company: Company = new Company();
+    @Input() company: Company = new Company();
     companyUsersArray: CompanyUser[];
     me = this;
 
@@ -46,15 +46,9 @@ export class CompanyAssociateUsersComponent implements OnInit {
     }
 
     ngOnInit() {
-
-        this.company = this.transferService.objectParam;
+        console.log('CompanyAssociateUsersComponent - ngOnInit');
 
         this.associateUsersToCompany = this.formBuilder.group({});
-
-        if (this.company === undefined) {
-            this.router.navigate(['back-office/company']);
-            return;
-        }
 
         this.getUsers();
     }
@@ -78,13 +72,16 @@ export class CompanyAssociateUsersComponent implements OnInit {
     }
 
     setUserSelectedAsAdmin(): Observable<any[]> {
+        console.log('CompanyAssociateUsersComponent - setUserSelectedAsAdmin');
+
         return this.usersObservable.map(users => {
             const inside = this;
             return users.filter(
                 (user: User) => {
                     let isIncluded = false;
                     if (inside.company.usersAssociated !== undefined) {
-                        for (const usersAssociatedLoop of inside.company.usersAssociated) {
+                        let userAssociated = inside.company.usersAssociated;
+                        for (const usersAssociatedLoop of userAssociated) {
                             if (user.username === usersAssociatedLoop.username && usersAssociatedLoop.companyAdmin) {
                                 isIncluded = true;
                                 break;
@@ -115,8 +112,7 @@ export class CompanyAssociateUsersComponent implements OnInit {
         });
     }
 
-
-    associateUsersToCompanySubmit() {
+    associateUsersToCompanySubmit(isNewForm) {
         console.log('CompanyAssociateUsersComponent - associateUsersToCompanySubmit');
 
         const me = this;
@@ -148,14 +144,21 @@ export class CompanyAssociateUsersComponent implements OnInit {
         this.companyService.saveAssociationCompanyUsers(this.company).subscribe(
             (data) => {
                 me.errorDetails = undefined;
+
+                // If it is new form the route back should be from the child
+                // after it is done all the process
+                if (isNewForm) {
+                    me.router.navigate(['/back-office/company']);
+                }
+
                 console.log('CompanyAssociateUsersComponent - associateUsersToCompanySubmit - next');
-                me.router.navigate(['/back-office/company']);
             }, error => {
                 me.errorDetails = error.error;
-           //     me.showErrorDescriptionSwal();
                 console.log('CompanyAssociateUsersComponent - associateUsersToCompanySubmit - error');
             }
         );
+
+
         console.log(companyUsers);
     }
 
@@ -163,14 +166,10 @@ export class CompanyAssociateUsersComponent implements OnInit {
         console.log('CompanyAssociateUsersComponent - onChangeSelectUsers');
 
         this.usersAsAdminObservable = Observable.of(this.selectedUsers);
-    }
 
-    onAddAsAdmin($event) {
-        console.log('CompanyAssociateUsersComponent - onAddAsAdmin');
-    }
-
-    onRemoveAsAdmin($event) {
-        console.log('CompanyAssociateUsersComponent - onRemoveAsAdmin');
+        if (this.company.idCompany !== undefined) {
+            this.associateUsersToCompanySubmit(false);
+        }
     }
 
     mapIdCompanyUser(companyUsers): CompanyUser[] {

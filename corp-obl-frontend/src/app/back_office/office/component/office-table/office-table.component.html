@@ -64,7 +64,9 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Options" [sortable]="false" [flexGrow]="1">
+          <ngx-datatable-column name="Options"
+                                [maxWidth]="200"
+                                [sortable]="false" [flexGrow]="1">
 
             <ng-template let-column="column" ngx-datatable-header-template>
               <span class="mobile-hidden">{{column.name}}</span>
@@ -91,29 +93,6 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Created By" [sortable]="true" [flexGrow]="1">
-            <ng-template let-column="column"  ngx-datatable-header-template>
-              <span class="mobile-hidden">{{column.name}}</span>
-            </ng-template>
-
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <span class="mobile-hidden">
-              {{row.createdBy}}
-              </span>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <ngx-datatable-column name="Modified By" [flexGrow]="1" [sortable]="true">
-            <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
-              <span class="mobile-hidden">{{column.name}}</span>
-            </ng-template>
-
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <span class="mobile-hidden">
-              {{row.modifiedBy}}
-              </span>
-            </ng-template>
-          </ngx-datatable-column>
           <!-- End Column Templates -->
         </ngx-datatable>
 

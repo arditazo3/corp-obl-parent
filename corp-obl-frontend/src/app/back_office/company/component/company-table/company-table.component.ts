@@ -37,9 +37,7 @@ export class CompanyTableComponent implements OnInit {
         me.getCompanies();
 
         me.columns = [
-            {prop: 'description', name: 'Description'},
-            {prop: 'createdBy', name: 'Created By'},
-            {prop: 'modifiedBy', name: 'Modified By'}
+            {prop: 'description', name: 'Description'}
         ];
 
     }
