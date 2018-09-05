@@ -1,6 +1,7 @@
 package com.tx.co.back_office.company.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +18,9 @@ public interface CompanyUserRespository extends CrudRepository<CompanyUser, Long
 	@Modifying
 	@Query("update CompanyUser cur set cur.enabled = 0 where cur.company = :company and username not in :userList")
 	void updateCompanyUserNotEnable(@Param("company") Company company, @Param("userList") List<String> userList);
+	
+	
+	@Query("select cu from CompanyUser cu where cu.username = ?1 and cu.company = ?2")
+	Optional<CompanyUser> getCompanyUserByUsernameAndCompanyId(String username, Company company);
 
 }

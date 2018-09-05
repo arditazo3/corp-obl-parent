@@ -125,8 +125,6 @@ public class CompanyResource {
         CompanyResult result = new CompanyResult();
         result.setIdCompany(company.getIdCompany());
         result.setDescription(company.getDescription());
-        result.setCreatedBy(company.getCreatedBy());
-        result.setModifiedBy(company.getModifiedBy());
         
         if(!isEmpty(company.getCompanyUsers())) {
         	result.setUsersAssociated(new ArrayList<>());

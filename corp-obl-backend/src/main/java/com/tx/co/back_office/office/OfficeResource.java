@@ -81,8 +81,6 @@ public class OfficeResource {
     	OfficeResult result = new OfficeResult();
         result.setIdOffice(office.getIdOffice());
         result.setDescription(office.getDescription());
-        result.setCreatedBy(office.getCreatedBy());
-        result.setModifiedBy(office.getModifiedBy());
         return result;
     }
     

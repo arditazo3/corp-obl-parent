@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.cache.Cache;
 import javax.cache.CacheManager;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +42,11 @@ public abstract class UpdateCacheData {
 
         final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
-        return (List<Company>) storageDataCacheManager.get(COMPANY_LIST_CACHE);
+        List<Company> companyListCache = (List<Company>) storageDataCacheManager.get(COMPANY_LIST_CACHE);
+        		
+        Collections.sort(companyListCache, (a, b) -> a.getDescription().compareToIgnoreCase(b.getDescription()));
+        
+        return companyListCache;
     }
 
 	/**

@@ -14,8 +14,6 @@ public class CompanyResult {
 
     private Long idCompany;
     private String description;
-    private String createdBy;
-    private String modifiedBy;
     private List<CompanyUserResult> usersAssociated;
 
     public Long getIdCompany() {
@@ -33,23 +31,6 @@ public class CompanyResult {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
-
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
-
 	public List<CompanyUserResult> getUsersAssociated() {
 		return usersAssociated;
 	}
