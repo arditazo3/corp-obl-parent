@@ -53,8 +53,7 @@ export class OfficeCreateEditComponent implements OnInit {
       }
 
       this.createEditOffice = this.formBuilder.group({
-          description: new FormControl({value: this.office.description, disabled: false}, Validators.required),
-          selectedCompanyForm: new FormControl({value: this.selectedCompany, disabled: false}, Validators.required)
+          description: new FormControl({value: this.office.description, disabled: false}, Validators.required)
       });
 
       this.getCompanies();

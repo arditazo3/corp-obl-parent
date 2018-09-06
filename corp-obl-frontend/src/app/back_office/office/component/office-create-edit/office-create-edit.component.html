@@ -26,16 +26,12 @@
               <label class="col-sm-3 text-right control-label
                      col-form-label">Assign the Company</label>
               <div class="col-sm-9">
-                <ng-select formControlName="selectedCompanyForm"
-                           [items]="companiesObservable | async"
+                <ng-select [items]="companiesObservable | async"
                            bindLabel="description"
                            [(ngModel)]="selectedCompany"
+                           [ngModelOptions]="{standalone: true}"
                            placeholder="Select a company">
-                  <!--[ngModelOptions]="{standalone: true}"-->
                 </ng-select>
-                <div *ngIf="submitted && f.selectedCompanyForm.errors" class="invalid-feedback">
-                  <div *ngIf="f.selectedCompanyForm.errors.required">Company is required</div>
-                </div>
               </div>
             </div>
 
@@ -45,10 +41,10 @@
             <div class="row">
               <div class="m-b-0 col text-right">
                 <button #cancelBtn type="button" routerLink="/back-office/office"
-                        class="btn btn-outline-secondary waves-effect waves-light">
+                        class="btn-tnx btn-outline-secondary waves-effect waves-light">
                   Cancel
                 </button>
-                <button #submitBtn class="btn btn-warning waves-effect waves-light">Save Office
+                <button #submitBtn class="btn-tnx btn-warning waves-effect waves-light">Save Office
                 </button>
               </div>
             </div>
