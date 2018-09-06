@@ -1,10 +1,9 @@
 package com.tx.co.back_office.company.resource;
 
 import com.tx.co.back_office.company.api.model.CompanyResult;
-import com.tx.co.back_office.company.api.model.CompanyUserResult;
 import com.tx.co.back_office.company.domain.Company;
-import com.tx.co.back_office.company.domain.CompanyUser;
 import com.tx.co.back_office.company.service.ICompanyService;
+import com.tx.co.common.api.provider.ObjectResult;
 import com.tx.co.security.exception.GeneralException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,19 +17,17 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static com.tx.co.common.constants.AppConstants.*;
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 
 @Component
 @Path(BACK_OFFICE)
-public class CompanyResource {
+public class CompanyResource extends ObjectResult {
 
     private static final Logger logger = LogManager.getLogger(CompanyResource.class);
 
@@ -88,7 +85,7 @@ public class CompanyResource {
 
         Company companyStored = companyService.saveUpdateCompany(toCompany(companyResult));
 
-        return Response.ok(companyStored).build();
+        return Response.ok(toCompanyResult(companyStored)).build();
     }
 
     @PUT
@@ -113,76 +110,5 @@ public class CompanyResource {
         companyService.associateUserToCompany(toCompany(companyUserListResult));
 
         return Response.noContent().build();
-    }
-
-    /**
-     * Map a {@link Company} instance to a {@link CompanyResult} instance.
-     *
-     * @param company
-     * @return UserResult
-     */
-    private CompanyResult toCompanyResult(Company company) {
-        CompanyResult result = new CompanyResult();
-        result.setIdCompany(company.getIdCompany());
-        result.setDescription(company.getDescription());
-        
-        if(!isEmpty(company.getCompanyUsers())) {
-        	result.setUsersAssociated(new ArrayList<>());
-        	for (CompanyUser companyUser : company.getCompanyUsers()) {
-        		result.getUsersAssociated().add(toCompanyUserResult(companyUser));
-			}
-        }
-        return result;
-    }
-
-    private Company toCompany(CompanyResult companyResult) {
-        Company company = new Company();
-        if(isEmpty(companyResult)) {
-            throw new GeneralException("The form is empty");
-        }
-        if(!isEmpty(companyResult.getIdCompany())) {
-            company.setIdCompany(companyResult.getIdCompany());
-        }
-        if(!isEmpty(companyResult.getDescription())) {
-            company.setDescription(companyResult.getDescription().trim());
-        }
-        if(!isEmpty(companyResult.getUsersAssociated())) {
-        	for (CompanyUserResult companyUserResylt : companyResult.getUsersAssociated()) {
-        		company.getCompanyUsers().add(toCompanyUser(company, companyUserResylt));
-			}
-        }
-
-        return company;
-    }
-    
-    private CompanyUserResult toCompanyUserResult(CompanyUser companyUser) {
-    	CompanyUserResult result = new CompanyUserResult();
-    	result.setIdCompanyUser(companyUser.getIdCompanyUser());
-    	result.setUsername(companyUser.getUsername());
-    	result.setCompanyAdmin(companyUser.getCompanyAdmin());
-    	return result;
-    }
-    
-    private CompanyUser toCompanyUser(Company company, CompanyUserResult companyUserResult) {
-    	CompanyUser companyUser = new CompanyUser();
-    	companyUser.setIdCompanyUser(companyUserResult.getIdCompanyUser());
-    	companyUser.setUsername(companyUserResult.getUsername());
-    	companyUser.setCompany(company);
-    	if(isEmpty(companyUserResult.getCompanyAdmin())) {
-    		companyUser.setCompanyAdmin(false);
-    	} else {
-    		companyUser.setCompanyAdmin(companyUserResult.getCompanyAdmin());
-    	}
-    	return companyUser;
-    }
-    
-    private List<CompanyUser> toCompanyUserList(Company company, List<CompanyUserResult> companyUserResultList) {
-    	List<CompanyUser> companyUserList = new ArrayList<>();
-    	if(!isEmpty(companyUserResultList)) {
-    		for (CompanyUserResult companyUserResult : companyUserResultList) {
-    			companyUserList.add(toCompanyUser(company, companyUserResult));
-			}
-    	}
-    	return companyUserList;
     }
 }

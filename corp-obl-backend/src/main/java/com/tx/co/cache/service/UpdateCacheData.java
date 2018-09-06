@@ -3,6 +3,7 @@ package com.tx.co.cache.service;
 import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.service.CompanyService;
 import com.tx.co.back_office.office.domain.Office;
+import com.tx.co.back_office.office.service.OfficeService;
 import com.tx.co.common.utils.UtilStatic;
 import com.tx.co.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public abstract class UpdateCacheData {
 
     private javax.cache.CacheManager cacheManager;
     private CompanyService companyService;
+    private OfficeService officeService;
 
     @Autowired
     public void setCacheManager(CacheManager cacheManager) {
@@ -33,6 +35,11 @@ public abstract class UpdateCacheData {
     @Autowired
     public void setCompanyService(CompanyService companyService) {
 		this.companyService = companyService;
+	}
+    
+    @Autowired
+	public void setOfficeService(OfficeService officeService) {
+		this.officeService = officeService;
 	}
 
 	/**
@@ -88,6 +95,37 @@ public abstract class UpdateCacheData {
         }
 
         storageDataCacheManager.put(COMPANY_LIST_CACHE, companyList);
+    }
+    
+    /**
+     * @param office
+     * @param updateFromDB
+     */
+    public void updateOffficesCache(Office office, Boolean updateFromDB) {
+
+        final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+        List<Office> officeList = getOfficesFromCache();
+
+        // Object to update or to save as new one
+        int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyOfficeList(office.getIdOffice(), officeList); 
+        
+        if(updateFromDB) {
+        	Optional<Office> officeFromDB = officeService.findByIdOffice(office.getIdOffice());
+        	if(officeFromDB.isPresent()) {
+        		office = officeFromDB.get();
+        	}
+        }
+
+        if(indexToUpdateOrInsert == -1) {
+            officeList.add(office);
+        } else if(!office.getEnabled()) {
+            officeList.remove(indexToUpdateOrInsert);
+        } else {
+            officeList.set(indexToUpdateOrInsert, office);
+        }
+
+        storageDataCacheManager.put(OFFICE_LIST_CACHE, officeList);
     }
 
     /**

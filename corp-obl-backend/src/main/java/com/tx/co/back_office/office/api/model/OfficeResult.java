@@ -1,7 +1,7 @@
 package com.tx.co.back_office.office.api.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.back_office.company.api.model.CompanyResult;
 
 /**
  * API model for returning office details.
@@ -13,7 +13,7 @@ public class OfficeResult {
 
     private Long idOffice;
     private String description;
-    private Company company;
+    private CompanyResult company;
     
 	public Long getIdOffice() {
 		return idOffice;
@@ -27,10 +27,10 @@ public class OfficeResult {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Company getCompany() {
+	public CompanyResult getCompany() {
 		return company;
 	}
-	public void setCompany(Company company) {
+	public void setCompany(CompanyResult company) {
 		this.company = company;
 	}
 }

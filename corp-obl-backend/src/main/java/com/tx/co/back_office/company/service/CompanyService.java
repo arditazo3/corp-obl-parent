@@ -183,8 +183,8 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 				
 				// New CompanyUser
 		        if(isEmpty(companyUser.getIdCompanyUser())) {
-		        	companyUser.setCreationDate(new Date());
-		        	companyUser.setCreatedBy(username);
+		        	companyUser.setCreationDate(new Date()); 
+		        	companyUser.setCreatedBy(username); 
 		        	companyUserStored = companyUser;
 		        } else {
 		        	Optional<CompanyUser> retrievedCompanyUser = companyUserRespository.findById(companyUser.getIdCompanyUser());
