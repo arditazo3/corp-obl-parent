@@ -29,34 +29,13 @@
                 <ng-select formControlName="selectedCompanyForm"
                            [items]="companiesObservable | async"
                            bindLabel="description"
+                           [(ngModel)]="selectedCompany"
                            placeholder="Select a company">
                   <!--[ngModelOptions]="{standalone: true}"-->
                 </ng-select>
                 <div *ngIf="submitted && f.selectedCompanyForm.errors" class="invalid-feedback">
                   <div *ngIf="f.selectedCompanyForm.errors.required">Company is required</div>
                 </div>
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="createdBy"
-                     class="col-sm-3 text-right control-label
-                     col-form-label">Created by</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control"
-                       formControlName="createdBy"
-                       id="createdBy">
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="modifiedBy"
-                     class="col-sm-3 text-right control-label
-                     col-form-label">Modified by</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control"
-                       id="modifiedBy"
-                       formControlName="modifiedBy">
               </div>
             </div>
 

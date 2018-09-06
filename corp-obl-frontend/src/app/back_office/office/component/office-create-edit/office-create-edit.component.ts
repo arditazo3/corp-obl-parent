@@ -49,12 +49,11 @@ export class OfficeCreateEditComponent implements OnInit {
           this.office = new Office();
       } else {
           this.submitBtn.nativeElement.innerText = 'Update office';
+          this.selectedCompany = this.office.company;
       }
 
       this.createEditOffice = this.formBuilder.group({
           description: new FormControl({value: this.office.description, disabled: false}, Validators.required),
-          createdBy: new FormControl({value: this.office.createdBy, disabled: true}),
-          modifiedBy: new FormControl({value: this.office.modifiedBy, disabled: true}),
           selectedCompanyForm: new FormControl({value: this.selectedCompany, disabled: false}, Validators.required)
       });
 
@@ -84,25 +83,19 @@ export class OfficeCreateEditComponent implements OnInit {
         }
 
         this.office.description = this.createEditOffice.get('description').value;
+        this.office.company = this.selectedCompany;
 
-        this.confirmationOfficeSwal.title = 'Do you want to save: ' + this.office.description + '?';
-        this.confirmationOfficeSwal.show()
-            .then(function (result) {
-                // handle confirm, result is needed for modals with input
-                me.officeService.saveUpdateOffice(me.office).subscribe(
-                    (data) => {
-                        me.errorDetails = undefined;
-                        console.log('OfficeCreateEditComponent - createEditOfficeSubmit - next');
-                        me.router.navigate(['/back-office/office']);
-                    }, error => {
-                        me.errorDetails = error.error;
-                        me.showErrorDescriptionSwal();
-                        console.log('OfficeCreateEditComponent - createEditOfficeSubmit - error');
-                    }
-                );
-            }, function (dismiss) {
-                // dismiss can be "cancel" | "close" | "outside"
-            });
+        me.officeService.saveUpdateOffice(me.office).subscribe(
+            (data) => {
+                me.errorDetails = undefined;
+                console.log('OfficeCreateEditComponent - createEditOfficeSubmit - next');
+                me.router.navigate(['/back-office/office']);
+            }, error => {
+                me.errorDetails = error.error;
+                me.showErrorDescriptionSwal();
+                console.log('OfficeCreateEditComponent - createEditOfficeSubmit - error');
+            }
+        );
     }
 
     showErrorDescriptionSwal() {
