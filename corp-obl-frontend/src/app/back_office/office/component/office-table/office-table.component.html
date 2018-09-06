@@ -24,43 +24,25 @@
                        [rows]='rows'
                        [limit]="10">
 
-          <!-- Row Detail Template -->
-          <ngx-datatable-row-detail
-                  [rowHeight]="50"
-                  #myDetailRow
-                  (toggle)="onDetailToggle($event)">
-            <ng-template let-row="row"
-                         let-expanded="expanded"
-                         ngx-datatable-row-detail-template>
-              <div style="padding-left:60px; font-size:14px">
-                <button class="btn btn-info waves-effect waves-light" type="button"
-                        (click)="editOffice(row)">
-                  <i class="fas fa-pencil-alt"></i>
-                </button>
-                <button class="btn btn-warning waves-effect waves-light" type="button"
-                        (click)="deleteOfficeAlert(row)">
-                  <i class="far fa-trash-alt"></i>
-                </button>
-              </div>
-            </ng-template>
-          </ngx-datatable-row-detail>
-
           <!-- Column Templates -->
 
           <ngx-datatable-column
-                  [width]="50"
+                  [width]="80"
                   [resizeable]="false"
                   [sortable]="false"
                   [draggable]="false"
                   [canAutoResize]="false">
             <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-              <a
-                      [class.datatable-icon-right]="!expanded"
-                      [class.datatable-icon-down]="expanded"
-                      title="Expand/Collapse Row"
-                      (click)="toggleExpandRow(row)"
-                      class="desktop-hidden">
-              </a>
+              <div style="font-size:9px" class="desktop-hidden">
+                <button class="btn btn-info waves-effect waves-light btn-sm" type="button"
+                        (click)="editOffice(row)">
+                  <i class="fas fa-pencil-alt fa-xs"></i>
+                </button>
+                <button class="btn btn-warning waves-effect waves-light btn-sm" type="button"
+                        (click)="deleteOfficeAlert(row)">
+                  <i class="far fa-trash-alt fa-xs"></i>
+                </button>
+              </div>
             </ng-template>
           </ngx-datatable-column>
 

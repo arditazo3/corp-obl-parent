@@ -94,7 +94,8 @@ export class CompanyCreateEditComponent implements OnInit {
 
                             me.router.navigate(['/back-office/company']);
                         }
-                    }, error => {
+                    },
+                    (error) => {
                         me.errorDetails = error.error;
                         me.showErrorDescriptionSwal();
                         console.log('CompanyCreateEditComponent - createEditCompanySubmit - error');
