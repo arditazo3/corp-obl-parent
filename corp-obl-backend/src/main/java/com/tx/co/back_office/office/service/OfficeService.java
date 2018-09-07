@@ -23,7 +23,7 @@ import com.tx.co.security.api.usermanagement.IUserManagementDetails;
 import com.tx.co.security.exception.GeneralException;
 
 /**
- * Service for {@link com.tx.co.back_office.company.domain.Offfice}s.
+ * Service for {@link com.tx.co.back_office.office.domain.Office}s.
  *
  * @author Ardit Azo
  */

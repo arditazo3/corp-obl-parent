@@ -1,48 +1,46 @@
-<div class="input-group">
+<div class="form-group row">
     <label class="col-sm-3 text-right control-label col-form-label">Associate users to the company</label>
-    <ng-select
-            [items]="usersObservable | async"
-            [multiple]="true"
-            [closeOnSelect]="false"
-            [searchable]="true"
-            bindLabel="fullName"
-            placeholder="Select users"
-            [ngModelOptions]="{standalone: true}"
-            [(ngModel)]="selectedUsers"
-            (change)="onChangeSelectUsers($event)"
-            class="col-sm-7">
+    <div class="col-sm-9">
+        <ng-select
+                [items]="usersObservable | async"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                [searchable]="true"
+                bindLabel="fullName"
+                placeholder="Select users"
+                [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="selectedUsers"
+                (change)="onChangeSelectUsers($event)">
 
-        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-            <input [ngModelOptions]="{standalone: true}"
-                   id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.fullName}}
-        </ng-template>
-    </ng-select>
+            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <input [ngModelOptions]="{standalone: true}"
+                       id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.fullName}}
+            </ng-template>
+        </ng-select>
+    </div>
     <!--<div *ngIf="submitted && f.description.errors" class="invalid-feedback">-->
     <!--<div *ngIf="f.description.errors.required">Description is required</div>-->
     <!--</div>-->
 </div>
 <br/>
-<div class="input-group">
+<div class="form-group row">
     <label class="col-sm-3 text-right control-label col-form-label">Assign users as Admin of company</label>
-    <ng-select
-            [items]="usersAsAdminObservable | async"
-            [multiple]="true"
-            [closeOnSelect]="false"
-            [searchable]="true"
-            bindLabel="fullName"
-            placeholder="Select users"
-            (change)="onChangeSelectUsers($event)"
-            [ngModelOptions]="{standalone: true}"
-            [(ngModel)]="selectedUsersAsAdmin"
-            class="col-sm-7">
+    <div class="col-sm-9">
+        <ng-select
+                [items]="usersAsAdminObservable | async"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                [searchable]="true"
+                bindLabel="fullName"
+                placeholder="Select users"
+                (change)="onChangeSelectUsers($event)"
+                [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="selectedUsersAsAdmin">
 
-        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-            <input [ngModelOptions]="{standalone: true}"
-                   id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.fullName}}
-        </ng-template>
-    </ng-select>
-    <!--<div *ngIf="submitted && f.description.errors" class="invalid-feedback">-->
-    <!--<div *ngIf="f.description.errors.required">Description is required</div>-->
-    <!--</div>-->
-
+            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <input [ngModelOptions]="{standalone: true}"
+                       id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.fullName}}
+            </ng-template>
+        </ng-select>
+    </div>
 </div>

@@ -37,12 +37,19 @@ public final class AppConstants {
     public static final String ASSOC_USER_COMPANY = COMPANY + "/assoc-user-company";
     
     // Office URL
-    /* End list of Routes */
     public static final String OFFICE = "office";
     public static final String OFFICE_LIST = OFFICE + "/list";
     public static final String OFFICE_CREATE_UPDATE = OFFICE + "/create-update";
     public static final String OFFICE_EDIT = OFFICE + "/edit";
     public static final String OFFICE_DELETE = OFFICE + "/delete";
+    
+    // Topic URL
+    public static final String TOPIC = "topic";
+    public static final String TOPIC_LIST = TOPIC + "/list";
+    public static final String TOPIC_CREATE_UPDATE = TOPIC + "/create-update";
+    public static final String TOPIC_EDIT = TOPIC + "/edit";
+    public static final String TOPIC_DELETE = TOPIC + "/delete";
+    
     /**
      * List of authorization Role
      * */
@@ -56,6 +63,7 @@ public final class AppConstants {
     public static final String USER_LIST_CACHE = "USER_LIST_CACHE";
     public static final String COMPANY_LIST_CACHE = "COMPANY_LIST_CACHE";
     public static final String OFFICE_LIST_CACHE = "OFFICE_LIST_CACHE";
+    public static final String TOPIC_LIST_CACHE = "TOPIC_LIST_CACHE";
     public static final String LANGUAGE_LIST_CACHE = "LANGUAGE_LIST_CACHE";
     public static final String STORAGE_DATA_CACHE = "StorageDataCache";
     /* End of the cache key */

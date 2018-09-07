@@ -7,7 +7,10 @@ import com.tx.co.back_office.company.repository.CompanyUserRespository;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
+import com.tx.co.security.domain.Authority;
 import com.tx.co.security.exception.GeneralException;
+import com.tx.co.user.domain.User;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -199,6 +202,14 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 				companyUserStored.setModificationDate(new Date());
 				companyUserStored.setModifiedBy(username);
 				companyUserStored.setCompanyAdmin(companyUser.getCompanyAdmin());
+				
+				User userLoopFromCache = getUserFromUsername(companyUserStored.getUsername());
+				if(!isEmpty(userLoopFromCache) &&
+						!isEmpty(userLoopFromCache.getAuthorities()) &&
+						(userLoopFromCache.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) ||
+								userLoopFromCache.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND))) {
+					companyUserStored.setCompanyAdmin(true);
+				}
 				
 				companyUserStored = companyUserRespository.save(companyUserStored);
 				userListIncluded.add(companyUserStored.getUsername());
