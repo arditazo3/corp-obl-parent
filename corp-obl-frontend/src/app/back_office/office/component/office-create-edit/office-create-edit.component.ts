@@ -101,7 +101,7 @@ export class OfficeCreateEditComponent implements OnInit {
         console.log('OfficeCreateEditComponent - showErrorDescriptionSwal');
 
         if (this.errorDetails !== undefined) {
-            this.errorDescriptionSwal.title = 'Seems that ' + this.office.description + ' already exist!';
+            this.errorDescriptionSwal.title = this.errorDetails.message;
             this.errorDescriptionSwal.show();
         }
     }

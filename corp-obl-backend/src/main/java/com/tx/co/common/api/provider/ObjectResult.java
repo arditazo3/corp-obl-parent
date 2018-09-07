@@ -11,6 +11,8 @@ import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.domain.CompanyUser;
 import com.tx.co.back_office.office.api.model.OfficeResult;
 import com.tx.co.back_office.office.domain.Office;
+import com.tx.co.back_office.topic.api.model.TopicResult;
+import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.security.exception.GeneralException;
 
 public abstract class ObjectResult {
@@ -87,10 +89,10 @@ public abstract class ObjectResult {
     }
 	
     /**
-     * Map a {@link Company} instance to a {@link CompanyResult} instance.
+     * Map a {@link Office} instance to a {@link OfficeResult} instance.
      *
-     * @param company
-     * @return UserResult
+     * @param office
+     * @return OfficeResult
      */
     public OfficeResult toOfficeResult(Office office) {
     	OfficeResult result = new OfficeResult();
@@ -114,10 +116,29 @@ public abstract class ObjectResult {
         if(!isEmpty(officeResult.getDescription())) {
         	office.setDescription(officeResult.getDescription().trim());
         }
-        if(!isEmpty(officeResult.getDescription())) {
+        if(!isEmpty(officeResult.getCompany())) {
         	office.setCompany(toCompany(officeResult.getCompany()));
+        } else {
+        	throw new GeneralException("Fulfill the form");
         }
         return office;
+    }
+    
+    /**
+     * Map a {@link Topic} instance to a {@link TopicResult} instance.
+     *
+     * @param topic
+     * @return OfficeResult
+     */
+    public TopicResult toTopicResult(Topic topic) {
+    	TopicResult result = new TopicResult();
+        result.setIdTopic(topic.getIdTopic());
+        result.setDescription(topic.getDescription());
+        if(!isEmpty(topic.getCompany())) {
+        	
+        	result.setCompany(toCompanyResult(topic.getCompany()));
+        }
+        return result;
     }
     
 }

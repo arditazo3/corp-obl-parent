@@ -9,43 +9,36 @@
                       (ngSubmit)="createEditCompanySubmit()">
                     <div class="card-body">
 
-                        <div class="input-group">
+                        <div class="form-group row">
                             <label for="description"
                                    class="col-sm-3 text-right control-label col-form-label">Description</label>
-                            <input type="text" class="form-control col-sm-7"
-                                   formControlName="description"
-                                   id="description"
-                                   style="margin-left: 5px"
-                                   [ngClass]="{'is-invalid': submitted && f.description.errors }">
-                            <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                                <div *ngIf="f.description.errors.required">Description is required</div>
-                            </div>
-                            <div class="input-group-prepend">
-                                <button #submitBtn class="btn-tnx btn-warning waves-effect waves-light"
-                                        style="margin-left: 5px">Save Company
-                                </button>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control"
+                                       formControlName="description"
+                                       id="description"
+                                       [ngClass]="{'is-invalid': submitted && f.description.errors }">
+                                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                    <div *ngIf="f.description.errors.required">Description is required</div>
+                                </div>
                             </div>
                         </div>
 
                         <br/>
 
                         <div *ngIf='company'>
-                            <app-company-associate-users #appCompanyAssociateUserComponent [company]="company"></app-company-associate-users>
+                            <app-company-associate-users #appCompanyAssociateUserComponent
+                                                         [company]="company"></app-company-associate-users>
                         </div>
 
                     </div>
                     <hr>
                     <div class="card-body">
                         <div class="input-group">
-                            <!--<div class="col m-b-0">-->
-                            <!--<button #associateUsersToCompany type="button" (click)="openAssociateUsersToCompany()"-->
-                            <!--class="btn btn-info waves-effect waves-light">Associate Users To Company-->
-                            <!--</button>-->
-                            <!--</div>-->
                             <div class="m-b-0 col text-right">
                                 <button #cancelBtn type="button" routerLink="//back-office/company"
-                                        class="btn btn-outline-secondary waves-effect waves-light">
-                                    Cancel
+                                        class="btn-tnx btn-outline-secondary waves-effect waves-light">Cancel
+                                </button>
+                                <button #submitBtn class="btn-tnx btn-success waves-effect waves-light">Save Company
                                 </button>
                             </div>
                         </div>
@@ -57,16 +50,6 @@
                         title=""
                         text="Can not save company with the same description."
                         type="error">
-                </swal>
-
-                <swal
-                        #confirmationCompanySwal
-                        title=""
-                        text=""
-                        [showCancelButton]="true"
-                        confirmButtonText="Yes, save it!"
-                        cancelButtonText="No, cancel!"
-                        type="warning">
                 </swal>
 
             </div>

@@ -4,6 +4,8 @@ import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.service.CompanyService;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.service.OfficeService;
+import com.tx.co.back_office.topic.domain.Topic;
+import com.tx.co.back_office.topic.service.TopicService;
 import com.tx.co.common.utils.UtilStatic;
 import com.tx.co.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static com.tx.co.common.constants.AppConstants.COMPANY_LIST_CACHE;
-import static com.tx.co.common.constants.AppConstants.OFFICE_LIST_CACHE;
-import static com.tx.co.common.constants.AppConstants.STORAGE_DATA_CACHE;
-import static com.tx.co.common.constants.AppConstants.USER_LIST_CACHE;
+import static com.tx.co.common.constants.AppConstants.*;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 public abstract class UpdateCacheData {
@@ -26,6 +25,7 @@ public abstract class UpdateCacheData {
     private javax.cache.CacheManager cacheManager;
     private CompanyService companyService;
     private OfficeService officeService;
+    private TopicService topicService;
 
     @Autowired
     public void setCacheManager(CacheManager cacheManager) {
@@ -40,6 +40,11 @@ public abstract class UpdateCacheData {
     @Autowired
 	public void setOfficeService(OfficeService officeService) {
 		this.officeService = officeService;
+	}
+    
+    @Autowired
+	public void setTopicService(TopicService topicService) {
+		this.topicService = topicService;
 	}
 
 	/**
@@ -64,6 +69,16 @@ public abstract class UpdateCacheData {
         final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
         return (List<Office>) storageDataCacheManager.get(OFFICE_LIST_CACHE);
+    }
+    
+    /**
+     * @return get the Topics from the cache in order to not execute the query to the database
+     */
+    public List<Topic> getTopicsFromCache() {
+
+        final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+        return (List<Topic>) storageDataCacheManager.get(TOPIC_LIST_CACHE);
     }
     
     /**
@@ -127,6 +142,37 @@ public abstract class UpdateCacheData {
 
         storageDataCacheManager.put(OFFICE_LIST_CACHE, officeList);
     }
+    
+    /**
+     * @param topic
+     * @param updateFromDB
+     */
+    public void updateOffficesCache(Topic topic, Boolean updateFromDB) {
+
+        final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+        List<Topic> topicList = getTopicsFromCache();
+
+        // Object to update or to save as new one
+        int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyTopicList(topic.getIdTopic(), topicList); 
+        
+        if(updateFromDB) {
+        	Optional<Topic> topicFromDB = topicService.findByIdTopic(topic.getIdTopic());
+        	if(topicFromDB.isPresent()) {
+        		topic = topicFromDB.get();
+        	}
+        }
+
+        if(indexToUpdateOrInsert == -1) {
+            topicList.add(topic);
+        } else if(!topic.getEnabled()) {
+            topicList.remove(indexToUpdateOrInsert);
+        } else {
+            topicList.set(indexToUpdateOrInsert, topic);
+        }
+
+        storageDataCacheManager.put(OFFICE_LIST_CACHE, topicList);
+    }
 
     /**
      * @param idCompany
@@ -153,5 +199,18 @@ public abstract class UpdateCacheData {
         final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
         return (List<User>) storageDataCacheManager.get(USER_LIST_CACHE);
+    }
+    
+    public User getUserFromUsername(String username) {
+    	
+    	List<User> userList = getUsersFromCache();
+    	User userRetrived = null;
+    	for (User user : userList) {
+			if(user.getUsername().equals(username)) {
+				userRetrived = user;
+				break;
+			}
+		}
+    	return userRetrived;
     }
 }

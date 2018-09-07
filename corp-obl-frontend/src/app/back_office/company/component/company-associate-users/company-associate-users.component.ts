@@ -9,6 +9,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Company} from '../../model/company';
 import {CompanyService} from '../../service/company.service';
 import {CompanyUser} from '../../model/company_user';
+import {AuthorityEnum} from '../../../../shared/common/api/enum/authority.enum';
 
 @Component({
     selector: 'app-company-associate-users',
@@ -165,7 +166,19 @@ export class CompanyAssociateUsersComponent implements OnInit {
     onChangeSelectUsers($event) {
         console.log('CompanyAssociateUsersComponent - onChangeSelectUsers');
 
-        this.usersAsAdminObservable = Observable.of(this.selectedUsers);
+        let selectedUsersToAdminAlternetive = [];
+        this.selectedUsers.forEach((userSelectedFromCB) => {
+
+            if (userSelectedFromCB.authorities !== undefined &&
+                userSelectedFromCB.authorities.length !== 0 &&
+                userSelectedFromCB.authorities.some(authority => authority === AuthorityEnum[AuthorityEnum.CORPOBLIG_USER])) {
+
+                selectedUsersToAdminAlternetive.push(userSelectedFromCB);
+            }
+
+        });
+
+        this.usersAsAdminObservable = Observable.of(selectedUsersToAdminAlternetive);
 
         if (this.company.idCompany !== undefined) {
             this.associateUsersToCompanySubmit(false);

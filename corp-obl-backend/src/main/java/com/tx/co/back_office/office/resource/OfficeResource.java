@@ -1,4 +1,4 @@
-package com.tx.co.back_office.office;
+package com.tx.co.back_office.office.resource;
 
 import java.util.List;
 import java.util.stream.Collectors;

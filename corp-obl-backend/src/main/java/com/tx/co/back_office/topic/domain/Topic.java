@@ -1,4 +1,4 @@
-package com.tx.co.back_office.company.domain;
+package com.tx.co.back_office.topic.domain;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,16 +14,18 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.tx.co.back_office.company.domain.Company;
+
 /**
- * Domain model that represents a company user.
+ * Domain model that represents a topic.
  *
  * @author Ardit Azo
  */
 @Entity
-@Table(name = "co_companyuser")
-public class CompanyUser implements Serializable {
+@Table(name = "co_topic")
+public class Topic implements Serializable {
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
@@ -31,21 +33,14 @@ public class CompanyUser implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long idCompanyUser;
+    private Long idTopic;
+	
+	@Column(nullable = false)
+    private String description;
 
-    @Column(nullable = false)
-    private String username;
-    
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
-
-    @Column(nullable = false, name="companyadmin")
-    private Boolean companyAdmin;
-    
     @Column(nullable = false)
     private Boolean enabled;
-
+    
     @Column(nullable = false, name = "creationdate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
@@ -59,37 +54,25 @@ public class CompanyUser implements Serializable {
 
     @Column(nullable = false, name = "modifiedby")
     private String modifiedBy;
+    
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
 
-	public Long getIdCompanyUser() {
-		return idCompanyUser;
+	public Long getIdTopic() {
+		return idTopic;
 	}
 
-	public void setIdCompanyUser(Long idCompanyUser) {
-		this.idCompanyUser = idCompanyUser;
+	public void setIdTopic(Long idTopic) {
+		this.idTopic = idTopic;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
-	}
-
-	public Boolean getCompanyAdmin() {
-		return companyAdmin;
-	}
-
-	public void setCompanyAdmin(Boolean companyAdmin) {
-		this.companyAdmin = companyAdmin;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Boolean getEnabled() {
@@ -132,6 +115,13 @@ public class CompanyUser implements Serializable {
 		this.modifiedBy = modifiedBy;
 	}
 
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+    
     
 }
-

@@ -28,7 +28,6 @@ export class CompanyCreateEditComponent implements OnInit {
     @ViewChild('cancelBtn') cancelBtn;
     @ViewChild('submitBtn') submitBtn;
     @ViewChild('errorDescriptionSwal') private errorDescriptionSwal: SwalComponent;
-    @ViewChild('confirmationCompanySwal') private confirmationCompanySwal: SwalComponent;
     @ViewChild('appCompanyAssociateUserComponent') private appCompanyAssociateUserComponent: CompanyAssociateUsersComponent;
     createEditCompany: FormGroup;
 
@@ -74,36 +73,30 @@ export class CompanyCreateEditComponent implements OnInit {
 
         this.company.description = this.createEditCompany.get('description').value;
 
-        this.confirmationCompanySwal.title = 'Do you want to save: ' + this.company.description + '?';
-        this.confirmationCompanySwal.show()
-            .then(function (result) {
-                // handle confirm, result is needed for modals with input
-                me.companyService.saveUpdateCompany(me.company).subscribe(
-                    (data) => {
-                        me.errorDetails = undefined;
-                        console.log('CompanyCreateEditComponent - createEditCompanySubmit - next');
 
-                        const company: Company = data;
-                        me.appCompanyAssociateUserComponent.company = company;
-                        me.appCompanyAssociateUserComponent.associateUsersToCompanySubmit(me.isNewForm);
+        me.companyService.saveUpdateCompany(me.company).subscribe(
+            (data) => {
+                me.errorDetails = undefined;
+                console.log('CompanyCreateEditComponent - createEditCompanySubmit - next');
 
-                        // If it is new form the route back should be from the child
-                        // after it is done all the process
-                        if (!me.isNewForm ||
-                            me.appCompanyAssociateUserComponent.selectedUsers.length === 0) {
+                const company: Company = data;
+                me.appCompanyAssociateUserComponent.company = company;
+                me.appCompanyAssociateUserComponent.associateUsersToCompanySubmit(me.isNewForm);
 
-                            me.router.navigate(['/back-office/company']);
-                        }
-                    },
-                    (error) => {
-                        me.errorDetails = error.error;
-                        me.showErrorDescriptionSwal();
-                        console.log('CompanyCreateEditComponent - createEditCompanySubmit - error');
-                    }
-                );
-            }, function (dismiss) {
-                // dismiss can be "cancel" | "close" | "outside"
-            });
+                // If it is new form the route back should be from the child
+                // after it is done all the process
+                if (!me.isNewForm ||
+                    me.appCompanyAssociateUserComponent.selectedUsers.length === 0) {
+
+                    me.router.navigate(['/back-office/company']);
+                }
+            },
+            (error) => {
+                me.errorDetails = error.error;
+                me.showErrorDescriptionSwal();
+                console.log('CompanyCreateEditComponent - createEditCompanySubmit - error');
+            }
+        );
     }
 
     showErrorDescriptionSwal() {
