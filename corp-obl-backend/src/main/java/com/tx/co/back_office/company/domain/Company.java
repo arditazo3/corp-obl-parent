@@ -61,7 +61,7 @@ public class Company implements Serializable {
     
     @OneToMany(mappedBy="company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Where(clause = "enabled = 1")
-    private Set<Topic> topic = new HashSet<>();
+    private Set<CompanyTopic> companyTopic = new HashSet<>();
     
     public Long getIdCompany() {
         return idCompany;
@@ -135,12 +135,11 @@ public class Company implements Serializable {
 		this.office = office;
 	}
 
-	public Set<Topic> getTopic() {
-		return topic;
+	public Set<CompanyTopic> getCompanyTopic() {
+		return companyTopic;
 	}
 
-	public void setTopic(Set<Topic> topic) {
-		this.topic = topic;
+	public void setCompanyTopic(Set<CompanyTopic> companyTopic) {
+		this.companyTopic = companyTopic;
 	}
-	
 }

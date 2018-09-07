@@ -2,19 +2,27 @@ package com.tx.co.back_office.topic.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Where;
+
 import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.back_office.company.domain.CompanyTopic;
 
 /**
  * Domain model that represents a topic.
@@ -55,9 +63,9 @@ public class Topic implements Serializable {
     @Column(nullable = false, name = "modifiedby")
     private String modifiedBy;
     
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
+    @OneToMany(mappedBy="topic", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Where(clause = "enabled = 1")
+    private Set<CompanyTopic> companyTopic = new HashSet<>();
 
 	public Long getIdTopic() {
 		return idTopic;
@@ -115,13 +123,12 @@ public class Topic implements Serializable {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public Company getCompany() {
-		return company;
+	public Set<CompanyTopic> getCompanyTopic() {
+		return companyTopic;
 	}
 
-	public void setCompany(Company company) {
-		this.company = company;
+	public void setCompanyTopic(Set<CompanyTopic> companyTopic) {
+		this.companyTopic = companyTopic;
 	}
-    
-    
+
 }

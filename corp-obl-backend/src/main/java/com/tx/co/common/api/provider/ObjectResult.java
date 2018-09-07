@@ -134,10 +134,10 @@ public abstract class ObjectResult {
     	TopicResult result = new TopicResult();
         result.setIdTopic(topic.getIdTopic());
         result.setDescription(topic.getDescription());
-        if(!isEmpty(topic.getCompany())) {
-        	
-        	result.setCompany(toCompanyResult(topic.getCompany()));
-        }
+//        if(!isEmpty(topic.getCompanyTopic())) {
+//        	
+//        	result.setCompany(toCompanyResult(topic.getCompany()));
+//        }
         return result;
     }
     

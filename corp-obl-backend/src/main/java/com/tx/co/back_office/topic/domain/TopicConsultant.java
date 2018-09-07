@@ -8,8 +8,8 @@ import javax.persistence.Table;
  *
  * @author Ardit Azo
  */
-@Entity
-@Table(name = "co_topicconsultant")
+//@Entity
+//@Table(name = "co_topicconsultant")
 public class TopicConsultant {
 
 }

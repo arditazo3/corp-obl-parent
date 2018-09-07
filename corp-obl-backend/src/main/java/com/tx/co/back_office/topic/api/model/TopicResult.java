@@ -1,5 +1,7 @@
 package com.tx.co.back_office.topic.api.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tx.co.back_office.company.api.model.CompanyResult;
 
@@ -13,7 +15,7 @@ public class TopicResult {
 
 	private Long idTopic;
 	private String description;
-	private CompanyResult company;
+	private List<CompanyResult> companyList;
 	
 	public Long getIdTopic() {
 		return idTopic;
@@ -27,12 +29,11 @@ public class TopicResult {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public CompanyResult getCompany() {
-		return company;
+	public List<CompanyResult> getCompanyList() {
+		return companyList;
 	}
-	public void setCompany(CompanyResult company) {
-		this.company = company;
+	public void setCompanyList(List<CompanyResult> companyList) {
+		this.companyList = companyList;
 	}
-
 
 }

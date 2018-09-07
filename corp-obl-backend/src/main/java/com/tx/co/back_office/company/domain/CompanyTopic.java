@@ -8,9 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.tx.co.back_office.topic.domain.Topic;
 
 /**
  * Domain model that represents a company topic.
@@ -47,4 +51,78 @@ public class CompanyTopic implements Serializable {
 
     @Column(nullable = false, name = "modifiedby")
     private String modifiedBy;
+    
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+    
+    @ManyToOne
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
+
+	public Long getIdCompanyTopic() {
+		return idCompanyTopic;
+	}
+
+	public void setIdCompanyTopic(Long idCompanyTopic) {
+		this.idCompanyTopic = idCompanyTopic;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getModificationDate() {
+		return modificationDate;
+	}
+
+	public void setModificationDate(Date modificationDate) {
+		this.modificationDate = modificationDate;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	public Topic getTopic() {
+		return topic;
+	}
+
+	public void setTopic(Topic topic) {
+		this.topic = topic;
+	}
+    
+    
 }
