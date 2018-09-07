@@ -20,7 +20,7 @@ export class AppConfig {
     public userList = this.userPath + '/list';
     public userListExceptRole = this.userPath + '/user-except';
 
-    // Back component
+    // Back office
     public backOfficePath = 'back-office';
 
     // Company URL's
@@ -39,8 +39,9 @@ export class AppConfig {
 
     // Topic URL's
     public topicPath = '/topic';
-    public getTopics = this.backOfficePath + this.officePath + '/list';                      // GET
-    public deleteTopic = this.backOfficePath + this.officePath + '/delete';                  // PUT
+    public getTopics = this.backOfficePath + this.topicPath + '/list';                      // GET
+    public deleteTopic = this.backOfficePath + this.topicPath + '/delete';                  // PUT
+    public createUpdateTopic = this.backOfficePath + this.topicPath + '/create-update';     // POST
 
     constructor() {
         console.log('AppConfig - constructor');

@@ -2,6 +2,7 @@ package com.tx.co.common.api.config;
 
 import com.tx.co.back_office.company.resource.CompanyResource;
 import com.tx.co.back_office.office.resource.OfficeResource;
+import com.tx.co.back_office.topic.resource.TopicResource;
 import com.tx.co.common.api.provider.ObjectMapperProvider;
 import com.tx.co.security.api.exceptionmapper.AccessDeniedExceptionMapper;
 import com.tx.co.security.api.exceptionmapper.AuthenticationExceptionMapper;
@@ -38,6 +39,8 @@ public class JerseyConfig extends ResourceConfig {
         register(UserResource.class);
         register(CompanyResource.class);
         register(OfficeResource.class);
+        register(TopicResource.class);
+        
         
         /**
          * General exception

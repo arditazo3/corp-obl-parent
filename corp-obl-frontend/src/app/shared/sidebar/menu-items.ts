@@ -12,7 +12,7 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: '',
-    title: 'Back component',
+    title: 'Back Office',
     icon: 'mdi mdi-desktop-mac',
     class: 'has-arrow',
     ddclass: '',

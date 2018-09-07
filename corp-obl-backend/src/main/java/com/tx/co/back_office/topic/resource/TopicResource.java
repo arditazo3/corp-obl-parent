@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -19,6 +21,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.tx.co.back_office.office.api.model.OfficeResult;
+import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.topic.api.model.TopicResult;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.service.ITopicService;
@@ -53,6 +57,17 @@ public class TopicResource extends ObjectResult {
                         .collect(Collectors.toList());
 
         return Response.ok(queryTopicList).build();
+    }
+    
+    @POST
+    @Path(TOPIC_CREATE_UPDATE)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createUpdateOffice(TopicResult topicResult) {
+
+        Topic topicStored = topicService.saveUpdateTopic(toTopic(topicResult));
+
+        return Response.ok(toTopicResult(topicStored)).build();
     }
 	
 }

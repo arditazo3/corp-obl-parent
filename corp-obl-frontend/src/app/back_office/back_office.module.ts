@@ -21,8 +21,10 @@ import { OfficeComponent } from './office/component/office.component';
 import { OfficeTableComponent } from './office/component/office-table/office-table.component';
 import {OfficeService} from './office/service/office.service';
 import { OfficeCreateEditComponent } from './office/component/office-create-edit/office-create-edit.component';
-import { Topic } from './topic/component/topic.component.component';
 import { TopicTableComponent } from './topic/component/topic-table/topic-table.component';
+import {TopicComponent} from './topic/component/topic.component';
+import {TopicService} from './topic/service/topic.service';
+import { TopicCreateUpdateComponent } from './topic/component/topic-create-update/topic-create-update.component';
 
 @NgModule({
     imports: [
@@ -54,13 +56,15 @@ import { TopicTableComponent } from './topic/component/topic-table/topic-table.c
         OfficeComponent,
         OfficeTableComponent,
         OfficeCreateEditComponent,
-        Topic.ComponentComponent,
-        TopicTableComponent
+        TopicComponent,
+        TopicTableComponent,
+        TopicCreateUpdateComponent
     ],
     providers: [
         CompanyService,
         UserService,
-        OfficeService
+        OfficeService,
+        TopicService
     ]
 })
 export class BackOfficeModule {

@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tx.co.back_office.company.api.model.CompanyResult;
+import com.tx.co.back_office.company.api.model.CompanyTopicResult;
 import com.tx.co.back_office.company.api.model.CompanyUserResult;
 import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.back_office.company.domain.CompanyTopic;
 import com.tx.co.back_office.company.domain.CompanyUser;
 import com.tx.co.back_office.office.api.model.OfficeResult;
 import com.tx.co.back_office.office.domain.Office;
@@ -139,6 +141,42 @@ public abstract class ObjectResult {
 //        	result.setCompany(toCompanyResult(topic.getCompany()));
 //        }
         return result;
+    }
+    
+    public Topic toTopic(TopicResult topicResult) {
+    	Topic topic = new Topic();
+    	if(isEmpty(topicResult)) {
+    		throw new GeneralException("The form is empty");
+    	}
+    	if(!isEmpty(topicResult.getIdTopic())) {
+    		topic.setIdTopic(topicResult.getIdTopic());
+        }
+        if(!isEmpty(topicResult.getDescription())) {
+        	topic.setDescription(topicResult.getDescription().trim());
+        }
+        if(!isEmpty(topicResult.getCompanyTopicList())) {
+        	for (CompanyTopicResult companyTopicResult : topicResult.getCompanyTopicList()) {
+        		topic.getCompanyTopic().add(toCompanyTopic(companyTopicResult));
+			}
+        } else {
+        	throw new GeneralException("Fulfill the form");
+        }
+        return topic;
+    }
+    
+    public CompanyTopic toCompanyTopic(CompanyTopicResult companyTopicResult) {
+    	CompanyTopic companyTopic = new CompanyTopic();
+
+    	if(!isEmpty(companyTopicResult.getIdCompanyTopic())) {
+    		companyTopic.setIdCompanyTopic(companyTopicResult.getIdCompanyTopic());
+        }
+    	if(isEmpty(companyTopicResult.getCompany())) {
+    		throw new GeneralException("The company is empty");
+    	}
+    	if(isEmpty(companyTopicResult.getTopic())) {
+    		throw new GeneralException("The topic is empty");
+    	}
+        return companyTopic;
     }
     
 }

@@ -18,6 +18,12 @@ export class TopicService {
         return this.apiRequest.get(this.appConfig.getTopics);
     }
 
+    saveUpdateTopic(topic): Observable<any> {
+        console.log('TopicService - saveUpdateTopic');
+
+        return this.apiRequest.post(this.appConfig.createUpdateTopic, topic);
+    }
+
     deleteTopic(topic): Observable<any> {
         console.log('TopicService - deleteTopic');
 
