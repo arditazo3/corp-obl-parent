@@ -21,6 +21,8 @@ import { OfficeComponent } from './office/component/office.component';
 import { OfficeTableComponent } from './office/component/office-table/office-table.component';
 import {OfficeService} from './office/service/office.service';
 import { OfficeCreateEditComponent } from './office/component/office-create-edit/office-create-edit.component';
+import { Topic } from './topic/component/topic.component.component';
+import { TopicTableComponent } from './topic/component/topic-table/topic-table.component';
 
 @NgModule({
     imports: [
@@ -51,7 +53,9 @@ import { OfficeCreateEditComponent } from './office/component/office-create-edit
         CompanyAssociateUsersComponent,
         OfficeComponent,
         OfficeTableComponent,
-        OfficeCreateEditComponent
+        OfficeCreateEditComponent,
+        Topic.ComponentComponent,
+        TopicTableComponent
     ],
     providers: [
         CompanyService,
