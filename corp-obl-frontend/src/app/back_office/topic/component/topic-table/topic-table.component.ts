@@ -88,7 +88,7 @@ export class TopicTableComponent implements OnInit {
 
         this.transferService.objectParam = topic;
 
-        this.router.navigate(['/back-topic/topic/edit']);
+        this.router.navigate(['/back-office/topic/edit']);
     }
 
     deleteTopicAlert(row) {

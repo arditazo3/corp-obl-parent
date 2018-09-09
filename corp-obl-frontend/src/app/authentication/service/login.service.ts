@@ -59,7 +59,8 @@ export class LoginService {
                   'enabled': jsonResp.user.enabled,
                   'authorities': jsonResp.user.authorities
                 },
-                'token': jsonResp.token
+                'token': jsonResp.token,
+                'langList': jsonResp.langList
               }
             };
             // Store the user and jwt token in session storaget to keep the user llogged in between page refreshes

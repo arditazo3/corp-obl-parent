@@ -11,13 +11,27 @@
 
             <div class="form-group row">
               <label for="description" class="col-sm-3 text-right control-label col-form-label">Description</label>
-              <div class="col-sm-9">
+              <div class="input-group col-sm-9">
+                <div class="remark-feedback">The French language it not available yet</div>
                 <input type="text" class="form-control"
                        formControlName="description"
                        id="description"
                        [ngClass]="{'is-invalid': submitted && f.description.errors }">
                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
                   <div *ngIf="f.description.errors.required">Description is required</div>
+                </div>
+                <div class="input-group-prepend col-sm-2">
+                  <ng-select
+                          [items]="languagesObservable | async"
+                          [searchable]="true"
+                          [required]=""
+                          [clearable]="false"
+                          (change)="onChangeSelectLang(previousLang, $event)"
+                          [ngModelOptions]="{standalone: true}"
+                          style="width: 100%"
+                          [(ngModel)]="selectedLang"
+                          [ngModel]="previousLang">
+                   </ng-select>
                 </div>
               </div>
             </div>

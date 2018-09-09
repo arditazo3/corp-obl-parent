@@ -25,6 +25,7 @@ import { TopicTableComponent } from './topic/component/topic-table/topic-table.c
 import {TopicComponent} from './topic/component/topic.component';
 import {TopicService} from './topic/service/topic.service';
 import { TopicCreateUpdateComponent } from './topic/component/topic-create-update/topic-create-update.component';
+import { ConsultantComponent } from './consultant/component/consultant.component';
 
 @NgModule({
     imports: [
@@ -58,7 +59,8 @@ import { TopicCreateUpdateComponent } from './topic/component/topic-create-updat
         OfficeCreateEditComponent,
         TopicComponent,
         TopicTableComponent,
-        TopicCreateUpdateComponent
+        TopicCreateUpdateComponent,
+        ConsultantComponent
     ],
     providers: [
         CompanyService,

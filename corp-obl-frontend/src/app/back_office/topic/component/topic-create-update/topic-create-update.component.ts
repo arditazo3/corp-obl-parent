@@ -9,12 +9,13 @@ import {Observable} from '../../../../../../node_modules/rxjs/Rx';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {Topic} from '../../../topic/model/topic';
 import {Company} from '../../../company/model/company';
-import {CompanyTopic} from '../../../company/model/company_topic';
+import {UserInfoService} from '../../../../user/service/user-info.service';
+import {Translation} from '../../../../shared/common/translation/model/translation';
 
 @Component({
-  selector: 'app-topic-create-update',
-  templateUrl: './topic-create-update.component.html',
-  styleUrls: ['./topic-create-update.component.css']
+    selector: 'app-topic-create-update',
+    templateUrl: './topic-create-update.component.html',
+    styleUrls: ['./topic-create-update.component.css']
 })
 export class TopicCreateUpdateComponent implements OnInit {
 
@@ -25,6 +26,11 @@ export class TopicCreateUpdateComponent implements OnInit {
 
     companiesObservable: Observable<any[]>;
     selectedCompanies: Company[];
+
+    languagesObservable: Observable<any[]>;
+    selectedLang: string;
+    previousLang: string;
+    translationList: Translation[] = [];
 
     @ViewChild('cancelBtn') cancelBtn;
     @ViewChild('submitBtn') submitBtn;
@@ -37,8 +43,10 @@ export class TopicCreateUpdateComponent implements OnInit {
         private transferService: TransferDataService,
         private formBuilder: FormBuilder,
         private topicService: TopicService,
-        private companyService: CompanyService
-    ) { }
+        private companyService: CompanyService,
+        private userInfoService: UserInfoService
+    ) {
+    }
 
     ngOnInit() {
         console.log('TopicCreateEditComponent - ngOnInit');
@@ -50,14 +58,20 @@ export class TopicCreateUpdateComponent implements OnInit {
             this.topic = new Topic();
         } else {
             this.submitBtn.nativeElement.innerText = 'Update topic';
-            this.selectedCompanies = this.getCompaniesFromTopic();
+            this.selectedCompanies = this.topic.companyList;
+            this.translationList = this.topic.translationList;
+
         }
 
         this.createEditTopic = this.formBuilder.group({
-            description: new FormControl({value: this.topic.description, disabled: false}, Validators.required)
+            description: new FormControl({value: this.topic.description, disabled: false})
         });
 
+        this.languagesObservable = Observable.of(this.userInfoService.getLanguages());
+        this.selectedLang = this.userInfoService.getLanguages()[0];
+        this.previousLang = this.selectedLang;
         this.getCompanies();
+        this.setDefaultDescription();
     }
 
     getCompanies() {
@@ -83,21 +97,15 @@ export class TopicCreateUpdateComponent implements OnInit {
         }
 
         this.topic.description = this.createEditTopic.get('description').value;
-        const companyTopicArray = [];
-        this.selectedCompanies.forEach((company) => {
-            const companyTopic: CompanyTopic = new CompanyTopic();
-            companyTopic.company = company;
-            companyTopic.topic = this.topic;
-            companyTopicArray.push(companyTopic);
-        });
-
-        this.topic.companyTopicList = companyTopicArray;
+        this.onChangeSelectLang(this.selectedLang, this.selectedLang);
+        this.topic.companyList = this.selectedCompanies;
+        this.topic.translationList = this.translationList;
 
         me.topicService.saveUpdateTopic(me.topic).subscribe(
             (data) => {
                 me.errorDetails = undefined;
                 console.log('TopicCreateEditComponent - createEditTopicSubmit - next');
-                me.router.navigate(['/back-topic/topic']);
+                me.router.navigate(['/back-office/topic']);
             }, error => {
                 me.errorDetails = error.error;
                 me.showErrorDescriptionSwal();
@@ -115,11 +123,65 @@ export class TopicCreateUpdateComponent implements OnInit {
         }
     }
 
-    private getCompaniesFromTopic(): any {
-        const companiesArray = [];
-        this.topic.companyTopicList.forEach( (companyTopic) => {
-            companiesArray.push(companyTopic.company);
-        });
-        return companiesArray;
+    onChangeSelectLang(previousValue, actualValue) {
+
+        if (!previousValue) {
+            return;
+        }
+
+        let newTranslation = true;
+        let resetDescriptionTF = true;
+        const description = this.createEditTopic.get('description').value;
+        if (this.translationList.length > 0) {
+
+            this.translationList.forEach((translation) => {
+                if (translation.lang === previousValue) {
+                    translation.description = description;
+                    newTranslation = false;
+                } else if (translation.lang === actualValue) {
+                    this.f.description.setValue(translation.description);
+                    resetDescriptionTF = false;
+                }
+            });
+        }
+
+        if (newTranslation) {
+            const createTranslation: Translation = new Translation();
+            createTranslation.description = description;
+            createTranslation.lang = previousValue;
+            createTranslation.tablename = 'co_topic';
+            if (!this.isNewForm) {
+                createTranslation.entityId = this.topic.idTopic;
+            }
+
+            this.translationList.push(createTranslation);
+        }
+
+        if (resetDescriptionTF) {
+            this.f.description.setValue('');
+        }
+
+        this.previousLang = actualValue;
+    }
+
+    // private getCompaniesFromTopic(): any {
+    //     const companiesArray = [];
+    //     this.topic.companyTopicList.forEach( (companyTopic) => {
+    //         companiesArray.push(companyTopic.company);
+    //     });
+    //     return companiesArray;
+    // }
+    private setDefaultDescription() {
+        if (this.translationList.length > 1) {
+            this.translationList.forEach((translation) => {
+               if (translation.lang === this.selectedLang) {
+                   this.f.description.setValue(translation.description);
+                    return;
+               }
+            });
+        } else if (this.translationList.length === 1) {
+            this.selectedLang = this.translationList[0].lang;
+            this.previousLang = this.selectedLang;
+        }
     }
 }

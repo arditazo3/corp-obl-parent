@@ -46,7 +46,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: []
       },
       {
-        path: '/back-office/consultant',
+        path: '/back-office/component',
         title: 'Consultant',
         icon: 'mdi mdi-account-settings',
         class: '',
