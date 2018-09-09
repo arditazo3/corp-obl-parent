@@ -78,5 +78,10 @@ public class UserService extends UpdateCacheData implements IUserService {
     	userList.removeAll(userListToRemove);
     	return userList;
     }
+
+	@Override
+	public List<String> getLang() {
+		return getLanguagesFromCache();
+	}
 }
 

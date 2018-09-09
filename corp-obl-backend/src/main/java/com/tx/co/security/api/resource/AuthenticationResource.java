@@ -80,6 +80,7 @@ public class AuthenticationResource implements IUserManagementDetails {
         AuthenticationTokenUser authenticationTokenUser = new AuthenticationTokenUser();
         authenticationTokenUser.setToken(token);
         authenticationTokenUser.setUser(userLogIn);
+        authenticationTokenUser.setLangList(userService.getLang());
 
         return Response.ok(authenticationTokenUser).build();
     }

@@ -99,7 +99,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 
 		officeStored = officeRepository.save(officeStored);
 
-		updateOffficesCache(officeStored, false);
+		updateOfficesCache(officeStored, false);
 
 		return officeStored;
 	}
@@ -150,24 +150,29 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 	@Override
 	public void deleteOffice(Long idOffice) {
 
-        try {
-            Optional<Office> officeOptional = findByIdOffice(idOffice);
+		try {
+			Optional<Office> officeOptional = findByIdOffice(idOffice);
 
-            if(!officeOptional.isPresent()) {
-                throw new NotFoundException();
-            }
+			if(!officeOptional.isPresent()) {
+				throw new NotFoundException();
+			}
 
-            Office office = officeOptional.get();
-            // disable the company
-            office.setEnabled(false);
+			// The modification of User
+			String username = getTokenUserDetails().getUser().getUsername();
 
-            officeRepository.save(office);
+			Office office = officeOptional.get();
+			// disable the office
+			office.setEnabled(false);
+			office.setModificationDate(new Date());
+			office.setModifiedBy(username);
 
-            updateOffficesCache(office, false);
-        } catch (Exception e) {
-            throw new GeneralException("Company not found");
-        }
-		
+			officeRepository.save(office);
+
+			updateOfficesCache(office, false);
+		} catch (Exception e) {
+			throw new GeneralException("Company not found");
+		}
+
 	}
 
 

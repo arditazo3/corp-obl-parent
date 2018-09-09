@@ -1,5 +1,7 @@
 package com.tx.co.security.api.model;
 
+import java.util.List;
+
 import com.tx.co.user.domain.User;
 
 /**
@@ -11,6 +13,7 @@ public class AuthenticationTokenUser {
 
     private String token;
     private User user;
+    private List<String> langList;
 
     public String getToken() {
         return token;
@@ -27,4 +30,13 @@ public class AuthenticationTokenUser {
     public void setUser(User user) {
         this.user = user;
     }
+
+	public List<String> getLangList() {
+		return langList;
+	}
+
+	public void setLangList(List<String> langList) {
+		this.langList = langList;
+	}
+    
 }

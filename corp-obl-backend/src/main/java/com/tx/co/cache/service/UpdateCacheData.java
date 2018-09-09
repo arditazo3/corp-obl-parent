@@ -6,6 +6,9 @@ import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.service.OfficeService;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.service.TopicService;
+import com.tx.co.common.translation.domain.Translation;
+import com.tx.co.common.translation.repository.TranslationRepository;
+import com.tx.co.common.translation.service.ITranslationService;
 import com.tx.co.common.utils.UtilStatic;
 import com.tx.co.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.cache.Cache;
 import javax.cache.CacheManager;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -22,195 +26,227 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 
 public abstract class UpdateCacheData {
 
-    private javax.cache.CacheManager cacheManager;
-    private CompanyService companyService;
-    private OfficeService officeService;
-    private TopicService topicService;
+	private javax.cache.CacheManager cacheManager;
+	private CompanyService companyService;
+	private OfficeService officeService;
+	private TopicService topicService;
+	private ITranslationService translationService;
 
-    @Autowired
-    public void setCacheManager(CacheManager cacheManager) {
-        this.cacheManager = cacheManager;
-    }
-    
-    @Autowired
-    public void setCompanyService(CompanyService companyService) {
+	@Autowired
+	public void setCacheManager(CacheManager cacheManager) {
+		this.cacheManager = cacheManager;
+	}
+
+	@Autowired
+	public void setCompanyService(CompanyService companyService) {
 		this.companyService = companyService;
 	}
-    
-    @Autowired
+
+	@Autowired
 	public void setOfficeService(OfficeService officeService) {
 		this.officeService = officeService;
 	}
-    
-    @Autowired
+
+	@Autowired
 	public void setTopicService(TopicService topicService) {
 		this.topicService = topicService;
 	}
+	
+	@Autowired
+	public void setTranslationService(ITranslationService translationService) {
+		this.translationService = translationService;
+	}	
 
 	/**
-     * @return get the Companies from the cache in order to not execute the query to the database
-     */
-    public List<Company> getCompaniesFromCache() {
+	 * @return get the Languages from the cache in order to not execute the query to the database
+	 */
+	public List<String> getLanguagesFromCache() {
 
-        final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
-        List<Company> companyListCache = (List<Company>) storageDataCacheManager.get(COMPANY_LIST_CACHE);
-        		
-        Collections.sort(companyListCache, (a, b) -> a.getDescription().compareToIgnoreCase(b.getDescription()));
-        
-        return companyListCache;
-    }
+		List<String> languageListCache = (List<String>) storageDataCacheManager.get(LANGUAGE_LIST_CACHE);
+
+		Collections.sort(languageListCache, (a, b) -> a.compareToIgnoreCase(b));
+
+		return languageListCache;
+	}
 
 	/**
-     * @return get the Offices from the cache in order to not execute the query to the database
-     */
-    public List<Office> getOfficesFromCache() {
+	 * @return get the Companies from the cache in order to not execute the query to the database
+	 */
+	public List<Company> getCompaniesFromCache() {
 
-        final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
-        return (List<Office>) storageDataCacheManager.get(OFFICE_LIST_CACHE);
-    }
-    
-    /**
-     * @return get the Topics from the cache in order to not execute the query to the database
-     */
-    public List<Topic> getTopicsFromCache() {
+		List<Company> companyListCache = (List<Company>) storageDataCacheManager.get(COMPANY_LIST_CACHE);
 
-        final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+		Collections.sort(companyListCache, (a, b) -> a.getDescription().compareToIgnoreCase(b.getDescription()));
 
-        return (List<Topic>) storageDataCacheManager.get(TOPIC_LIST_CACHE);
-    }
-    
-    /**
-     * @param company
-     * @param updateFromDB
-     */
-    public void updateCompaniesCache(Company company, Boolean updateFromDB) {
+		return companyListCache;
+	}
 
-        final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+	/**
+	 * @return get the Offices from the cache in order to not execute the query to the database
+	 */
+	public List<Office> getOfficesFromCache() {
 
-        List<Company> companyList = getCompaniesFromCache();
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
-        // Object to update or to save as new one
-        int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyCompanyList(company.getIdCompany(), companyList); 
-        
-        if(updateFromDB) {
-        	Optional<Company> companyFromDB = companyService.findByIdCompany(company.getIdCompany());
-        	if(companyFromDB.isPresent()) {
-        		company = companyFromDB.get();
-        	}
-        }
+		List<Office> officeListCache = isEmpty(storageDataCacheManager.get(OFFICE_LIST_CACHE)) ? new ArrayList<>() : (List<Office>) storageDataCacheManager.get(OFFICE_LIST_CACHE);
 
-        if(indexToUpdateOrInsert == -1) {
-            companyList.add(company);
-        } else if(!company.getEnabled()) {
-            companyList.remove(indexToUpdateOrInsert);
-        } else {
-            companyList.set(indexToUpdateOrInsert, company);
-        }
+		Collections.sort(officeListCache, (a, b) -> a.getDescription().compareToIgnoreCase(b.getDescription()));
 
-        storageDataCacheManager.put(COMPANY_LIST_CACHE, companyList);
-    }
-    
-    /**
-     * @param office
-     * @param updateFromDB
-     */
-    public void updateOffficesCache(Office office, Boolean updateFromDB) {
+		return officeListCache;
+	}
 
-        final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+	/**
+	 * @return get the Topics from the cache in order to not execute the query to the database
+	 */
+	public List<Topic> getTopicsFromCache() {
 
-        List<Office> officeList = getOfficesFromCache();
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
-        // Object to update or to save as new one
-        int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyOfficeList(office.getIdOffice(), officeList); 
-        
-        if(updateFromDB) {
-        	Optional<Office> officeFromDB = officeService.findByIdOffice(office.getIdOffice());
-        	if(officeFromDB.isPresent()) {
-        		office = officeFromDB.get();
-        	}
-        }
+		List<Topic> topicListCache = isEmpty(storageDataCacheManager.get(TOPIC_LIST_CACHE)) ? new ArrayList<>() : (List<Topic>) storageDataCacheManager.get(TOPIC_LIST_CACHE);
 
-        if(indexToUpdateOrInsert == -1) {
-            officeList.add(office);
-        } else if(!office.getEnabled()) {
-            officeList.remove(indexToUpdateOrInsert);
-        } else {
-            officeList.set(indexToUpdateOrInsert, office);
-        }
+		Collections.sort(topicListCache, (a, b) -> a.getDescription().compareToIgnoreCase(b.getDescription()));
 
-        storageDataCacheManager.put(OFFICE_LIST_CACHE, officeList);
-    }
-    
-    /**
-     * @param topic
-     * @param updateFromDB
-     */
-    public void updateOffficesCache(Topic topic, Boolean updateFromDB) {
+		return topicListCache;
+	}
 
-        final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+	/**
+	 * @param company
+	 * @param updateFromDB
+	 */
+	public void updateCompaniesCache(Company company, Boolean updateFromDB) {
 
-        List<Topic> topicList = getTopicsFromCache();
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
-        // Object to update or to save as new one
-        int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyTopicList(topic.getIdTopic(), topicList); 
-        
-        if(updateFromDB) {
-        	Optional<Topic> topicFromDB = topicService.findByIdTopic(topic.getIdTopic());
-        	if(topicFromDB.isPresent()) {
-        		topic = topicFromDB.get();
-        	}
-        }
+		List<Company> companyList = getCompaniesFromCache();
 
-        if(indexToUpdateOrInsert == -1) {
-            topicList.add(topic);
-        } else if(!topic.getEnabled()) {
-            topicList.remove(indexToUpdateOrInsert);
-        } else {
-            topicList.set(indexToUpdateOrInsert, topic);
-        }
+		// Object to update or to save as new one
+		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyCompanyList(company.getIdCompany(), companyList); 
 
-        storageDataCacheManager.put(OFFICE_LIST_CACHE, topicList);
-    }
+		if(updateFromDB) {
+			Optional<Company> companyFromDB = companyService.findByIdCompany(company.getIdCompany());
+			if(companyFromDB.isPresent()) {
+				company = companyFromDB.get();
+			}
+		}
 
-    /**
-     * @param idCompany
-     * @return the existing Company on the cache
-     */
-    public Company getCompanyById(Long idCompany) {
-        Company company = null;
-        if(!isEmpty(getCompaniesFromCache())) {
-            for (Company companyLoop : getCompaniesFromCache()) {
-                if(idCompany.compareTo(companyLoop.getIdCompany()) == 0) {
-                    company = companyLoop;
-                    break;
-                }
-            }
-        }
-        return company;
-    }
+		if(indexToUpdateOrInsert == -1) {
+			companyList.add(company);
+		} else if(!company.getEnabled()) {
+			companyList.remove(indexToUpdateOrInsert);
+		} else {
+			companyList.set(indexToUpdateOrInsert, company);
+		}
 
-    /**
-     * @return get the Users from the cache in order to not execute the query to the database
-     */
-    public List<User> getUsersFromCache() {
+		storageDataCacheManager.put(COMPANY_LIST_CACHE, companyList);
+	}
 
-        final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+	/**
+	 * @param office
+	 * @param updateFromDB
+	 */
+	public void updateOfficesCache(Office office, Boolean updateFromDB) {
 
-        return (List<User>) storageDataCacheManager.get(USER_LIST_CACHE);
-    }
-    
-    public User getUserFromUsername(String username) {
-    	
-    	List<User> userList = getUsersFromCache();
-    	User userRetrived = null;
-    	for (User user : userList) {
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		List<Office> officeList = getOfficesFromCache();
+
+		// Object to update or to save as new one
+		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyOfficeList(office.getIdOffice(), officeList); 
+
+		if(updateFromDB) {
+			Optional<Office> officeFromDB = officeService.findByIdOffice(office.getIdOffice());
+			if(officeFromDB.isPresent()) {
+				office = officeFromDB.get();
+			}
+		}
+
+		if(indexToUpdateOrInsert == -1) {
+			officeList.add(office);
+		} else if(!office.getEnabled()) {
+			officeList.remove(indexToUpdateOrInsert);
+		} else {
+			officeList.set(indexToUpdateOrInsert, office);
+		}
+
+		storageDataCacheManager.put(OFFICE_LIST_CACHE, officeList);
+	}
+
+	/**
+	 * @param topic
+	 * @param updateFromDB
+	 */
+	public void updateTopicsCache(Topic topic, Boolean updateFromDB) {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		List<Topic> topicList = getTopicsFromCache();
+
+		// Object to update or to save as new one
+		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyTopicList(topic.getIdTopic(), topicList); 
+
+		if(updateFromDB) {
+			Optional<Topic> topicFromDB = topicService.findByIdTopic(topic.getIdTopic());
+			if(topicFromDB.isPresent()) {
+				topic = topicFromDB.get();
+				List<Translation> translationList = translationService.getTranslationByEntityIdAndTablename(topic.getIdTopic(), "co_topic");
+				if(!isEmpty(translationList)) {
+					topic.setTranslationList(translationList);
+				}
+			}
+		}
+
+		if(indexToUpdateOrInsert == -1) {
+			topicList.add(topic);
+		} else if(!topic.getEnabled()) {
+			topicList.remove(indexToUpdateOrInsert);
+		} else {
+			topicList.set(indexToUpdateOrInsert, topic);
+		}
+
+		storageDataCacheManager.put(TOPIC_LIST_CACHE, topicList);
+	}
+
+	/**
+	 * @param idCompany
+	 * @return the existing Company on the cache
+	 */
+	public Company getCompanyById(Long idCompany) {
+		Company company = null;
+		if(!isEmpty(getCompaniesFromCache())) {
+			for (Company companyLoop : getCompaniesFromCache()) {
+				if(idCompany.compareTo(companyLoop.getIdCompany()) == 0) {
+					company = companyLoop;
+					break;
+				}
+			}
+		}
+		return company;
+	}
+
+	/**
+	 * @return get the Users from the cache in order to not execute the query to the database
+	 */
+	public List<User> getUsersFromCache() {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		return isEmpty(storageDataCacheManager.get(USER_LIST_CACHE)) ? new ArrayList<>() : (List<User>) storageDataCacheManager.get(USER_LIST_CACHE);
+	}
+
+	public User getUserFromUsername(String username) {
+
+		List<User> userList = getUsersFromCache();
+		User userRetrived = null;
+		for (User user : userList) {
 			if(user.getUsername().equals(username)) {
 				userRetrived = user;
 				break;
 			}
 		}
-    	return userRetrived;
-    }
+		return userRetrived;
+	}
 }

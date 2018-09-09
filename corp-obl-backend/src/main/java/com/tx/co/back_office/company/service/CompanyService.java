@@ -143,23 +143,28 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
     @Override
     public void deleteCompany(Long idCompany) {
 
-        try {
-            Optional<Company> companyOptional = findByIdCompany(idCompany);
+    	try {
+    		Optional<Company> companyOptional = findByIdCompany(idCompany);
 
-            if(!companyOptional.isPresent()) {
-                throw new NotFoundException();
-            }
+    		if(!companyOptional.isPresent()) {
+    			throw new NotFoundException();
+    		}
 
-            Company company = companyOptional.get();
-            // disable the company
-            company.setEnabled(false);
+    		// The modification of User
+    		String username = getTokenUserDetails().getUser().getUsername();
 
-            companyRepository.save(company);
+    		Company company = companyOptional.get();
+    		// disable the company
+    		company.setEnabled(false);
+    		company.setModificationDate(new Date());
+    		company.setModifiedBy(username);
 
-            updateCompaniesCache(company, false);
-        } catch (Exception e) {
-            throw new GeneralException("Company not found");
-        }
+    		companyRepository.save(company);
+
+    		updateCompaniesCache(company, false);
+    	} catch (Exception e) {
+    		throw new GeneralException("Company not found");
+    	}
     }
 
 

@@ -111,4 +111,20 @@ public class CompanyResource extends ObjectResult {
 
         return Response.noContent().build();
     }
+    
+    @GET
+    @Path(CONSULTANT_LIST)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+    public Response getCompanyConsultant() {
+
+        Iterable<Company> companyIterable = companyService.findAllCompany();
+        List<CompanyResult> queryCompanyList =
+                StreamSupport.stream(companyIterable.spliterator(), false)
+                        .map(this::toCompanyResult)
+                        .collect(Collectors.toList());
+
+        return Response.ok(queryCompanyList).build();
+    }
 }
