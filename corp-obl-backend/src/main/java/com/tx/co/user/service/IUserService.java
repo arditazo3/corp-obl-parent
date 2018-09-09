@@ -11,4 +11,6 @@ public interface IUserService {
     User findByUsername(String username);
     
     List<User> findAllUsersExceptRole(String role);
+    
+    List<String> getLang();
 }

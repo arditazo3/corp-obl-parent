@@ -16,7 +16,11 @@ public final class AppConstants {
 
     public static final String AUTH = "auth";
     public static final String REFRESH = "refresh";
-
+    
+    public static final String LIST = "/list";
+    public static final String CREATE_UPDATE = "/create-update";
+    public static final String DELETE = "/delete";
+    
     // User URL
     public static final String USER = "user";
     public static final String USER_LIST = "list";
@@ -30,25 +34,28 @@ public final class AppConstants {
     // Company URL
     public static final String COMPANY = "company";
     public static final String COMPANY_GET_BY_ID = COMPANY + "/{idCompany}";
-    public static final String COMPANY_LIST = COMPANY + "/list";
-    public static final String COMPANY_CREATE_UPDATE = COMPANY + "/create-update";
-    public static final String COMPANY_EDIT = COMPANY + "/edit";
-    public static final String COMPANY_DELETE = COMPANY + "/delete";
+    public static final String COMPANY_LIST = COMPANY + LIST;
+    public static final String COMPANY_CREATE_UPDATE = COMPANY + CREATE_UPDATE;
+    public static final String COMPANY_DELETE = COMPANY + DELETE;
     public static final String ASSOC_USER_COMPANY = COMPANY + "/assoc-user-company";
     
     // Office URL
     public static final String OFFICE = "office";
-    public static final String OFFICE_LIST = OFFICE + "/list";
-    public static final String OFFICE_CREATE_UPDATE = OFFICE + "/create-update";
-    public static final String OFFICE_EDIT = OFFICE + "/edit";
-    public static final String OFFICE_DELETE = OFFICE + "/delete";
+    public static final String OFFICE_LIST = OFFICE + LIST;
+    public static final String OFFICE_CREATE_UPDATE = OFFICE + CREATE_UPDATE;
+    public static final String OFFICE_DELETE = OFFICE + DELETE;
     
     // Topic URL
     public static final String TOPIC = "topic";
-    public static final String TOPIC_LIST = TOPIC + "/list";
-    public static final String TOPIC_CREATE_UPDATE = TOPIC + "/create-update";
-    public static final String TOPIC_EDIT = TOPIC + "/edit";
-    public static final String TOPIC_DELETE = TOPIC + "/delete";
+    public static final String TOPIC_LIST = TOPIC + LIST;
+    public static final String TOPIC_CREATE_UPDATE = TOPIC + CREATE_UPDATE;
+    public static final String TOPIC_DELETE = TOPIC + DELETE;
+    
+    // Consultant URL
+    public static final String CONSULTANT = "consultant";
+    public static final String CONSULTANT_LIST = CONSULTANT + LIST;
+    public static final String CONSULTANT_CREATE_UPDATE = CONSULTANT + CREATE_UPDATE;
+    public static final String CONSULTANT_DELETE = CONSULTANT + DELETE;
     
     /**
      * List of authorization Role

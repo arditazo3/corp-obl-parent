@@ -1,7 +1,5 @@
 package com.tx.co.back_office.topic.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 /**
  * Domain model that represents a topic consultant.

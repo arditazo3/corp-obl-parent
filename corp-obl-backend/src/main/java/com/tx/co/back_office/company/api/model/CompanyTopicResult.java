@@ -1,9 +1,7 @@
 package com.tx.co.back_office.company.api.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.topic.api.model.TopicResult;
-import com.tx.co.back_office.topic.domain.Topic;
 
 /**
 * API model for returning company topic details.

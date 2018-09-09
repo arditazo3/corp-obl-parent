@@ -15,4 +15,6 @@ public interface ITopicService {
 	Optional<Topic> findByIdTopic(Long idTopic);
 
 	void deleteTopic(Long idTopic);
+
+	List<Topic> findAllByOrderByDescriptionAsc();
 }
