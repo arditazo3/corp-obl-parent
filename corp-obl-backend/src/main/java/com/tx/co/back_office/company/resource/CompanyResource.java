@@ -1,7 +1,10 @@
 package com.tx.co.back_office.company.resource;
 
+import com.tx.co.back_office.company.api.model.CompanyConsultantResult;
 import com.tx.co.back_office.company.api.model.CompanyResult;
 import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.back_office.company.domain.CompanyConsultant;
+import com.tx.co.back_office.company.service.ICompanyConsultantService;
 import com.tx.co.back_office.company.service.ICompanyService;
 import com.tx.co.common.api.provider.ObjectResult;
 import com.tx.co.security.exception.GeneralException;
@@ -35,13 +38,19 @@ public class CompanyResource extends ObjectResult {
     private UriInfo uriInfo;
 
     private ICompanyService companyService;
+    private ICompanyConsultantService companyConsultantService;
 
     @Autowired
     public CompanyResource(ICompanyService companyService) {
         this.companyService = companyService;
     }
+    
+    @Autowired
+    public void setCompanyConsultantService(ICompanyConsultantService companyConsultantService) {
+		this.companyConsultantService = companyConsultantService;
+	}
 
-    @GET
+	@GET
     @Path(COMPANY_LIST)
     @Produces(MediaType.APPLICATION_JSON)
 //    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
@@ -117,14 +126,14 @@ public class CompanyResource extends ObjectResult {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
 //    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
-    public Response getCompanyConsultant() {
+    public Response getCompanyConsultant(@QueryParam("idCompany") String idCompany) {
 
-        Iterable<Company> companyIterable = companyService.findAllCompany();
-        List<CompanyResult> queryCompanyList =
-                StreamSupport.stream(companyIterable.spliterator(), false)
-                        .map(this::toCompanyResult)
+        Iterable<CompanyConsultant> companyConsultantIterable = companyConsultantService.getCompanyConsultantByIdCompany(idCompany);
+        List<CompanyConsultantResult> queryCompanyConsultantList =
+                StreamSupport.stream(companyConsultantIterable.spliterator(), false)
+                        .map(this::toCompanyConsultantResult)
                         .collect(Collectors.toList());
 
-        return Response.ok(queryCompanyList).build();
+        return Response.ok(queryCompanyConsultantList).build();
     }
 }

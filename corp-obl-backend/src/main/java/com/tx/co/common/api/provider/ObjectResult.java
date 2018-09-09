@@ -5,10 +5,12 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tx.co.back_office.company.api.model.CompanyConsultantResult;
 import com.tx.co.back_office.company.api.model.CompanyResult;
 import com.tx.co.back_office.company.api.model.CompanyTopicResult;
 import com.tx.co.back_office.company.api.model.CompanyUserResult;
 import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.back_office.company.domain.CompanyConsultant;
 import com.tx.co.back_office.company.domain.CompanyTopic;
 import com.tx.co.back_office.company.domain.CompanyUser;
 import com.tx.co.back_office.office.api.model.OfficeResult;
@@ -41,6 +43,10 @@ public abstract class ObjectResult {
 		return result;
 	}
 
+	/**
+	 * @param companyResult
+	 * @return
+	 */
 	public Company toCompany(CompanyResult companyResult) {
 		Company company = new Company();
 		if(isEmpty(companyResult)) {
@@ -61,6 +67,10 @@ public abstract class ObjectResult {
 		return company;
 	}
 
+	/**
+	 * @param companyUser
+	 * @return
+	 */
 	public CompanyUserResult toCompanyUserResult(CompanyUser companyUser) {
 		CompanyUserResult result = new CompanyUserResult();
 		result.setIdCompanyUser(companyUser.getIdCompanyUser());
@@ -69,6 +79,11 @@ public abstract class ObjectResult {
 		return result;
 	}
 
+	/**
+	 * @param company
+	 * @param companyUserResult
+	 * @return
+	 */
 	public CompanyUser toCompanyUser(Company company, CompanyUserResult companyUserResult) {
 		CompanyUser companyUser = new CompanyUser();
 		companyUser.setIdCompanyUser(companyUserResult.getIdCompanyUser());
@@ -82,6 +97,11 @@ public abstract class ObjectResult {
 		return companyUser;
 	}
 
+	/**
+	 * @param company
+	 * @param companyUserResultList
+	 * @return
+	 */
 	public List<CompanyUser> toCompanyUserList(Company company, List<CompanyUserResult> companyUserResultList) {
 		List<CompanyUser> companyUserList = new ArrayList<>();
 		if(!isEmpty(companyUserResultList)) {
@@ -109,6 +129,10 @@ public abstract class ObjectResult {
 		return result;
 	}
 
+	/**
+	 * @param officeResult
+	 * @return
+	 */
 	public Office toOffice(OfficeResult officeResult) {
 		Office office = new Office();
 		if(isEmpty(officeResult)) {
@@ -155,6 +179,10 @@ public abstract class ObjectResult {
 		return result;
 	}
 
+	/**
+	 * @param topicResult
+	 * @return
+	 */
 	public Topic toTopic(TopicResult topicResult) {
 		Topic topic = new Topic();
 		if(isEmpty(topicResult)) {
@@ -192,6 +220,10 @@ public abstract class ObjectResult {
 		return topic;
 	}
 
+	/**
+	 * @param companyTopicResult
+	 * @return
+	 */
 	public CompanyTopic toCompanyTopic(CompanyTopicResult companyTopicResult) {
 		CompanyTopic companyTopic = new CompanyTopic();
 
@@ -209,6 +241,10 @@ public abstract class ObjectResult {
 		return companyTopic;
 	}
 
+	/**
+	 * @param translationResult
+	 * @return
+	 */
 	public Translation toTranslation(TranslationResult translationResult) {
 		Translation translation = new Translation();
 
@@ -226,6 +262,10 @@ public abstract class ObjectResult {
 		return translation;
 	}
 
+	/**
+	 * @param translation
+	 * @return
+	 */
 	public TranslationResult toTranslationResult(Translation translation) {
 		TranslationResult translationResult = new TranslationResult();
 
@@ -236,6 +276,54 @@ public abstract class ObjectResult {
 		translationResult.setTablename(translation.getTablename());
 
 		return translationResult;
+	}
+	
+	/**
+	 * Map a {@link CompanyConsultant} instance to a {@link CompanyConsultantResult} instance.
+	 *
+	 * @param companyConsultant
+	 * @return CompanyConsultantResult
+	 */
+	public CompanyConsultantResult toCompanyConsultantResult(CompanyConsultant companyConsultant) {
+		CompanyConsultantResult result = new CompanyConsultantResult();
+		
+		result.setIdCompanyConsultant(companyConsultant.getIdCompanyConsultant());
+		result.setName(companyConsultant.getName());
+		result.setEmail(companyConsultant.getEmail());
+		if(!isEmpty(companyConsultant.getPhone1())) {
+			result.setPhone1(companyConsultant.getPhone1());
+		}
+		if(!isEmpty(companyConsultant.getPhone2())) {
+			result.setPhone2(companyConsultant.getPhone2());
+		}
+		result.setCompany(toCompanyResult(companyConsultant.getCompany()));
+
+		return result;
+	}
+	
+	/**
+	 * @param companyConsultantResult
+	 * @return
+	 */
+	public CompanyConsultant toCompanyConsultant(CompanyConsultantResult companyConsultantResult) {
+		CompanyConsultant companyConsultant = new CompanyConsultant();
+		if(isEmpty(companyConsultantResult)) {
+			throw new GeneralException("The form is empty");
+		}
+		if(!isEmpty(companyConsultantResult.getIdCompanyConsultant())) {
+			companyConsultant.setIdCompanyConsultant(companyConsultantResult.getIdCompanyConsultant());
+		}
+		if(!isEmpty(companyConsultantResult.getName())) {
+			companyConsultant.setName(companyConsultantResult.getName().trim());
+		}
+		if(!isEmpty(companyConsultantResult.getEmail())) {
+			companyConsultant.setEmail(companyConsultantResult.getEmail().trim());
+		}
+		companyConsultant.setPhone1(companyConsultantResult.getPhone1());
+		companyConsultant.setPhone2(companyConsultantResult.getPhone2());
+		companyConsultant.setCompany(toCompany(companyConsultantResult.getCompany()));
+
+		return companyConsultant;
 	}
 
 }
