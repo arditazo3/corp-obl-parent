@@ -26,6 +26,8 @@ import {TopicComponent} from './topic/component/topic.component';
 import {TopicService} from './topic/service/topic.service';
 import { TopicCreateUpdateComponent } from './topic/component/topic-create-update/topic-create-update.component';
 import { ConsultantComponent } from './consultant/component/consultant.component';
+import { ConsultantTableComponent } from './consultant/component/consultant-table/consultant-table.component';
+import {CompanyConsultantService} from './consultant/service/companyconsultant.service';
 
 @NgModule({
     imports: [
@@ -60,13 +62,15 @@ import { ConsultantComponent } from './consultant/component/consultant.component
         TopicComponent,
         TopicTableComponent,
         TopicCreateUpdateComponent,
-        ConsultantComponent
+        ConsultantComponent,
+        ConsultantTableComponent
     ],
     providers: [
         CompanyService,
         UserService,
         OfficeService,
-        TopicService
+        TopicService,
+        CompanyConsultantService
     ]
 })
 export class BackOfficeModule {

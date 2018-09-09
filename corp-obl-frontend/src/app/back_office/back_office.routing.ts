@@ -6,6 +6,7 @@ import {OfficeComponent} from './office/component/office.component';
 import {OfficeCreateEditComponent} from './office/component/office-create-edit/office-create-edit.component';
 import {TopicComponent} from './topic/component/topic.component';
 import {TopicCreateUpdateComponent} from './topic/component/topic-create-update/topic-create-update.component';
+import {ConsultantComponent} from './consultant/component/consultant.component';
 
 export const BackOfficeRoutes: Routes = [
     {
@@ -118,6 +119,17 @@ export const BackOfficeRoutes: Routes = [
                     urls: [
                         {title: 'Back Office', url: '/back-office/topic'},
                         {title: 'Topic management'}
+                    ]
+                }
+            },
+            {
+                path: 'consultant',
+                component: ConsultantComponent,
+                data: {
+                    title: 'Consultant Management',
+                    urls: [
+                        {title: 'Back Office', url: '/back-office/consultant'},
+                        {title: 'Consultant management'}
                     ]
                 }
             }

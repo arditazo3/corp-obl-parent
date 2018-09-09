@@ -15,9 +15,13 @@ export class AppConfig {
     public apiBasePath = 'admin-rest';
     public baseApiPath: string;
 
+    public list = '/list';
+    public delete = '/delete';
+    public createupdate = '/create-update';
+
     // User
     public userPath = 'user';
-    public userList = this.userPath + '/list';
+    public userList = this.userPath + this.list;
     public userListExceptRole = this.userPath + '/user-except';
 
     // Back office
@@ -25,23 +29,29 @@ export class AppConfig {
 
     // Company URL's
     public companyPath = '/company';
-    public getCompanies = this.backOfficePath + this.companyPath + '/list';                 // GET
-    public getCompanyById = this.backOfficePath + this.companyPath + '/{idCompany}';        // GET
-    public createUpdateCompany = this.backOfficePath + this.companyPath + '/create-update'; // POST
-    public deleteCompany = this.backOfficePath + this.companyPath + '/delete';              // PUT
+    public getCompanies = this.backOfficePath + this.companyPath + this.list;                   // GET
+    public getCompanyById = this.backOfficePath + this.companyPath + '/{idCompany}';            // GET
+    public createUpdateCompany = this.backOfficePath + this.companyPath + this.createupdate;    // POST
+    public deleteCompany = this.backOfficePath + this.companyPath + this.delete;                // PUT
     public assocCompanyUsers = this.backOfficePath + this.companyPath + '/assoc-user-company';  // POST
 
     // Office URL's
     public officePath = '/office';
-    public getOffices = this.backOfficePath + this.officePath + '/list';                      // GET
-    public createUpdateOffice = this.backOfficePath + this.officePath + '/create-update';     // POST
-    public deleteOffice = this.backOfficePath + this.officePath + '/delete';                  // PUT
+    public getOffices = this.backOfficePath + this.officePath + this.list;                      // GET
+    public createUpdateOffice = this.backOfficePath + this.officePath + this.createupdate;      // POST
+    public deleteOffice = this.backOfficePath + this.officePath + this.delete;                  // PUT
 
     // Topic URL's
     public topicPath = '/topic';
-    public getTopics = this.backOfficePath + this.topicPath + '/list';                      // GET
-    public deleteTopic = this.backOfficePath + this.topicPath + '/delete';                  // PUT
-    public createUpdateTopic = this.backOfficePath + this.topicPath + '/create-update';     // POST
+    public getTopics = this.backOfficePath + this.topicPath + this.list;                        // GET
+    public deleteTopic = this.backOfficePath + this.topicPath + this.delete;                    // PUT
+    public createUpdateTopic = this.backOfficePath + this.topicPath + this.createupdate;        // POST
+
+    // Company Consultant URL's
+    public companyConsultantPath = '/consultant';
+    public getCompanyConsultant = this.backOfficePath + this.companyConsultantPath + this.list;                         // GET
+    public deleteCompanyConsultant = this.backOfficePath + this.companyConsultantPath + this.delete;                    // PUT
+    public createUpdateCompanyConsultant = this.backOfficePath + this.companyConsultantPath + this.createupdate;        // POST
 
     constructor() {
         console.log('AppConfig - constructor');

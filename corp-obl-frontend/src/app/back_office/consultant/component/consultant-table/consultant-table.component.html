@@ -1,0 +1,110 @@
+<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" class="accordion nav-accordion">
+    <ngb-panel title="Simple">
+        <ng-template ngbPanelContent>
+
+            <div class="row">
+                <div class="col-md-9">
+                    <input type='text' class="form-control" placeholder='Type to filter the rows...'
+                           (keyup)='updateFilter($event)'/>
+                </div>
+                <div class="col-md-3 text-right">
+                    <button class="btn-tnx btn-info btn-block" type="button" (click)="createNewCompanyConsultant()">
+                        Create new Consultant
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <ngx-datatable #myTable
+                           class='material expandable'
+                           [columnMode]="'force'"
+                           [headerHeight]="50"
+                           [footerHeight]="50"
+                           [rowHeight]="55"
+                           [rows]='rows'
+                           [limit]="10">
+
+                <!-- Column Templates -->
+
+                <ngx-datatable-column
+                        [width]="80"
+                        [resizeable]="false"
+                        [sortable]="false"
+                        [draggable]="false"
+                        [canAutoResize]="false">
+                    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                        <div style="font-size:9px" class="desktop-hidden">
+                            <button class="btn-tnx btn-info waves-effect waves-light btn-sm" type="button"
+                                    (click)="editCompanyConsultant(row)">
+                                <i class="fas fa-pencil-alt fa-xs"></i>
+                            </button>
+                            <button class="btn-tnx btn-warning waves-effect waves-light btn-sm" type="button"
+                                    (click)="deleteCompanyConsultantAlert(row)">
+                                <i class="far fa-trash-alt fa-xs"></i>
+                            </button>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Options"
+                                      [maxWidth]="200"
+                                      [sortable]="false" [flexGrow]="1">
+
+                    <ng-template let-column="column" ngx-datatable-header-template>
+                        <span class="mobile-hidden">{{column.name}}</span>
+                    </ng-template>
+
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+              <span class="mobile-hidden">
+              <button class="btn-tnx btn-info
+              waves-effect waves-light" type="button"
+                      (click)="editCompanyConsultant(row)">Edit</button>
+              </span>
+
+                        <span class="mobile-hidden">
+              <button class="btn-tnx btn-warning
+              waves-effect waves-light"
+                      type="button" (click)="deleteCompanyConsultantAlert(row)">Remove</button>
+              </span>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Nominative / Business name" [flexGrow]="3" [minWidth]="150">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.name}}
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Email" [flexGrow]="3" [minWidth]="150">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.email}}
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Telephone no.1" [flexGrow]="3" [minWidth]="150">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.phone1}}
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Telephone no.2" [flexGrow]="3" [minWidth]="150">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.phone2}}
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <!-- End Column Templates -->
+            </ngx-datatable>
+
+            <swal
+                    #deleteCompanyConsultantSwal
+                    title=""
+                    text="This cannot be undone."
+                    type="question"
+                    [showCancelButton]="true"
+                    [focusCancel]="true"
+                    (confirm)="deleteCompanyConsultantCofirm(rowSelected.id)">
+            </swal>
+
+        </ng-template>
+    </ngb-panel>
+</ngb-accordion>

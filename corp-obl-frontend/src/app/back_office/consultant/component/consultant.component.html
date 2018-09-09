@@ -1,3 +1,38 @@
-<p>
-  consultant works!
-</p>
+<!-- Row -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form class="form-horizontal">
+                    <div class="card-body">
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 text-right
+                            control-label
+                            col-form-label">Select a company</label>
+                            <div class="col-sm-9">
+                                <ng-select
+                                        [items]="companiesObservable | async"
+                                        [searchable]="true"
+                                        [required]=""
+                                        [clearable]="false"
+                                        bindLabel="description"
+                                        placeholder="Select company"
+                                        [ngModelOptions]="{standalone: true}"
+                                        (change)="onChangeCompany($event)"
+                                        [(ngModel)]="selectedCompany">
+                                </ng-select>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                            <app-consultant-table #consultantTable></app-consultant-table>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Row -->
