@@ -60,7 +60,6 @@ export class TopicCreateUpdateComponent implements OnInit {
             this.submitBtn.nativeElement.innerText = 'Update topic';
             this.selectedCompanies = this.topic.companyList;
             this.translationList = this.topic.translationList;
-
         }
 
         this.createEditTopic = this.formBuilder.group({

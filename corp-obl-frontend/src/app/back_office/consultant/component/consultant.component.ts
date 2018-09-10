@@ -33,6 +33,11 @@ export class ConsultantComponent implements OnInit {
     ngOnInit() {
         console.log('ConsultantComponent - ngOnInit');
 
+        this.selectedCompany = this.transferService.objectParam;
+        if (this.selectedCompany) {
+            this.onChangeCompany(this.selectedCompany);
+        }
+
         this.getCompanies();
     }
 

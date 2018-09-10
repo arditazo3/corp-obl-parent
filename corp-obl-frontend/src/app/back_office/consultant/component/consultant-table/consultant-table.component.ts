@@ -1,11 +1,11 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
-import {Companyconsultant} from '../../model/CompanyConsultant';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {Router} from '@angular/router';
 import {Company} from '../../../company/model/company';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
-import {CompanyConsultantService} from '../../service/companyconsultant.service';
+import {Consultant} from '../../model/consultant';
+import {ConsultantService} from '../../service/consultant.service';
 
 @Component({
   selector: 'app-consultant-table',
@@ -18,16 +18,16 @@ export class ConsultantTableComponent implements OnInit {
     @ViewChild('deleteCompanyConsultantSwal') private deleteCompanyConsultantSwal: SwalComponent;
 
     columns: any[];
-    rows: Companyconsultant[];
+    rows: Consultant[];
     data: any;
     temp = [];
-    rowSelected: Companyconsultant;
+    rowSelected: Consultant;
     errorDetails: ApiErrorDetails;
     company: Company;
 
   constructor(
       private router: Router,
-      private companyConsultantService: CompanyConsultantService,
+      private companyConsultantService: ConsultantService,
       private transferService: TransferDataService
   ) { }
 
@@ -46,7 +46,7 @@ export class ConsultantTableComponent implements OnInit {
   }
 
     getCompanyConsultant(selectedCompany) {
-        console.log('ConsultantTableComponent - getCompanyConsultant');
+        console.log('ConsultantTableComponent - getConsultants');
 
         if (!selectedCompany) {
           return;
@@ -92,15 +92,17 @@ export class ConsultantTableComponent implements OnInit {
     createNewCompanyConsultant() {
         console.log('ConsultantTableComponent - createNewCompanyConsultant');
 
+        this.transferService.arrayParam = [this.company, null];
+
         this.router.navigate(['/back-office/consultant/create']);
     }
 
-    editCompanyConsultant(companyConsultant: Companyconsultant) {
+    editCompanyConsultant(companyConsultant: Consultant) {
         console.log('CompanyConsultantTableComponent - editCompanyConsultant');
 
-        this.transferService.objectParam = companyConsultant;
+        this.transferService.arrayParam = [this.company, companyConsultant];
 
-        this.router.navigate(['/back-office/companyConsultant/edit']);
+        this.router.navigate(['/back-office/consultant/edit']);
     }
 
     deleteCompanyConsultantAlert(row) {
@@ -108,7 +110,7 @@ export class ConsultantTableComponent implements OnInit {
 
         this.rowSelected = row;
 
-        this.deleteCompanyConsultantSwal.title = 'Delete: ' + row.description + '?';
+        this.deleteCompanyConsultantSwal.title = 'Delete: ' + row.name + '?';
 
         this.deleteCompanyConsultantSwal.show();
     }

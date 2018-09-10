@@ -6,7 +6,7 @@ import {AuthorityEnum} from '../../../shared/common/api/enum/authority.enum';
 import {HttpParams} from '@angular/common/http';
 
 @Injectable()
-export class CompanyConsultantService {
+export class ConsultantService {
 
     constructor(
         private apiRequest: ApiRequestService,
@@ -17,12 +17,18 @@ export class CompanyConsultantService {
 
         let httpParms: HttpParams = new HttpParams().set('idCompany', company.idCompany.toString());
 
-        return this.apiRequest.get(this.appConfig.getCompanyConsultant, httpParms);
+        return this.apiRequest.get(this.appConfig.getConsultants, httpParms);
+    }
+
+    saveUpdateConsultant(consultant): Observable<any> {
+        console.log('ConsultantService - saveUpdateConsultant');
+
+        return this.apiRequest.post(this.appConfig.createUpdateConsultant, consultant);
     }
 
     deleteCompanyConsultant(companyConsultant): Observable<any> {
-        console.log('CompanyService - deleteCopany');
+        console.log('ConsultantService - deleteConsultant');
 
-        return this.apiRequest.put(this.appConfig.deleteCompanyConsultant, companyConsultant);
+        return this.apiRequest.put(this.appConfig.deleteConsultant, companyConsultant);
     }
 }

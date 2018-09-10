@@ -1,91 +1,91 @@
 <!-- Row -->
 <div class="row">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">Topic Form</h4>
-        <hr>
-        <form class="form-horizontal" [formGroup]="createEditTopic"
-              (ngSubmit)="createEditTopicSubmit()">
-          <div class="card-body">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Topic Form</h4>
+                <hr>
+                <form class="form-horizontal" [formGroup]="createEditTopic"
+                      (ngSubmit)="createEditTopicSubmit()">
+                    <div class="card-body">
 
-            <div class="form-group row">
-              <label for="description" class="col-sm-3 text-right control-label col-form-label">Description</label>
-              <div class="input-group col-sm-9">
-                <div class="remark-feedback">The French language it not available yet</div>
-                <input type="text" class="form-control"
-                       formControlName="description"
-                       id="description"
-                       [ngClass]="{'is-invalid': submitted && f.description.errors }">
-                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors.required">Description is required</div>
-                </div>
-                <div class="input-group-prepend col-sm-2">
-                  <ng-select
-                          [items]="languagesObservable | async"
-                          [searchable]="true"
-                          [required]=""
-                          [clearable]="false"
-                          (change)="onChangeSelectLang(previousLang, $event)"
-                          [ngModelOptions]="{standalone: true}"
-                          style="width: 100%"
-                          [(ngModel)]="selectedLang"
-                          [ngModel]="previousLang">
-                   </ng-select>
-                </div>
-              </div>
-            </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-sm-3 text-right control-label col-form-label">Description</label>
+                            <div class="input-group col-sm-9">
+                                <div class="remark-feedback">The French language it not available yet</div>
+                                <input type="text" class="form-control"
+                                       formControlName="description"
+                                       id="description"
+                                       [ngClass]="{'is-invalid': submitted && f.description.errors }">
+                                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                    <div *ngIf="f.description.errors.required">Description is required</div>
+                                </div>
+                                <div class="input-group-prepend col-sm-2">
+                                    <ng-select
+                                            [items]="languagesObservable | async"
+                                            [searchable]="true"
+                                            [required]=""
+                                            [clearable]="false"
+                                            (change)="onChangeSelectLang(previousLang, $event)"
+                                            [ngModelOptions]="{standalone: true}"
+                                            style="width: 100%"
+                                            [(ngModel)]="selectedLang"
+                                            [ngModel]="previousLang">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="form-group row">
-              <label class="col-sm-3 text-right control-label
+                        <div class="form-group row">
+                            <label class="col-sm-3 text-right control-label
                      col-form-label">Assign the Companies</label>
-              <div class="col-sm-9">
-                <ng-select
-                        [items]="companiesObservable | async"
-                        [multiple]="true"
-                        [closeOnSelect]="false"
-                        [searchable]="true"
-                        bindLabel="description"
-                        placeholder="Select companies"
-                        [ngModelOptions]="{standalone: true}"
-                        [(ngModel)]="selectedCompanies">
-                </ng-select>
-              </div>
+                            <div class="col-sm-9">
+                                <ng-select
+                                        [items]="companiesObservable | async"
+                                        [multiple]="true"
+                                        [closeOnSelect]="false"
+                                        [searchable]="true"
+                                        bindLabel="description"
+                                        placeholder="Select companies"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="selectedCompanies">
+                                </ng-select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="m-b-0 col text-right">
+                                <button #cancelBtn type="button" routerLink="/back-office/topic"
+                                        class="btn-tnx btn-outline-secondary waves-effect waves-light">
+                                    Cancel
+                                </button>
+                                <button #submitBtn class="btn-tnx btn-warning waves-effect waves-light">Save Topic
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <swal
+                        #errorDescriptionSwal
+                        title=""
+                        type="error">
+                </swal>
+
+                <swal
+                        #confirmationTopicSwal
+                        title=""
+                        text=""
+                        [showCancelButton]="true"
+                        confirmButtonText="Yes, save it!"
+                        cancelButtonText="No, cancel!"
+                        type="warning">
+                </swal>
+
             </div>
-
-          </div>
-          <hr>
-          <div class="card-body">
-            <div class="row">
-              <div class="m-b-0 col text-right">
-                <button #cancelBtn type="button" routerLink="/back-office/topic"
-                        class="btn-tnx btn-outline-secondary waves-effect waves-light">
-                  Cancel
-                </button>
-                <button #submitBtn class="btn-tnx btn-warning waves-effect waves-light">Save Topic
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-
-        <swal
-                #errorDescriptionSwal
-                title=""
-                type="error">
-        </swal>
-
-        <swal
-                #confirmationTopicSwal
-                title=""
-                text=""
-                [showCancelButton]="true"
-                confirmButtonText="Yes, save it!"
-                cancelButtonText="No, cancel!"
-                type="warning">
-        </swal>
-
-      </div>
+        </div>
     </div>
-  </div>
-  <!-- End Row -->
+    <!-- End Row -->

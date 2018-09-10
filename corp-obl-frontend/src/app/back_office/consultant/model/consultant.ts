@@ -1,6 +1,6 @@
 import {Company} from '../../company/model/company';
 
-export class Companyconsultant {
+export class Consultant {
 
     idCompanyConsultant: number;
     name: string;

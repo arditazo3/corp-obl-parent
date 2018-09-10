@@ -1,0 +1,88 @@
+<!-- Row -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Consultant Form</h4>
+                <hr>
+                <form class="form-horizontal" [formGroup]="createEditConsultant"
+                      (ngSubmit)="createEditConsultantSubmit()">
+                    <div class="card-body">
+
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-3 text-right control-label col-form-label">Nominative /
+                                Business name</label>
+                            <div class="input-group col-sm-9">
+                                <input type="text" class="form-control"
+                                       formControlName="name"
+                                       id="name"
+                                       [ngClass]="{'is-invalid': submitted && f.name.errors }">
+                                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                                    <div *ngIf="f.name.errors.required">Nominative / Business name is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-3 text-right control-label col-form-label">Email</label>
+                            <div class="input-group col-sm-9">
+                                <input type="text" class="form-control"
+                                       formControlName="email"
+                                       id="email"
+                                       [ngClass]="{'is-invalid': submitted && f.email.errors }">
+                                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                    <div *ngIf="f.email.errors.required">Email is required</div>
+                                </div>
+                                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                    <div *ngIf="f.email.errors?.email">Email not valid.</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="phone1" class="col-sm-3 text-right control-label col-form-label">Phone
+                                no.1</label>
+                            <div class="input-group col-sm-9">
+                                <input type="text" class="form-control"
+                                       formControlName="phone1"
+                                       id="phone1">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="phone2" class="col-sm-3 text-right control-label col-form-label">Phone
+                                no.2</label>
+                            <div class="input-group col-sm-9">
+                                <input type="text" class="form-control"
+                                       formControlName="phone2"
+                                       id="phone2">
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="m-b-0 col text-right">
+                                <button #cancelBtn type="button" (click)="backToConsultant()"
+                                        class="btn-tnx btn-outline-secondary waves-effect waves-light">
+                                    Cancel
+                                </button>
+                                <button #submitBtn class="btn-tnx btn-warning waves-effect waves-light">Save Consultant
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <swal
+                        #errorDescriptionSwal
+                        title=""
+                        type="error">
+                </swal>
+
+            </div>
+        </div>
+    </div>
+    <!-- End Row -->

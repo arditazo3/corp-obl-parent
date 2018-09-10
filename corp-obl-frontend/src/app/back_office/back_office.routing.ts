@@ -7,6 +7,7 @@ import {OfficeCreateEditComponent} from './office/component/office-create-edit/o
 import {TopicComponent} from './topic/component/topic.component';
 import {TopicCreateUpdateComponent} from './topic/component/topic-create-update/topic-create-update.component';
 import {ConsultantComponent} from './consultant/component/consultant.component';
+import {ConsultantCreateUpdateComponent} from './consultant/component/consultant-create-update/consultant-create-update.component';
 
 export const BackOfficeRoutes: Routes = [
     {
@@ -125,6 +126,29 @@ export const BackOfficeRoutes: Routes = [
             {
                 path: 'consultant',
                 component: ConsultantComponent,
+                data: {
+                    title: 'Consultant Management',
+                    urls: [
+                        {title: 'Back Office', url: '/back-office/consultant'},
+                        {title: 'Consultant management'}
+                    ]
+                }
+            },
+            {
+                path: 'consultant/create',
+                component: ConsultantCreateUpdateComponent,
+                data: {
+                    title: 'Consultant Management',
+                    urls: [
+                        {title: 'Back Office', url: '/back-office/consultant'},
+                        {title: 'Consultant management'}
+                    ]
+                }
+            }
+            ,
+            {
+                path: 'consultant/edit',
+                component: ConsultantCreateUpdateComponent,
                 data: {
                     title: 'Consultant Management',
                     urls: [
