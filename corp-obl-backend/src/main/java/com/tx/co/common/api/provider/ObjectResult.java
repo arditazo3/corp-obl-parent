@@ -319,8 +319,12 @@ public abstract class ObjectResult {
 		if(!isEmpty(companyConsultantResult.getEmail())) {
 			companyConsultant.setEmail(companyConsultantResult.getEmail().trim());
 		}
-		companyConsultant.setPhone1(companyConsultantResult.getPhone1());
-		companyConsultant.setPhone2(companyConsultantResult.getPhone2());
+		if(!isEmpty(companyConsultantResult.getPhone1())) {
+			companyConsultant.setPhone1(companyConsultantResult.getPhone1().trim());
+		}
+		if(!isEmpty(companyConsultantResult.getPhone2())) {
+			companyConsultant.setPhone2(companyConsultantResult.getPhone2().trim());
+		}
 		companyConsultant.setCompany(toCompany(companyConsultantResult.getCompany()));
 
 		return companyConsultant;

@@ -1,13 +1,14 @@
 package com.tx.co.cache.service;
 
 import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.back_office.company.domain.CompanyConsultant;
+import com.tx.co.back_office.company.service.CompanyConsultantService;
 import com.tx.co.back_office.company.service.CompanyService;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.service.OfficeService;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.service.TopicService;
 import com.tx.co.common.translation.domain.Translation;
-import com.tx.co.common.translation.repository.TranslationRepository;
 import com.tx.co.common.translation.service.ITranslationService;
 import com.tx.co.common.utils.UtilStatic;
 import com.tx.co.user.domain.User;
@@ -18,7 +19,9 @@ import javax.cache.CacheManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.tx.co.common.constants.AppConstants.*;
@@ -30,6 +33,7 @@ public abstract class UpdateCacheData {
 	private CompanyService companyService;
 	private OfficeService officeService;
 	private TopicService topicService;
+	private CompanyConsultantService companyConsultantService;
 	private ITranslationService translationService;
 
 	@Autowired
@@ -56,6 +60,11 @@ public abstract class UpdateCacheData {
 	public void setTranslationService(ITranslationService translationService) {
 		this.translationService = translationService;
 	}	
+
+	@Autowired
+	public void setCompanyConsultantService(CompanyConsultantService companyConsultantService) {
+		this.companyConsultantService = companyConsultantService;
+	}
 
 	/**
 	 * @return get the Languages from the cache in order to not execute the query to the database
@@ -111,6 +120,18 @@ public abstract class UpdateCacheData {
 		Collections.sort(topicListCache, (a, b) -> a.getDescription().compareToIgnoreCase(b.getDescription()));
 
 		return topicListCache;
+	}
+	
+	/**
+	 * @return get the CompanyConsultant from the cache in order to not execute the query to the database
+	 */
+	public Map<Long, List<CompanyConsultant>> getCompanyConsultantsFromCache() {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		Map<Long, List<CompanyConsultant>> companyConsultantMap = (Map<Long, List<CompanyConsultant>>) storageDataCacheManager.get(COMPANY_CONSULTANT_LIST_CACHE);
+
+		return companyConsultantMap == null ? new HashMap<>() : companyConsultantMap;
 	}
 
 	/**
@@ -209,6 +230,44 @@ public abstract class UpdateCacheData {
 
 		storageDataCacheManager.put(TOPIC_LIST_CACHE, topicList);
 	}
+	
+	/**
+	 * @param companyConsultant
+	 * @param updateFromDB
+	 */
+	public void updateCompanyConsultantCache(CompanyConsultant companyConsultant, Boolean updateFromDB) {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		Map<Long, List<CompanyConsultant>> companyConsultantMap = getCompanyConsultantsFromCache();
+		
+		Long idCompany = companyConsultant.getCompany().getIdCompany();
+		
+		List<CompanyConsultant> companyConsultantList = (List<CompanyConsultant>) companyConsultantMap.get(idCompany);
+
+		// Object to update or to save as new one
+		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyCompanyConsultantList(companyConsultant.getIdCompanyConsultant(), companyConsultantList); 
+
+		if(updateFromDB) {
+			Optional<CompanyConsultant> companyConsultantFromDB = companyConsultantService.findByIdCompanyConsultant(companyConsultant.getIdCompanyConsultant());
+			if(companyConsultantFromDB.isPresent()) {
+				companyConsultant = companyConsultantFromDB.get();
+			}
+		}
+
+		if(indexToUpdateOrInsert == -1) {
+			companyConsultantList = new ArrayList<>();
+			companyConsultantList.add(companyConsultant);
+		} else if(!companyConsultant.getEnabled()) {
+			companyConsultantList.remove(indexToUpdateOrInsert);
+		} else {
+			companyConsultantList.set(indexToUpdateOrInsert, companyConsultant);
+		}
+		
+		companyConsultantMap.put(idCompany, companyConsultantList);
+
+		storageDataCacheManager.put(COMPANY_CONSULTANT_LIST_CACHE, companyConsultantMap);
+	}
 
 	/**
 	 * @param idCompany
@@ -248,5 +307,26 @@ public abstract class UpdateCacheData {
 			}
 		}
 		return userRetrived;
+	}
+	
+	/**
+	 * @param idCompanyConsultant
+	 * @return the existing CompanyConsultant on the cache
+	 */
+	public CompanyConsultant getCompanyConsultantById(Long idCompanyConsultant) {
+		CompanyConsultant companyConsultant = null;
+		Map<Long, List<CompanyConsultant>> companyConsultantMap = getCompanyConsultantsFromCache();
+		if(!isEmpty(companyConsultantMap)) {
+			for (Long idCompany : companyConsultantMap.keySet()) {
+				for (CompanyConsultant companyConsultantLoop : companyConsultantMap.get(idCompany)) {
+					if(idCompanyConsultant.compareTo(companyConsultantLoop.getIdCompanyConsultant()) == 0) {
+						companyConsultant = companyConsultantLoop;
+						break;
+					}
+				}
+				
+			}
+		}
+		return companyConsultant;
 	}
 }

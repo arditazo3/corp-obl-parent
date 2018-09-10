@@ -1,6 +1,7 @@
 package com.tx.co.common.utils;
 
 import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.back_office.company.domain.CompanyConsultant;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.topic.domain.Topic;
 import static org.springframework.util.ObjectUtils.isEmpty;
@@ -46,6 +47,20 @@ public class UtilStatic {
 				Topic topic = comparableList.get(i);
 
 				if (topic !=null && topic.getIdTopic().compareTo(idTopic) == 0) {
+					return i;
+				}
+			}
+		}
+		return -1;// not there is list
+	}
+	
+	public static int getIndexByPropertyCompanyConsultantList(Long idCompanyConsultant, List<CompanyConsultant> comparableList) {
+
+		if(!isEmpty(comparableList)) {
+			for (int i = 0; i < comparableList.size(); i++) {
+				CompanyConsultant companyConsultant = comparableList.get(i);
+
+				if (companyConsultant !=null && companyConsultant.getIdCompanyConsultant().compareTo(idCompanyConsultant) == 0) {
 					return i;
 				}
 			}

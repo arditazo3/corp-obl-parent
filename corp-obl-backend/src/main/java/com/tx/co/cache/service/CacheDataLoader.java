@@ -1,7 +1,9 @@
 package com.tx.co.cache.service;
 
 import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.back_office.company.domain.CompanyConsultant;
 import com.tx.co.back_office.company.repository.CompanyRepository;
+import com.tx.co.back_office.company.service.ICompanyConsultantService;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.repository.OfficeRepository;
 import com.tx.co.back_office.topic.domain.Topic;
@@ -17,7 +19,9 @@ import javax.cache.Cache;
 import javax.cache.CacheManager;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.tx.co.common.constants.AppConstants.*;
@@ -36,6 +40,7 @@ public abstract class CacheDataLoader {
     private CompanyRepository companyRepository;
     private OfficeRepository officeRepository;
     private ITopicService topicService;
+    private ICompanyConsultantService companyConsultantService;
 
     // Split the string with operator ; to get all the languages
     @Value("${web.app.language}")
@@ -64,6 +69,11 @@ public abstract class CacheDataLoader {
     @Autowired
     public void setTopicService(ITopicService topicService) {
 		this.topicService = topicService;
+	}
+    
+    @Autowired
+	public void setCompanyConsultantService(ICompanyConsultantService companyConsultantService) {
+		this.companyConsultantService = companyConsultantService;
 	}
 
 	/**
@@ -97,6 +107,30 @@ public abstract class CacheDataLoader {
         // Load all the topics
         List<Topic> topicsList = topicService.findAllByOrderByDescriptionAsc();
         storageDataCacheManager.put(TOPIC_LIST_CACHE, topicsList);
+        
+        loadConsultantByCompany(storageDataCacheManager);
+    }
+    
+    private void loadConsultantByCompany(final Cache<String, Object> storageDataCacheManager) {
+    	
+    	List<CompanyConsultant> companyConsultants = companyConsultantService.findAll();
+    	
+    	Map<Long, List<CompanyConsultant>> companyConsultantMap = new HashMap<>();
+    	if(!isEmpty(companyConsultants)) {
+    		
+    		for (CompanyConsultant companyConsultant : companyConsultants) {
+    			Long idCompany = companyConsultant.getCompany().getIdCompany();
+    			
+				if(isEmpty(companyConsultantMap.get(idCompany))) {
+					List<CompanyConsultant> companyConsultantsList = new ArrayList<>();
+					companyConsultantsList.add(companyConsultant);
+					companyConsultantMap.put(idCompany, companyConsultantsList);
+				} else {
+					companyConsultantMap.get(idCompany).add(companyConsultant);
+				}
+			}
+    	}
+    	storageDataCacheManager.put(COMPANY_CONSULTANT_LIST_CACHE, companyConsultantMap);
     }
 
 	

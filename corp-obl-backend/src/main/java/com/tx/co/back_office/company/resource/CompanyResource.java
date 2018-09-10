@@ -136,4 +136,27 @@ public class CompanyResource extends ObjectResult {
 
         return Response.ok(queryCompanyConsultantList).build();
     }
+    
+    @POST
+    @Path(CONSULTANT_CREATE_UPDATE)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createUpdateCompany(CompanyConsultantResult companyConsultantResult) {
+
+    	CompanyConsultant companyConsultantStored = companyConsultantService.saveUpdateCompanyConsultant(toCompanyConsultant(companyConsultantResult));
+
+        return Response.ok(toCompanyConsultantResult(companyConsultantStored)).build();
+    }
+    
+    @PUT
+    @Path(CONSULTANT_DELETE)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+ //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+    public Response deleteCompany(CompanyConsultantResult companyConsultant) {
+
+    	companyConsultantService.deleteCompanyConsultant(companyConsultant.getIdCompanyConsultant());
+
+        return Response.noContent().build();
+    }
 }
