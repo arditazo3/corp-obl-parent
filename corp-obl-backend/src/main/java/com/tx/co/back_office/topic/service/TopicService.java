@@ -223,7 +223,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 
         // New TopicConsultant
         if(isEmpty(topicConsultant.getIdTopicConsultant())) {
-        	topicConsultant.setCreationDate(new Date());
+        	topicConsultant.setCreationDate(new Date()); 
         	topicConsultant.setCreatedBy(username);
         	topicConsultant.setEnabled(true);
         	topicConsultantStored = topicConsultant;
