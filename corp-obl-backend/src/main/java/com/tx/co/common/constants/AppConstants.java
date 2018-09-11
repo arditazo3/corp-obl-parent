@@ -57,6 +57,12 @@ public final class AppConstants {
     public static final String CONSULTANT_CREATE_UPDATE = CONSULTANT + CREATE_UPDATE;
     public static final String CONSULTANT_DELETE = CONSULTANT + DELETE;
     
+    // Company topic URL
+    public static final String COMPANY_TOPIC = "company-topic";
+    public static final String COMPANY_TOPIC_LIST = COMPANY_TOPIC + LIST;
+    public static final String COMPANY_TOPIC_CREATE_UPDATE = COMPANY_TOPIC + CREATE_UPDATE;
+    public static final String COMPANY_TOPIC_DELETE = COMPANY_TOPIC + DELETE;
+    
     /**
      * List of authorization Role
      * */

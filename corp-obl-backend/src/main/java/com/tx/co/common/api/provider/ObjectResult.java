@@ -221,27 +221,6 @@ public abstract class ObjectResult {
 	}
 
 	/**
-	 * @param companyTopicResult
-	 * @return
-	 */
-	public CompanyTopic toCompanyTopic(CompanyTopicResult companyTopicResult) {
-		CompanyTopic companyTopic = new CompanyTopic();
-
-		if(!isEmpty(companyTopicResult.getIdCompanyTopic())) {
-			companyTopic.setIdCompanyTopic(companyTopicResult.getIdCompanyTopic());
-		}
-		if(isEmpty(companyTopicResult.getCompany())) {
-			throw new GeneralException("The company is empty");
-		} else {
-			companyTopic.setCompany(toCompany(companyTopicResult.getCompany()));
-		}
-		if(isEmpty(companyTopicResult.getTopic())) {
-			throw new GeneralException("The topic is empty");
-		}
-		return companyTopic;
-	}
-
-	/**
 	 * @param translationResult
 	 * @return
 	 */
@@ -328,6 +307,40 @@ public abstract class ObjectResult {
 		companyConsultant.setCompany(toCompany(companyConsultantResult.getCompany()));
 
 		return companyConsultant;
+	}
+	
+	/**
+	 * Map a {@link CompanyTopic} instance to a {@link CompanyTopicResult} instance.
+	 *
+	 * @param companyTopic
+	 * @return CompanyTopicResult
+	 */
+	public CompanyTopicResult toCompanyTopicResult(CompanyTopic companyTopic) {
+		CompanyTopicResult result = new CompanyTopicResult();
+		
+		result.setIdCompanyTopic(companyTopic.getIdCompanyTopic());
+		result.setCompany(toCompanyResult(companyTopic.getCompany()));
+		result.setTopic(toTopicResult(companyTopic.getTopic()));
+
+		return result;
+	}
+	
+	/**
+	 * @param companyTopicResult
+	 * @return
+	 */
+	public CompanyTopic toCompanyTopic(CompanyTopicResult companyTopicResult) {
+		CompanyTopic companyTopic = new CompanyTopic();
+
+		if(!isEmpty(companyTopicResult.getIdCompanyTopic())) {
+			companyTopic.setIdCompanyTopic(companyTopicResult.getIdCompanyTopic());
+		}
+		if(isEmpty(companyTopicResult.getCompany())) {
+			throw new GeneralException("The company is empty");
+		} else {
+			companyTopic.setCompany(toCompany(companyTopicResult.getCompany()));
+		}
+		return companyTopic;
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.tx.co.back_office.topic.service;
 
-
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.ArrayList;
@@ -45,20 +44,18 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 	public void setTopicRepository(TopicRepository topicRepository) {
 		this.topicRepository = topicRepository;
 	}
-	
+
 	@Autowired
 	public void setTranslationRepository(TranslationRepository translationRepository) {
 		this.translationRepository = translationRepository;
 	}
-
-
 
 	@Override
 	public List<Topic> findAllTopic() {
 		List<Topic> topicList = new ArrayList<>();
 
 		List<Topic> topicListFromCache = getTopicsFromCache();
-		if(!isEmpty(getTopicsFromCache())) {
+		if (!isEmpty(getTopicsFromCache())) {
 			topicList = topicListFromCache;
 		} else {
 			topicRepository.findAllByOrderByDescriptionAsc().forEach(topicList::add);
@@ -78,7 +75,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 		Topic topicStored = null;
 
 		// New Topic
-		if(isEmpty(topic.getIdTopic())) {
+		if (isEmpty(topic.getIdTopic())) {
 			topic.setCreationDate(new Date());
 			topic.setCreatedBy(username);
 			topic.setEnabled(true);
@@ -94,19 +91,20 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 		List<Company> companyListIncluded = new ArrayList<>();
 		for (CompanyTopic companyTopic : topic.getCompanyTopic()) {
 
-			if(!isEmpty(topicStored.getIdTopic())) {
-				Optional<CompanyTopic> companyTopicCheckIfExist = topicRepository.getCompanyTopicByCompanyAndTopic(companyTopic.getCompany(), topicStored);
-				if(companyTopicCheckIfExist.isPresent()) {
+			if (!isEmpty(topicStored.getIdTopic())) {
+				Optional<CompanyTopic> companyTopicCheckIfExist = topicRepository
+						.getCompanyTopicByCompanyAndTopic(companyTopic.getCompany(), topicStored);
+				if (companyTopicCheckIfExist.isPresent()) {
 					companyTopic = companyTopicCheckIfExist.get();
 				}
 				topicStored.getCompanyTopic().add(companyTopic);
 			}
 
 			// New Company Topic
-			if(isEmpty(companyTopic.getIdCompanyTopic())) {
+			if (isEmpty(companyTopic.getIdCompanyTopic())) {
 				companyTopic.setCreationDate(new Date());
 				companyTopic.setCreatedBy(username);
-			} 
+			}
 			companyTopic.setModificationDate(new Date());
 			companyTopic.setModifiedBy(username);
 			companyTopic.setTopic(topicStored);
@@ -121,7 +119,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 		topicStored = topicRepository.save(topicStored);
 
 		for (Translation translation : topic.getTranslationList()) {
-			if(isEmpty(translation.getIdTranslation())) {
+			if (isEmpty(translation.getIdTranslation())) {
 				translation.setEntityId(topicStored.getIdTopic());
 				translation.setTablename("co_topic");
 			}
@@ -145,19 +143,24 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 		try {
 			Optional<Topic> topicOptional = findByIdTopic(idTopic);
 
-			if(!topicOptional.isPresent()) {
+			if (!topicOptional.isPresent()) {
 				throw new NotFoundException();
 			}
 
 			// The modification of User
 			String username = getTokenUserDetails().getUser().getUsername();
-			
+
 			Topic topic = topicOptional.get();
 			// disable the topic
 			topic.setEnabled(false);
+
+			for (CompanyTopic companyTopic : topic.getCompanyTopic()) {
+				companyTopic.setEnabled(false);
+			}
+
 			topic.setModificationDate(new Date());
 			topic.setModifiedBy(username);
-			
+
 			topicRepository.save(topic);
 
 			updateTopicsCache(topic, false);
@@ -169,9 +172,9 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 
 	public Topic getTopicById(Long idTopic) {
 		Topic topic = null;
-		if(!isEmpty(getTopicsFromCache())) {
+		if (!isEmpty(getTopicsFromCache())) {
 			for (Topic topicLoop : getTopicsFromCache()) {
-				if(idTopic.compareTo(topicLoop.getIdTopic()) == 0) {
+				if (idTopic.compareTo(topicLoop.getIdTopic()) == 0) {
 					topic = topicLoop;
 				}
 			}
@@ -181,17 +184,17 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 
 	@Override
 	public AuthenticationTokenUserDetails getTokenUserDetails() {
-		return (AuthenticationTokenUserDetails)
-				SecurityContextHolder.getContext().getAuthentication().getDetails();
+		return (AuthenticationTokenUserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
 	}
 
 	@Override
 	public List<Topic> findAllByOrderByDescriptionAsc() {
-		
+
 		List<Topic> topicList = topicRepository.findAllByOrderByDescriptionAsc();
-		
+
 		for (Topic topic : topicList) {
-			List<Translation> translationList = translationRepository.getTranslationByEntityIdAndTablename(topic.getIdTopic(), "co_topic");
+			List<Translation> translationList = translationRepository
+					.getTranslationByEntityIdAndTablename(topic.getIdTopic(), "co_topic");
 			topic.setTranslationList(translationList);
 		}
 		return topicList;
