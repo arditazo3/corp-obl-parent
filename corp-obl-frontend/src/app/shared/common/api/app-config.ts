@@ -49,9 +49,15 @@ export class AppConfig {
 
     // Company Consultant URL's
     public consultantPath = '/consultant';
-    public getConsultants = this.backOfficePath + this.consultantPath + this.list;                         // GET
-    public deleteConsultant = this.backOfficePath + this.consultantPath + this.delete;                    // PUT
-    public createUpdateConsultant = this.backOfficePath + this.consultantPath + this.createupdate;        // POST
+    public getConsultants = this.backOfficePath + this.consultantPath + this.list;                          // GET
+    public deleteConsultant = this.backOfficePath + this.consultantPath + this.delete;                      // PUT
+    public createUpdateConsultant = this.backOfficePath + this.consultantPath + this.createupdate;          // POST
+
+    // Company Topic URL's
+    public companyTopicPath = '/company-topic';
+    public getcompanyTopics = this.backOfficePath + this.companyTopicPath + this.list;                          // GET
+    public deleteCompanyTopic = this.backOfficePath + this.companyTopicPath + this.delete;                      // PUT
+    public createUpdateCompanyTopic = this.backOfficePath + this.companyTopicPath + this.createupdate;          // POST
 
     constructor() {
         console.log('AppConfig - constructor');

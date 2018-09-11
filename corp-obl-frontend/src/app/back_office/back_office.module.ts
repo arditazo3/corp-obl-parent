@@ -29,6 +29,7 @@ import { ConsultantComponent } from './consultant/component/consultant.component
 import { ConsultantTableComponent } from './consultant/component/consultant-table/consultant-table.component';
 import { ConsultantCreateUpdateComponent } from './consultant/component/consultant-create-update/consultant-create-update.component';
 import {ConsultantService} from './consultant/service/consultant.service';
+import { CompanyTopicComponent } from './consultant/component/company-topic/company-topic.component';
 
 @NgModule({
     imports: [
@@ -65,7 +66,8 @@ import {ConsultantService} from './consultant/service/consultant.service';
         TopicCreateUpdateComponent,
         ConsultantComponent,
         ConsultantTableComponent,
-        ConsultantCreateUpdateComponent
+        ConsultantCreateUpdateComponent,
+        CompanyTopicComponent
     ],
     providers: [
         CompanyService,

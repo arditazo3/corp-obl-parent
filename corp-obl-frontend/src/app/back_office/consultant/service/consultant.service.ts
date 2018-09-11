@@ -31,4 +31,24 @@ export class ConsultantService {
 
         return this.apiRequest.put(this.appConfig.deleteConsultant, companyConsultant);
     }
+
+    getCompanyTopic(company): Observable<any> {
+        console.log('ConsultantService - getCompanyTopic');
+
+        let httpParms: HttpParams = new HttpParams().set('idCompany', company.idCompany.toString());
+
+        return this.apiRequest.get(this.appConfig.getcompanyTopics, httpParms);
+    }
+
+    saveUpdateCompanyTopic(companyTopic): Observable<any> {
+        console.log('ConsultantService - saveUpdateCompanyTopic');
+
+        return this.apiRequest.post(this.appConfig.createUpdateCompanyTopic, companyTopic);
+    }
+
+    deleteCompanyTopic(companyTopic): Observable<any> {
+        console.log('ConsultantService - deleteCompanyTopic');
+
+        return this.apiRequest.put(this.appConfig.deleteCompanyTopic, companyTopic);
+    }
 }
