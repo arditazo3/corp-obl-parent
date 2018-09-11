@@ -9,6 +9,8 @@ import com.tx.co.back_office.company.domain.CompanyTopic;
 import com.tx.co.back_office.company.service.ICompanyConsultantService;
 import com.tx.co.back_office.company.service.ICompanyService;
 import com.tx.co.back_office.company.service.ICompanyTopicService;
+import com.tx.co.back_office.topic.api.model.TopicConsultantResult;
+import com.tx.co.back_office.topic.domain.TopicConsultant;
 import com.tx.co.common.api.provider.ObjectResult;
 import com.tx.co.security.exception.GeneralException;
 import org.apache.logging.log4j.LogManager;
@@ -170,7 +172,7 @@ public class CompanyResource extends ObjectResult {
     }
     
     @GET
-    @Path(COMPANY_TOPIC_LIST)
+    @Path(TOPIC_CONSULTANT_LIST)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
 //    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
@@ -186,10 +188,10 @@ public class CompanyResource extends ObjectResult {
     }
     
     @POST
-    @Path(COMPANY_TOPIC_CREATE_UPDATE)
+    @Path(TOPIC_CONSULTANT_CREATE_UPDATE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createUpdateCompanyTopic(CompanyTopicResult companyTopicResult) {
+    public Response createUpdateTopicConsultant(TopicConsultantResult topicConsultantResult) {
 
     	CompanyTopic companyTopicStored = companyTopicService.saveUpdateCompanyTopic(toCompanyTopic(companyTopicResult));
 
@@ -197,7 +199,7 @@ public class CompanyResource extends ObjectResult {
     }
     
     @PUT
-    @Path(COMPANY_TOPIC_DELETE)
+    @Path(TOPIC_CONSULTANT_DELETE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
  //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")

@@ -8,7 +8,4 @@ public interface ICompanyTopicService {
 
 	List<CompanyTopic> getCompanyTopicByIdCompany(String idCompany);
 	
-	CompanyTopic saveUpdateCompanyTopic(CompanyTopic companyTopic);
-	
-	void deleteCompanyTopic(Long idCompanyTopic);
 }

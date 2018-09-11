@@ -7,6 +7,7 @@ import com.tx.co.back_office.company.service.CompanyService;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.service.OfficeService;
 import com.tx.co.back_office.topic.domain.Topic;
+import com.tx.co.back_office.topic.domain.TopicConsultant;
 import com.tx.co.back_office.topic.service.TopicService;
 import com.tx.co.common.translation.domain.Translation;
 import com.tx.co.common.translation.service.ITranslationService;
@@ -120,6 +121,20 @@ public abstract class UpdateCacheData {
 		Collections.sort(topicListCache, (a, b) -> a.getDescription().compareToIgnoreCase(b.getDescription()));
 
 		return topicListCache;
+	}
+	
+	/**
+	 * @return get the Topic Consultants from the cache in order to not execute the query to the database
+	 */
+	public List<TopicConsultant> getTopicConsultantsFromCache() {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		List<TopicConsultant> topicConsultantListCache = isEmpty(storageDataCacheManager.get(TOPIC_CONSULTANT_LIST_CACHE)) ? new ArrayList<>() : (List<TopicConsultant>) storageDataCacheManager.get(TOPIC_LIST_CACHE);
+
+		Collections.sort(topicConsultantListCache, (a, b) -> a.getCompanyConsultant().getName().compareToIgnoreCase(b.getCompanyConsultant().getName()));
+
+		return topicConsultantListCache;
 	}
 	
 	/**

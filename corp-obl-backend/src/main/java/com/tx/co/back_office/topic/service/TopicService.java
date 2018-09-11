@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.domain.CompanyTopic;
 import com.tx.co.back_office.topic.domain.Topic;
+import com.tx.co.back_office.topic.domain.TopicConsultant;
 import com.tx.co.back_office.topic.repository.TopicRepository;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.common.translation.domain.Translation;
@@ -181,6 +182,18 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 		}
 		return topic;
 	}
+	
+	public TopicConsultant getTopicConsultantById(Long idTopicConsultant) {
+		TopicConsultant topicConsultant = null;
+		if (!isEmpty(getTopicsFromCache())) {
+			for (TopicConsultant topicConsultantLoop : getTopicConsultantsFromCache()) {
+				if (idTopicConsultant.compareTo(topicConsultantLoop.getIdTopicConsultant()) == 0) {
+					topicConsultant = topicConsultantLoop;
+				}
+			}
+		}
+		return topicConsultant;
+	}
 
 	@Override
 	public AuthenticationTokenUserDetails getTokenUserDetails() {
@@ -199,5 +212,46 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 		}
 		return topicList;
 	}
+	
+	@Override
+	public TopicConsultant saveUpdateTopicConsultant(TopicConsultant topicConsultant) {
+
+		// The modification of User
+        String username = getTokenUserDetails().getUser().getUsername();
+		
+        TopicConsultant topicConsultantStored = null;
+
+        // New TopicConsultant
+        if(isEmpty(topicConsultant.getIdTopicConsultant())) {
+        	topicConsultant.setCreationDate(new Date());
+        	topicConsultant.setCreatedBy(username);
+        	topicConsultant.setEnabled(true);
+        	topicConsultantStored = topicConsultant;
+        } else { // Existing TopicConsultant
+        	topicConsultantStored = getTopicConsultantById(topicConsultant.getIdTopicConsultant());
+        	topicConsultantStored.setName(companyConsultant.getName());
+        	topicConsultantStored.setEmail(companyConsultant.getEmail());
+        }
+        
+        if(!isEmpty(companyConsultant.getCompany())) {
+        	companyConsultantStored.setCompany(companyConsultant.getCompany());
+        }
+        if(!isEmpty(companyConsultant.getPhone1())) {
+        	companyConsultantStored.setPhone1(companyConsultant.getPhone1());
+        }
+        if(!isEmpty(companyConsultant.getPhone2())) {
+        	companyConsultantStored.setPhone2(companyConsultant.getPhone2());
+        }
+
+        companyConsultantStored.setModificationDate(new Date());
+        companyConsultantStored.setModifiedBy(username);
+
+        companyConsultantStored = companyConsultantRepository.save(companyConsultantStored);
+
+        updateCompanyConsultantCache(companyConsultantStored, false);
+
+        return companyConsultantStored;
+	}
+
 
 }

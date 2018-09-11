@@ -58,10 +58,10 @@ public final class AppConstants {
     public static final String CONSULTANT_DELETE = CONSULTANT + DELETE;
     
     // Company topic URL
-    public static final String COMPANY_TOPIC = "company-topic";
-    public static final String COMPANY_TOPIC_LIST = COMPANY_TOPIC + LIST;
-    public static final String COMPANY_TOPIC_CREATE_UPDATE = COMPANY_TOPIC + CREATE_UPDATE;
-    public static final String COMPANY_TOPIC_DELETE = COMPANY_TOPIC + DELETE;
+    public static final String TOPIC_CONSULTANT = "topic-consultant";
+    public static final String TOPIC_CONSULTANT_LIST = TOPIC_CONSULTANT + LIST;
+    public static final String TOPIC_CONSULTANT_CREATE_UPDATE = TOPIC_CONSULTANT + CREATE_UPDATE;
+    public static final String TOPIC_CONSULTANT_DELETE = TOPIC_CONSULTANT + DELETE;
     
     /**
      * List of authorization Role
@@ -77,6 +77,7 @@ public final class AppConstants {
     public static final String COMPANY_LIST_CACHE = "COMPANY_LIST_CACHE";
     public static final String OFFICE_LIST_CACHE = "OFFICE_LIST_CACHE";
     public static final String TOPIC_LIST_CACHE = "TOPIC_LIST_CACHE";
+    public static final String TOPIC_CONSULTANT_LIST_CACHE = "TOPIC_CONSULTANT_LIST_CACHE";
     public static final String COMPANY_CONSULTANT_LIST_CACHE = "COMPANY_CONSULTANT_LIST_CACHE";
     public static final String LANGUAGE_LIST_CACHE = "LANGUAGE_LIST_CACHE";
     public static final String STORAGE_DATA_CACHE = "StorageDataCache";

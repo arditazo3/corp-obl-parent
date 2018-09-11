@@ -68,6 +68,10 @@ public class Topic implements Serializable {
     @Where(clause = "enabled = 1")
     private Set<CompanyTopic> companyTopic = new HashSet<>();
 
+    @OneToMany(mappedBy="topic", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Where(clause = "enabled = 1")
+    private Set<TopicConsultant> topicConsultants = new HashSet<>();
+    
     @Transient
     private List<Translation> translationList = new ArrayList<>();
     
@@ -133,6 +137,14 @@ public class Topic implements Serializable {
 
 	public void setCompanyTopic(Set<CompanyTopic> companyTopic) {
 		this.companyTopic = companyTopic;
+	}
+
+	public Set<TopicConsultant> getTopicConsultants() {
+		return topicConsultants;
+	}
+
+	public void setTopicConsultants(Set<TopicConsultant> topicConsultants) {
+		this.topicConsultants = topicConsultants;
 	}
 
 	public List<Translation> getTranslationList() {
