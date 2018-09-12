@@ -8,7 +8,7 @@ import {UserInfoService} from '../../../user/service/user-info.service';
 import {Router} from '@angular/router';
 import {FormBuilder} from '@angular/forms';
 import {ConsultantTableComponent} from './consultant-table/consultant-table.component';
-import {CompanyTopicComponent} from './company-topic/company-topic.component';
+import {TopicConsultantComponent} from './topic-consultant/topic-consultant.component';
 
 @Component({
     selector: 'app-consultant',
@@ -18,7 +18,7 @@ import {CompanyTopicComponent} from './company-topic/company-topic.component';
 export class ConsultantComponent implements OnInit {
 
     @ViewChild(ConsultantTableComponent) consultantTable: ConsultantTableComponent;
-    @ViewChild(CompanyTopicComponent) companyTopic: CompanyTopicComponent;
+    @ViewChild(TopicConsultantComponent) topicConsultant: TopicConsultantComponent;
 
     companiesObservable: Observable<any[]>;
     selectedCompany: Company;
@@ -53,7 +53,7 @@ export class ConsultantComponent implements OnInit {
     onChangeCompany(company) {
         this.consultantTable.company = company;
         this.consultantTable.getCompanyConsultant(company);
-        this.companyTopic.getCompanyTopic(company);
+        this.topicConsultant.getCompanyTopic(company);
     }
 
 }

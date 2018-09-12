@@ -165,8 +165,8 @@ export class TopicCreateUpdateComponent implements OnInit {
 
     // private getCompaniesFromTopic(): any {
     //     const companiesArray = [];
-    //     this.topic.companyTopicList.forEach( (companyTopic) => {
-    //         companiesArray.push(companyTopic.company);
+    //     this.topic.companyTopicList.forEach( (topicConsultant) => {
+    //         companiesArray.push(topicConsultant.company);
     //     });
     //     return companiesArray;
     // }

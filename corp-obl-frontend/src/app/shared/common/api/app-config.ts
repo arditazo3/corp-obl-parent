@@ -54,10 +54,11 @@ export class AppConfig {
     public createUpdateConsultant = this.backOfficePath + this.consultantPath + this.createupdate;          // POST
 
     // Company Topic URL's
-    public companyTopicPath = '/company-topic';
-    public getcompanyTopics = this.backOfficePath + this.companyTopicPath + this.list;                          // GET
-    public deleteCompanyTopic = this.backOfficePath + this.companyTopicPath + this.delete;                      // PUT
-    public createUpdateCompanyTopic = this.backOfficePath + this.companyTopicPath + this.createupdate;          // POST
+    public topicConsutantPath = '/topic-consultant';
+    public getTopicConsultant = this.backOfficePath + this.topicConsutantPath + this.list;                           // GET
+    public deleteTopicConsultant = this.backOfficePath + this.topicConsutantPath + this.delete;                      // PUT
+    public deleteTopicConsultants = this.backOfficePath + this.topicConsutantPath + this.delete + '/all';            // PUT
+    public createUpdateTopicConsultant = this.backOfficePath + this.topicConsutantPath + this.createupdate;          // POST
 
     constructor() {
         console.log('AppConfig - constructor');

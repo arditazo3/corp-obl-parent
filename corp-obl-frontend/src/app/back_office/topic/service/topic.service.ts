@@ -29,4 +29,22 @@ export class TopicService {
 
         return this.apiRequest.put(this.appConfig.deleteTopic, topic);
     }
+
+    saveUpdateTopicConsultant(topicConsultant): Observable<any> {
+        console.log('ConsultantService - saveUpdateTopicConsultant');
+
+        return this.apiRequest.post(this.appConfig.createUpdateTopicConsultant, topicConsultant);
+    }
+
+    deleteTopicConsultant(topicConsultant): Observable<any> {
+        console.log('ConsultantService - deleteTopicConsultant');
+
+        return this.apiRequest.put(this.appConfig.deleteTopicConsultant, topicConsultant);
+    }
+
+    deleteTopicConsultants(topicConsultant): Observable<any> {
+        console.log('ConsultantService - deleteTopicConsultants');
+
+        return this.apiRequest.put(this.appConfig.deleteTopicConsultants, topicConsultant);
+    }
 }
