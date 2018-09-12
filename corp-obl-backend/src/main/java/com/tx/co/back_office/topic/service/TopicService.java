@@ -89,7 +89,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 			topic.setEnabled(true);
 			topicStored = topic;
 		} else { // Existing Topic
-			topicStored = getTopicById(topic.getIdTopic());
+			topicStored = getTopicById(topic.getIdTopic(), null);
 			topicStored.setDescription(topic.getDescription());
 			topicStored.setCompanyTopic(new HashSet<>());
 		}

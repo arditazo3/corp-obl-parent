@@ -43,7 +43,7 @@ public class CompanyTopicService extends UpdateCacheData implements ICompanyTopi
 		
 		for (CompanyTopic companyTopic : companyTopics) {
 			Long idTopic = companyTopic.getTopic().getIdTopic();
-			companyTopic.setTopic(getTopicById(idTopic));
+			companyTopic.setTopic(getTopicById(idTopic, idCompany));
 		}
 		return companyTopics;
 	}

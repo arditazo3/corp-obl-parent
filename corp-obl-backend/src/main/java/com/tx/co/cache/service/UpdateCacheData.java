@@ -95,7 +95,24 @@ public abstract class UpdateCacheData {
 
 		List<Company> companyListCache = (List<Company>) storageDataCacheManager.get(COMPANY_LIST_CACHE);
 
-		Collections.sort(companyListCache, (a, b) -> a.getDescription().compareToIgnoreCase(b.getDescription()));
+		if(isEmpty(companyListCache)) {
+			return new ArrayList<>();
+		}
+		
+		try {
+			Collections.sort(companyListCache, (a, b) -> a.getDescription().compareToIgnoreCase(b.getDescription()));	
+		} catch (Exception e) {
+			e.printStackTrace();
+			return companyListCache;
+		}
+		
+//		Collections.sort(companyListCache, new Comparator<Company>() {
+//		    public int compare(Company a, Company b) {
+//		    	if(isEmpty(a)) return 1;
+//		    	if(isEmpty(b)) return -1;
+//		        return a.getDescription().compareToIgnoreCase(b.getDescription());
+//		    }
+//		});
 
 		return companyListCache;
 	}
@@ -384,17 +401,37 @@ public abstract class UpdateCacheData {
 		return companyConsultant;
 	}
 	
-	public Topic getTopicById(Long idTopic) {
+	public Topic getTopicById(Long idTopic, String idCompany) {
 		Topic topic = null;
 		List<Topic> topicListCache = getTopicsFromCache();
 		if (!isEmpty(topicListCache)) {
 			for (Topic topicLoop : topicListCache) {
 				if (idTopic.compareTo(topicLoop.getIdTopic()) == 0) {
 					topic = topicLoop;
+					topic.setCompanyConsultantsList(getConsultantByIdTopicAndIdCompany(idTopic, idCompany));
 				}
 			}
 		}
 		return topic;
+	}
+	
+	public List<CompanyConsultant> getConsultantByIdTopicAndIdCompany(Long idTopic, String idCompany) {
+		
+		if(isEmpty(idTopic) || isEmpty(idCompany)) {
+			return new ArrayList<>();
+		}
+		
+		List<CompanyConsultant> companyConsultants = new ArrayList<>();
+		List<TopicConsultant> topicConsultantListCache = getTopicConsultantsFromCache();
+		if (!isEmpty(topicConsultantListCache)) {
+			for (TopicConsultant topicConsultantLoop : topicConsultantListCache) {
+				if (idCompany.compareTo(topicConsultantLoop.getCompanyConsultant().getCompany().getIdCompany().toString()) == 0 &&
+						idTopic.compareTo(topicConsultantLoop.getTopic().getIdTopic()) == 0) {
+					companyConsultants.add(topicConsultantLoop.getCompanyConsultant());
+				}
+			}
+		}
+		return companyConsultants;
 	}
 	
 	public TopicConsultant getTopicConsultantByIds(TopicConsultant topicConsultantToRetrieve) {

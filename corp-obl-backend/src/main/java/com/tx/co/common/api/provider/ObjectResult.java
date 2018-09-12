@@ -179,11 +179,20 @@ public abstract class ObjectResult {
 			result.setTranslationList(translationResultsList);
 		}
 		if(!isEmpty(topic.getTopicConsultants())) {
+			
 			List<TopicConsultantResult> topicConsultantsList = new ArrayList<>();
 			for (TopicConsultant topicConsultant : topic.getTopicConsultants()) {
 				topicConsultantsList.add(toTopicConsultantResult(topicConsultant));
 			}
 			result.setTopicConsultantList(topicConsultantsList);
+			
+			List<CompanyConsultantResult> consultantList = new ArrayList<>();
+			for (CompanyConsultant companyConsultant : topic.getCompanyConsultantsList()) {
+				consultantList.add(toCompanyConsultantResult(companyConsultant));
+			}
+			result.setConsultantList(consultantList);
+			
+			result.setConsultantList(consultantList);
 		}
 		return result;
 	}

@@ -27,5 +27,5 @@ public interface TopicRepository extends CrudRepository<Topic, Long> {
 	void updateCompanyTopicNotEnable(@Param("topic") Topic topic, @Param("companyListIncluded")  List<Company> companyListIncluded);
 	
 	@Query("select ct from CompanyTopic ct where ct.company = :company and ct.topic = :topic")
-	Optional<CompanyTopic> getCompanyTopicByCompanyAndTopic(Company company, Topic topic);
+	Optional<CompanyTopic> getCompanyTopicByCompanyAndTopic(@Param("company") Company company, @Param("topic") Topic topic);
 }

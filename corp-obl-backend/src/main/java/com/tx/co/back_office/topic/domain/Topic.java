@@ -22,6 +22,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Where;
 
+import com.tx.co.back_office.company.domain.CompanyConsultant;
 import com.tx.co.back_office.company.domain.CompanyTopic;
 import com.tx.co.common.translation.domain.Translation;
 
@@ -74,6 +75,9 @@ public class Topic implements Serializable {
     
     @Transient
     private List<Translation> translationList = new ArrayList<>();
+    
+    @Transient
+    private List<CompanyConsultant> companyConsultantsList = new ArrayList<>();
     
 	public Long getIdTopic() {
 		return idTopic;
@@ -153,6 +157,14 @@ public class Topic implements Serializable {
 
 	public void setTranslationList(List<Translation> translationList) {
 		this.translationList = translationList;
+	}
+
+	public List<CompanyConsultant> getCompanyConsultantsList() {
+		return companyConsultantsList;
+	}
+
+	public void setCompanyConsultantsList(List<CompanyConsultant> companyConsultantsList) {
+		this.companyConsultantsList = companyConsultantsList;
 	}
 
 }
