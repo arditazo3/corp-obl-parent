@@ -8,6 +8,8 @@ import {TopicService} from '../../../topic/service/topic.service';
 import {TopicConsultant} from '../../../topic/model/topic-consultant';
 import {CompanyTopic} from '../../../company/model/company_topic';
 import {Company} from '../../../company/model/company';
+import {forEach} from '@angular/router/src/utils/collection';
+import {Consultant} from '../../model/consultant';
 
 @Component({
     selector: 'app-topic-consultant',
@@ -48,10 +50,13 @@ export class TopicConsultantComponent implements OnInit {
         me.consultantService.getCompanyTopic(selectedCompany).subscribe(
             (data) => {
                 me.companyTopicsArray = data;
+                console.log('companyTopicsArray ' + me.companyTopicsArray);
             }
         );
 
         me.consultantsObservable = me.consultantService.getCompanyConsultant(selectedCompany);
+
+        console.log('consultantsObservable ' + me.consultantsObservable);
     }
 
     onClearTopicConsultant(topicConsultant) {
@@ -59,7 +64,7 @@ export class TopicConsultantComponent implements OnInit {
 
 
         const me = this;
-        let companyTopic: CompanyTopic = new CompanyTopic();
+        const companyTopic: CompanyTopic = new CompanyTopic();
         companyTopic.company = topicConsultant.company;
         companyTopic.topic = topicConsultant.topic;
 
@@ -71,14 +76,14 @@ export class TopicConsultantComponent implements OnInit {
                 me.errorDetails = error.error;
                 console.log('TopicConsultantComponent - onRemoveTopicConsultant - error');
             }
-        );;
+        );
     }
 
     onAddTopicConsultant(companyTopic, consultant) {
         console.log('TopicConsultantComponent - onAddTopicConsultant');
         const me = this;
 
-        let topicConsultant: TopicConsultant = new TopicConsultant();
+        const topicConsultant: TopicConsultant = new TopicConsultant();
         topicConsultant.consultant = consultant;
         topicConsultant.topic = companyTopic.topic;
 
@@ -87,7 +92,8 @@ export class TopicConsultantComponent implements OnInit {
                 (data) => {
                     me.errorDetails = undefined;
                     console.log('TopicConsultantComponent - onAddTopicConsultant - next');
-              //      this.getCompanyTopic(this.selectedCompany);
+           //         this.getCompanyTopic(this.selectedCompany);
+           //         companyTopic.topic.topicConsultantList.push(consultant);
                 }, error => {
                     me.errorDetails = error.error;
                     console.log('TopicConsultantComponent - onAddTopicConsultant - error');
@@ -99,7 +105,7 @@ export class TopicConsultantComponent implements OnInit {
         console.log('TopicConsultantComponent - onRemoveTopicConsultant');
 
         const me = this;
-        let topicConsultant: TopicConsultant = new TopicConsultant();
+        const topicConsultant: TopicConsultant = new TopicConsultant();
         topicConsultant.consultant = consultant.value;
         topicConsultant.topic = companyTopic.topic;
 
