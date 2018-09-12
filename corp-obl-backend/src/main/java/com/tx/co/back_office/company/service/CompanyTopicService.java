@@ -27,7 +27,7 @@ public class CompanyTopicService extends UpdateCacheData implements ICompanyTopi
 	private CompanyTopicRepository companyTopicRepository;
 	
 	@Autowired
-	public void setCompanyTopicRepository(CompanyTopicRepository companyTopicRepository) { 
+	public void setCompanyTopicRepository(CompanyTopicRepository companyTopicRepository) {  
 		this.companyTopicRepository = companyTopicRepository;
 	}
 
