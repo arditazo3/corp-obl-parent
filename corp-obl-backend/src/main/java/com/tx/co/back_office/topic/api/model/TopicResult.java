@@ -20,7 +20,7 @@ public class TopicResult {
 	private List<CompanyResult> companyList;
 	private List<TranslationResult> translationList;
 	private List<TopicConsultantResult> topicConsultantList; 
-	private List<CompanyConsultantResult> consultantList; 
+	private List<CompanyConsultantResult> consultantList;
 	
 	public Long getIdTopic() {
 		return idTopic;
