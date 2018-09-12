@@ -18,6 +18,7 @@ public class TopicResult {
 	private String description;
 	private List<CompanyResult> companyList;
 	private List<TranslationResult> translationList;
+	private List<TopicConsultantResult> topicConsultantList; 
 	
 	public Long getIdTopic() {
 		return idTopic;
@@ -43,4 +44,11 @@ public class TopicResult {
 	public void setTranslationList(List<TranslationResult> translationList) {
 		this.translationList = translationList;
 	}
+	public List<TopicConsultantResult> getTopicConsultantList() {
+		return topicConsultantList;
+	}
+	public void setTopicConsultantList(List<TopicConsultantResult> topicConsultantList) {
+		this.topicConsultantList = topicConsultantList;
+	}
+	
 }

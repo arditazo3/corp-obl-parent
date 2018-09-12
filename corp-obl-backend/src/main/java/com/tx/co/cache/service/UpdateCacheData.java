@@ -318,6 +318,8 @@ public abstract class UpdateCacheData {
 		}
 
 		storageDataCacheManager.put(TOPIC_CONSULTANT_LIST_CACHE, topicConsultantList);
+		
+		updateTopicsCache(topicConsultant.getTopic(), true);
 	}
 
 	/**

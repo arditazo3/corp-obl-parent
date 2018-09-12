@@ -206,13 +206,13 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
         TopicConsultant topicConsultantStored = null;
 
         // New TopicConsultant
-        TopicConsultant ifExistTopicConsultant = findByIdTopicConsultant(topicConsultant).get();
-        if(isEmpty(ifExistTopicConsultant)) {
+        Optional<TopicConsultant> ifExistTopicConsultant = findByIdTopicConsultant(topicConsultant);
+        if(isEmpty(ifExistTopicConsultant) && !ifExistTopicConsultant.isPresent()) {
         	topicConsultant.setCreationDate(new Date());
         	topicConsultant.setCreatedBy(username);
         	topicConsultantStored = topicConsultant;
         } else { // Existing TopicConsultant
-        	topicConsultantStored = ifExistTopicConsultant;
+        	topicConsultantStored = ifExistTopicConsultant.get();
         }
         
         if(!isEmpty(topicConsultant.getCompanyConsultant())) {
@@ -222,7 +222,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
         	topicConsultantStored.setTopic(topicConsultant.getTopic());
         }
 
-        topicConsultant.setEnabled(true);
+        topicConsultantStored.setEnabled(true);
         topicConsultantStored.setModificationDate(new Date());
         topicConsultantStored.setModifiedBy(username);
 

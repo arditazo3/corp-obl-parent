@@ -178,6 +178,13 @@ public abstract class ObjectResult {
 			}
 			result.setTranslationList(translationResultsList);
 		}
+		if(!isEmpty(topic.getTopicConsultants())) {
+			List<TopicConsultantResult> topicConsultantsList = new ArrayList<>();
+			for (TopicConsultant topicConsultant : topic.getTopicConsultants()) {
+				topicConsultantsList.add(toTopicConsultantResult(topicConsultant));
+			}
+			result.setTopicConsultantList(topicConsultantsList);
+		}
 		return result;
 	}
 
@@ -378,7 +385,7 @@ public abstract class ObjectResult {
 		TopicConsultantResult result = new TopicConsultantResult();
 		
 		result.setConsultant(toCompanyConsultantResult(topicConsultant.getCompanyConsultant()));
-		result.setTopic(toTopicResult(topicConsultant.getTopic()));
+	//	result.setTopic(toTopicResult(topicConsultant.getTopic()));
 
 		return result;
 	}
