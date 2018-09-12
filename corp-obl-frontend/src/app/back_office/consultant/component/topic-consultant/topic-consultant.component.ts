@@ -7,6 +7,7 @@ import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-det
 import {TopicService} from '../../../topic/service/topic.service';
 import {TopicConsultant} from '../../../topic/model/topic-consultant';
 import {CompanyTopic} from '../../../company/model/company_topic';
+import {Company} from '../../../company/model/company';
 
 @Component({
     selector: 'app-topic-consultant',
@@ -18,6 +19,7 @@ export class TopicConsultantComponent implements OnInit {
     companyTopicsArray = [];
     consultantsObservable: Observable<any[]>;
     errorDetails: ApiErrorDetails;
+    selectedCompany: Company;
 
     constructor(
         private router: Router,
@@ -40,6 +42,7 @@ export class TopicConsultantComponent implements OnInit {
         if (!selectedCompany) {
             return;
         }
+        this.selectedCompany = selectedCompany;
 
         const me = this;
         me.consultantService.getCompanyTopic(selectedCompany).subscribe(
@@ -84,6 +87,7 @@ export class TopicConsultantComponent implements OnInit {
                 (data) => {
                     me.errorDetails = undefined;
                     console.log('TopicConsultantComponent - onAddTopicConsultant - next');
+              //      this.getCompanyTopic(this.selectedCompany);
                 }, error => {
                     me.errorDetails = error.error;
                     console.log('TopicConsultantComponent - onAddTopicConsultant - error');
