@@ -7,7 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.tx.co.back_office.company.domain.Company;
-import com.tx.co.back_office.company.domain.CompanyConsultant;
 import com.tx.co.back_office.company.domain.CompanyTopic;
 
 public interface CompanyTopicRepository extends CrudRepository<CompanyTopic, Long> {

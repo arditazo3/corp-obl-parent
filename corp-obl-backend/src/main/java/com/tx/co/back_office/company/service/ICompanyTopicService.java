@@ -6,6 +6,10 @@ import com.tx.co.back_office.company.domain.CompanyTopic;
 
 public interface ICompanyTopicService {
 
+	/**
+	 * @param idCompany
+	 * @return
+	 */
 	List<CompanyTopic> getCompanyTopicByIdCompany(String idCompany);
 	
 }

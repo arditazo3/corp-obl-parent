@@ -22,8 +22,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.tx.co.back_office.company.api.model.CompanyTopicResult;
+import com.tx.co.back_office.topic.api.model.TopicConsultantResult;
 import com.tx.co.back_office.topic.api.model.TopicResult;
 import com.tx.co.back_office.topic.domain.Topic;
+import com.tx.co.back_office.topic.domain.TopicConsultant;
 import com.tx.co.back_office.topic.service.ITopicService;
 import com.tx.co.common.api.provider.ObjectResult;
 
@@ -80,5 +83,39 @@ public class TopicResource extends ObjectResult {
 
         return Response.noContent().build();
     }
-	
+
+    @POST
+    @Path(TOPIC_CONSULTANT_CREATE_UPDATE)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createUpdateTopicConsultant(TopicConsultantResult topicConsultantResult) {
+
+    	TopicConsultant topicConsultantStored = topicService.saveUpdateTopicConsultant(toTopicConsultant(topicConsultantResult));
+
+        return Response.ok(toTopicConsultantResult(topicConsultantStored)).build();
+    }
+    
+    @PUT
+    @Path(TOPIC_CONSULTANT_DELETE)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+ //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+    public Response deleteTopicConsultant(TopicConsultantResult topicConsultantResult) {
+
+    	topicService.deleteTopicConsultant(toTopicConsultant(topicConsultantResult));
+
+        return Response.noContent().build();
+    }
+    
+    @PUT
+    @Path(TOPIC_CONSULTANTS_DELETE)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+ //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+    public Response deleteTopicConsultant(CompanyTopicResult companyTopicResult) {
+
+    	topicService.deleteTopicConsultants(toCompany(companyTopicResult.getCompany()), toTopic(companyTopicResult.getTopic()));
+
+        return Response.noContent().build();
+    }    
 }

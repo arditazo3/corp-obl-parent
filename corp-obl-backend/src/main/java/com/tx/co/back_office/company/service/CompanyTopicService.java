@@ -1,8 +1,5 @@
 package com.tx.co.back_office.company.service;
 
-import static org.springframework.util.ObjectUtils.isEmpty;
-
-import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.tx.co.back_office.company.domain.CompanyConsultant;
 import com.tx.co.back_office.company.domain.CompanyTopic;
 import com.tx.co.back_office.company.repository.CompanyTopicRepository;
 import com.tx.co.cache.service.UpdateCacheData;
@@ -35,9 +31,21 @@ public class CompanyTopicService extends UpdateCacheData implements ICompanyTopi
 		this.companyTopicRepository = companyTopicRepository;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tx.co.back_office.company.service.ICompanyTopicService#getCompanyTopicByIdCompany(java.lang.String)
+	 * 
+	 * Retrieve Topic from cache in order to get the translations
+	 */
 	@Override
 	public List<CompanyTopic> getCompanyTopicByIdCompany(String idCompany) {
-		return companyTopicRepository.getCompanyTopicByIdCompany(getCompanyById(Long.valueOf(idCompany)));
+		
+		List<CompanyTopic> companyTopics = companyTopicRepository.getCompanyTopicByIdCompany(getCompanyById(Long.valueOf(idCompany)));
+		
+		for (CompanyTopic companyTopic : companyTopics) {
+			Long idTopic = companyTopic.getTopic().getIdTopic();
+			companyTopic.setTopic(getTopicById(idTopic));
+		}
+		return companyTopics;
 	}
 
 	@Override

@@ -13,6 +13,9 @@ import com.tx.co.common.translation.domain.Translation;
 import com.tx.co.common.translation.service.ITranslationService;
 import com.tx.co.common.utils.UtilStatic;
 import com.tx.co.user.domain.User;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.cache.Cache;
@@ -30,6 +33,8 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 
 public abstract class UpdateCacheData {
 
+	private static final Logger logger = LogManager.getLogger(UpdateCacheData.class);
+	
 	private javax.cache.CacheManager cacheManager;
 	private CompanyService companyService;
 	private OfficeService officeService;
@@ -130,7 +135,7 @@ public abstract class UpdateCacheData {
 
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
-		List<TopicConsultant> topicConsultantListCache = isEmpty(storageDataCacheManager.get(TOPIC_CONSULTANT_LIST_CACHE)) ? new ArrayList<>() : (List<TopicConsultant>) storageDataCacheManager.get(TOPIC_LIST_CACHE);
+		List<TopicConsultant> topicConsultantListCache = isEmpty(storageDataCacheManager.get(TOPIC_CONSULTANT_LIST_CACHE)) ? new ArrayList<>() : (List<TopicConsultant>) storageDataCacheManager.get(TOPIC_CONSULTANT_LIST_CACHE);
 
 		Collections.sort(topicConsultantListCache, (a, b) -> a.getCompanyConsultant().getName().compareToIgnoreCase(b.getCompanyConsultant().getName()));
 
@@ -283,6 +288,37 @@ public abstract class UpdateCacheData {
 
 		storageDataCacheManager.put(COMPANY_CONSULTANT_LIST_CACHE, companyConsultantMap);
 	}
+	
+	/**
+	 * @param topicConsultant
+	 * @param updateFromDB
+	 */
+	public void updateTopicConsultantsCache(TopicConsultant topicConsultant, Boolean updateFromDB) {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		List<TopicConsultant> topicConsultantList = getTopicConsultantsFromCache();
+
+		// Object to update or to save as new one
+		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyTopicLConsultantist(topicConsultant.getIdTopicConsultant(), topicConsultantList); 
+
+		if(updateFromDB) {
+			Optional<TopicConsultant> topicConsultantFromDB = topicService.findByIdTopicConsultant(topicConsultant);
+			if(topicConsultantFromDB.isPresent()) {
+				topicConsultant = topicConsultantFromDB.get();
+			}
+		}
+
+		if(indexToUpdateOrInsert == -1) {
+			topicConsultantList.add(topicConsultant);
+		} else if(!topicConsultant.getEnabled()) {
+			topicConsultantList.remove(indexToUpdateOrInsert);
+		} else {
+			topicConsultantList.set(indexToUpdateOrInsert, topicConsultant);
+		}
+
+		storageDataCacheManager.put(TOPIC_CONSULTANT_LIST_CACHE, topicConsultantList);
+	}
 
 	/**
 	 * @param idCompany
@@ -290,8 +326,9 @@ public abstract class UpdateCacheData {
 	 */
 	public Company getCompanyById(Long idCompany) {
 		Company company = null;
-		if(!isEmpty(getCompaniesFromCache())) {
-			for (Company companyLoop : getCompaniesFromCache()) {
+		List<Company> companyListCache = getCompaniesFromCache();
+		if(!isEmpty(companyListCache)) {
+			for (Company companyLoop : companyListCache) {
 				if(idCompany.compareTo(companyLoop.getIdCompany()) == 0) {
 					company = companyLoop;
 					break;
@@ -344,4 +381,34 @@ public abstract class UpdateCacheData {
 		}
 		return companyConsultant;
 	}
+	
+	public Topic getTopicById(Long idTopic) {
+		Topic topic = null;
+		List<Topic> topicListCache = getTopicsFromCache();
+		if (!isEmpty(topicListCache)) {
+			for (Topic topicLoop : topicListCache) {
+				if (idTopic.compareTo(topicLoop.getIdTopic()) == 0) {
+					topic = topicLoop;
+				}
+			}
+		}
+		return topic;
+	}
+	
+	public TopicConsultant getTopicConsultantByIds(TopicConsultant topicConsultantToRetrieve) {
+		TopicConsultant topicConsultant = null;
+		List<TopicConsultant> topicConsultantListCache = getTopicConsultantsFromCache();
+		if (!isEmpty(topicConsultantListCache)) {
+			for (TopicConsultant topicConsultantLoop : topicConsultantListCache) {
+				if (!isEmpty(topicConsultantToRetrieve.getCompanyConsultant()) && 
+						topicConsultantToRetrieve.getCompanyConsultant().getIdCompanyConsultant().compareTo(topicConsultantLoop.getCompanyConsultant().getIdCompanyConsultant()) == 0 &&
+						!isEmpty(topicConsultantToRetrieve.getTopic()) &&
+						topicConsultantToRetrieve.getTopic().getIdTopic().compareTo(topicConsultantLoop.getTopic().getIdTopic()) == 0) {
+					topicConsultant = topicConsultantLoop;
+				}
+			}
+		}
+		return topicConsultant;
+	}
+
 }

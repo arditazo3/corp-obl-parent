@@ -62,6 +62,7 @@ public final class AppConstants {
     public static final String TOPIC_CONSULTANT_LIST = TOPIC_CONSULTANT + LIST;
     public static final String TOPIC_CONSULTANT_CREATE_UPDATE = TOPIC_CONSULTANT + CREATE_UPDATE;
     public static final String TOPIC_CONSULTANT_DELETE = TOPIC_CONSULTANT + DELETE;
+    public static final String TOPIC_CONSULTANTS_DELETE = TOPIC_CONSULTANT + DELETE + "/all";
     
     /**
      * List of authorization Role

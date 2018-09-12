@@ -20,6 +20,7 @@ import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.domain.CompanyTopic;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.domain.TopicConsultant;
+import com.tx.co.back_office.topic.repository.TopicConsultantRepository;
 import com.tx.co.back_office.topic.repository.TopicRepository;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.common.translation.domain.Translation;
@@ -39,6 +40,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 	private static final Logger logger = LogManager.getLogger(TopicService.class);
 
 	private TopicRepository topicRepository;
+	private TopicConsultantRepository topicConsultantRepository;
 	private TranslationRepository translationRepository;
 
 	@Autowired
@@ -49,6 +51,11 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 	@Autowired
 	public void setTranslationRepository(TranslationRepository translationRepository) {
 		this.translationRepository = translationRepository;
+	}
+	
+	@Autowired
+	public void setTopicConsultantRepository(TopicConsultantRepository topicConsultantRepository) {
+		this.topicConsultantRepository = topicConsultantRepository;
 	}
 
 	@Override
@@ -171,37 +178,14 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 
 	}
 
-	public Topic getTopicById(Long idTopic) {
-		Topic topic = null;
-		if (!isEmpty(getTopicsFromCache())) {
-			for (Topic topicLoop : getTopicsFromCache()) {
-				if (idTopic.compareTo(topicLoop.getIdTopic()) == 0) {
-					topic = topicLoop;
-				}
-			}
-		}
-		return topic;
-	}
 	
-	public TopicConsultant getTopicConsultantById(Long idTopicConsultant) {
-		TopicConsultant topicConsultant = null;
-		if (!isEmpty(getTopicsFromCache())) {
-			for (TopicConsultant topicConsultantLoop : getTopicConsultantsFromCache()) {
-				if (idTopicConsultant.compareTo(topicConsultantLoop.getIdTopicConsultant()) == 0) {
-					topicConsultant = topicConsultantLoop;
-				}
-			}
-		}
-		return topicConsultant;
-	}
-
 	@Override
 	public AuthenticationTokenUserDetails getTokenUserDetails() {
 		return (AuthenticationTokenUserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
 	}
 
 	@Override
-	public List<Topic> findAllByOrderByDescriptionAsc() {
+	public List<Topic> findAllOrderByDescriptionAsc() {
 
 		List<Topic> topicList = topicRepository.findAllByOrderByDescriptionAsc();
 
@@ -222,36 +206,90 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
         TopicConsultant topicConsultantStored = null;
 
         // New TopicConsultant
-        if(isEmpty(topicConsultant.getIdTopicConsultant())) {
+        TopicConsultant ifExistTopicConsultant = findByIdTopicConsultant(topicConsultant).get();
+        if(isEmpty(ifExistTopicConsultant)) {
         	topicConsultant.setCreationDate(new Date());
         	topicConsultant.setCreatedBy(username);
-        	topicConsultant.setEnabled(true);
         	topicConsultantStored = topicConsultant;
         } else { // Existing TopicConsultant
-        	topicConsultantStored = getTopicConsultantById(topicConsultant.getIdTopicConsultant());
-        	topicConsultantStored.setName(companyConsultant.getName());
-        	topicConsultantStored.setEmail(companyConsultant.getEmail());
+        	topicConsultantStored = ifExistTopicConsultant;
         }
         
-        if(!isEmpty(companyConsultant.getCompany())) {
-        	companyConsultantStored.setCompany(companyConsultant.getCompany());
+        if(!isEmpty(topicConsultant.getCompanyConsultant())) {
+        	topicConsultantStored.setCompanyConsultant(topicConsultant.getCompanyConsultant());
         }
-        if(!isEmpty(companyConsultant.getPhone1())) {
-        	companyConsultantStored.setPhone1(companyConsultant.getPhone1());
-        }
-        if(!isEmpty(companyConsultant.getPhone2())) {
-        	companyConsultantStored.setPhone2(companyConsultant.getPhone2());
+        if(!isEmpty(topicConsultant.getTopic())) {
+        	topicConsultantStored.setTopic(topicConsultant.getTopic());
         }
 
-        companyConsultantStored.setModificationDate(new Date());
-        companyConsultantStored.setModifiedBy(username);
+        topicConsultant.setEnabled(true);
+        topicConsultantStored.setModificationDate(new Date());
+        topicConsultantStored.setModifiedBy(username);
 
-        companyConsultantStored = companyConsultantRepository.save(companyConsultantStored);
+        topicConsultantStored = topicConsultantRepository.save(topicConsultantStored);
 
-        updateCompanyConsultantCache(companyConsultantStored, false);
+        updateTopicConsultantsCache(topicConsultantStored, false);
 
-        return companyConsultantStored;
+        return topicConsultantStored;
 	}
 
+	@Override
+	public Optional<TopicConsultant> findByIdTopicConsultant(TopicConsultant topicConsultant) {
+		return topicConsultantRepository.findTopicConsultantByIds(topicConsultant.getCompanyConsultant(), topicConsultant.getTopic());
+	}
 
+	@Override
+	public void deleteTopicConsultant(TopicConsultant topicConsultantToDelete) {
+		try {
+			Optional<TopicConsultant> topicConsultantOptional = findByIdTopicConsultant(topicConsultantToDelete);
+
+			if (!topicConsultantOptional.isPresent()) {
+				throw new NotFoundException();
+			}
+
+			// The modification of User
+			String username = getTokenUserDetails().getUser().getUsername();
+
+			TopicConsultant topicConsultant = topicConsultantOptional.get();
+			// disable the topic
+			topicConsultant.setEnabled(false);
+
+			topicConsultant.setModificationDate(new Date());
+			topicConsultant.setModifiedBy(username);
+
+			topicConsultantRepository.save(topicConsultant);
+
+			updateTopicConsultantsCache(topicConsultant, false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new GeneralException("TopicConsultant not found");
+		}
+		
+	}
+
+	@Override
+	public List<TopicConsultant> findAllOrderByTopicDescription() {
+		return topicConsultantRepository.findAllOrderByTopicDescription();
+	}
+
+	@Override
+	public void deleteTopicConsultants(Company company, Topic topic) {
+		List<TopicConsultant> topicConsultants = topicConsultantRepository.findTopicConsultantsByIds(company, topic);
+		if(!isEmpty(topicConsultants)) {
+			for (TopicConsultant topicConsultant : topicConsultants) {
+				deleteTopicConsultant(topicConsultant);
+			}
+		}
+
+	//	List<TopicConsultant> topicConsultants = topicConsultantRepository.findTopicConsultantsByIds(companyTopic.getTopic());
+//		List<TopicConsultant> topicConsultants = null;
+//		if(!isEmpty(topicConsultants)) {
+//			for (TopicConsultant topicConsultant : topicConsultants) {
+//				if(!isEmpty(companyTopic.getCompany()) && !isEmpty(companyTopic.getCompany().getIdCompany()) &&
+//						companyTopic.getCompany().getIdCompany().compareTo(topicConsultant.getCompanyConsultant().getCompany().getIdCompany()) == 0)
+//				deleteTopicConsultant(topicConsultant);
+//			}
+//		}
+		
+	}
 }

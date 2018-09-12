@@ -4,15 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.domain.CompanyConsultant;
 
 /**
@@ -20,8 +21,8 @@ import com.tx.co.back_office.company.domain.CompanyConsultant;
  *
  * @author Ardit Azo
  */
-//@Entity
-//@Table(name = "co_topicconsultant")
+@Entity
+@Table(name = "co_topicconsultant")
 public class TopicConsultant implements Serializable {
 
 	/**
@@ -51,11 +52,11 @@ public class TopicConsultant implements Serializable {
     @Column(nullable = false, name = "modifiedby")
     private String modifiedBy;
 	
-	@ManyToOne
+    @ManyToOne
 	@JoinColumn(name = "topic_id")
 	private Topic topic;
 	
-	@ManyToOne
+    @ManyToOne
 	@JoinColumn(name = "consultantcompany_id")
 	private CompanyConsultant companyConsultant;
 

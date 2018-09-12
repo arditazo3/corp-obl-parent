@@ -7,9 +7,13 @@ import com.tx.co.back_office.company.service.ICompanyConsultantService;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.repository.OfficeRepository;
 import com.tx.co.back_office.topic.domain.Topic;
+import com.tx.co.back_office.topic.domain.TopicConsultant;
 import com.tx.co.back_office.topic.service.ITopicService;
 import com.tx.co.user.domain.User;
 import com.tx.co.user.repository.UserRepository;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,7 @@ import javax.cache.Cache;
 import javax.cache.CacheManager;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +40,8 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @Service
 public abstract class CacheDataLoader {
 
+	private static final Logger logger = LogManager.getLogger(CacheDataLoader.class);
+	
     private javax.cache.CacheManager cacheManager;
     private UserRepository userRepository;
     private CompanyRepository companyRepository;
@@ -83,6 +90,9 @@ public abstract class CacheDataLoader {
     public void init() {
 
         final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+        
+        // Clear the cache
+        ((Collection<String>) cacheManager.getCacheNames()).stream().map(cacheManager::getCache).forEach(Cache::clear);
 
         // Load all the users
         List<User> userList = (List<User>) userRepository.findAll();
@@ -105,10 +115,13 @@ public abstract class CacheDataLoader {
         storageDataCacheManager.put(OFFICE_LIST_CACHE, officeList);
 
         // Load all the topics
-        List<Topic> topicsList = topicService.findAllByOrderByDescriptionAsc();
+        List<Topic> topicsList = topicService.findAllOrderByDescriptionAsc();
         storageDataCacheManager.put(TOPIC_LIST_CACHE, topicsList);
         
         loadConsultantByCompany(storageDataCacheManager);
+        
+        List<TopicConsultant> topicConsultantsList = topicService.findAllOrderByTopicDescription();
+        storageDataCacheManager.put(TOPIC_CONSULTANT_LIST_CACHE, topicConsultantsList);
     }
     
     private void loadConsultantByCompany(final Cache<String, Object> storageDataCacheManager) {

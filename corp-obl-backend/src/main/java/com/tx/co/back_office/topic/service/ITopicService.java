@@ -3,7 +3,7 @@ package com.tx.co.back_office.topic.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.tx.co.back_office.company.domain.CompanyTopic;
+import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.domain.TopicConsultant;
 
@@ -18,7 +18,15 @@ public interface ITopicService {
 
 	void deleteTopic(Long idTopic);
 
-	List<Topic> findAllByOrderByDescriptionAsc();
+	List<Topic> findAllOrderByDescriptionAsc();
 	
 	TopicConsultant saveUpdateTopicConsultant(TopicConsultant topicConsultant);
+	
+	void deleteTopicConsultant(TopicConsultant topicConsultant);
+	
+	void deleteTopicConsultants(Company company, Topic topic);
+	
+	List<TopicConsultant> findAllOrderByTopicDescription();
+	
+	Optional<TopicConsultant> findByIdTopicConsultant(TopicConsultant topicConsultant);
 }

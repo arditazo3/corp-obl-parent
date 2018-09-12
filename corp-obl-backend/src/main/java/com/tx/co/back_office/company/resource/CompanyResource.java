@@ -9,8 +9,7 @@ import com.tx.co.back_office.company.domain.CompanyTopic;
 import com.tx.co.back_office.company.service.ICompanyConsultantService;
 import com.tx.co.back_office.company.service.ICompanyService;
 import com.tx.co.back_office.company.service.ICompanyTopicService;
-import com.tx.co.back_office.topic.api.model.TopicConsultantResult;
-import com.tx.co.back_office.topic.domain.TopicConsultant;
+import com.tx.co.back_office.topic.service.ITopicService;
 import com.tx.co.common.api.provider.ObjectResult;
 import com.tx.co.security.exception.GeneralException;
 import org.apache.logging.log4j.LogManager;
@@ -45,6 +44,7 @@ public class CompanyResource extends ObjectResult {
     private ICompanyService companyService;
     private ICompanyConsultantService companyConsultantService;
     private ICompanyTopicService companyTopicService;
+    private ITopicService topicService;
 
     @Autowired
     public CompanyResource(ICompanyService companyService) {
@@ -59,6 +59,11 @@ public class CompanyResource extends ObjectResult {
     @Autowired
 	public void setCompanyTopicService(ICompanyTopicService companyTopicService) {
 		this.companyTopicService = companyTopicService;
+	}
+    
+    @Autowired
+	public void setTopicService(ITopicService topicService) {
+		this.topicService = topicService;
 	}
 
 	@GET
@@ -186,27 +191,5 @@ public class CompanyResource extends ObjectResult {
 
         return Response.ok(queryCompanyTopicList).build();
     }
-    
-    @POST
-    @Path(TOPIC_CONSULTANT_CREATE_UPDATE)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response createUpdateTopicConsultant(TopicConsultantResult topicConsultantResult) {
-
-    	CompanyTopic companyTopicStored = companyTopicService.saveUpdateCompanyTopic(toCompanyTopic(companyTopicResult));
-
-        return Response.ok(toCompanyTopicResult(companyTopicStored)).build();
-    }
-    
-    @PUT
-    @Path(TOPIC_CONSULTANT_DELETE)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
- //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
-    public Response deleteCompanyTopic(CompanyConsultantResult companyConsultant) {
-
-    	companyConsultantService.deleteCompanyConsultant(companyConsultant.getIdCompanyConsultant());
-
-        return Response.noContent().build();
-    }
+   
 }

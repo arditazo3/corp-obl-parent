@@ -15,8 +15,10 @@ import com.tx.co.back_office.company.domain.CompanyTopic;
 import com.tx.co.back_office.company.domain.CompanyUser;
 import com.tx.co.back_office.office.api.model.OfficeResult;
 import com.tx.co.back_office.office.domain.Office;
+import com.tx.co.back_office.topic.api.model.TopicConsultantResult;
 import com.tx.co.back_office.topic.api.model.TopicResult;
 import com.tx.co.back_office.topic.domain.Topic;
+import com.tx.co.back_office.topic.domain.TopicConsultant;
 import com.tx.co.common.translation.api.model.TranslationResult;
 import com.tx.co.common.translation.domain.Translation;
 import com.tx.co.security.exception.GeneralException;
@@ -304,7 +306,9 @@ public abstract class ObjectResult {
 		if(!isEmpty(companyConsultantResult.getPhone2())) {
 			companyConsultant.setPhone2(companyConsultantResult.getPhone2().trim());
 		}
-		companyConsultant.setCompany(toCompany(companyConsultantResult.getCompany()));
+		if(!isEmpty(companyConsultantResult.getCompany())) {
+			companyConsultant.setCompany(toCompany(companyConsultantResult.getCompany()));
+		}
 
 		return companyConsultant;
 	}
@@ -343,4 +347,39 @@ public abstract class ObjectResult {
 		return companyTopic;
 	}
 
+	
+	/**
+	 * @param topicConsultantResult
+	 * @return
+	 */
+	public TopicConsultant toTopicConsultant(TopicConsultantResult topicConsultantResult) {
+		TopicConsultant topicConsultant = new TopicConsultant();
+
+		if(isEmpty(topicConsultantResult.getConsultant())) {
+			throw new GeneralException("The Company Consultant is empty");
+		} else {
+			topicConsultant.setCompanyConsultant(toCompanyConsultant(topicConsultantResult.getConsultant()));
+		}
+		if(isEmpty(topicConsultantResult.getTopic())) {
+			throw new GeneralException("The Topic Consultant is empty");
+		} else {
+			topicConsultant.setTopic(toTopic(topicConsultantResult.getTopic()));
+		}
+		return topicConsultant;
+	}
+	
+	/**
+	 * Map a {@link TopicConsultant} instance to a {@link TopicConsultantResult} instance.
+	 *
+	 * @param topicConsultant
+	 * @return TopicConsultantResult
+	 */
+	public TopicConsultantResult toTopicConsultantResult(TopicConsultant topicConsultant) {
+		TopicConsultantResult result = new TopicConsultantResult();
+		
+		result.setConsultant(toCompanyConsultantResult(topicConsultant.getCompanyConsultant()));
+		result.setTopic(toTopicResult(topicConsultant.getTopic()));
+
+		return result;
+	}
 }
