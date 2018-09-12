@@ -46,11 +46,6 @@ export class ConsultantCreateUpdateComponent implements OnInit {
           this.consultant = arrayCompanyConsultant[1];
       }
 
-      if (!this.company) {
-          this.router.navigate(['/back-office/consultant']);
-          return;
-      }
-
       if (!this.consultant) {
           this.isNewForm = true;
           this.consultant = new Consultant();
@@ -64,6 +59,11 @@ export class ConsultantCreateUpdateComponent implements OnInit {
           phone1: new FormControl({value: this.consultant.phone1, disabled: false}),
           phone2: new FormControl({value: this.consultant.phone2, disabled: false})
       });
+
+      if (!this.company) {
+          this.router.navigate(['/back-office/consultant']);
+          return;
+      }
   }
 
     // convenience getter for easy access to form fields
