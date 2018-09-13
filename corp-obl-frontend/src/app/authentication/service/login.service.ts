@@ -60,7 +60,8 @@ export class LoginService {
                   'authorities': jsonResp.user.authorities
                 },
                 'token': jsonResp.token,
-                'langList': jsonResp.langList
+                'langList': jsonResp.langList,
+                'langNotAvailableList': jsonResp.langNotAvailableList
               }
             };
             // Store the user and jwt token in session storaget to keep the user llogged in between page refreshes

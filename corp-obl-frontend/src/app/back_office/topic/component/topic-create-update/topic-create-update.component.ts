@@ -22,12 +22,14 @@ export class TopicCreateUpdateComponent implements OnInit {
     isNewForm;
     topic: Topic = new Topic();
     submitted = false;
+    languageNotAvailable = false;
     errorDetails: ApiErrorDetails;
 
     companiesObservable: Observable<any[]>;
     selectedCompanies: Company[];
 
     languagesObservable: Observable<any[]>;
+    languagesNotAvailable;
     selectedLang: string;
     previousLang: string;
     translationList: Translation[] = [];
@@ -67,6 +69,7 @@ export class TopicCreateUpdateComponent implements OnInit {
         });
 
         this.languagesObservable = Observable.of(this.userInfoService.getLanguages());
+        this.languagesNotAvailable = this.userInfoService.getLanguagesNotAvailable();
         this.selectedLang = this.userInfoService.getLanguages()[0];
         this.previousLang = this.selectedLang;
         this.getCompanies();
@@ -127,6 +130,16 @@ export class TopicCreateUpdateComponent implements OnInit {
         if (!previousValue) {
             return;
         }
+
+        this.languagesNotAvailable.forEach((langNotAvail) => {
+            if (actualValue === langNotAvail) {
+                this.createEditTopic.get('description').disable();
+                this.languageNotAvailable = true;
+            } else {
+                this.createEditTopic.get('description').enable();
+                this.languageNotAvailable = false;
+            }
+        });
 
         let newTranslation = true;
         let resetDescriptionTF = true;

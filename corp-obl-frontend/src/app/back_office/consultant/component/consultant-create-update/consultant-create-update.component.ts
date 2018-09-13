@@ -10,6 +10,7 @@ import {Consultant} from '../../model/consultant';
 import {Company} from '../../../company/model/company';
 import {Topic} from '../../../topic/model/topic';
 import {ConsultantService} from '../../service/consultant.service';
+import {AppGlobals} from '../../../../shared/common/api/app-globals';
 
 @Component({
   selector: 'app-consultant-create-update',
@@ -24,7 +25,8 @@ export class ConsultantCreateUpdateComponent implements OnInit {
     errorDetails: ApiErrorDetails;
     company: Company;
 
-    @ViewChild('errorDescriptionSwal') private errorDescriptionSwal: SwalComponent;
+    @ViewChild('errorDescriptionSwal') errorDescriptionSwal: SwalComponent;
+    @ViewChild('errorCompanyEmptySwal') errorCompanyEmptySwal: SwalComponent;
     @ViewChild('cancelBtn') cancelBtn;
     @ViewChild('submitBtn') submitBtn;
     createEditConsultant: FormGroup;
@@ -55,12 +57,17 @@ export class ConsultantCreateUpdateComponent implements OnInit {
 
       this.createEditConsultant = this.formBuilder.group({
           name: new FormControl({value: this.consultant.name, disabled: false}, Validators.required),
-          email: new FormControl({value: this.consultant.email, disabled: false}, [Validators.required, Validators.email]),
+          email: new FormControl({value: this.consultant.email, disabled: false}, Validators.compose(
+              [ Validators.required, Validators.email, Validators.pattern(AppGlobals.emailPattern) ])),
           phone1: new FormControl({value: this.consultant.phone1, disabled: false}),
           phone2: new FormControl({value: this.consultant.phone2, disabled: false})
       });
 
       if (!this.company) {
+          this.errorCompanyEmptySwal.text = 'Select a company';
+          this.errorCompanyEmptySwal.title = 'Select a company';
+          this.errorCompanyEmptySwal.show();
+
           this.router.navigate(['/back-office/consultant']);
           return;
       }

@@ -14,7 +14,7 @@ import {Office} from '../../model/office';
 export class OfficeTableComponent implements OnInit {
 
     @ViewChild('myTable') table: any;
-    @ViewChild('deleteOfficeSwal') private deleteOfficeSwal: SwalComponent;
+    @ViewChild('deleteOfficeSwal') deleteOfficeSwal: SwalComponent;
 
     columns: any[];
     rows: Office[];

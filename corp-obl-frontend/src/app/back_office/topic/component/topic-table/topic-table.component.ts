@@ -14,7 +14,7 @@ import {TransferDataService} from '../../../../shared/common/service/transfer-da
 export class TopicTableComponent implements OnInit {
 
     @ViewChild('myTable') table: any;
-    @ViewChild('deleteTopicSwal') private deleteTopicSwal: SwalComponent;
+    @ViewChild('deleteTopicSwal') deleteTopicSwal: SwalComponent;
 
     columns: any[];
     rows: Topic[];

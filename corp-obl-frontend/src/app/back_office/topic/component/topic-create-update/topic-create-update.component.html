@@ -12,7 +12,7 @@
                         <div class="form-group row">
                             <label for="description" class="col-sm-3 text-right control-label col-form-label">Description</label>
                             <div class="input-group col-sm-9">
-                                <div class="remark-feedback">The French language it not available yet</div>
+                                <div class="remark-feedback" *ngIf="languageNotAvailable">The French language it not available yet</div>
                                 <input type="text" class="form-control"
                                        formControlName="description"
                                        id="description"
