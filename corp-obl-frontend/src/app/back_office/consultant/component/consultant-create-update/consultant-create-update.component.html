@@ -34,7 +34,7 @@
                                     <div *ngIf="f.email.errors.required">Email is required</div>
                                 </div>
                                 <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                                    <div *ngIf="f.email.errors?.email">Email not valid.</div>
+                                    <div *ngIf="f.email.errors?.email || f.email.errors?.pattern">Email not valid.</div>
                                 </div>
 
                             </div>
@@ -75,14 +75,19 @@
                         </div>
                     </div>
                 </form>
-
-                <swal
-                        #errorDescriptionSwal
-                        title=""
-                        type="error">
-                </swal>
-
             </div>
         </div>
+
+        <swal #errorDescriptionSwal
+              title=""
+              type="error">
+        </swal>
+
+        <swal #errorCompanyEmptySwal
+              title="Select a company"
+              type="error">
+        </swal>
+
     </div>
-    <!-- End Row -->
+</div>
+<!-- End Row -->

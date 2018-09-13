@@ -5,6 +5,7 @@ export interface UserTokenInStorage {
     user: User;
     token: string;
     langList: string[];
+    langNotAvailableList: string[];
 }
 
 export interface LoginInfoInStorage {
@@ -78,6 +79,14 @@ export class UserInfoService {
         const userInStorage: UserTokenInStorage = this.getUserInfo();
         if (userInStorage !== null) {
             return userInStorage.langList;
+        }
+        return null;
+    }
+
+    getLanguagesNotAvailable(): string[] | null {
+        const userInStorage: UserTokenInStorage = this.getUserInfo();
+        if (userInStorage !== null) {
+            return userInStorage.langNotAvailableList;
         }
         return null;
     }

@@ -48,6 +48,8 @@ export class ConsultantTableComponent implements OnInit {
     getCompanyConsultant(selectedCompany) {
         console.log('ConsultantTableComponent - getConsultants');
 
+        this.company = selectedCompany;
+
         if (!selectedCompany) {
           return;
         }

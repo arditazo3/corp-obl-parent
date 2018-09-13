@@ -61,10 +61,7 @@ export class CompanyTableComponent implements OnInit {
 
         // filter our data
         const temp = this.temp.filter(function (d) {
-            return d.description.toLowerCase().indexOf(val) !== -1 ||
-                d.createdBy.toLowerCase().indexOf(val) !== -1 ||
-                d.modifiedBy.toLowerCase().indexOf(val) !== -1 ||
-                !val;
+            return d.description.toLowerCase().indexOf(val) !== -1 || !val;
         });
 
         // update the rows

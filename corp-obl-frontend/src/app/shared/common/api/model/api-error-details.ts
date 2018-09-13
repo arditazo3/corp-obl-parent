@@ -4,5 +4,4 @@ export class ApiErrorDetails {
   title: string;
   message: string;
   path: string;
-
 }
