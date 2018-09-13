@@ -14,6 +14,7 @@ public class AuthenticationTokenUser {
     private String token;
     private User user;
     private List<String> langList;
+    private List<String> langNotAvailableList;
 
     public String getToken() {
         return token;
@@ -37,6 +38,14 @@ public class AuthenticationTokenUser {
 
 	public void setLangList(List<String> langList) {
 		this.langList = langList;
+	}
+
+	public List<String> getLangNotAvailableList() {
+		return langNotAvailableList;
+	}
+
+	public void setLangNotAvailableList(List<String> langNotAvailableList) {
+		this.langNotAvailableList = langNotAvailableList;
 	}
     
 }

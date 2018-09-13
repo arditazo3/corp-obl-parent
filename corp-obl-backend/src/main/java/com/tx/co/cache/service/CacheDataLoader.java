@@ -52,6 +52,9 @@ public abstract class CacheDataLoader {
     // Split the string with operator ; to get all the languages
     @Value("${web.app.language}")
     private String languagesString = "";
+    
+    @Value("${web.app.language.notavailable}")
+    private String languagesNotAvailableString = "";
 
     @Autowired
     public void setCacheManager(CacheManager cacheManager) {
@@ -104,6 +107,14 @@ public abstract class CacheDataLoader {
         if(!isEmpty(languagesArray)) {
             languagesList.addAll(Arrays.stream(languagesArray).collect(Collectors.toList()));
             storageDataCacheManager.put(LANGUAGE_LIST_CACHE, languagesList);
+        }
+        
+        // Load all the languages not available on the web app
+        List<String> languagesNotAvailableList = new ArrayList<>();
+        String[] languagesNotAvailableArray = languagesNotAvailableString.split(";");
+        if(!isEmpty(languagesNotAvailableArray)) {
+        	languagesNotAvailableList.addAll(Arrays.stream(languagesNotAvailableArray).collect(Collectors.toList()));
+        	storageDataCacheManager.put(LANGUAGE_NOT_AVAILABLE_LIST_CACHE, languagesNotAvailableList);
         }
 
         // Load all the companies

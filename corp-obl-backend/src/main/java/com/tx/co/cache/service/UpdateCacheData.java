@@ -78,13 +78,23 @@ public abstract class UpdateCacheData {
 	public List<String> getLanguagesFromCache() {
 
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
-
 		List<String> languageListCache = (List<String>) storageDataCacheManager.get(LANGUAGE_LIST_CACHE);
-
 		Collections.sort(languageListCache, (a, b) -> a.compareToIgnoreCase(b));
-
 		return languageListCache;
 	}
+	
+	/**
+	 * @return get the Languages from the cache in order to not execute the query to the database
+	 */
+	public List<String> getLanguagesNotAvailableFromCache() {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+		List<String> languageListCache = (List<String>) storageDataCacheManager.get(LANGUAGE_NOT_AVAILABLE_LIST_CACHE);
+		Collections.sort(languageListCache, (a, b) -> a.compareToIgnoreCase(b));
+		return languageListCache;
+	}
+	
+	
 
 	/**
 	 * @return get the Companies from the cache in order to not execute the query to the database

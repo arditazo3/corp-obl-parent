@@ -81,6 +81,8 @@ public final class AppConstants {
     public static final String TOPIC_CONSULTANT_LIST_CACHE = "TOPIC_CONSULTANT_LIST_CACHE";
     public static final String COMPANY_CONSULTANT_LIST_CACHE = "COMPANY_CONSULTANT_LIST_CACHE";
     public static final String LANGUAGE_LIST_CACHE = "LANGUAGE_LIST_CACHE";
+    public static final String LANGUAGE_NOT_AVAILABLE_LIST_CACHE = "LANGUAGE_NOT_AVAILABLE_LIST_CACHE";
+    
     public static final String STORAGE_DATA_CACHE = "StorageDataCache";
     /* End of the cache key */
 }

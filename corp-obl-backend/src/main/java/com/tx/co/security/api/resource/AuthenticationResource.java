@@ -81,6 +81,7 @@ public class AuthenticationResource implements IUserManagementDetails {
         authenticationTokenUser.setToken(token);
         authenticationTokenUser.setUser(userLogIn);
         authenticationTokenUser.setLangList(userService.getLang());
+        authenticationTokenUser.setLangNotAvailableList(userService.getLangNotAvailable());
 
         return Response.ok(authenticationTokenUser).build();
     }

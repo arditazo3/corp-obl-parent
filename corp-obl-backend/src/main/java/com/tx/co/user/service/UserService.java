@@ -83,5 +83,10 @@ public class UserService extends UpdateCacheData implements IUserService {
 	public List<String> getLang() {
 		return getLanguagesFromCache();
 	}
+
+	@Override
+	public List<String> getLangNotAvailable() {
+		return getLanguagesNotAvailableFromCache();
+	}
 }
 
