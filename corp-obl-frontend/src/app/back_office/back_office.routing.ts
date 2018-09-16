@@ -8,6 +8,8 @@ import {TopicComponent} from './topic/component/topic.component';
 import {TopicCreateUpdateComponent} from './topic/component/topic-create-update/topic-create-update.component';
 import {ConsultantComponent} from './consultant/component/consultant.component';
 import {ConsultantCreateUpdateComponent} from './consultant/component/consultant-create-update/consultant-create-update.component';
+import {TaskTemplateCreateUpdateComponent} from './tasktemplate/component/tasktemplate-create-update/task-template-create-update.component';
+import {TaskTemplateComponent} from './tasktemplate/component/task-template.component';
 
 export const BackOfficeRoutes: Routes = [
     {
@@ -144,8 +146,7 @@ export const BackOfficeRoutes: Routes = [
                         {title: 'Consultant management'}
                     ]
                 }
-            }
-            ,
+            },
             {
                 path: 'consultant/edit',
                 component: ConsultantCreateUpdateComponent,
@@ -154,6 +155,39 @@ export const BackOfficeRoutes: Routes = [
                     urls: [
                         {title: 'Back Office', url: '/back-office/consultant'},
                         {title: 'Consultant management'}
+                    ]
+                }
+            },
+            {
+                path: 'task-template',
+                component: TaskTemplateComponent,
+                data: {
+                    title: 'Task template Management',
+                    urls: [
+                        {title: 'Back Office', url: '/back-office/task-template'},
+                        {title: 'Task template management'}
+                    ]
+                }
+            },
+            {
+                path: 'task-template/create',
+                component: TaskTemplateCreateUpdateComponent,
+                data: {
+                    title: 'Task template Management',
+                    urls: [
+                        {title: 'Back Office', url: '/back-office/task-template'},
+                        {title: 'Task template management'}
+                    ]
+                }
+            },
+            {
+                path: 'task-template/edit',
+                component: TaskTemplateCreateUpdateComponent,
+                data: {
+                    title: 'Task template Management',
+                    urls: [
+                        {title: 'Back Office', url: '/back-office/task-template'},
+                        {title: 'Task template management'}
                     ]
                 }
             }

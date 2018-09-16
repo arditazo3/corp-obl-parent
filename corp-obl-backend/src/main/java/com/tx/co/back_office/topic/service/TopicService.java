@@ -15,6 +15,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.domain.CompanyTopic;
@@ -27,7 +29,9 @@ import com.tx.co.common.translation.domain.Translation;
 import com.tx.co.common.translation.repository.TranslationRepository;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
+import com.tx.co.security.domain.Authority;
 import com.tx.co.security.exception.GeneralException;
+import com.tx.co.user.domain.User;
 
 /**
  * Service for {@link com.tx.co.back_topic.topic.domain.Topic}s.
@@ -52,7 +56,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 	public void setTranslationRepository(TranslationRepository translationRepository) {
 		this.translationRepository = translationRepository;
 	}
-	
+
 	@Autowired
 	public void setTopicConsultantRepository(TopicConsultantRepository topicConsultantRepository) {
 		this.topicConsultantRepository = topicConsultantRepository;
@@ -178,7 +182,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 
 	}
 
-	
+
 	@Override
 	public AuthenticationTokenUserDetails getTokenUserDetails() {
 		return (AuthenticationTokenUserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
@@ -196,41 +200,41 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 		}
 		return topicList;
 	}
-	
+
 	@Override
 	public TopicConsultant saveUpdateTopicConsultant(TopicConsultant topicConsultant) {
 
 		// The modification of User
-        String username = getTokenUserDetails().getUser().getUsername();
-		
-        TopicConsultant topicConsultantStored = null;
+		String username = getTokenUserDetails().getUser().getUsername();
 
-        // New TopicConsultant
-        Optional<TopicConsultant> ifExistTopicConsultant = findByIdTopicConsultant(topicConsultant);
-        if(isEmpty(ifExistTopicConsultant) && !ifExistTopicConsultant.isPresent()) {
-        	topicConsultant.setCreationDate(new Date());
-        	topicConsultant.setCreatedBy(username);
-        	topicConsultantStored = topicConsultant;
-        } else { // Existing TopicConsultant
-        	topicConsultantStored = ifExistTopicConsultant.get();
-        }
-        
-        if(!isEmpty(topicConsultant.getCompanyConsultant())) {
-        	topicConsultantStored.setCompanyConsultant(topicConsultant.getCompanyConsultant());
-        }
-        if(!isEmpty(topicConsultant.getTopic())) {
-        	topicConsultantStored.setTopic(topicConsultant.getTopic());
-        }
+		TopicConsultant topicConsultantStored = null;
 
-        topicConsultantStored.setEnabled(true);
-        topicConsultantStored.setModificationDate(new Date());
-        topicConsultantStored.setModifiedBy(username);
+		// New TopicConsultant
+		Optional<TopicConsultant> ifExistTopicConsultant = findByIdTopicConsultant(topicConsultant);
+		if(!ifExistTopicConsultant.isPresent()) {
+			topicConsultant.setCreationDate(new Date());
+			topicConsultant.setCreatedBy(username);
+			topicConsultantStored = topicConsultant;
+		} else { // Existing TopicConsultant
+			topicConsultantStored = ifExistTopicConsultant.get();
+		}
 
-        topicConsultantStored = topicConsultantRepository.save(topicConsultantStored);
+		if(!isEmpty(topicConsultant.getCompanyConsultant())) {
+			topicConsultantStored.setCompanyConsultant(topicConsultant.getCompanyConsultant());
+		}
+		if(!isEmpty(topicConsultant.getTopic())) {
+			topicConsultantStored.setTopic(topicConsultant.getTopic());
+		}
 
-        updateTopicConsultantsCache(topicConsultantStored, false);
+		topicConsultantStored.setEnabled(true);
+		topicConsultantStored.setModificationDate(new Date());
+		topicConsultantStored.setModifiedBy(username);
 
-        return topicConsultantStored;
+		topicConsultantStored = topicConsultantRepository.save(topicConsultantStored);
+
+		updateTopicConsultantsCache(topicConsultantStored, false);
+
+		return topicConsultantStored;
 	}
 
 	@Override
@@ -261,10 +265,10 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 
 			updateTopicConsultantsCache(topicConsultant, false);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error deleting Topic Consultant", e);
 			throw new GeneralException("TopicConsultant not found");
 		}
-		
+
 	}
 
 	@Override
@@ -280,16 +284,21 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 				deleteTopicConsultant(topicConsultant);
 			}
 		}
+	}
 
-	//	List<TopicConsultant> topicConsultants = topicConsultantRepository.findTopicConsultantsByIds(companyTopic.getTopic());
-//		List<TopicConsultant> topicConsultants = null;
-//		if(!isEmpty(topicConsultants)) {
-//			for (TopicConsultant topicConsultant : topicConsultants) {
-//				if(!isEmpty(companyTopic.getCompany()) && !isEmpty(companyTopic.getCompany().getIdCompany()) &&
-//						companyTopic.getCompany().getIdCompany().compareTo(topicConsultant.getCompanyConsultant().getCompany().getIdCompany()) == 0)
-//				deleteTopicConsultant(topicConsultant);
-//			}
-//		}
+	@Override
+	public List<Topic> getTopicsByRole() {
 		
+		User userLoggedIn = getTokenUserDetails().getUser();
+		
+		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+			return topicRepository.getTopicsByRoleAdmin();
+		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
+			return topicRepository.getTopicsByRoleForeign(userLoggedIn.getUsername());
+		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND)) {
+			Pageable topOne = PageRequest.of(0, 1);
+			return topicRepository.getTopicsByRoleInland(userLoggedIn.getUsername(), topOne);
+		}
+		return new ArrayList<>();
 	}
 }

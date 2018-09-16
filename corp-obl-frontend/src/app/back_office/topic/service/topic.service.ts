@@ -18,6 +18,12 @@ export class TopicService {
         return this.apiRequest.get(this.appConfig.getTopics);
     }
 
+    getTopicsByRole(): Observable<any> {
+        console.log('TopicService - getTopicsByRole');
+
+        return this.apiRequest.get(this.appConfig.getTopicsByRole);
+    }
+
     saveUpdateTopic(topic): Observable<any> {
         console.log('TopicService - saveUpdateTopic');
 

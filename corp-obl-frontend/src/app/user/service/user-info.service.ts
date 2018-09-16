@@ -1,5 +1,6 @@
 import {User} from '../model/user';
 import {Injectable} from '@angular/core';
+import {AuthorityEnum} from '../../shared/common/api/enum/authority.enum';
 
 export interface UserTokenInStorage {
     user: User;
@@ -67,10 +68,42 @@ export class UserInfoService {
         return 'no-user';
     }
 
+    getUserLang(): string {
+        const userInStorage: UserTokenInStorage = this.getUserInfo();
+        if (userInStorage !== null) {
+            return userInStorage.user.lang;
+        }
+        return 'EN';
+    }
+
     getStoredToken(): string | null {
         const userInStorage: UserTokenInStorage = this.getUserInfo();
         if (userInStorage !== null) {
             return userInStorage.token;
+        }
+        return null;
+    }
+
+    isRoleAdmin(): boolean | null {
+        const userInStorage: UserTokenInStorage = this.getUserInfo();
+        if (userInStorage !== null) {
+            return userInStorage.user.authorities.includes(AuthorityEnum[AuthorityEnum.CORPOBLIG_ADMIN]);
+        }
+        return null;
+    }
+
+    isRoleForeign(): boolean | null {
+        const userInStorage: UserTokenInStorage = this.getUserInfo();
+        if (userInStorage !== null) {
+            return userInStorage.user.authorities.includes(AuthorityEnum[AuthorityEnum.CORPOBLIG_BACKOFFICE_FOREIGN]);
+        }
+        return null;
+    }
+
+    isRoleInland(): boolean | null {
+        const userInStorage: UserTokenInStorage = this.getUserInfo();
+        if (userInStorage !== null) {
+            return userInStorage.user.authorities.includes(AuthorityEnum[AuthorityEnum.CORPOBLIG_BACKOFFICE_INLAND]);
         }
         return null;
     }

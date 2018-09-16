@@ -11,8 +11,8 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import java.net.URI;
 
-import static com.tx.co.common.constants.AppConstants.APP_PATH;
-import static com.tx.co.common.constants.AppConstants.AUTH;
+import static com.tx.co.common.constants.ApiConstants.APP_PATH;
+import static com.tx.co.common.constants.ApiConstants.AUTH;
 
 /**
  * Base class for REST API testing.

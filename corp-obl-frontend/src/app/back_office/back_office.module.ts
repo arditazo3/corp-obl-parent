@@ -30,13 +30,18 @@ import { ConsultantTableComponent } from './consultant/component/consultant-tabl
 import { ConsultantCreateUpdateComponent } from './consultant/component/consultant-create-update/consultant-create-update.component';
 import {ConsultantService} from './consultant/service/consultant.service';
 import {TopicConsultantComponent} from './consultant/component/topic-consultant/topic-consultant.component';
+import {TaskTemplateCreateUpdateComponent} from './tasktemplate/component/tasktemplate-create-update/task-template-create-update.component';
+import {TaskTemplateComponent} from './tasktemplate/component/task-template.component';
+import {TaskTemplateService} from './tasktemplate/service/tasktemplate.service';
+import {TranslationService} from '../shared/common/translation/translation.service';
+import {FileUploadModule} from 'ng2-file-upload';
 
 @NgModule({
     imports: [
-        NgSelectModule,
-        CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        NgSelectModule,
+        CommonModule,
         NgbModule,
         NgbModalModule.forRoot(),
         CalendarModule.forRoot(),
@@ -45,13 +50,13 @@ import {TopicConsultantComponent} from './consultant/component/topic-consultant/
         DragulaModule,
         RouterModule.forChild(BackOfficeRoutes),
         PerfectScrollbarModule,
+        FileUploadModule,
         SweetAlert2Module.forRoot({
             buttonsStyling: false,
             customClass: 'modal-content',
             confirmButtonClass: 'btn btn-primary',
             cancelButtonClass: 'btn'
         }),
-
     ],
     declarations: [
         CompanyComponent,
@@ -67,14 +72,18 @@ import {TopicConsultantComponent} from './consultant/component/topic-consultant/
         ConsultantComponent,
         ConsultantTableComponent,
         ConsultantCreateUpdateComponent,
-        TopicConsultantComponent
+        TopicConsultantComponent,
+        TaskTemplateComponent,
+        TaskTemplateCreateUpdateComponent
     ],
     providers: [
         CompanyService,
         UserService,
         OfficeService,
         TopicService,
-        ConsultantService
+        ConsultantService,
+        TaskTemplateService,
+        TranslationService
     ]
 })
 export class BackOfficeModule {

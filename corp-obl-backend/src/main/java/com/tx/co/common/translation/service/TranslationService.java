@@ -28,4 +28,9 @@ public class TranslationService implements ITranslationService {
 		return translationRepository.getTranslationByEntityIdAndTablename(entityId, tablename);
 	}
 
+	@Override
+	public List<Translation> getTranslationLikeTablename(String tablename, String lang) {
+		return translationRepository.getTranslationLikeTablename(tablename, lang);
+	}
+
 }

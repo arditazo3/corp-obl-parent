@@ -6,6 +6,8 @@ import com.tx.co.back_office.company.service.CompanyConsultantService;
 import com.tx.co.back_office.company.service.CompanyService;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.service.OfficeService;
+import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
+import com.tx.co.back_office.tasktemplate.service.TaskTemplateService;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.domain.TopicConsultant;
 import com.tx.co.back_office.topic.service.TopicService;
@@ -28,19 +30,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.tx.co.common.constants.AppConstants.*;
+import static com.tx.co.common.constants.ApiConstants.*;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 public abstract class UpdateCacheData {
 
 	private static final Logger logger = LogManager.getLogger(UpdateCacheData.class);
-	
+
 	private javax.cache.CacheManager cacheManager;
 	private CompanyService companyService;
 	private OfficeService officeService;
 	private TopicService topicService;
 	private CompanyConsultantService companyConsultantService;
 	private ITranslationService translationService;
+	private TaskTemplateService taskTemplateService;
 
 	@Autowired
 	public void setCacheManager(CacheManager cacheManager) {
@@ -61,7 +64,7 @@ public abstract class UpdateCacheData {
 	public void setTopicService(TopicService topicService) {
 		this.topicService = topicService;
 	}
-	
+
 	@Autowired
 	public void setTranslationService(ITranslationService translationService) {
 		this.translationService = translationService;
@@ -70,6 +73,11 @@ public abstract class UpdateCacheData {
 	@Autowired
 	public void setCompanyConsultantService(CompanyConsultantService companyConsultantService) {
 		this.companyConsultantService = companyConsultantService;
+	}
+	
+	@Autowired
+	public void setTaskTemplateService(TaskTemplateService taskTemplateService) {
+		this.taskTemplateService = taskTemplateService;
 	}
 
 	/**
@@ -82,7 +90,7 @@ public abstract class UpdateCacheData {
 		Collections.sort(languageListCache, (a, b) -> a.compareToIgnoreCase(b));
 		return languageListCache;
 	}
-	
+
 	/**
 	 * @return get the Languages from the cache in order to not execute the query to the database
 	 */
@@ -93,8 +101,8 @@ public abstract class UpdateCacheData {
 		Collections.sort(languageListCache, (a, b) -> a.compareToIgnoreCase(b));
 		return languageListCache;
 	}
-	
-	
+
+
 
 	/**
 	 * @return get the Companies from the cache in order to not execute the query to the database
@@ -108,21 +116,13 @@ public abstract class UpdateCacheData {
 		if(isEmpty(companyListCache)) {
 			return new ArrayList<>();
 		}
-		
+
 		try {
 			Collections.sort(companyListCache, (a, b) -> a.getDescription().compareToIgnoreCase(b.getDescription()));	
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error getting companies from the cache", e);
 			return companyListCache;
 		}
-		
-//		Collections.sort(companyListCache, new Comparator<Company>() {
-//		    public int compare(Company a, Company b) {
-//		    	if(isEmpty(a)) return 1;
-//		    	if(isEmpty(b)) return -1;
-//		        return a.getDescription().compareToIgnoreCase(b.getDescription());
-//		    }
-//		});
 
 		return companyListCache;
 	}
@@ -154,7 +154,7 @@ public abstract class UpdateCacheData {
 
 		return topicListCache;
 	}
-	
+
 	/**
 	 * @return get the Topic Consultants from the cache in order to not execute the query to the database
 	 */
@@ -168,7 +168,7 @@ public abstract class UpdateCacheData {
 
 		return topicConsultantListCache;
 	}
-	
+
 	/**
 	 * @return get the CompanyConsultant from the cache in order to not execute the query to the database
 	 */
@@ -179,6 +179,20 @@ public abstract class UpdateCacheData {
 		Map<Long, List<CompanyConsultant>> companyConsultantMap = (Map<Long, List<CompanyConsultant>>) storageDataCacheManager.get(COMPANY_CONSULTANT_LIST_CACHE);
 
 		return companyConsultantMap == null ? new HashMap<>() : companyConsultantMap;
+	}
+
+	/**
+	 * @return get the Task templates from the cache in order to not execute the query to the database
+	 */
+	public List<TaskTemplate> getTaskTemplatesFromCache() {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		List<TaskTemplate> taskTemplateListCache = (List<TaskTemplate>) storageDataCacheManager.get(TASK_TEMPLATE_LIST_CACHE);
+
+		Collections.sort(taskTemplateListCache, (a, b) -> a.getDescription().compareToIgnoreCase(b.getDescription()));	
+
+		return taskTemplateListCache;
 	}
 
 	/**
@@ -277,7 +291,7 @@ public abstract class UpdateCacheData {
 
 		storageDataCacheManager.put(TOPIC_LIST_CACHE, topicList);
 	}
-	
+
 	/**
 	 * @param companyConsultant
 	 * @param updateFromDB
@@ -287,10 +301,10 @@ public abstract class UpdateCacheData {
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
 		Map<Long, List<CompanyConsultant>> companyConsultantMap = getCompanyConsultantsFromCache();
-		
+
 		Long idCompany = companyConsultant.getCompany().getIdCompany();
-		
-		List<CompanyConsultant> companyConsultantList = (List<CompanyConsultant>) companyConsultantMap.get(idCompany);
+
+		List<CompanyConsultant> companyConsultantList = companyConsultantMap.get(idCompany);
 
 		// Object to update or to save as new one
 		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyCompanyConsultantList(companyConsultant.getIdCompanyConsultant(), companyConsultantList); 
@@ -310,12 +324,12 @@ public abstract class UpdateCacheData {
 		} else {
 			companyConsultantList.set(indexToUpdateOrInsert, companyConsultant);
 		}
-		
+
 		companyConsultantMap.put(idCompany, companyConsultantList);
 
 		storageDataCacheManager.put(COMPANY_CONSULTANT_LIST_CACHE, companyConsultantMap);
 	}
-	
+
 	/**
 	 * @param topicConsultant
 	 * @param updateFromDB
@@ -345,8 +359,39 @@ public abstract class UpdateCacheData {
 		}
 
 		storageDataCacheManager.put(TOPIC_CONSULTANT_LIST_CACHE, topicConsultantList);
-		
+
 		updateTopicsCache(topicConsultant.getTopic(), true);
+	}
+	
+	/**
+	 * @param taskTemplate
+	 * @param updateFromDB
+	 */
+	public void updateTaskTemplateCache(TaskTemplate taskTemplate, Boolean updateFromDB) {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		List<TaskTemplate> taskTemplateList = getTaskTemplatesFromCache();
+
+		// Object to update or to save as new one
+		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyTaskTemplateList(taskTemplate.getIdTaskTemplate(), taskTemplateList); 
+
+		if(updateFromDB) {
+			Optional<TaskTemplate> taskTemplateFromDB = taskTemplateService.findByIdTaskTemplate(taskTemplate.getIdTaskTemplate());
+			if(taskTemplateFromDB.isPresent()) {
+				taskTemplate = taskTemplateFromDB.get();
+			}
+		}
+
+		if(indexToUpdateOrInsert == -1) {
+			taskTemplateList.add(taskTemplate);
+		} else if(!taskTemplate.getEnabled()) {
+			taskTemplateList.remove(indexToUpdateOrInsert);
+		} else {
+			taskTemplateList.set(indexToUpdateOrInsert, taskTemplate);
+		}
+
+		storageDataCacheManager.put(TASK_TEMPLATE_LIST_CACHE, taskTemplateList);
 	}
 
 	/**
@@ -366,6 +411,42 @@ public abstract class UpdateCacheData {
 		}
 		return company;
 	}
+	
+	/**
+     * @param idOffice
+     * @return the existing Office on the cache
+     */
+    public Office getOfficeById(Long idOffice) {
+        Office office = null;
+        List<Office> officeListCache = getOfficesFromCache();
+        if(!isEmpty(officeListCache)) {
+            for (Office officeLoop : officeListCache) {
+                if(idOffice.compareTo(officeLoop.getIdOffice()) == 0) {
+                    office = officeLoop;
+                    break;
+                }
+            }
+        }
+        return office;
+    }
+    
+    /**
+     * @param idTaskTemaplate
+     * @return the existing Task template on the cache
+     */
+    public TaskTemplate getTaskTemplateById(Long idTaskTemaplate) {
+    	TaskTemplate taskTemplate = null;
+        List<TaskTemplate> taskTemplateListCache = getTaskTemplatesFromCache();
+        if(!isEmpty(taskTemplateListCache)) {
+            for (TaskTemplate taskTemplateLoop : taskTemplateListCache) {
+                if(idTaskTemaplate.compareTo(taskTemplateLoop.getIdTaskTemplate()) == 0) {
+                	taskTemplate = taskTemplateLoop;
+                    break;
+                }
+            }
+        }
+        return taskTemplate;
+    }
 
 	/**
 	 * @return get the Users from the cache in order to not execute the query to the database
@@ -389,7 +470,7 @@ public abstract class UpdateCacheData {
 		}
 		return userRetrived;
 	}
-	
+
 	/**
 	 * @param idCompanyConsultant
 	 * @return the existing CompanyConsultant on the cache
@@ -398,19 +479,20 @@ public abstract class UpdateCacheData {
 		CompanyConsultant companyConsultant = null;
 		Map<Long, List<CompanyConsultant>> companyConsultantMap = getCompanyConsultantsFromCache();
 		if(!isEmpty(companyConsultantMap)) {
-			for (Long idCompany : companyConsultantMap.keySet()) {
-				for (CompanyConsultant companyConsultantLoop : companyConsultantMap.get(idCompany)) {
+			for (Map.Entry<Long, List<CompanyConsultant>> companyConsultantEntry : companyConsultantMap.entrySet()) {
+				Long key = companyConsultantEntry.getKey();
+				for (CompanyConsultant companyConsultantLoop : companyConsultantMap.get(key)) {
 					if(idCompanyConsultant.compareTo(companyConsultantLoop.getIdCompanyConsultant()) == 0) {
 						companyConsultant = companyConsultantLoop;
 						break;
 					}
 				}
-				
+
 			}
 		}
 		return companyConsultant;
 	}
-	
+
 	public Topic getTopicById(Long idTopic, String idCompany) {
 		Topic topic = null;
 		List<Topic> topicListCache = getTopicsFromCache();
@@ -424,13 +506,13 @@ public abstract class UpdateCacheData {
 		}
 		return topic;
 	}
-	
+
 	public List<CompanyConsultant> getConsultantByIdTopicAndIdCompany(Long idTopic, String idCompany) {
-		
+
 		if(isEmpty(idTopic) || isEmpty(idCompany)) {
 			return new ArrayList<>();
 		}
-		
+
 		List<CompanyConsultant> companyConsultants = new ArrayList<>();
 		List<TopicConsultant> topicConsultantListCache = getTopicConsultantsFromCache();
 		if (!isEmpty(topicConsultantListCache)) {
@@ -443,7 +525,7 @@ public abstract class UpdateCacheData {
 		}
 		return companyConsultants;
 	}
-	
+
 	public TopicConsultant getTopicConsultantByIds(TopicConsultant topicConsultantToRetrieve) {
 		TopicConsultant topicConsultant = null;
 		List<TopicConsultant> topicConsultantListCache = getTopicConsultantsFromCache();

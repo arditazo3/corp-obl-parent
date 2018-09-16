@@ -6,6 +6,8 @@ import {UserInfoService} from '../../../user/service/user-info.service';
 import {Observable} from 'rxjs';
 import 'rxjs/add/operator/catch';
 import {ErrorObservable} from 'rxjs-compat/observable/ErrorObservable';
+import {FileUploader} from 'ng2-file-upload';
+import {FileUploaderOptions} from 'ng2-file-upload/file-upload/file-uploader.class';
 
 @Injectable()
 export class ApiRequestService {
@@ -17,6 +19,11 @@ export class ApiRequestService {
         private userInfoService: UserInfoService
     ) {
     }
+
+    uploader: FileUploader = new FileUploader({
+        url: this.appConfig.baseApiPath + this.appConfig.fileUpload,
+        isHTML5: true
+    });
 
     /**
      * This is a Global place to add all the request headers for every REST calls
@@ -87,5 +94,17 @@ export class ApiRequestService {
                 }
                 return ErrorObservable.create(error || 'Server error');
             });
+    }
+
+    uploadFileWithAuth() {
+        console.log('ApiRequestService - uploadFileWithAuth');
+
+        const authHeader: Array<{
+            name: string;
+            value: string;
+        }> = [];
+        authHeader.push({name: 'Authorization' , value: 'Bearer ' + this.userInfoService.getStoredToken()});
+        const uploadOptions = <FileUploaderOptions>{headers : authHeader};
+        this.uploader.setOptions(uploadOptions);
     }
 }

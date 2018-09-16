@@ -1,5 +1,6 @@
 package com.tx.co.user.resource;
 
+import com.tx.co.common.api.provider.ObjectResult;
 import com.tx.co.user.api.model.UserResult;
 import com.tx.co.user.domain.User;
 import com.tx.co.user.service.IUserService;
@@ -21,11 +22,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static com.tx.co.common.constants.AppConstants.*;
+import static com.tx.co.common.constants.ApiConstants.*;
 
 @Component
 @Path(USER)
-public class UserResource {
+public class UserResource extends ObjectResult {
 
     @Context
     private UriInfo uriInfo;
@@ -47,12 +48,12 @@ public class UserResource {
     public Response getUsers() {
 
         Iterable<User> userIterable = userService.findAllUsers();
-        List<UserResult> queryDetailsList =
+        List<UserResult> queryUserList =
                 StreamSupport.stream(userIterable.spliterator(), false)
-                        .map(this::toQueryResult)
+                        .map(this::toUserResult)
                         .collect(Collectors.toList());
 
-        return Response.ok(queryDetailsList).build();
+        return Response.ok(queryUserList).build();
     }
 
     /**
@@ -68,7 +69,7 @@ public class UserResource {
         List<User> userList = userService.findAllUsersExceptRole(role);
         List<UserResult> queryDetailsList =
                 StreamSupport.stream(userList.spliterator(), false)
-                        .map(this::toQueryResult)
+                        .map(this::toUserResult)
                         .collect(Collectors.toList());
 
         return Response.ok(queryDetailsList).build();
@@ -89,7 +90,7 @@ public class UserResource {
             throw new NotFoundException();
         }
 
-        UserResult result = toQueryResult(user);
+        UserResult result = toUserResult(user);
         return Response.ok(result).build();
     }
 
@@ -113,24 +114,9 @@ public class UserResource {
         }
 
         User user = userService.findByUsername(authentication.getName());
-        UserResult result = toQueryResult(user);
+        UserResult result = toUserResult(user);
         return Response.ok(result).build();
     }
 
-    /**
-     * Map a {@link User} instance to a {@link UserResult} instance.
-     *
-     * @param user
-     * @return UserResult
-     */
-    private UserResult toQueryResult(User user) {
-        UserResult result = new UserResult();
-        result.setusername(user.getUsername());
-        result.setFullName(user.getFullName());
-        result.setEmail(user.getEmail());
-        result.setLang(user.getLang());
-        result.setAuthorities(user.getAuthorities());
-        result.setEnabled(user.isEnabled());
-        return result;
-    }
+    
 }

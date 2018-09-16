@@ -176,13 +176,6 @@ export class TopicCreateUpdateComponent implements OnInit {
         this.previousLang = actualValue;
     }
 
-    // private getCompaniesFromTopic(): any {
-    //     const companiesArray = [];
-    //     this.topic.companyTopicList.forEach( (topicConsultant) => {
-    //         companiesArray.push(topicConsultant.company);
-    //     });
-    //     return companiesArray;
-    // }
     private setDefaultDescription() {
         if (this.translationList.length > 1) {
             this.translationList.forEach((translation) => {

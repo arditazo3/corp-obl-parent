@@ -25,7 +25,7 @@ import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.service.IOfficeService;
 import com.tx.co.common.api.provider.ObjectResult;
 
-import static com.tx.co.common.constants.AppConstants.*;
+import static com.tx.co.common.constants.ApiConstants.*;
 
 @Component
 @Path(BACK_OFFICE)

@@ -20,6 +20,8 @@ public interface ITopicService {
 
 	List<Topic> findAllOrderByDescriptionAsc();
 	
+	List<Topic> getTopicsByRole();
+	
 	TopicConsultant saveUpdateTopicConsultant(TopicConsultant topicConsultant);
 	
 	void deleteTopicConsultant(TopicConsultant topicConsultant);
@@ -29,4 +31,5 @@ public interface ITopicService {
 	List<TopicConsultant> findAllOrderByTopicDescription();
 	
 	Optional<TopicConsultant> findByIdTopicConsultant(TopicConsultant topicConsultant);
+	
 }

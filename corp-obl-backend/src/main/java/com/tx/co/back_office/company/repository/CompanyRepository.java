@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface CompanyRepository extends CrudRepository<Company, Long> {
 
-    @Query("SELECT c FROM Company c WHERE c.description = ?1 and c.enabled <> 0")
+    @Query("select c from Company c where c.description = ?1 and c.enabled <> 0")
     List<Company> findCompaniesByDescription(String description);
 
-    @Query("SELECT c FROM Company c WHERE c.enabled <> 0 order by c.description asc ")
+    @Query("select c from Company c where c.enabled <> 0 order by c.description asc ")
     List<Company> findAllByOrderByDescriptionAsc();
 }

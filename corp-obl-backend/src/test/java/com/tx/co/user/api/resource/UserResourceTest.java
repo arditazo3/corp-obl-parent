@@ -13,7 +13,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-import static com.tx.co.common.constants.AppConstants.*;
+import static com.tx.co.common.constants.ApiConstants.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 

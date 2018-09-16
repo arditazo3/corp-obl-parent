@@ -3,6 +3,7 @@ package com.tx.co.common.utils;
 import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.domain.CompanyConsultant;
 import com.tx.co.back_office.office.domain.Office;
+import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.domain.TopicConsultant;
 
@@ -77,6 +78,20 @@ public class UtilStatic {
 				CompanyConsultant companyConsultant = comparableList.get(i);
 
 				if (companyConsultant !=null && companyConsultant.getIdCompanyConsultant().compareTo(idCompanyConsultant) == 0) {
+					return i;
+				}
+			}
+		}
+		return -1;// not there is list
+	}
+	
+	public static int getIndexByPropertyTaskTemplateList(Long idTaskTemplate, List<TaskTemplate> comparableList) {
+
+		if(!isEmpty(comparableList)) {
+			for (int i = 0; i < comparableList.size(); i++) {
+				TaskTemplate taskTemplate = comparableList.get(i);
+
+				if (taskTemplate !=null && taskTemplate.getIdTaskTemplate().compareTo(idTaskTemplate) == 0) {
 					return i;
 				}
 			}

@@ -13,7 +13,7 @@ public interface ICompanyConsultantService {
 	
 	List<CompanyConsultant> findAll();
 	
-	Optional<CompanyConsultant> findByIdCompanyConsultant(Long IdCompanyConsultant);
+	Optional<CompanyConsultant> findByIdCompanyConsultant(Long idCompanyConsultant);
 	
 	void deleteCompanyConsultant(Long idCompanyConsultant);
 }

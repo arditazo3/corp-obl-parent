@@ -1,0 +1,274 @@
+<!-- Row -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Task Template Form</h4>
+                <hr>
+                <form [formGroup]="createEditTaskTemplate"
+                      (ngSubmit)="createEditTaskTemplateSubmit()">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="description" class="control-label col-form-label">Description</label>
+                                    <input type="text" class="form-control"
+                                           formControlName="description"
+                                           id="description"
+                                           [ngClass]="{'is-invalid': submitted && f.description.errors }">
+                                    <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                        <div *ngIf="f.description.errors.required">Description is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="topic" class="control-label col-form-label">Topic</label>
+                                    <ng-select [items]="topicsObservable | async"
+                                               bindLabel="description"
+                                               id="topic"
+                                               [searchable]="true"
+                                               [clearable]="false"
+                                               [(ngModel)]="selectedTopic"
+                                               [ngModelOptions]="{standalone: true}"
+                                               placeholder="Select a topic">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label col-form-label">Who manages the task</label>
+                                    <div class="form-check">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input"
+                                                   value="1" formControlName="expirationclosableby"
+                                                   id="customControlValidation2" name="expirationclosableby">
+                                            <label class="custom-control-label"
+                                                   for="customControlValidation2">Anyone can close the task</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input"
+                                                   value="2" formControlName="expirationclosableby"
+                                                   id="customControlValidation3" name="expirationclosableby">
+                                            <label class="custom-control-label"
+                                                   for="customControlValidation3">Every user has his task</label>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="submitted && f.expirationclosableby.errors" class="invalid-feedback">
+                                        <div *ngIf="f.expirationclosableby.errors.required">Expiration closed by is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="periodicity" class="control-label col-form-label">Periodicity</label>
+                                    <ng-select [items]="periodicityObservable | async"
+                                               bindLabel="description"
+                                               id="periodicity"
+                                               [searchable]="true"
+                                               [clearable]="false"
+                                               [(ngModel)]="selectedPeriodicity"
+                                               [ngModelOptions]="{standalone: true}"
+                                               placeholder="Select Periodicity">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="expirationtype" class="control-label col-form-label">Expiration</label>
+                                    <ng-select [items]="expirationTypeObservable | async"
+                                               bindLabel="description"
+                                               id="expirationtype"
+                                               [searchable]="true"
+                                               [clearable]="false"
+                                               [(ngModel)]="selectedExpirationType"
+                                               [ngModelOptions]="{standalone: true}"
+                                               placeholder="Select Expiration type">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="day" class="control-label col-form-label">Day</label>
+                                    <input type="number" class="form-control"
+                                           formControlName="day"
+                                           id="day"
+                                           [ngClass]="{'is-invalid': submitted && f.description.errors }">
+                                    <div *ngIf="submitted && f.day.errors" class="invalid-feedback">
+                                        <div *ngIf="f.day.errors.required">Day is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="daysOfNotice" class="control-label col-form-label">Days of
+                                        notice</label>
+                                    <input type="number" class="form-control"
+                                           formControlName="daysOfNotice"
+                                           id="daysOfNotice"
+                                           [ngClass]="{'is-invalid': submitted && f.daysOfNotice.errors }">
+                                    <div *ngIf="submitted && f.daysOfNotice.errors" class="invalid-feedback">
+                                        <div *ngIf="f.daysOfNotice.errors.required">Days of notice is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="daysBeforeShowExpiration" class="control-label col-form-label">Days
+                                        before show expiration</label>
+                                    <input type="number" class="form-control"
+                                           formControlName="daysBeforeShowExpiration"
+                                           id="daysBeforeShowExpiration"
+                                           [ngClass]="{'is-invalid': submitted && f.daysBeforeShowExpiration.errors }">
+                                    <div *ngIf="submitted && f.daysBeforeShowExpiration.errors"
+                                         class="invalid-feedback">
+                                        <div *ngIf="f.daysBeforeShowExpiration.errors.required">Days before show
+                                            expiration is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="expirationClosableBy" class="control-label col-form-label">Expiration
+                                        closable</label>
+                                    <input type="number" class="form-control"
+                                           formControlName="expirationClosableBy"
+                                           id="expirationClosableBy"
+                                           [ngClass]="{'is-invalid': submitted && f.expirationClosableBy.errors }">
+                                    <div *ngIf="submitted && f.expirationClosableBy.errors" class="invalid-feedback">
+                                        <div *ngIf="f.expirationClosableBy.errors.required">Expiration closable is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h4>Select files</h4>
+                                <input type="file" ng2FileSelect [uploader]="uploader" multiple>
+                            </div>
+
+                            <div class="col-md-9">
+                                <h4>Upload queue</h4>
+                                <p>Queue length: {{ uploader?.queue?.length }}</p>
+
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th width="50%">Name</th>
+                                        <th>Size</th>
+                                        <th>Progress</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let item of uploader.queue">
+                                        <td>
+                                            <strong>{{ item?.file?.name }}</strong>
+                                        </td>
+                                        <td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2'
+                                            }} MB
+                                        </td>
+                                        <td *ngIf="uploader.isHTML5">
+                                            <div class="progress" style="margin-bottom: 0;">
+                                                <div class="progress-bar" role="progressbar"
+                                                     [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span *ngIf="item.isSuccess">
+                                                <i class="fa fa-ok"></i>
+                                            </span>
+                                            <span *ngIf="item.isCancel">
+                                                <i class="fa fa-ban"></i>
+                                            </span>
+                                            <span *ngIf="item.isError">
+                                                <i class="fa fa-remove"></i>
+                                            </span>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-raised btn-success btn-sm"
+                                                    (click)="item.upload()"
+                                                    [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                                <span class="fa fa-upload"></span> Upload
+                                            </button>
+                                            <button type="button" class="btn btn-raised btn-warning btn-sm"
+                                                    (click)="item.cancel()" [disabled]="!item.isUploading">
+                                                <span class="fa fa-ban"></span> Cancel
+                                            </button>
+                                            <button type="button" class="btn btn-raised btn-danger btn-sm"
+                                                    (click)="item.remove()">
+                                                <span class="fa fa-trash"></span> Remove
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <div>
+                                    <p>Queue progress:
+                                        <ngb-progressbar type="primary" [value]="uploader.progress"></ngb-progressbar>
+                                    </p>
+                                    <button type="button" class="btn btn-raised btn-success"
+                                            (click)="uploader.uploadAll()"
+                                            [disabled]="!uploader.getNotUploadedItems().length">
+                                        <span class="fa fa-upload"></span> Upload all
+                                    </button>
+                                    <button type="button" class="btn btn-raised btn-warning"
+                                            (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+                                        <span class="fa fa-ban"></span> Cancel all
+                                    </button>
+                                    <button type="button" class="btn btn-raised btn-danger"
+                                            (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                                        <span class="fa fa-trash"></span> Remove all
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="m-b-0 col text-left">
+                                <button #cancelBtn type="button" routerLink="/back-office/task-template"
+                                        class="btn-tnx btn-outline-secondary waves-effect waves-light">
+                                    Cancel
+                                </button>
+                                <button #submitBtn class="btn-tnx btn-success waves-effect waves-light">Save Task
+                                    Template
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <swal
+                        #confirmationTaskTemplateSwal
+                        title=""
+                        text=""
+                        [showCancelButton]="true"
+                        confirmButtonText="Yes, save it!"
+                        cancelButtonText="No, cancel!"
+                        type="warning">
+                </swal>
+
+            </div>
+        </div>
+    </div>
+    <!-- End Row -->

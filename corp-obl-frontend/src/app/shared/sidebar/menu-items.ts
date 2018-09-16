@@ -53,7 +53,16 @@ export const ROUTES: RouteInfo[] = [
         ddclass: '',
         extralink: false,
         submenu: []
-      }
+      },
+        {
+            path: '/back-office/task-template',
+            title: 'Task template',
+            icon: 'mdi mdi-file-document-box',
+            class: '',
+            ddclass: '',
+            extralink: false,
+            submenu: []
+        }
     ]
   }
 ];

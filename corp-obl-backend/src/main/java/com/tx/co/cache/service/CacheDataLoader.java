@@ -6,6 +6,8 @@ import com.tx.co.back_office.company.repository.CompanyRepository;
 import com.tx.co.back_office.company.service.ICompanyConsultantService;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.repository.OfficeRepository;
+import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
+import com.tx.co.back_office.tasktemplate.repository.TaskTemplateRepository;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.domain.TopicConsultant;
 import com.tx.co.back_office.topic.service.ITopicService;
@@ -29,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.tx.co.common.constants.AppConstants.*;
+import static com.tx.co.common.constants.ApiConstants.*;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 /**
@@ -41,110 +43,122 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 public abstract class CacheDataLoader {
 
 	private static final Logger logger = LogManager.getLogger(CacheDataLoader.class);
-	
-    private javax.cache.CacheManager cacheManager;
-    private UserRepository userRepository;
-    private CompanyRepository companyRepository;
-    private OfficeRepository officeRepository;
-    private ITopicService topicService;
-    private ICompanyConsultantService companyConsultantService;
 
-    // Split the string with operator ; to get all the languages
-    @Value("${web.app.language}")
-    private String languagesString = "";
-    
-    @Value("${web.app.language.notavailable}")
-    private String languagesNotAvailableString = "";
+	private javax.cache.CacheManager cacheManager;
+	private UserRepository userRepository;
+	private CompanyRepository companyRepository;
+	private OfficeRepository officeRepository;
+	private ITopicService topicService;
+	private ICompanyConsultantService companyConsultantService;
+	private TaskTemplateRepository taskTemplateRepository;
 
-    @Autowired
-    public void setCacheManager(CacheManager cacheManager) {
-        this.cacheManager = cacheManager;
-    }
+	// Split the string with operator ; to get all the languages
+	@Value("${web.app.language}")
+	private String languagesString = "";
 
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+	@Value("${web.app.language.notavailable}")
+	private String languagesNotAvailableString = "";
 
-    @Autowired
-    public void setCompanyRepository(CompanyRepository companyRepository) {
-        this.companyRepository = companyRepository;
-    }
-    
-    @Autowired
-    public void setOfficeRepository(OfficeRepository officeRepository) {
+	@Autowired
+	public void setCacheManager(CacheManager cacheManager) {
+		this.cacheManager = cacheManager;
+	}
+
+	@Autowired
+	public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
+	@Autowired
+	public void setCompanyRepository(CompanyRepository companyRepository) {
+		this.companyRepository = companyRepository;
+	}
+
+	@Autowired
+	public void setOfficeRepository(OfficeRepository officeRepository) {
 		this.officeRepository = officeRepository;
 	}
 
-    @Autowired
-    public void setTopicService(ITopicService topicService) {
+	@Autowired
+	public void setTopicService(ITopicService topicService) {
 		this.topicService = topicService;
 	}
-    
-    @Autowired
+
+	@Autowired
 	public void setCompanyConsultantService(ICompanyConsultantService companyConsultantService) {
 		this.companyConsultantService = companyConsultantService;
 	}
 
+	@Autowired
+	public void setTaskTemplateRepository(TaskTemplateRepository taskTemplateRepository) {
+		this.taskTemplateRepository = taskTemplateRepository;
+	}
+
 	/**
-     * Store the data to the cache before to start the application
-     */
-    @PostConstruct
-    public void init() {
+	 * Store the data to the cache before to start the application
+	 */
+	@PostConstruct
+	public void init() {
 
-        final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
-        
-        // Clear the cache
-        ((Collection<String>) cacheManager.getCacheNames()).stream().map(cacheManager::getCache).forEach(Cache::clear);
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
-        // Load all the users
-        List<User> userList = (List<User>) userRepository.findAll();
-        storageDataCacheManager.put(USER_LIST_CACHE, userList);
+		// Clear the cache
+		((Collection<String>) cacheManager.getCacheNames()).stream().map(cacheManager::getCache).forEach(Cache::clear);
 
-        // Load all the languages used on the web app
-        List<String> languagesList = new ArrayList<>();
-        String[] languagesArray = languagesString.split(";");
-        if(!isEmpty(languagesArray)) {
-            languagesList.addAll(Arrays.stream(languagesArray).collect(Collectors.toList()));
-            storageDataCacheManager.put(LANGUAGE_LIST_CACHE, languagesList);
-        }
-        
-        // Load all the languages not available on the web app
-        List<String> languagesNotAvailableList = new ArrayList<>();
-        String[] languagesNotAvailableArray = languagesNotAvailableString.split(";");
-        if(!isEmpty(languagesNotAvailableArray)) {
-        	languagesNotAvailableList.addAll(Arrays.stream(languagesNotAvailableArray).collect(Collectors.toList()));
-        	storageDataCacheManager.put(LANGUAGE_NOT_AVAILABLE_LIST_CACHE, languagesNotAvailableList);
-        }
+		// Load all the users
+		List<User> userList = (List<User>) userRepository.findAll();
+		storageDataCacheManager.put(USER_LIST_CACHE, userList);
 
-        // Load all the companies
-        List<Company> companyList = companyRepository.findAllByOrderByDescriptionAsc();
-        storageDataCacheManager.put(COMPANY_LIST_CACHE, companyList);
-        
-        // Load all the offices
-        List<Office> officeList = officeRepository.findAllByOrderByDescriptionAsc();
-        storageDataCacheManager.put(OFFICE_LIST_CACHE, officeList);
+		// Load all the languages used on the web app
+		List<String> languagesList = new ArrayList<>();
+		String[] languagesArray = languagesString.split(";");
+		if(!isEmpty(languagesArray)) {
+			languagesList.addAll(Arrays.stream(languagesArray).collect(Collectors.toList()));
+			storageDataCacheManager.put(LANGUAGE_LIST_CACHE, languagesList);
+		}
 
-        // Load all the topics
-        List<Topic> topicsList = topicService.findAllOrderByDescriptionAsc();
-        storageDataCacheManager.put(TOPIC_LIST_CACHE, topicsList);
-        
-        loadConsultantByCompany(storageDataCacheManager);
-        
-        List<TopicConsultant> topicConsultantsList = topicService.findAllOrderByTopicDescription();
-        storageDataCacheManager.put(TOPIC_CONSULTANT_LIST_CACHE, topicConsultantsList);
-    }
-    
-    private void loadConsultantByCompany(final Cache<String, Object> storageDataCacheManager) {
-    	
-    	List<CompanyConsultant> companyConsultants = companyConsultantService.findAll();
-    	
-    	Map<Long, List<CompanyConsultant>> companyConsultantMap = new HashMap<>();
-    	if(!isEmpty(companyConsultants)) {
-    		
-    		for (CompanyConsultant companyConsultant : companyConsultants) {
-    			Long idCompany = companyConsultant.getCompany().getIdCompany();
-    			
+		// Load all the languages not available on the web app
+		List<String> languagesNotAvailableList = new ArrayList<>();
+		String[] languagesNotAvailableArray = languagesNotAvailableString.split(";");
+		if(!isEmpty(languagesNotAvailableArray)) {
+			languagesNotAvailableList.addAll(Arrays.stream(languagesNotAvailableArray).collect(Collectors.toList()));
+			storageDataCacheManager.put(LANGUAGE_NOT_AVAILABLE_LIST_CACHE, languagesNotAvailableList);
+		}
+
+		// Load all the companies
+		List<Company> companyList = companyRepository.findAllByOrderByDescriptionAsc();
+		storageDataCacheManager.put(COMPANY_LIST_CACHE, companyList);
+
+		// Load all the offices
+		List<Office> officeList = officeRepository.findAllByOrderByDescriptionAsc();
+		storageDataCacheManager.put(OFFICE_LIST_CACHE, officeList);
+
+		// Load all the topics
+		List<Topic> topicsList = topicService.findAllOrderByDescriptionAsc();
+		storageDataCacheManager.put(TOPIC_LIST_CACHE, topicsList);
+
+		// Load all the consultant by companies
+		loadConsultantByCompany(storageDataCacheManager);
+
+		// Load all the topics
+		List<TopicConsultant> topicConsultantsList = topicService.findAllOrderByTopicDescription();
+		storageDataCacheManager.put(TOPIC_CONSULTANT_LIST_CACHE, topicConsultantsList);
+
+		// Load all the task templates
+		List<TaskTemplate> taskTemplatesList = taskTemplateRepository.findAllOrderByDescriptionAsc();
+		storageDataCacheManager.put(TASK_TEMPLATE_LIST_CACHE, taskTemplatesList);
+	}
+
+	private void loadConsultantByCompany(final Cache<String, Object> storageDataCacheManager) {
+
+		List<CompanyConsultant> companyConsultants = companyConsultantService.findAll();
+
+		Map<Long, List<CompanyConsultant>> companyConsultantMap = new HashMap<>();
+		if(!isEmpty(companyConsultants)) {
+
+			for (CompanyConsultant companyConsultant : companyConsultants) {
+				Long idCompany = companyConsultant.getCompany().getIdCompany();
+
 				if(isEmpty(companyConsultantMap.get(idCompany))) {
 					List<CompanyConsultant> companyConsultantsList = new ArrayList<>();
 					companyConsultantsList.add(companyConsultant);
@@ -153,9 +167,9 @@ public abstract class CacheDataLoader {
 					companyConsultantMap.get(idCompany).add(companyConsultant);
 				}
 			}
-    	}
-    	storageDataCacheManager.put(COMPANY_CONSULTANT_LIST_CACHE, companyConsultantMap);
-    }
+		}
+		storageDataCacheManager.put(COMPANY_CONSULTANT_LIST_CACHE, companyConsultantMap);
+	}
 
-	
+
 }

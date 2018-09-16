@@ -21,8 +21,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import static com.tx.co.common.constants.AppConstants.APP_PATH;
-import static com.tx.co.common.constants.AppConstants.AUTH;
+import static com.tx.co.common.constants.ApiConstants.APP_PATH;
+import static com.tx.co.common.constants.ApiConstants.AUTH;
 
 /**
  * Spring Security configuration class.

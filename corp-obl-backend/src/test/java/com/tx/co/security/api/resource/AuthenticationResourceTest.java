@@ -12,7 +12,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import static com.tx.co.common.constants.AppConstants.AUTH;
+import static com.tx.co.common.constants.ApiConstants.AUTH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 

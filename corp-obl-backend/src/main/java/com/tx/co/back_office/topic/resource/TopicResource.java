@@ -1,6 +1,6 @@
 package com.tx.co.back_office.topic.resource;
 
-import static com.tx.co.common.constants.AppConstants.*;
+import static com.tx.co.common.constants.ApiConstants.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,6 +60,24 @@ public class TopicResource extends ObjectResult {
 
         return Response.ok(queryTopicList).build();
     }
+    
+    @GET
+    @Path(TOPIC_LIST_ROLE)
+    @Produces(MediaType.APPLICATION_JSON)
+//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+    // TODO set the Roles to the annotation
+    public Response getTopicsByRole() {
+
+        Iterable<Topic> topicIterable = topicService.getTopicsByRole();
+        List<TopicResult> queryTopicList =
+                StreamSupport.stream(topicIterable.spliterator(), false)
+                        .map(this::toTopicResult)
+                        .collect(Collectors.toList());
+
+        return Response.ok(queryTopicList).build();
+    }    
+    
+    
     
     @POST
     @Path(TOPIC_CREATE_UPDATE)

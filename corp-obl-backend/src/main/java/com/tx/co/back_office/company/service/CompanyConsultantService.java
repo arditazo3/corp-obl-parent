@@ -100,8 +100,8 @@ public class CompanyConsultantService extends UpdateCacheData implements ICompan
 	}
 
 	@Override
-	public Optional<CompanyConsultant> findByIdCompanyConsultant(Long IdCompanyConsultant) {
-		return companyConsultantRepository.findById(IdCompanyConsultant);
+	public Optional<CompanyConsultant> findByIdCompanyConsultant(Long idCompanyConsultant) {
+		return companyConsultantRepository.findById(idCompanyConsultant);
 	}
 
 	@Override

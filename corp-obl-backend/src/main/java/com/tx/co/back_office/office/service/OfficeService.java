@@ -104,23 +104,6 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		return officeStored;
 	}
 
-    /**
-     * @param idOffice
-     * @return the existing Office on the cache
-     */
-    public Office getOfficeById(Long idOffice) {
-        Office office = null;
-        if(!isEmpty(getCompaniesFromCache())) {
-            for (Office officeLoop : getOfficesFromCache()) {
-                if(idOffice.compareTo(officeLoop.getIdOffice()) == 0) {
-                    office = officeLoop;
-                    break;
-                }
-            }
-        }
-        return office;
-    }
-
 	/**
 	 * @param company
 	 * @return true if the Company already exist

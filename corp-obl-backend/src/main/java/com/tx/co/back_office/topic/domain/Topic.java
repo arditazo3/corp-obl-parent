@@ -24,6 +24,7 @@ import org.hibernate.annotations.Where;
 
 import com.tx.co.back_office.company.domain.CompanyConsultant;
 import com.tx.co.back_office.company.domain.CompanyTopic;
+import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.common.translation.domain.Translation;
 
 /**
@@ -72,6 +73,10 @@ public class Topic implements Serializable {
     @OneToMany(mappedBy="topic", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Where(clause = "enabled = 1")
     private Set<TopicConsultant> topicConsultants = new HashSet<>();
+    
+    @OneToMany(mappedBy="topic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Where(clause = "enabled = 1")
+    private Set<TaskTemplate> taskTemaptes = new HashSet<>();
     
     @Transient
     private List<Translation> translationList = new ArrayList<>();
@@ -149,6 +154,14 @@ public class Topic implements Serializable {
 
 	public void setTopicConsultants(Set<TopicConsultant> topicConsultants) {
 		this.topicConsultants = topicConsultants;
+	}
+
+	public Set<TaskTemplate> getTaskTemaptes() {
+		return taskTemaptes;
+	}
+
+	public void setTaskTemaptes(Set<TaskTemplate> taskTemaptes) {
+		this.taskTemaptes = taskTemaptes;
 	}
 
 	public List<Translation> getTranslationList() {

@@ -22,8 +22,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import static com.tx.co.common.constants.AppConstants.AUTH;
-import static com.tx.co.common.constants.AppConstants.REFRESH;
+import static com.tx.co.common.constants.ApiConstants.AUTH;
+import static com.tx.co.common.constants.ApiConstants.REFRESH;
 
 /**
  * JAX-RS resource class for authentication. The username is exchanged for an authentication token.

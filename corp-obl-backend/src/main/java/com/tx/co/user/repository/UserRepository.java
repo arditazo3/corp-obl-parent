@@ -11,7 +11,7 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface UserRepository extends CrudRepository<User, String> {
 
-    @Query("SELECT u FROM User u WHERE u.username = ?1 and u.enabled = 1")
+    @Query("select u from User u where u.username = ?1 and u.enabled = 1")
     User findByUsername(String username);
     
 }

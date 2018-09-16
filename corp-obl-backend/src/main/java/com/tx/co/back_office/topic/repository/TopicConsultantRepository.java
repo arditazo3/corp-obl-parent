@@ -14,12 +14,12 @@ import com.tx.co.back_office.topic.domain.TopicConsultant;
 
 public interface TopicConsultantRepository extends CrudRepository<TopicConsultant, Long> {
 
-	@Query("SELECT tc FROM TopicConsultant tc WHERE tc.enabled <> 0 order by tc.topic.description asc")
+	@Query("select tc from TopicConsultant tc where tc.enabled <> 0 order by tc.topic.description asc")
     List<TopicConsultant> findAllOrderByTopicDescription();
 	
-	@Query("SELECT tc FROM TopicConsultant tc WHERE tc.companyConsultant = :companyConsultant and tc.topic = :topic")
+	@Query("select tc from TopicConsultant tc where tc.companyConsultant = :companyConsultant and tc.topic = :topic")
 	Optional<TopicConsultant> findTopicConsultantByIds(@Param("companyConsultant") CompanyConsultant companyConsultant, @Param("topic") Topic topic);
 	
-	@Query("SELECT tc FROM TopicConsultant tc WHERE tc.companyConsultant.company = :company and  tc.topic = :topic")
+	@Query("select tc from TopicConsultant tc where tc.companyConsultant.company = :company and  tc.topic = :topic")
 	List<TopicConsultant> findTopicConsultantsByIds(@Param("company") Company company, @Param("topic") Topic topic);
 }

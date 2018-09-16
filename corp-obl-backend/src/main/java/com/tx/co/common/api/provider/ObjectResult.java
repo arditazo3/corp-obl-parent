@@ -15,16 +15,38 @@ import com.tx.co.back_office.company.domain.CompanyTopic;
 import com.tx.co.back_office.company.domain.CompanyUser;
 import com.tx.co.back_office.office.api.model.OfficeResult;
 import com.tx.co.back_office.office.domain.Office;
+import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
+import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.topic.api.model.TopicConsultantResult;
 import com.tx.co.back_office.topic.api.model.TopicResult;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.domain.TopicConsultant;
+import static com.tx.co.common.constants.AppConstants.*;
 import com.tx.co.common.translation.api.model.TranslationResult;
 import com.tx.co.common.translation.domain.Translation;
 import com.tx.co.security.exception.GeneralException;
+import com.tx.co.user.api.model.UserResult;
+import com.tx.co.user.domain.User;
 
 public abstract class ObjectResult {
 
+	/**
+     * Map a {@link User} instance to a {@link UserResult} instance.
+     *
+     * @param user
+     * @return UserResult
+     */
+    public UserResult toUserResult(User user) {
+        UserResult result = new UserResult();
+        result.setusername(user.getUsername());
+        result.setFullName(user.getFullName());
+        result.setEmail(user.getEmail());
+        result.setLang(user.getLang());
+        result.setAuthorities(user.getAuthorities());
+        result.setEnabled(user.isEnabled());
+        return result;
+    }
+	
 	/**
 	 * Map a {@link Company} instance to a {@link CompanyResult} instance.
 	 *
@@ -52,7 +74,7 @@ public abstract class ObjectResult {
 	public Company toCompany(CompanyResult companyResult) {
 		Company company = new Company();
 		if(isEmpty(companyResult)) {
-			throw new GeneralException("The form is empty");
+			throw new GeneralException(EMPTY_FORM);
 		}
 		if(!isEmpty(companyResult.getIdCompany())) {
 			company.setIdCompany(companyResult.getIdCompany());
@@ -138,7 +160,7 @@ public abstract class ObjectResult {
 	public Office toOffice(OfficeResult officeResult) {
 		Office office = new Office();
 		if(isEmpty(officeResult)) {
-			throw new GeneralException("The form is empty");
+			throw new GeneralException(EMPTY_FORM);
 		}
 		if(!isEmpty(officeResult.getIdOffice())) {
 			office.setIdOffice(officeResult.getIdOffice());
@@ -149,7 +171,7 @@ public abstract class ObjectResult {
 		if(!isEmpty(officeResult.getCompany())) {
 			office.setCompany(toCompany(officeResult.getCompany()));
 		} else {
-			throw new GeneralException("Fulfill the form");
+			throw new GeneralException(FULLFIT_FORM);
 		}
 		return office;
 	}
@@ -204,7 +226,7 @@ public abstract class ObjectResult {
 	public Topic toTopic(TopicResult topicResult) {
 		Topic topic = new Topic();
 		if(isEmpty(topicResult)) {
-			throw new GeneralException("The form is empty");
+			throw new GeneralException(EMPTY_FORM);
 		}
 		if(!isEmpty(topicResult.getIdTopic())) {
 			topic.setIdTopic(topicResult.getIdTopic());
@@ -220,7 +242,7 @@ public abstract class ObjectResult {
 				topic.getCompanyTopic().add(toCompanyTopic(companyTopicResult));
 			}
 		} else {
-			throw new GeneralException("Fulfill the form");
+			throw new GeneralException(FULLFIT_FORM);
 		}
 		if(!isEmpty(topicResult.getTranslationList())) {
 			for (TranslationResult translationResult : topicResult.getTranslationList()) {
@@ -229,10 +251,10 @@ public abstract class ObjectResult {
 				}
 			}
 			if(isEmpty(topic.getTranslationList())) {
-				throw new GeneralException("Fulfill the form");	
+				throw new GeneralException(FULLFIT_FORM);	
 			}
 		} else {
-			throw new GeneralException("Fulfill the form");
+			throw new GeneralException(FULLFIT_FORM);
 		}
 
 		return topic;
@@ -305,7 +327,7 @@ public abstract class ObjectResult {
 	public CompanyConsultant toCompanyConsultant(CompanyConsultantResult companyConsultantResult) {
 		CompanyConsultant companyConsultant = new CompanyConsultant();
 		if(isEmpty(companyConsultantResult)) {
-			throw new GeneralException("The form is empty");
+			throw new GeneralException(EMPTY_FORM);
 		}
 		if(!isEmpty(companyConsultantResult.getIdCompanyConsultant())) {
 			companyConsultant.setIdCompanyConsultant(companyConsultantResult.getIdCompanyConsultant());
@@ -394,8 +416,70 @@ public abstract class ObjectResult {
 		TopicConsultantResult result = new TopicConsultantResult();
 		
 		result.setConsultant(toCompanyConsultantResult(topicConsultant.getCompanyConsultant()));
-	//	result.setTopic(toTopicResult(topicConsultant.getTopic()));
 
+		return result;
+	}
+	
+	/**
+	 * @param taskTemplateResult
+	 * @return
+	 */
+	public TaskTemplate toTaskTemplate(TaskTemplateResult taskTemplateResult) {
+		TaskTemplate taskTemplate = new TaskTemplate();
+		if(isEmpty(taskTemplateResult)) {
+			throw new GeneralException(EMPTY_FORM);
+		}
+		if(!isEmpty(taskTemplateResult.getIdTaskTemplate())) {
+			taskTemplate.setIdTaskTemplate(taskTemplateResult.getIdTaskTemplate());
+		}
+		if(!isEmpty(taskTemplateResult.getDescription())) {
+			taskTemplate.setDescription(taskTemplateResult.getDescription().trim());
+		}
+		
+		if(!isEmpty(taskTemplateResult.getRecurrence())) {
+			taskTemplate.setRecurrence(taskTemplateResult.getRecurrence());
+		}
+		if(!isEmpty(taskTemplateResult.getExpirationType())) {
+			taskTemplate.setExpirationType(taskTemplateResult.getExpirationType());
+		}
+		if(!isEmpty(taskTemplateResult.getDay())) {
+			taskTemplate.setDay(taskTemplateResult.getDay());
+		}
+		if(!isEmpty(taskTemplateResult.getDaysOfNotice())) {
+			taskTemplate.setDaysOfNotice(taskTemplateResult.getDaysOfNotice());
+		}
+		if(!isEmpty(taskTemplateResult.getDaysBeforeShowExpiration())) {
+			taskTemplate.setDaysBeforeShowExpiration(taskTemplateResult.getDaysBeforeShowExpiration());
+		}
+		if(!isEmpty(taskTemplateResult.getExpirationClosableBy())) {
+			taskTemplate.setExpirationClosableBy(taskTemplateResult.getExpirationClosableBy());
+		}
+		if(!isEmpty(taskTemplateResult.getTopic())) {
+			taskTemplate.setTopic(toTopic(taskTemplateResult.getTopic()));
+		} else {
+			throw new GeneralException(FULLFIT_FORM);
+		}
+		return taskTemplate;
+	}
+	
+	/**
+	 * Map a {@link TaskTemplate} instance to a {@link TaskTemplateResult} instance.
+	 *
+	 * @param taskTemplate
+	 * @return TaskTemplateResult
+	 */
+	public TaskTemplateResult toTaskTemplateResult(TaskTemplate taskTemplate) {
+		TaskTemplateResult result = new TaskTemplateResult();
+		result.setIdTaskTemplate(taskTemplate.getIdTaskTemplate());
+		result.setDescription(taskTemplate.getDescription());
+		result.setRecurrence(taskTemplate.getRecurrence());
+		result.setExpirationType(taskTemplate.getExpirationType());
+		result.setDaysOfNotice(taskTemplate.getDaysOfNotice());
+		result.setDaysBeforeShowExpiration(taskTemplate.getDaysBeforeShowExpiration());
+		result.setExpirationClosableBy(taskTemplate.getExpirationClosableBy());
+		if(!isEmpty(taskTemplate.getTopic())) {
+			result.setTopic(toTopicResult(taskTemplate.getTopic()));
+		}
 		return result;
 	}
 }

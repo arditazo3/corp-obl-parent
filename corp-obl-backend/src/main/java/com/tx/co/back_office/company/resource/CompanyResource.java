@@ -9,7 +9,6 @@ import com.tx.co.back_office.company.domain.CompanyTopic;
 import com.tx.co.back_office.company.service.ICompanyConsultantService;
 import com.tx.co.back_office.company.service.ICompanyService;
 import com.tx.co.back_office.company.service.ICompanyTopicService;
-import com.tx.co.back_office.topic.service.ITopicService;
 import com.tx.co.common.api.provider.ObjectResult;
 import com.tx.co.security.exception.GeneralException;
 import org.apache.logging.log4j.LogManager;
@@ -29,7 +28,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static com.tx.co.common.constants.AppConstants.*;
+import static com.tx.co.common.constants.ApiConstants.*;
 
 
 @Component
@@ -44,7 +43,6 @@ public class CompanyResource extends ObjectResult {
     private ICompanyService companyService;
     private ICompanyConsultantService companyConsultantService;
     private ICompanyTopicService companyTopicService;
-    private ITopicService topicService;
 
     @Autowired
     public CompanyResource(ICompanyService companyService) {
@@ -59,11 +57,6 @@ public class CompanyResource extends ObjectResult {
     @Autowired
 	public void setCompanyTopicService(ICompanyTopicService companyTopicService) {
 		this.companyTopicService = companyTopicService;
-	}
-    
-    @Autowired
-	public void setTopicService(ITopicService topicService) {
-		this.topicService = topicService;
 	}
 
 	@GET
