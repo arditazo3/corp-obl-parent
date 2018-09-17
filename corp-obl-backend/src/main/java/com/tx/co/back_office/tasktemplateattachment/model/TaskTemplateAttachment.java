@@ -20,7 +20,7 @@ import com.tx.co.back_office.topic.domain.Topic;
 /**
  * Domain model that represents a task template attachment.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Entity
 @Table(name = "co_tasktemplateattachment")

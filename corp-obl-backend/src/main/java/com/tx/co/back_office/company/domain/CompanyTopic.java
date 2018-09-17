@@ -19,7 +19,7 @@ import com.tx.co.back_office.topic.domain.Topic;
 /**
  * Domain model that represents a company topic.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Entity
 @Table(name = "co_companytopic")

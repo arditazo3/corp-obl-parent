@@ -26,7 +26,7 @@ import com.tx.co.back_office.topic.domain.TopicConsultant;
 /**
  * Domain model that represents a company consultant.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Entity
 @Table(name = "co_companyconsultant")

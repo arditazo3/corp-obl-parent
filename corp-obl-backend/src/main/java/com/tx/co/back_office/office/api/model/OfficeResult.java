@@ -6,7 +6,7 @@ import com.tx.co.back_office.company.api.model.CompanyResult;
 /**
  * API model for returning office details.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OfficeResult {

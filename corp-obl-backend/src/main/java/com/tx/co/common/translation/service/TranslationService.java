@@ -11,7 +11,7 @@ import com.tx.co.common.translation.repository.TranslationRepository;
 /**
  * Service for {@link Translation}s.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Service
 public class TranslationService implements ITranslationService {
@@ -30,7 +30,7 @@ public class TranslationService implements ITranslationService {
 
 	@Override
 	public List<Translation> getTranslationLikeTablename(String tablename, String lang) {
-		return translationRepository.getTranslationLikeTablename(tablename, lang);
+		return translationRepository.getTranslationLikeTablename(tablename + "%", lang);
 	}
 
 }

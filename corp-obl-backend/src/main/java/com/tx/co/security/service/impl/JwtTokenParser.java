@@ -16,7 +16,7 @@ import java.time.ZonedDateTime;
 /**
  * Component which provides operations for parsing JWT tokens.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Component
 public class JwtTokenParser {

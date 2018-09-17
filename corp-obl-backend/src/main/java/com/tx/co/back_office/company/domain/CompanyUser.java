@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 /**
  * Domain model that represents a company user.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Entity
 @Table(name = "co_companyuser")

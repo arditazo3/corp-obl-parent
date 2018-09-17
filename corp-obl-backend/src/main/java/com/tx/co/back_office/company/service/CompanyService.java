@@ -28,7 +28,7 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 /**
  * Service for {@link com.tx.co.back_office.company.domain.Company}s.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Service
 public class CompanyService extends UpdateCacheData implements ICompanyService, IUserManagementDetails {

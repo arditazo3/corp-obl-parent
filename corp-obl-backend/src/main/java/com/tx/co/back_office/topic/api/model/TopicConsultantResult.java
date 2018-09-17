@@ -6,7 +6,7 @@ import com.tx.co.back_office.company.api.model.CompanyConsultantResult;
 /**
  * API model for returning topic consultant details.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TopicConsultantResult {

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 /**
  * API model for returning company details.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CompanyResult {

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {TaskTemplate} from '../../model/tasktemplate';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -12,9 +12,10 @@ import {Topic} from '../../../topic/model/topic';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {TranslationService} from '../../../../shared/common/translation/translation.service';
 import {Translation} from '../../../../shared/common/translation/model/translation';
-import {FileUploader} from 'ng2-file-upload';
+import {FileLikeObject, FileUploader} from 'ng2-file-upload';
 import {AppConfig} from '../../../../shared/common/api/app-config';
 import {ApiRequestService} from '../../../../shared/common/service/api-request.service';
+import {saveAs as importedSaveAs} from 'file-saver';
 
 @Component({
     selector: 'app-tasktemplate-create-update',
@@ -25,9 +26,10 @@ import {ApiRequestService} from '../../../../shared/common/service/api-request.s
 export class TaskTemplateCreateUpdateComponent implements OnInit {
 
     isNewForm;
+    isForeign = true;
     taskTemplate: TaskTemplate = new TaskTemplate();
     submitted = false;
-    errorDetails: ApiErrorDetails;
+    errorDetails: ApiErrorDetails = new ApiErrorDetails();
 
     topicsObservable: Observable<any[]>;
     periodicityObservable: Observable<any[]>;
@@ -91,6 +93,9 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
             form.append('id', '1');
         };
+        this.uploader.onWhenAddingFileFailed = (item, filter, options) => this.onWhenAddingFileFailed(item, filter, options);
+
+        this.isForeign = this.userInfoService.isRoleForeign();
     }
 
     getTopics() {
@@ -111,6 +116,39 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     }
 
     createEditTaskTemplateSubmit() {
+        console.log('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit');
+
+        const me = this;
+        this.submitted = true;
+
+        if (this.createEditTaskTemplate.invalid) {
+            return;
+        }
+
+        this.taskTemplate.description = this.createEditTaskTemplate.get('description').value;
+        this.taskTemplate.topic = this.selectedTopic;
+    }
+
+    downloadFile(rawFile) {
+        console.log('TaskTemplateCreateUpdateComponent - downloadFile');
+
+        importedSaveAs(rawFile);
+    }
+
+    onWhenAddingFileFailed(item: FileLikeObject, filter: any, options: any) {
+        console.log('TaskTemplateCreateUpdateComponent - onWhenAddingFileFailed');
+
+        switch (filter.name) {
+            case 'fileSize':
+                this.errorDetails.message = `Maximum upload size exceeded (${item.size} of ${this.uploader.options.maxFileSize} allowed)`;
+                break;
+            case 'mimeType':
+                const allowedTypes = this.uploader.options.allowedMimeType.join();
+                this.errorDetails.message = `Type "${item.type} is not allowed. Allowed types: "${allowedTypes}"`;
+                break;
+            default:
+                this.errorDetails.message = `Unknown error (filter is ${filter.name})`;
+        }
     }
 
 }

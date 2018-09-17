@@ -17,7 +17,7 @@ import com.tx.co.security.api.usermanagement.IUserManagementDetails;
 /**
  * Service for {@link com.tx.co.back_office.company.domain.CompanyTopic}s.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Service
 public class CompanyTopicService extends UpdateCacheData implements ICompanyTopicService, IUserManagementDetails {

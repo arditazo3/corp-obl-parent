@@ -13,7 +13,7 @@ import javax.ws.rs.ext.Provider;
 /**
  * JAX-RS provider for Jackson's {@link ObjectMapper}.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Provider
 public class ObjectMapperProvider implements ContextResolver<ObjectMapper> {

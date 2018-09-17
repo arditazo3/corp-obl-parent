@@ -30,7 +30,7 @@ import com.tx.co.common.translation.domain.Translation;
 /**
  * Domain model that represents a topic.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Entity
 @Table(name = "co_topic")

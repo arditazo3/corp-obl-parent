@@ -18,7 +18,7 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 /**
  * Service for {@link com.tx.co.user.domain.User}s.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Service
 public class UserService extends UpdateCacheData implements IUserService {

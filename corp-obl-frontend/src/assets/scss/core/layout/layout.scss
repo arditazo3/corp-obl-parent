@@ -289,3 +289,15 @@ $left-part-width: 260px;
     margin-left: 0px;
   }
 }
+
+.invalid-feedback-show {
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #f62d51;
+}
+
+.invalid-feedback-show-select {
+  border-color: #dc3545;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px #fde6e8;
+}

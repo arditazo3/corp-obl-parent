@@ -6,7 +6,7 @@ import com.tx.co.user.domain.User;
 /**
  * Service which provides operations for authentication tokens.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 public interface AuthenticationTokenService {
 

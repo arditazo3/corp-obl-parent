@@ -10,7 +10,7 @@ import com.tx.co.common.translation.api.model.TranslationResult;
 /**
  * API model for returning topic details.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TopicResult {

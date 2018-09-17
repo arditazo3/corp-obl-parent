@@ -5,7 +5,7 @@ import org.springframework.security.core.AuthenticationException;
 /**
  * Thrown if an authentication token is invalid.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 public class InvalidAuthenticationTokenException extends AuthenticationException {
 

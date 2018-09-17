@@ -17,7 +17,7 @@ import static com.tx.co.common.constants.ApiConstants.AUTH;
 /**
  * Base class for REST API testing.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 public abstract class AbstractApiTest {
 

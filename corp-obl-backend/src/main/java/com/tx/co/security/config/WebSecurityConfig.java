@@ -27,7 +27,7 @@ import static com.tx.co.common.constants.ApiConstants.AUTH;
 /**
  * Spring Security configuration class.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Configuration
 @EnableWebSecurity

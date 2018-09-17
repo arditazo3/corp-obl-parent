@@ -3,7 +3,7 @@ package com.tx.co.security.exception;
 /**
  * Thrown on any general exception.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 public class GeneralException extends RuntimeException {
 

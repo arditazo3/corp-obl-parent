@@ -6,7 +6,7 @@ import com.tx.co.back_office.topic.api.model.TopicResult;
 /**
 * API model for returning company topic details.
 *
-* @author Ardit Azo
+* @author aazo
 */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CompanyTopicResult {

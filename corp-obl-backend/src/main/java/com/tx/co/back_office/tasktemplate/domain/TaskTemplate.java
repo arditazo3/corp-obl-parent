@@ -28,7 +28,7 @@ import com.tx.co.back_office.topic.domain.TopicConsultant;
 /**
  * Domain model that represents a task template.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Entity
 @Table(name = "co_tasktemplate")

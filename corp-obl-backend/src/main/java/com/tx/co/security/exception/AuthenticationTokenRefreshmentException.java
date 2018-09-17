@@ -3,7 +3,7 @@ package com.tx.co.security.exception;
 /**
  * Thrown if an authentication token cannot be refreshed.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 public class AuthenticationTokenRefreshmentException extends RuntimeException {
 

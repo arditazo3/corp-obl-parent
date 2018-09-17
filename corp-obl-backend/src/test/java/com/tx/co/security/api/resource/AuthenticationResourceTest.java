@@ -19,7 +19,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Tests for the authentication resource class.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

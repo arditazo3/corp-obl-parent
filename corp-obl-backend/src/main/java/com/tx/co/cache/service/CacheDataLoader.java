@@ -37,7 +37,7 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 /**
  * Base class of loading the data from the database
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Service
 public abstract class CacheDataLoader {

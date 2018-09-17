@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * API model for returning user details.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResult {

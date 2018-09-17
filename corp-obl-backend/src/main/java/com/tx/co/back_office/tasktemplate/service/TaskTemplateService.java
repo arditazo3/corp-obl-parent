@@ -20,7 +20,7 @@ import com.tx.co.security.api.usermanagement.IUserManagementDetails;
 /**
  * Service for {@link com.tx.co.back_office.tasktemplate.domain.TaskTemplate}s.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Service
 public class TaskTemplateService extends UpdateCacheData implements ITaskTemplateService, IUserManagementDetails {

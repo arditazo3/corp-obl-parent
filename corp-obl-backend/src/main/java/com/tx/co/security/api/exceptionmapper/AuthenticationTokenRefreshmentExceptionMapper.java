@@ -14,7 +14,7 @@ import javax.ws.rs.ext.Provider;
 /**
  * Exception mapper for {@link AuthenticationTokenRefreshmentException}s.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Provider
 public class AuthenticationTokenRefreshmentExceptionMapper implements ExceptionMapper<AuthenticationTokenRefreshmentException> {

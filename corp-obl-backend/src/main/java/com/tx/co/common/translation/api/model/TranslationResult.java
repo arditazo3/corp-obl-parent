@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 /**
  * API model for returning translation details.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TranslationResult {

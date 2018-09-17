@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * Default implementation for the {@link UserDetails} interface.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 public final class AuthenticatedUserDetails implements UserDetails, CredentialsContainer {
 

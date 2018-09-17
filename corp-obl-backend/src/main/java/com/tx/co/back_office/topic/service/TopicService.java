@@ -36,7 +36,7 @@ import com.tx.co.user.domain.User;
 /**
  * Service for {@link com.tx.co.back_topic.topic.domain.Topic}s.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Service
 public class TopicService extends UpdateCacheData implements ITopicService, IUserManagementDetails {

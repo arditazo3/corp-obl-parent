@@ -3,7 +3,7 @@ package com.tx.co.security.api.model;
 /**
  * API model user credentials.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 public class UserCredentials {
 

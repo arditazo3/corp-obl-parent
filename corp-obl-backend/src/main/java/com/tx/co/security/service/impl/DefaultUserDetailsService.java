@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 /**
  * Default implementation for the {@link UserDetailsService}.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Service
 public class DefaultUserDetailsService implements UserDetailsService {

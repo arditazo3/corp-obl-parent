@@ -14,7 +14,7 @@ import java.util.UUID;
 /**
  * Default implementation for the {@link com.tx.co.security.service.AuthenticationTokenService}.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Service
 public class DefaultAuthenticationTokenService implements AuthenticationTokenService {

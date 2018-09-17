@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * The configuration of the class with the config file ehcache.xml
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Configuration
 public class StorageDataCache {

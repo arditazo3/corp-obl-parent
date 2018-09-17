@@ -19,7 +19,7 @@ import com.tx.co.back_office.company.domain.Company;
 /**
  * Domain model that represents a office.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Entity
 @Table(name = "co_office")

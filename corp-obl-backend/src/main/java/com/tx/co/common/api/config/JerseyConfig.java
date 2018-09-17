@@ -7,6 +7,7 @@ import com.tx.co.back_office.tasktemplateattachment.exceptions.FileUploadExcepti
 import com.tx.co.back_office.tasktemplateattachment.resource.TaskTemplateAttachmentResource;
 import com.tx.co.back_office.topic.resource.TopicResource;
 import com.tx.co.common.api.provider.ObjectMapperProvider;
+import com.tx.co.common.translation.resource.TranslationResource;
 import com.tx.co.security.api.exceptionmapper.AccessDeniedExceptionMapper;
 import com.tx.co.security.api.exceptionmapper.AuthenticationExceptionMapper;
 import com.tx.co.security.api.exceptionmapper.AuthenticationTokenRefreshmentExceptionMapper;
@@ -25,7 +26,7 @@ import static com.tx.co.common.constants.ApiConstants.APP_PATH;
 /**
  * Jersey configuration class.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Component
 @ApplicationPath(APP_PATH)
@@ -47,6 +48,7 @@ public class JerseyConfig extends ResourceConfig {
 		register(TopicResource.class);
 		register(TaskTemplateResource.class);
 		register(TaskTemplateAttachmentResource.class);
+		register(TranslationResource.class);
 
 		/**
 		 * General exception

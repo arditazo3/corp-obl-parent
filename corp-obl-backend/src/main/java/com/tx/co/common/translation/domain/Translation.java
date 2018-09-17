@@ -12,7 +12,7 @@ import javax.persistence.Table;
 /**
  * Domain model that represents a translation.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Entity
 @Table(name = "co_translations")

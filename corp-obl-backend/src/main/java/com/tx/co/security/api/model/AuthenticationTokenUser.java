@@ -7,7 +7,7 @@ import com.tx.co.user.domain.User;
 /**
  * API model for an authentication token.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 public class AuthenticationTokenUser {
 

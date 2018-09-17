@@ -29,7 +29,7 @@ import static com.tx.co.common.constants.ApiConstants.REFRESH;
  * JAX-RS resource class for authentication. The username is exchanged for an authentication token.
  * The user need to be exist on the table and to have at least one role
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Component
 @Path(AUTH)

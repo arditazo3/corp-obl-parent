@@ -30,10 +30,13 @@
                                                id="topic"
                                                [searchable]="true"
                                                [clearable]="false"
+                                               formControlName="topic"
                                                [(ngModel)]="selectedTopic"
-                                               [ngModelOptions]="{standalone: true}"
                                                placeholder="Select a topic">
                                     </ng-select>
+                                    <div *ngIf="submitted && !selectedTopic" class="invalid-feedback-show">
+                                        Topic is required
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-4">
@@ -43,23 +46,26 @@
                                         <div class="custom-control custom-radio">
                                             <input type="radio" class="custom-control-input"
                                                    value="1" formControlName="expirationclosableby"
-                                                   id="customControlValidation2" name="expirationclosableby">
+                                                   id="customControlValidation2" name="expirationclosableby" [checked]="isForeign">
                                             <label class="custom-control-label"
                                                    for="customControlValidation2">Anyone can close the task</label>
                                         </div>
                                     </div>
-                                    <div class="form-check">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input"
-                                                   value="2" formControlName="expirationclosableby"
-                                                   id="customControlValidation3" name="expirationclosableby">
-                                            <label class="custom-control-label"
-                                                   for="customControlValidation3">Every user has his task</label>
+                                    <div *ngIf="!isForeign">
+                                        <div class="form-check">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input"
+                                                       value="2" formControlName="expirationclosableby"
+                                                       id="customControlValidation3" name="expirationclosableby">
+                                                <label class="custom-control-label"
+                                                       for="customControlValidation3">Every user has his task</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div *ngIf="submitted && f.expirationclosableby.errors" class="invalid-feedback">
-                                        <div *ngIf="f.expirationclosableby.errors.required">Expiration closed by is
-                                            required
+                                        <div *ngIf="submitted && f.expirationclosableby.errors"
+                                             class="invalid-feedback">
+                                            <div *ngIf="f.expirationclosableby.errors.required">Expiration closed by is
+                                                required
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -156,24 +162,25 @@
                             </div>
                         </div>
 
+                        <br/>
+
                         <div class="row">
-                            <div class="col-md-3">
-                                <h4>Select files</h4>
-                                <input type="file" ng2FileSelect [uploader]="uploader" multiple>
+                            <div class="col-md-2">
+                                <button (click)="fileInput.click()" class="btn-tnx btn-default">Upload Files</button>
+                                <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
+                                    <input type="file" #fileInput ng2FileSelect [uploader]="uploader" multiple/>
+                                </span>
                             </div>
 
-                            <div class="col-md-9">
-                                <h4>Upload queue</h4>
-                                <p>Queue length: {{ uploader?.queue?.length }}</p>
-
-                                <table class="table">
+                            <div class="col-md-10 table-responsive">
+                                <table class="table table-borderless table-sm">
                                     <thead>
                                     <tr>
                                         <th width="50%">Name</th>
-                                        <th>Size</th>
-                                        <th>Progress</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th width="10%">Size</th>
+                                        <!--<th>Progress</th>-->
+                                        <!--<th>Status</th>-->
+                                        <th width="40%">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -181,63 +188,66 @@
                                         <td>
                                             <strong>{{ item?.file?.name }}</strong>
                                         </td>
-                                        <td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2'
-                                            }} MB
+                                        <td nowrap>{{ item?.file?.size/1024/1024 | number:'.1' }} MB
                                         </td>
-                                        <td *ngIf="uploader.isHTML5">
-                                            <div class="progress" style="margin-bottom: 0;">
-                                                <div class="progress-bar" role="progressbar"
-                                                     [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <span *ngIf="item.isSuccess">
-                                                <i class="fa fa-ok"></i>
-                                            </span>
-                                            <span *ngIf="item.isCancel">
-                                                <i class="fa fa-ban"></i>
-                                            </span>
-                                            <span *ngIf="item.isError">
-                                                <i class="fa fa-remove"></i>
-                                            </span>
-                                        </td>
+                                        <!--<td *ngIf="uploader.isHTML5">-->
+                                        <!--<div class="progress" style="margin-bottom: 0;">-->
+                                        <!--<div class="progress-bar" role="progressbar"-->
+                                        <!--[ngStyle]="{ 'width': item.progress + '%' }"></div>-->
+                                        <!--</div>-->
+                                        <!--</td>-->
+                                        <!--<td class="text-center">-->
+                                        <!--<span *ngIf="item.isSuccess">-->
+                                        <!--<i class="fa fa-ok"></i>-->
+                                        <!--</span>-->
+                                        <!--<span *ngIf="item.isCancel">-->
+                                        <!--<i class="fa fa-ban"></i>-->
+                                        <!--</span>-->
+                                        <!--<span *ngIf="item.isError">-->
+                                        <!--<i class="fa fa-remove"></i>-->
+                                        <!--</span>-->
+                                        <!--</td>-->
                                         <td nowrap>
-                                            <button type="button" class="btn btn-raised btn-success btn-sm"
-                                                    (click)="item.upload()"
-                                                    [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                                                <span class="fa fa-upload"></span> Upload
-                                            </button>
-                                            <button type="button" class="btn btn-raised btn-warning btn-sm"
-                                                    (click)="item.cancel()" [disabled]="!item.isUploading">
-                                                <span class="fa fa-ban"></span> Cancel
-                                            </button>
-                                            <button type="button" class="btn btn-raised btn-danger btn-sm"
+                                            <!--<button type="button" class="btn btn-raised btn-success btn-sm"-->
+                                            <!--(click)="item.upload()"-->
+                                            <!--[disabled]="item.isReady || item.isUploading || item.isSuccess">-->
+                                            <!--<span class="fa fa-upload"></span> Upload-->
+                                            <!--</button>-->
+                                            <!--<button type="button" class="btn btn-raised btn-warning btn-sm"-->
+                                            <!--(click)="item.cancel()" [disabled]="!item.isUploading">-->
+                                            <!--<span class="fa fa-ban"></span> Cancel-->
+                                            <!--</button>-->
+                                            <button type="button" class="btn-tnx btn-danger btn-sm"
                                                     (click)="item.remove()">
                                                 <span class="fa fa-trash"></span> Remove
+                                            </button>
+                                            <button type="button" class="btn-tnx btn-sm"
+                                                    (click)="downloadFile(item?.file?.rawFile)">
+                                                <span class="fa fa-download"></span> Download
                                             </button>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
 
-                                <div>
-                                    <p>Queue progress:
-                                        <ngb-progressbar type="primary" [value]="uploader.progress"></ngb-progressbar>
-                                    </p>
-                                    <button type="button" class="btn btn-raised btn-success"
-                                            (click)="uploader.uploadAll()"
-                                            [disabled]="!uploader.getNotUploadedItems().length">
-                                        <span class="fa fa-upload"></span> Upload all
-                                    </button>
-                                    <button type="button" class="btn btn-raised btn-warning"
-                                            (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
-                                        <span class="fa fa-ban"></span> Cancel all
-                                    </button>
-                                    <button type="button" class="btn btn-raised btn-danger"
-                                            (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-                                        <span class="fa fa-trash"></span> Remove all
-                                    </button>
-                                </div>
+                                <!--<div>-->
+                                <!--<p>Queue progress:-->
+                                <!--<ngb-progressbar type="primary" [value]="uploader.progress"></ngb-progressbar>-->
+                                <!--</p>-->
+                                <!--<button type="button" class="btn btn-raised btn-success"-->
+                                <!--(click)="uploader.uploadAll()"-->
+                                <!--[disabled]="!uploader.getNotUploadedItems().length">-->
+                                <!--<span class="fa fa-upload"></span> Upload all-->
+                                <!--</button>-->
+                                <!--<button type="button" class="btn btn-raised btn-warning"-->
+                                <!--(click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">-->
+                                <!--<span class="fa fa-ban"></span> Cancel all-->
+                                <!--</button>-->
+                                <!--<button type="button" class="btn btn-raised btn-danger"-->
+                                <!--(click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">-->
+                                <!--<span class="fa fa-trash"></span> Remove all-->
+                                <!--</button>-->
+                                <!--</div>-->
                             </div>
                         </div>
 

@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Domain model that represents a company.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Entity
 @Table(name = "co_company")

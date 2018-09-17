@@ -11,7 +11,7 @@ import java.util.Collection;
 /**
  * An {@link org.springframework.security.core.Authentication} implementation designed for presentation of a JWT token.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 

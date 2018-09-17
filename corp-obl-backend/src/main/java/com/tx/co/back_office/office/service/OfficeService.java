@@ -25,7 +25,7 @@ import com.tx.co.security.exception.GeneralException;
 /**
  * Service for {@link com.tx.co.back_office.office.domain.Office}s.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Service
 public class OfficeService extends UpdateCacheData implements IOfficeService, IUserManagementDetails  {

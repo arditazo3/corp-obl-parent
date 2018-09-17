@@ -14,7 +14,7 @@ import javax.ws.rs.ext.Provider;
 /**
  * Exception mapper for {@link AuthenticationException}s.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Provider
 public class AuthenticationExceptionMapper implements ExceptionMapper<AuthenticationException> {

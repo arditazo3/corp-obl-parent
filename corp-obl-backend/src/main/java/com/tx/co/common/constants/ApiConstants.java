@@ -3,7 +3,7 @@ package com.tx.co.common.constants;
 /**
  * The class contains the static values
  *
- * @author Ardit Azo
+ * @author aazo
  */
 public final class ApiConstants {
 

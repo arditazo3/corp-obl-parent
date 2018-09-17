@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * Repository for {@link com.tx.co.user.domain.User}s.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 public interface UserRepository extends CrudRepository<User, String> {
 

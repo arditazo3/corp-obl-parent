@@ -24,7 +24,7 @@ import com.tx.co.security.exception.GeneralException;
 /**
  * Service for {@link com.tx.co.back_office.company.domain.CompanyConsultant}s.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Service
 public class CompanyConsultantService extends UpdateCacheData implements ICompanyConsultantService, IUserManagementDetails {

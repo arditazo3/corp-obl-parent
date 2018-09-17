@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Domain model that represents a user.
  *
- * @author Ardit Azo
+ * @author aazo
  */
 @Entity
 @Table(name = "co_user")
