@@ -31,22 +31,22 @@ import com.tx.co.user.domain.User;
 public abstract class ObjectResult {
 
 	/**
-     * Map a {@link User} instance to a {@link UserResult} instance.
-     *
-     * @param user
-     * @return UserResult
-     */
-    public UserResult toUserResult(User user) {
-        UserResult result = new UserResult();
-        result.setusername(user.getUsername());
-        result.setFullName(user.getFullName());
-        result.setEmail(user.getEmail());
-        result.setLang(user.getLang());
-        result.setAuthorities(user.getAuthorities());
-        result.setEnabled(user.isEnabled());
-        return result;
-    }
-	
+	 * Map a {@link User} instance to a {@link UserResult} instance.
+	 *
+	 * @param user
+	 * @return UserResult
+	 */
+	public UserResult toUserResult(User user) {
+		UserResult result = new UserResult();
+		result.setusername(user.getUsername());
+		result.setFullName(user.getFullName());
+		result.setEmail(user.getEmail());
+		result.setLang(user.getLang());
+		result.setAuthorities(user.getAuthorities());
+		result.setEnabled(user.isEnabled());
+		return result;
+	}
+
 	/**
 	 * Map a {@link Company} instance to a {@link CompanyResult} instance.
 	 *
@@ -201,19 +201,19 @@ public abstract class ObjectResult {
 			result.setTranslationList(translationResultsList);
 		}
 		if(!isEmpty(topic.getTopicConsultants())) {
-			
+
 			List<TopicConsultantResult> topicConsultantsList = new ArrayList<>();
 			for (TopicConsultant topicConsultant : topic.getTopicConsultants()) {
 				topicConsultantsList.add(toTopicConsultantResult(topicConsultant));
 			}
 			result.setTopicConsultantList(topicConsultantsList);
-			
+
 			List<CompanyConsultantResult> consultantList = new ArrayList<>();
 			for (CompanyConsultant companyConsultant : topic.getCompanyConsultantsList()) {
 				consultantList.add(toCompanyConsultantResult(companyConsultant));
 			}
 			result.setConsultantList(consultantList);
-			
+
 			result.setConsultantList(consultantList);
 		}
 		return result;
@@ -223,7 +223,7 @@ public abstract class ObjectResult {
 	 * @param topicResult
 	 * @return
 	 */
-	public Topic toTopic(TopicResult topicResult) {
+	public Topic toTopic(TopicResult topicResult, Boolean hasTranslations) {
 		Topic topic = new Topic();
 		if(isEmpty(topicResult)) {
 			throw new GeneralException(EMPTY_FORM);
@@ -244,17 +244,19 @@ public abstract class ObjectResult {
 		} else {
 			throw new GeneralException(FULLFIT_FORM);
 		}
-		if(!isEmpty(topicResult.getTranslationList())) {
-			for (TranslationResult translationResult : topicResult.getTranslationList()) {
-				if(!isEmpty(translationResult.getDescription())) {
-					topic.getTranslationList().add(toTranslation(translationResult));
+		if(hasTranslations) {
+			if(!isEmpty(topicResult.getTranslationList())) {
+				for (TranslationResult translationResult : topicResult.getTranslationList()) {
+					if(!isEmpty(translationResult.getDescription())) {
+						topic.getTranslationList().add(toTranslation(translationResult));
+					}
 				}
+				if(isEmpty(topic.getTranslationList())) {
+					throw new GeneralException(FULLFIT_FORM);	
+				}
+			} else {
+				throw new GeneralException(FULLFIT_FORM);
 			}
-			if(isEmpty(topic.getTranslationList())) {
-				throw new GeneralException(FULLFIT_FORM);	
-			}
-		} else {
-			throw new GeneralException(FULLFIT_FORM);
 		}
 
 		return topic;
@@ -296,7 +298,7 @@ public abstract class ObjectResult {
 
 		return translationResult;
 	}
-	
+
 	/**
 	 * Map a {@link CompanyConsultant} instance to a {@link CompanyConsultantResult} instance.
 	 *
@@ -305,7 +307,7 @@ public abstract class ObjectResult {
 	 */
 	public CompanyConsultantResult toCompanyConsultantResult(CompanyConsultant companyConsultant) {
 		CompanyConsultantResult result = new CompanyConsultantResult();
-		
+
 		result.setIdCompanyConsultant(companyConsultant.getIdCompanyConsultant());
 		result.setName(companyConsultant.getName());
 		result.setEmail(companyConsultant.getEmail());
@@ -319,7 +321,7 @@ public abstract class ObjectResult {
 
 		return result;
 	}
-	
+
 	/**
 	 * @param companyConsultantResult
 	 * @return
@@ -350,7 +352,7 @@ public abstract class ObjectResult {
 
 		return companyConsultant;
 	}
-	
+
 	/**
 	 * Map a {@link CompanyTopic} instance to a {@link CompanyTopicResult} instance.
 	 *
@@ -359,14 +361,14 @@ public abstract class ObjectResult {
 	 */
 	public CompanyTopicResult toCompanyTopicResult(CompanyTopic companyTopic) {
 		CompanyTopicResult result = new CompanyTopicResult();
-		
+
 		result.setIdCompanyTopic(companyTopic.getIdCompanyTopic());
 		result.setCompany(toCompanyResult(companyTopic.getCompany()));
 		result.setTopic(toTopicResult(companyTopic.getTopic()));
 
 		return result;
 	}
-	
+
 	/**
 	 * @param companyTopicResult
 	 * @return
@@ -385,7 +387,7 @@ public abstract class ObjectResult {
 		return companyTopic;
 	}
 
-	
+
 	/**
 	 * @param topicConsultantResult
 	 * @return
@@ -401,11 +403,11 @@ public abstract class ObjectResult {
 		if(isEmpty(topicConsultantResult.getTopic())) {
 			throw new GeneralException("The Topic Consultant is empty");
 		} else {
-			topicConsultant.setTopic(toTopic(topicConsultantResult.getTopic()));
+			topicConsultant.setTopic(toTopic(topicConsultantResult.getTopic(),true));
 		}
 		return topicConsultant;
 	}
-	
+
 	/**
 	 * Map a {@link TopicConsultant} instance to a {@link TopicConsultantResult} instance.
 	 *
@@ -414,12 +416,12 @@ public abstract class ObjectResult {
 	 */
 	public TopicConsultantResult toTopicConsultantResult(TopicConsultant topicConsultant) {
 		TopicConsultantResult result = new TopicConsultantResult();
-		
+
 		result.setConsultant(toCompanyConsultantResult(topicConsultant.getCompanyConsultant()));
 
 		return result;
 	}
-	
+
 	/**
 	 * @param taskTemplateResult
 	 * @return
@@ -435,7 +437,6 @@ public abstract class ObjectResult {
 		if(!isEmpty(taskTemplateResult.getDescription())) {
 			taskTemplate.setDescription(taskTemplateResult.getDescription().trim());
 		}
-		
 		if(!isEmpty(taskTemplateResult.getRecurrence())) {
 			taskTemplate.setRecurrence(taskTemplateResult.getRecurrence());
 		}
@@ -455,13 +456,13 @@ public abstract class ObjectResult {
 			taskTemplate.setExpirationClosableBy(taskTemplateResult.getExpirationClosableBy());
 		}
 		if(!isEmpty(taskTemplateResult.getTopic())) {
-			taskTemplate.setTopic(toTopic(taskTemplateResult.getTopic()));
+			taskTemplate.setTopic(toTopic(taskTemplateResult.getTopic(), false));
 		} else {
 			throw new GeneralException(FULLFIT_FORM);
 		}
 		return taskTemplate;
 	}
-	
+
 	/**
 	 * Map a {@link TaskTemplate} instance to a {@link TaskTemplateResult} instance.
 	 *

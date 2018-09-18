@@ -8,6 +8,8 @@ import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.service.OfficeService;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.service.TaskTemplateService;
+import com.tx.co.back_office.tasktemplateattachment.model.TaskTemplateAttachment;
+import com.tx.co.back_office.tasktemplateattachment.service.TaskTemplateAttachmentService;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.domain.TopicConsultant;
 import com.tx.co.back_office.topic.service.TopicService;
@@ -44,6 +46,7 @@ public abstract class UpdateCacheData {
 	private CompanyConsultantService companyConsultantService;
 	private ITranslationService translationService;
 	private TaskTemplateService taskTemplateService;
+	private TaskTemplateAttachmentService taskTemplateAttachmentService;
 
 	@Autowired
 	public void setCacheManager(CacheManager cacheManager) {
@@ -195,6 +198,20 @@ public abstract class UpdateCacheData {
 		return taskTemplateListCache;
 	}
 
+	/**
+	 * @return get the Task templates from the cache in order to not execute the query to the database
+	 */
+	public List<TaskTemplateAttachment> getTaskTemplatesAttachmentFromCache() {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		List<TaskTemplateAttachment> taskTemplateAttachmentListCache = (List<TaskTemplateAttachment>) storageDataCacheManager.get(TASK_TEMPLATE_ATTACHMENT_LIST_CACHE);
+
+		Collections.sort(taskTemplateAttachmentListCache, (a, b) -> a.getIdTaskTemplateAttachment().toString().compareToIgnoreCase(b.getIdTaskTemplateAttachment().toString()));	
+
+		return taskTemplateAttachmentListCache;
+	}
+	
 	/**
 	 * @param company
 	 * @param updateFromDB
@@ -393,6 +410,38 @@ public abstract class UpdateCacheData {
 
 		storageDataCacheManager.put(TASK_TEMPLATE_LIST_CACHE, taskTemplateList);
 	}
+	
+	/**
+	 * @param taskTemplateAttachment
+	 * @param updateFromDB
+	 */
+	public void updateTaskTemplateAttachmentCache(TaskTemplateAttachment taskTemplateAttachment, Boolean updateFromDB) {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		List<TaskTemplateAttachment> taskTemplateAttachmentList = getTaskTemplatesAttachmentFromCache();
+
+		// Object to update or to save as new one
+		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyTaskTemplateListAttachment(taskTemplateAttachment.getIdTaskTemplateAttachment(), taskTemplateAttachmentList); 
+
+		if(updateFromDB) {
+			Optional<TaskTemplateAttachment> taskTemplateFromDB = taskTemplateAttachmentService.findByIdTaskTemplateAttachment(taskTemplateAttachment.getIdTaskTemplateAttachment());
+			if(taskTemplateFromDB.isPresent()) {
+				taskTemplateAttachment = taskTemplateFromDB.get();
+			}
+		}
+
+		if(indexToUpdateOrInsert == -1) {
+			taskTemplateAttachmentList.add(taskTemplateAttachment);
+//		} 
+//		else if(!taskTemplateAttachment.getEnabled()) {
+//			taskTemplateAttachmentList.remove(indexToUpdateOrInsert);
+		} else {
+			taskTemplateAttachmentList.set(indexToUpdateOrInsert, taskTemplateAttachment);
+		}
+
+		storageDataCacheManager.put(TASK_TEMPLATE_LIST_CACHE, taskTemplateAttachmentList);
+	}
 
 	/**
 	 * @param idCompany
@@ -446,6 +495,24 @@ public abstract class UpdateCacheData {
             }
         }
         return taskTemplate;
+    }
+    
+    /**
+     * @param idTaskTemaplate
+     * @return the existing Task template on the cache
+     */
+    public TaskTemplateAttachment getTaskTemplateAttachmentById(Long idTaskTemaplateAttachment) {
+    	TaskTemplateAttachment taskTemplateAttachment = null;
+        List<TaskTemplateAttachment> taskTemplateAttachmentListCache = getTaskTemplatesAttachmentFromCache();
+        if(!isEmpty(taskTemplateAttachmentListCache)) {
+            for (TaskTemplateAttachment taskTemplateAttachmentLoop : taskTemplateAttachmentListCache) {
+                if(idTaskTemaplateAttachment.compareTo(taskTemplateAttachmentLoop.getIdTaskTemplateAttachment()) == 0) {
+                	taskTemplateAttachment = taskTemplateAttachmentLoop;
+                    break;
+                }
+            }
+        }
+        return taskTemplateAttachment;
     }
 
 	/**

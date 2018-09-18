@@ -4,6 +4,7 @@ import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.domain.CompanyConsultant;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
+import com.tx.co.back_office.tasktemplateattachment.model.TaskTemplateAttachment;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.domain.TopicConsultant;
 
@@ -92,6 +93,20 @@ public class UtilStatic {
 				TaskTemplate taskTemplate = comparableList.get(i);
 
 				if (taskTemplate !=null && taskTemplate.getIdTaskTemplate().compareTo(idTaskTemplate) == 0) {
+					return i;
+				}
+			}
+		}
+		return -1;// not there is list
+	}
+	
+	public static int getIndexByPropertyTaskTemplateListAttachment(Long idTaskTemplateAttachment, List<TaskTemplateAttachment> comparableList) {
+
+		if(!isEmpty(comparableList)) {
+			for (int i = 0; i < comparableList.size(); i++) {
+				TaskTemplateAttachment taskTemplateAttachment = comparableList.get(i);
+
+				if (taskTemplateAttachment !=null && taskTemplateAttachment.getIdTaskTemplateAttachment().compareTo(idTaskTemplateAttachment) == 0) {
 					return i;
 				}
 			}

@@ -97,6 +97,7 @@ public final class ApiConstants {
 	public static final String LANGUAGE_LIST_CACHE = "LANGUAGE_LIST_CACHE";
 	public static final String LANGUAGE_NOT_AVAILABLE_LIST_CACHE = "LANGUAGE_NOT_AVAILABLE_LIST_CACHE";
 	public static final String TASK_TEMPLATE_LIST_CACHE = "TASK_TEMPLATE_LIST_CACHE";
+	public static final String TASK_TEMPLATE_ATTACHMENT_LIST_CACHE = "TASK_TEMPLATE_ATTACHMENT_LIST_CACHE";
 
 	public static final String STORAGE_DATA_CACHE = "StorageDataCache";
 	/* End of the cache key */

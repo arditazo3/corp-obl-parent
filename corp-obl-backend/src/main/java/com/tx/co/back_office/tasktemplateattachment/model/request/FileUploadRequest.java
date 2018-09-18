@@ -4,24 +4,16 @@ import com.tx.co.back_office.tasktemplateattachment.model.file.HttpFile;
 
 public class FileUploadRequest {
 
-    private final String title;
-    private final String description;
+    private final Long id;
     private final HttpFile httpFile;
 
-    public FileUploadRequest(String title, String description, HttpFile httpFile) {
-        this.title = title;
-        this.description = description;
+    public FileUploadRequest(Long id, HttpFile httpFile) {
+        this.id = id;
         this.httpFile = httpFile;
     }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
+    public Long getId() {
+		return id;
+	}
     public HttpFile getHttpFile() {
         return httpFile;
     }

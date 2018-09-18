@@ -4,14 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FileUploadResponse {
 
-    private final String identifier;
+    private final Object object;
 
-    public FileUploadResponse(String identifier) {
-        this.identifier = identifier;
+    public FileUploadResponse(Object object) {
+        this.object = object;
     }
 
-    @JsonProperty("identifier")
-    public String getIdentifier() {
-        return identifier;
-    }
+    @JsonProperty("object")
+	public Object getObject() {
+		return object;
+	}
 }

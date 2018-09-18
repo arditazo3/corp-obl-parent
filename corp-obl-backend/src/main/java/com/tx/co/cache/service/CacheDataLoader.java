@@ -8,6 +8,8 @@ import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.repository.OfficeRepository;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.repository.TaskTemplateRepository;
+import com.tx.co.back_office.tasktemplateattachment.model.TaskTemplateAttachment;
+import com.tx.co.back_office.tasktemplateattachment.repository.TaskTemplateAttachmentRepository;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.domain.TopicConsultant;
 import com.tx.co.back_office.topic.service.ITopicService;
@@ -51,6 +53,7 @@ public abstract class CacheDataLoader {
 	private ITopicService topicService;
 	private ICompanyConsultantService companyConsultantService;
 	private TaskTemplateRepository taskTemplateRepository;
+	private TaskTemplateAttachmentRepository taskTemplateAttachmentRepository;
 
 	// Split the string with operator ; to get all the languages
 	@Value("${web.app.language}")
@@ -92,6 +95,11 @@ public abstract class CacheDataLoader {
 	@Autowired
 	public void setTaskTemplateRepository(TaskTemplateRepository taskTemplateRepository) {
 		this.taskTemplateRepository = taskTemplateRepository;
+	}
+	
+	@Autowired
+	public void setTaskTemplateAttachmentRepository(TaskTemplateAttachmentRepository taskTemplateAttachmentRepository) {
+		this.taskTemplateAttachmentRepository = taskTemplateAttachmentRepository;
 	}
 
 	/**
@@ -147,6 +155,10 @@ public abstract class CacheDataLoader {
 		// Load all the task templates
 		List<TaskTemplate> taskTemplatesList = taskTemplateRepository.findAllOrderByDescriptionAsc();
 		storageDataCacheManager.put(TASK_TEMPLATE_LIST_CACHE, taskTemplatesList);
+		
+		// Load all the task template attachment
+		List<TaskTemplateAttachment> taskTemplateAttachmentList = (List<TaskTemplateAttachment>) taskTemplateAttachmentRepository.findAll();
+		storageDataCacheManager.put(TASK_TEMPLATE_ATTACHMENT_LIST_CACHE, taskTemplateAttachmentList);
 	}
 
 	private void loadConsultantByCompany(final Cache<String, Object> storageDataCacheManager) {

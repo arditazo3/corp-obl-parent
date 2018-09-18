@@ -50,13 +50,13 @@ public class TaskTemplateAttachmentResource extends ObjectResult {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response fileUpload(@FormDataParam("file") InputStream stream,
 			@FormDataParam("file") FormDataContentDisposition fileDetail,
-			@FormDataParam("id") String id) {
+			@FormDataParam("idTaskTemplate") Long idTaskTemplate) {
 
 		// Create the HttpFile:
-		HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(), fileDetail.getSize(), fileDetail.getParameters(), stream);
+		HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(), fileDetail.getType(), fileDetail.getSize(), fileDetail.getParameters(), stream);
 
 		// Create the FileUploadRequest:
-		FileUploadRequest fileUploadRequest = new FileUploadRequest(fileDetail.getName(), fileDetail.getName(), httpFile);
+		FileUploadRequest fileUploadRequest = new FileUploadRequest(idTaskTemplate, httpFile);
 
 		// Handle the File Upload:
 		FileUploadResponse result = fileUploadHandler.handle(fileUploadRequest);

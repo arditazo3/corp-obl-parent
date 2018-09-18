@@ -19,11 +19,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Where;
-
 import com.tx.co.back_office.tasktemplateattachment.model.TaskTemplateAttachment;
 import com.tx.co.back_office.topic.domain.Topic;
-import com.tx.co.back_office.topic.domain.TopicConsultant;
 
 /**
  * Domain model that represents a task template.
