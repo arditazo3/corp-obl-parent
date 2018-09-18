@@ -28,9 +28,9 @@
                                     <ng-select [items]="topicsObservable | async"
                                                bindLabel="description"
                                                id="topic"
+                                               [ngModelOptions]="{standalone: true}"
                                                [searchable]="true"
                                                [clearable]="false"
-                                               formControlName="topic"
                                                [(ngModel)]="selectedTopic"
                                                placeholder="Select a topic">
                                     </ng-select>
@@ -46,7 +46,8 @@
                                         <div class="custom-control custom-radio">
                                             <input type="radio" class="custom-control-input"
                                                    value="1" formControlName="expirationclosableby"
-                                                   id="customControlValidation2" name="expirationclosableby" [checked]="isForeign">
+                                                   id="customControlValidation2" name="expirationclosableby"
+                                                   [checked]="isForeign">
                                             <label class="custom-control-label"
                                                    for="customControlValidation2">Anyone can close the task</label>
                                         </div>
@@ -166,12 +167,16 @@
 
                         <div class="row">
                             <div class="col-md-2">
-                                <button (click)="fileInput.click()" class="btn-tnx btn-default">Upload Files</button>
+                                <button type="button" (click)="fileInput.click()" class="btn-tnx btn-default">Upload
+                                    Files
+                                </button>
                                 <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
                                     <input type="file" #fileInput ng2FileSelect [uploader]="uploader" multiple/>
                                 </span>
                             </div>
+                        </div>
 
+                        <div class="row">
                             <div class="col-md-10 table-responsive">
                                 <table class="table table-borderless table-sm">
                                     <thead>
@@ -217,14 +222,16 @@
                                             <!--(click)="item.cancel()" [disabled]="!item.isUploading">-->
                                             <!--<span class="fa fa-ban"></span> Cancel-->
                                             <!--</button>-->
-                                            <button type="button" class="btn-tnx btn-danger btn-sm"
+                                            <button type="button" class="btn-tnx btn-danger btn-xs"
                                                     (click)="item.remove()">
                                                 <span class="fa fa-trash"></span> Remove
                                             </button>
-                                            <button type="button" class="btn-tnx btn-sm"
-                                                    (click)="downloadFile(item?.file?.rawFile)">
-                                                <span class="fa fa-download"></span> Download
-                                            </button>
+                                            <div *ngIf="!isNewForm">
+                                                <button type="button" class="btn-tnx btn-sm"
+                                                        (click)="downloadFile(item?.file?.rawFile)">
+                                                    <span class="fa fa-download"></span> Download
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -281,4 +288,5 @@
             </div>
         </div>
     </div>
-    <!-- End Row -->
+</div>
+<!-- End Row -->

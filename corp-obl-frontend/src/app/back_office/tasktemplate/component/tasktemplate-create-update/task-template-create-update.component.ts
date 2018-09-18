@@ -89,10 +89,6 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         this.uploader.onBeforeUploadItem = (item) => {
             item.withCredentials = false;
         };
-
-        this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
-            form.append('id', '1');
-        };
         this.uploader.onWhenAddingFileFailed = (item, filter, options) => this.onWhenAddingFileFailed(item, filter, options);
 
         this.isForeign = this.userInfoService.isRoleForeign();
@@ -127,6 +123,42 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
 
         this.taskTemplate.description = this.createEditTaskTemplate.get('description').value;
         this.taskTemplate.topic = this.selectedTopic;
+        this.taskTemplate.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
+        this.taskTemplate.expirationType = this.selectedExpirationType.tablename.split('#')[2];
+        this.taskTemplate.day = this.createEditTaskTemplate.get('day').value;
+        this.taskTemplate.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
+        this.taskTemplate.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
+        this.taskTemplate.expirationClosableBy = this.createEditTaskTemplate.get('expirationClosableBy').value;
+
+
+        this.confirmationTaskTemplateSwal.title = 'Do you want to save: ' + this.taskTemplate.description + '?';
+        this.confirmationTaskTemplateSwal.show()
+            .then(function (result) {
+                // handle confirm, result is needed for modals with input
+                me.taskTemplateService.saveUpdateTaskTemplate(me.taskTemplate).subscribe(
+                    (data) => {
+                        const taskTemplate: TaskTemplate = data;
+                        me.errorDetails = undefined;
+                        console.log('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit - next');
+
+                        me.uploader.onBuildItemForm = (fileItem: any, form: any) => {
+                            form.append('idTaskTemplate', taskTemplate.idTaskTemplate);
+                        };
+
+                        me.uploader.queue.forEach((item) => {
+                            item.upload();
+                        });
+
+                  //      me.router.navigate(['/back-office/office']);
+                    }, error => {
+                        me.errorDetails = error.error;
+                    //    me.showErrorDescriptionSwal();
+                        console.log('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit - error');
+                    }
+                );
+            }, function (dismiss) {
+                // dismiss can be "cancel" | "close" | "outside"
+            });
     }
 
     downloadFile(rawFile) {
