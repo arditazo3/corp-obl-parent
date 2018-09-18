@@ -440,7 +440,7 @@ public abstract class UpdateCacheData {
 			taskTemplateAttachmentList.set(indexToUpdateOrInsert, taskTemplateAttachment);
 		}
 
-		storageDataCacheManager.put(TASK_TEMPLATE_LIST_CACHE, taskTemplateAttachmentList);
+		storageDataCacheManager.put(TASK_TEMPLATE_ATTACHMENT_LIST_CACHE, taskTemplateAttachmentList);
 	}
 
 	/**

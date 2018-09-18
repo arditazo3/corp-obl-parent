@@ -80,7 +80,7 @@ public class LocalStorageFileUploadHandler implements IFileUploadHandler {
         	targetFileName = fullFilePath + File.separator + idString.concat("_").concat(targetFileName);
         	request.getHttpFile().setFilePath(targetFileName);
         	
-        	File file = new File(fullFilePath);
+        	File file = new File(targetFileName);
         	file.getParentFile().mkdirs();
         	
             Files.copy(stream, Paths.get(targetFileName));
