@@ -224,4 +224,18 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 		}
 	}
 
+	@Override
+	public List<Company> getCompaniesByRole() {
+		
+		User userLoggedIn = getTokenUserDetails().getUser();
+		
+		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+			return companyRepository.findAllByOrderByDescriptionAsc();
+		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
+			return companyRepository.getCompaniesByRoleForeign(userLoggedIn.getUsername());
+		}
+		
+		return new ArrayList<>();
+	}
+
 }

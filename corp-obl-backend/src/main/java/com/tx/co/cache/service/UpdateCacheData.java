@@ -433,9 +433,6 @@ public abstract class UpdateCacheData {
 
 		if(indexToUpdateOrInsert == -1) {
 			taskTemplateAttachmentList.add(taskTemplateAttachment);
-//		} 
-//		else if(!taskTemplateAttachment.getEnabled()) {
-//			taskTemplateAttachmentList.remove(indexToUpdateOrInsert);
 		} else {
 			taskTemplateAttachmentList.set(indexToUpdateOrInsert, taskTemplateAttachment);
 		}

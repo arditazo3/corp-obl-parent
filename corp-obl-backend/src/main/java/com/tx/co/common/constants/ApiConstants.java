@@ -35,6 +35,7 @@ public final class ApiConstants {
 	public static final String COMPANY = "company";
 	public static final String COMPANY_GET_BY_ID = COMPANY + "/{idCompany}";
 	public static final String COMPANY_LIST = COMPANY + LIST;
+	public static final String COMPANY_LIST_ROLE = COMPANY + LIST + "/by-role";
 	public static final String COMPANY_CREATE_UPDATE = COMPANY + CREATE_UPDATE;
 	public static final String COMPANY_DELETE = COMPANY + DELETE;
 	public static final String ASSOC_USER_COMPANY = COMPANY + "/assoc-user-company";
@@ -74,10 +75,15 @@ public final class ApiConstants {
 	// Translate URL
 	public static final String TRANSLATION = "translation";
 	public static final String TRANSLATION_LIKE_TABLENAME = TRANSLATION + "/like-tablename";
-	
+
 	// Upload files URL
 	public static final String UPLOAD_FILES = "upload-files";
-	
+
+	// Task URL
+	public static final String TASK = "task";
+	public static final String TASK_LIST = TASK + LIST;
+	public static final String TASK_DESC_COMP_TOPIC = TASK + "/like-desc-comp-topic";
+
 	/**
 	 * List of authorization Role
 	 * */

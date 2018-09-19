@@ -1,4 +1,4 @@
-package com.tx.co.back_office.tasktemplateattachment.model;
+package com.tx.co.back_office.task.model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,13 +17,13 @@ import javax.persistence.TemporalType;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 
 /**
- * Domain model that represents a task template attachment.
+ * Domain model that represents a task.
  *
  * @author aazo
  */
 @Entity
-@Table(name = "co_tasktemplateattachment")
-public class TaskTemplateAttachment implements Serializable {
+@Table(name = "co_task")
+public class Task implements Serializable {
 
 	/**
 	 * 
@@ -33,20 +33,29 @@ public class TaskTemplateAttachment implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
-	private Long idTaskTemplateAttachment;
-	
+	private Long idTask;
+
 	@ManyToOne
 	@JoinColumn(name = "tasktemplate_id")
 	private TaskTemplate taskTemplate;
 	
-	@Column(nullable = false, name="filename")
-	private String fileName;
+	@Column(nullable = false)
+	private String recurrence;
+
+	@Column(nullable = false, name = "expirationtype")
+	private String expirationType;
+
+	@Column(nullable = false)
+	private Integer day;
+
+	@Column(nullable = false, name = "daysofnotice")
+	private Integer daysOfNotice;
+
+	@Column(nullable = false, name = "daysbeforeshowexpiration")
+	private Integer daysBeforeShowExpiration;
 	
-	@Column(nullable = false, name="filetype")
-	private String fileType;
-	
-	@Column(nullable = false, name="filepath")
-	private String filePath;
+	@Column(nullable = false)
+    private Boolean enabled;
 	
 	@Column(nullable = false, name = "creationdate")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -62,12 +71,12 @@ public class TaskTemplateAttachment implements Serializable {
 	@Column(nullable = false, name = "modifiedby")
 	private String modifiedBy;
 
-	public Long getIdTaskTemplateAttachment() {
-		return idTaskTemplateAttachment;
+	public Long getIdTask() {
+		return idTask;
 	}
 
-	public void setIdTaskTemplateAttachment(Long idTaskTemplateAttachment) {
-		this.idTaskTemplateAttachment = idTaskTemplateAttachment;
+	public void setIdTask(Long idTask) {
+		this.idTask = idTask;
 	}
 
 	public TaskTemplate getTaskTemplate() {
@@ -78,28 +87,52 @@ public class TaskTemplateAttachment implements Serializable {
 		this.taskTemplate = taskTemplate;
 	}
 
-	public String getFileName() {
-		return fileName;
+	public String getRecurrence() {
+		return recurrence;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setRecurrence(String recurrence) {
+		this.recurrence = recurrence;
 	}
 
-	public String getFileType() {
-		return fileType;
+	public String getExpirationType() {
+		return expirationType;
 	}
 
-	public void setFileType(String fileType) {
-		this.fileType = fileType;
+	public void setExpirationType(String expirationType) {
+		this.expirationType = expirationType;
 	}
 
-	public String getFilePath() {
-		return filePath;
+	public Integer getDay() {
+		return day;
 	}
 
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
+	public void setDay(Integer day) {
+		this.day = day;
+	}
+
+	public Integer getDaysOfNotice() {
+		return daysOfNotice;
+	}
+
+	public void setDaysOfNotice(Integer daysOfNotice) {
+		this.daysOfNotice = daysOfNotice;
+	}
+
+	public Integer getDaysBeforeShowExpiration() {
+		return daysBeforeShowExpiration;
+	}
+
+	public void setDaysBeforeShowExpiration(Integer daysBeforeShowExpiration) {
+		this.daysBeforeShowExpiration = daysBeforeShowExpiration;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public Date getCreationDate() {
@@ -133,6 +166,4 @@ public class TaskTemplateAttachment implements Serializable {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-
-	
 }

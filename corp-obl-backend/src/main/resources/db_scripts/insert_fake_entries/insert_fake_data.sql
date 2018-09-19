@@ -11,3 +11,9 @@ INSERT INTO co_user (username, fullname, email, lang, enabled) VALUES ('INLAND',
 INSERT INTO co_user (username, fullname, email, lang, enabled) VALUES ('TEST', 'Test', 'test@test.com', 'EN', 1);
 INSERT INTO co_user (username, fullname, email, lang, enabled) VALUES ('USER', 'User', 'user@user.com', 'IT', 1);
 
+INSERT INTO co_task (tasktemplate_id, recurrence, expirationtype, day, daysofnotice, daysbeforeshowexpiration, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (22, '20', '10', 10, 10, 10, 1, '2018-09-19 05:22:11', 'admin', '2018-09-19 05:22:19', '1');
+INSERT INTO co_task (tasktemplate_id, recurrence, expirationtype, day, daysofnotice, daysbeforeshowexpiration, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (24, '20', '10', 10, 10, 10, 1, '2018-09-19 05:22:11', 'admin', '2018-09-19 05:22:19', '1');
+INSERT INTO co_task (tasktemplate_id, recurrence, expirationtype, day, daysofnotice, daysbeforeshowexpiration, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (26, '20', '10', 10, 10, 10, 1, '2018-09-19 05:22:11', 'admin', '2018-09-19 05:22:19', '1');
+INSERT INTO co_task (tasktemplate_id, recurrence, expirationtype, day, daysofnotice, daysbeforeshowexpiration, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (25, '20', '10', 10, 10, 10, 1, '2018-09-19 05:22:11', 'admin', '2018-09-19 05:22:19', '1');
+INSERT INTO co_task (tasktemplate_id, recurrence, expirationtype, day, daysofnotice, daysbeforeshowexpiration, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (27, '20', '10', 10, 10, 10, 1, '2018-09-19 05:22:11', 'admin', '2018-09-19 05:22:19', '1');
+INSERT INTO co_task (tasktemplate_id, recurrence, expirationtype, day, daysofnotice, daysbeforeshowexpiration, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (28, '20', '10', 10, 10, 10, 1, '2018-09-19 05:22:11', 'admin', '2018-09-19 05:22:19', '1');

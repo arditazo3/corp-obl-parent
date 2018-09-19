@@ -19,6 +19,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Where;
+
+import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplateattachment.model.TaskTemplateAttachment;
 import com.tx.co.back_office.topic.domain.Topic;
 
@@ -47,6 +50,10 @@ public class TaskTemplate implements Serializable {
 	
 	@OneToMany(mappedBy="taskTemplate", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<TaskTemplateAttachment> taskTemplateAttachments = new HashSet<>();
+	
+	@OneToMany(mappedBy="taskTemplate", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@Where(clause = "enabled = 1")
+    private Set<Task> tasks = new HashSet<>();
 
 	@Column(nullable = false)
 	private String description;
@@ -108,6 +115,14 @@ public class TaskTemplate implements Serializable {
 
 	public void setTaskTemplateAttachments(Set<TaskTemplateAttachment> taskTemplateAttachments) {
 		this.taskTemplateAttachments = taskTemplateAttachments;
+	}
+
+	public Set<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(Set<Task> tasks) {
+		this.tasks = tasks;
 	}
 
 	public String getDescription() {

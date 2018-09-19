@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface ICompanyService {
 
     List<Company> findAllCompany();
+    
+    List<Company> getCompaniesByRole();
 
     Company saveUpdateCompany(Company company);
 

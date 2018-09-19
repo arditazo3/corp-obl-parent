@@ -1,6 +1,8 @@
 package com.tx.co.back_office.tasktemplateattachment.model.errors;
 
-public class HttpServiceError {
+import java.io.Serializable;
+
+public class HttpServiceError implements Serializable {
 
     private final int httpStatusCode;
 

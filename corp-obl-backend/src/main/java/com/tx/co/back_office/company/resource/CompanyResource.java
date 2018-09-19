@@ -73,6 +73,21 @@ public class CompanyResource extends ObjectResult {
 
         return Response.ok(queryCompanyList).build();
     }
+	
+	@GET
+    @Path(COMPANY_LIST_ROLE)
+    @Produces(MediaType.APPLICATION_JSON)
+//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+    public Response getCompaniesByRole() {
+
+        Iterable<Company> companyIterable = companyService.getCompaniesByRole();
+        List<CompanyResult> queryCompanyList =
+                StreamSupport.stream(companyIterable.spliterator(), false)
+                        .map(this::toCompanyResult)
+                        .collect(Collectors.toList());
+
+        return Response.ok(queryCompanyList).build();
+    }
 
     @GET
     @Path(COMPANY_GET_BY_ID)

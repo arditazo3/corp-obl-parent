@@ -15,6 +15,8 @@ import com.tx.co.back_office.company.domain.CompanyTopic;
 import com.tx.co.back_office.company.domain.CompanyUser;
 import com.tx.co.back_office.office.api.model.OfficeResult;
 import com.tx.co.back_office.office.domain.Office;
+import com.tx.co.back_office.task.api.model.TaskResult;
+import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.topic.api.model.TopicConsultantResult;
@@ -221,6 +223,14 @@ public abstract class ObjectResult {
 
 	/**
 	 * @param topicResult
+	 * @return
+	 */
+	public Topic toTopic(TopicResult topicResult) {
+		return toTopic(topicResult, false);
+	}
+	
+	/**
+	 * @param topicResult, hasTranslations
 	 * @return
 	 */
 	public Topic toTopic(TopicResult topicResult, Boolean hasTranslations) {
@@ -482,5 +492,24 @@ public abstract class ObjectResult {
 			result.setTopic(toTopicResult(taskTemplate.getTopic()));
 		}
 		return result;
+	}
+	
+	/**
+	 * @param task
+	 * @return TaskResult
+	 */
+	public TaskResult toTaskResult(Task task) {
+		TaskResult taskResult = new TaskResult();
+
+		taskResult.setIdTask(task.getIdTask());
+		taskResult.setTaskTemplate(toTaskTemplateResult(task.getTaskTemplate()));
+		taskResult.setIdTaskTemplate(task.getTaskTemplate().getIdTaskTemplate());
+		taskResult.setRecurrence(task.getRecurrence());
+		taskResult.setExpirationType(task.getExpirationType());
+		taskResult.setDay(task.getDay());
+		taskResult.setDaysOfNotice(task.getDaysOfNotice());
+		taskResult.setDaysBeforeShowExpiration(task.getDaysBeforeShowExpiration());
+
+		return taskResult;
 	}
 }

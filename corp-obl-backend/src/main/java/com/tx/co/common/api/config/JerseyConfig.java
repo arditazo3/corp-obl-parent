@@ -2,6 +2,7 @@ package com.tx.co.common.api.config;
 
 import com.tx.co.back_office.company.resource.CompanyResource;
 import com.tx.co.back_office.office.resource.OfficeResource;
+import com.tx.co.back_office.task.resource.TaskResource;
 import com.tx.co.back_office.tasktemplate.resource.TaskTemplateResource;
 import com.tx.co.back_office.tasktemplateattachment.exceptions.FileUploadExceptionMapper;
 import com.tx.co.back_office.tasktemplateattachment.resource.TaskTemplateAttachmentResource;
@@ -49,6 +50,8 @@ public class JerseyConfig extends ResourceConfig {
 		register(TaskTemplateResource.class);
 		register(TaskTemplateAttachmentResource.class);
 		register(TranslationResource.class);
+		register(TaskResource.class);
+		
 
 		/**
 		 * General exception
