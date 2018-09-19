@@ -9,8 +9,7 @@ export class TopicService {
     constructor(
         private apiRequest: ApiRequestService,
         private appConfig: AppConfig
-    ) {
-    }
+    ) {}
 
     getTopics(): Observable<any> {
         console.log('TopicService - getTopics');

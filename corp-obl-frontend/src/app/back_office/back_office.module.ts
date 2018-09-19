@@ -35,6 +35,9 @@ import {TaskTemplateComponent} from './tasktemplate/component/task-template.comp
 import {TaskTemplateService} from './tasktemplate/service/tasktemplate.service';
 import {TranslationService} from '../shared/common/translation/translation.service';
 import {FileUploadModule} from 'ng2-file-upload';
+import { ConfigurationTaskComponent } from './task/component/configuration-task/configuration-task.component';
+import { TaskComponent } from './task/component/task.component';
+import {TaskService} from './task/service/task.service';
 
 @NgModule({
     imports: [
@@ -74,7 +77,9 @@ import {FileUploadModule} from 'ng2-file-upload';
         ConsultantCreateUpdateComponent,
         TopicConsultantComponent,
         TaskTemplateComponent,
-        TaskTemplateCreateUpdateComponent
+        TaskTemplateCreateUpdateComponent,
+        ConfigurationTaskComponent,
+        TaskComponent
     ],
     providers: [
         CompanyService,
@@ -83,7 +88,8 @@ import {FileUploadModule} from 'ng2-file-upload';
         TopicService,
         ConsultantService,
         TaskTemplateService,
-        TranslationService
+        TranslationService,
+        TaskService
     ]
 })
 export class BackOfficeModule {

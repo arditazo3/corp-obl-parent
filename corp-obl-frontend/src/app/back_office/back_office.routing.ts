@@ -10,6 +10,7 @@ import {ConsultantComponent} from './consultant/component/consultant.component';
 import {ConsultantCreateUpdateComponent} from './consultant/component/consultant-create-update/consultant-create-update.component';
 import {TaskTemplateCreateUpdateComponent} from './tasktemplate/component/tasktemplate-create-update/task-template-create-update.component';
 import {TaskTemplateComponent} from './tasktemplate/component/task-template.component';
+import {TaskComponent} from './task/component/task.component';
 
 export const BackOfficeRoutes: Routes = [
     {
@@ -183,6 +184,17 @@ export const BackOfficeRoutes: Routes = [
             {
                 path: 'task-template/edit',
                 component: TaskTemplateCreateUpdateComponent,
+                data: {
+                    title: 'Task template Management',
+                    urls: [
+                        {title: 'Back Office', url: '/back-office/task-template'},
+                        {title: 'Task template management'}
+                    ]
+                }
+            },
+            {
+                path: 'task',
+                component: TaskComponent,
                 data: {
                     title: 'Task template Management',
                     urls: [

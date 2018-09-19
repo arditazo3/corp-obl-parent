@@ -1,0 +1,103 @@
+<div class="row">
+  <!-- column -->
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-subtitle">Task Management</h5>
+        <div class="row">
+
+          <div class="col-md-3">
+            <input type='text' class="form-control" placeholder='Search the description' />
+          </div>
+
+          <div class="col-md-3">
+            <ng-select
+                    [items]="companiesObservable | async"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                    [searchable]="true"
+                    bindLabel="description"
+                    placeholder="Select companies"
+                    [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="selectedCompanies">
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <input [ngModelOptions]="{standalone: true}"
+                       id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.description}}
+              </ng-template>
+            </ng-select>
+          </div>
+
+          <div class="col-md-3">
+            <ng-select
+                    [items]="topicsObservable | async"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                    [searchable]="true"
+                    bindLabel="description"
+                    placeholder="Select topics"
+                    [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="selectedTopics">
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <input [ngModelOptions]="{standalone: true}"
+                       id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.description}}
+              </ng-template>
+            </ng-select>
+          </div>
+
+          <div class="col-md-1">
+            <button class="btn-tnx btn-info btn-block" type="button" (click)="searchTaskTemplate()">Search
+            </button>
+          </div>
+
+          <div class="col-md-1 text-right">
+            <button class="btn-tnx btn-info btn-block" type="button" (click)="createNewTaskTemplate()">Create
+            </button>
+          </div>
+        </div>
+        <hr>
+        <ngx-datatable #myTable
+                       class='material expandable'
+                       [groupRowsBy]="'idTaskTemplate'"
+                       [columnMode]="'force'"
+                       [scrollbarH]="true"
+                       [headerHeight]="50"
+                       [footerHeight]="50"
+                       [rowHeight]="40"
+                       [rows]='rows'
+                       [limit]="5"
+                       [groupExpansionDefault]="true">
+
+          <!-- Group Header Template -->
+          <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+            <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+              <div style="padding-left:5px;">
+                <a
+                        [class.datatable-icon-right]="!expanded"
+                        [class.datatable-icon-down]="expanded"
+                        title="Expand/Collapse Group"
+                        (click)="toggleExpandGroup(group)">
+                  <b>Task Template: {{group.value[0].taskTemplate.description}}</b>
+                </a>
+              </div>
+            </ng-template>
+          </ngx-datatable-group-header>
+
+          <ngx-datatable-column name="Description" prop="taskTemplate.description"></ngx-datatable-column>
+
+          <!-- End Column Templates -->
+        </ngx-datatable>
+
+        <swal
+                #deleteOfficeSwal
+                title=""
+                text="This cannot be undone."
+                type="question"
+                [showCancelButton]="true"
+                [focusCancel]="true"
+                (confirm)="deleteOfficeCofirm(rowSelected.id)">
+        </swal>
+
+      </div>
+    </div>
+  </div>
+</div>

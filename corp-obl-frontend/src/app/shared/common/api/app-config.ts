@@ -29,11 +29,12 @@ export class AppConfig {
 
     // Company URL's
     public companyPath = '/company';
-    public getCompanies = this.backOfficePath + this.companyPath + this.list;                   // GET
-    public getCompanyById = this.backOfficePath + this.companyPath + '/{idCompany}';            // GET
-    public createUpdateCompany = this.backOfficePath + this.companyPath + this.createupdate;    // POST
-    public deleteCompany = this.backOfficePath + this.companyPath + this.delete;                // PUT
-    public assocCompanyUsers = this.backOfficePath + this.companyPath + '/assoc-user-company';  // POST
+    public getCompanies = this.backOfficePath + this.companyPath + this.list;                       // GET
+    public getCompaniesByRole = this.backOfficePath + this.companyPath + this.list + '/by-role';    // GET
+    public getCompanyById = this.backOfficePath + this.companyPath + '/{idCompany}';                // GET
+    public createUpdateCompany = this.backOfficePath + this.companyPath + this.createupdate;        // POST
+    public deleteCompany = this.backOfficePath + this.companyPath + this.delete;                    // PUT
+    public assocCompanyUsers = this.backOfficePath + this.companyPath + '/assoc-user-company';      // POST
 
     // Office URL's
     public officePath = '/office';
@@ -44,7 +45,7 @@ export class AppConfig {
     // Topic URL's
     public topicPath = '/topic';
     public getTopics = this.backOfficePath + this.topicPath + this.list;                        // GET
-    public getTopicsByRole = this.backOfficePath + this.topicPath + this.list + '/by-role';      // GET
+    public getTopicsByRole = this.backOfficePath + this.topicPath + this.list + '/by-role';     // GET
     public deleteTopic = this.backOfficePath + this.topicPath + this.delete;                    // PUT
     public createUpdateTopic = this.backOfficePath + this.topicPath + this.createupdate;        // POST
 
@@ -73,6 +74,11 @@ export class AppConfig {
 
     // File upload URL's
     public fileUpload = this.backOfficePath + '/upload-files';     // POST
+
+    // Task URL's
+    public taskPath = '/task';
+    public getTasks = this.backOfficePath + this.taskPath + this.list;     // GET
+    public getTaskByDescrOrCompOrTopic = this.backOfficePath + this.taskPath + '/like-desc-comp-topic';     // GET
 
     constructor() {
         console.log('AppConfig - constructor');

@@ -17,6 +17,12 @@ export class CompanyService {
     return this.apiRequest.get(this.appConfig.getCompanies);
   }
 
+    getCompaniesByRole(): Observable<any> {
+        console.log('CompanyService - getCompaniesByRole');
+
+        return this.apiRequest.get(this.appConfig.getCompaniesByRole);
+    }
+
   saveUpdateCompany(company): Observable<any> {
     return this.apiRequest.post(this.appConfig.createUpdateCompany, company);
   }
