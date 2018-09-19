@@ -104,4 +104,12 @@ export class ConfigurationTaskComponent implements OnInit {
     onDetailToggle(event) {
         console.log('ConfigurationTaskComponent - detail toggled', event);
     }
+
+    modifyTaskTemplate(group) {
+        console.log('modifyTaskTemplate - modifyTaskTemplate');
+    }
+
+    createTask(group) {
+        console.log('modifyTaskTemplate - createTask');
+    }
 }

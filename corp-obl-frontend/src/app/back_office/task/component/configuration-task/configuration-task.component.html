@@ -65,22 +65,38 @@
                        [rowHeight]="40"
                        [rows]='rows'
                        [limit]="5"
-                       [groupExpansionDefault]="true">
+                       [groupExpansionDefault]="false">
 
           <!-- Group Header Template -->
           <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
             <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
               <div style="padding-left:5px;">
-                <a
+                <button type="button" class="btn-tnx btn-xs btn-primary"
                         [class.datatable-icon-right]="!expanded"
                         [class.datatable-icon-down]="expanded"
                         title="Expand/Collapse Group"
                         (click)="toggleExpandGroup(group)">
-                  <b>Task Template: {{group.value[0].taskTemplate.description}}</b>
-                </a>
+                  {{ expanded ? 'Collapse' : 'Expan' }}
+                </button>
+
+                <button type="button" class="btn-tnx btn-xs btn-primary"
+                        title="Expand/Collapse Group"
+                        (click)="modifyTaskTemplate(group)">
+                  Modify
+                </button>
+
+                <button type="button" class="btn-tnx btn-xs btn-primary"
+                        title="Expand/Collapse Group"
+                        (click)="createTask(group)">
+                  New Config.
+                </button>
+
+                <b>{{ group.value[0].taskTemplate.description }}</b>
               </div>
             </ng-template>
           </ngx-datatable-group-header>
+
+          <ngx-datatable-column name="" prop=""></ngx-datatable-column>
 
           <ngx-datatable-column name="Description" prop="taskTemplate.description"></ngx-datatable-column>
 
