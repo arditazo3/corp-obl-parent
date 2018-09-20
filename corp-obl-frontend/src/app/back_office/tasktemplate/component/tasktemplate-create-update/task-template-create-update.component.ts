@@ -151,10 +151,12 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         this.taskTemplate.topic = this.selectedTopic;
         this.taskTemplate.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
         this.taskTemplate.expirationType = this.selectedExpirationType.tablename.split('#')[2];
+        this.taskTemplate.expirationClosableBy = this.createEditTaskTemplate.get('expirationRadio').value;
         this.taskTemplate.day = this.createEditTaskTemplate.get('day').value;
         this.taskTemplate.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
         this.taskTemplate.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
-        this.taskTemplate.expirationClosableBy = this.createEditTaskTemplate.get('expirationClosableBy').value;
+        this.taskTemplate.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
+
 
 
         this.confirmationTaskTemplateSwal.title = 'Do you want to save: ' + this.taskTemplate.description + '?';
@@ -175,7 +177,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                             item.upload();
                         });
 
-                  //      me.router.navigate(['/back-office/office']);
+                        me.router.navigate(['/back-office/task']);
                     }, error => {
                         me.errorDetails = error.error;
                     //    me.showErrorDescriptionSwal();
