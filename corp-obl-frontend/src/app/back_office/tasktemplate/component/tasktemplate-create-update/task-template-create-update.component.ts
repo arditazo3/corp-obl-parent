@@ -16,6 +16,7 @@ import {FileLikeObject, FileUploader} from 'ng2-file-upload';
 import {AppConfig} from '../../../../shared/common/api/app-config';
 import {ApiRequestService} from '../../../../shared/common/service/api-request.service';
 import {saveAs as importedSaveAs} from 'file-saver';
+import {Task} from '../../../task/model/task';
 
 @Component({
     selector: 'app-tasktemplate-create-update',
@@ -62,27 +63,52 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     ngOnInit() {
         console.log('TaskTemplateCreateUpdateComponent - ngOnInit');
 
-        this.taskTemplate = this.transferService.objectParam;
-
-        if (this.taskTemplate === undefined) {
-            this.isNewForm = true;
-            this.taskTemplate = new TaskTemplate();
-        } else {
-            this.submitBtn.nativeElement.innerText = 'Update Task Template';
-        }
-
-        this.createEditTaskTemplate = this.formBuilder.group({
-            description: new FormControl({value: this.taskTemplate.description, disabled: false}, Validators.required),
-            expirationclosableby: new FormControl({value: this.taskTemplate.expirationClosableBy, disabled: false}, Validators.required),
-            day: new FormControl({value: this.taskTemplate.day, disabled: false}),
-            daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
-            daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false}, Validators.required),
-            expirationClosableBy: new FormControl({value: this.taskTemplate.expirationClosableBy, disabled: false}, Validators.required)
-        });
+        const me = this;
+        const task: Task = this.transferService.objectParam;
 
         this.getTopics();
         this.periodicityObservable = this.getTranslationLikeTablename('tasktemplate#periodicity');
         this.expirationTypeObservable = this.getTranslationLikeTablename('tasktemplate#expirationtype');
+
+        if (task === undefined) {
+            this.isNewForm = true;
+            this.taskTemplate = new TaskTemplate();
+        } else {
+            this.submitBtn.nativeElement.innerText = 'Update Task Template';
+            this.taskTemplate = task.taskTemplate;
+            this.selectedTopic = this.taskTemplate.topic;
+
+            this.periodicityObservable.subscribe(
+                (data) => {
+                    data.forEach((item) => {
+                        if (item && item.tablename.indexOf(me.taskTemplate.recurrence) >= 0) {
+                            me.selectedPeriodicity = item;
+                        }
+                    });
+                }
+            );
+            this.expirationTypeObservable.subscribe(
+                (data) => {
+                    data.forEach((item) => {
+                        if (item && item.tablename.indexOf(me.taskTemplate.expirationType) >= 0) {
+                            me.selectedExpirationType = item;
+                        }
+                    });
+                }
+            );
+        }
+
+        this.createEditTaskTemplate = this.formBuilder.group({
+            description: new FormControl({value: this.taskTemplate.description, disabled: false}, Validators.required),
+        //    expirationClosableBy: new FormControl({value: this.taskTemplate.expirationClosableBy}, Validators.required),
+            expirationRadio: new FormControl(this.taskTemplate.expirationClosableBy, Validators.required),
+            day: new FormControl({value: this.taskTemplate.day, disabled: false}, Validators.required),
+            daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
+            frequenceOfNotice: new FormControl({value: this.taskTemplate.frequenceOfNotice, disabled: false}, Validators.required),
+            daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false}, Validators.required)
+        });
+
+
 
         this.uploader = this.apiRequestServie.uploader;
         this.apiRequestServie.uploadFileWithAuth();
@@ -182,5 +208,4 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 this.errorDetails.message = `Unknown error (filter is ${filter.name})`;
         }
     }
-
 }

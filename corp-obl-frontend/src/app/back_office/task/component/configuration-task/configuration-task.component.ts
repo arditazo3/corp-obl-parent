@@ -8,6 +8,7 @@ import {CompanyService} from '../../../company/service/company.service';
 import {TopicService} from '../../../topic/service/topic.service';
 import {TaskService} from '../../service/task.service';
 import {Task} from '../../model/task';
+import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 
 @Component({
     selector: 'app-configuration-task',
@@ -35,7 +36,8 @@ export class ConfigurationTaskComponent implements OnInit {
         private taskTemplateService: TaskTemplateService,
         private topicService: TopicService,
         private companyService: CompanyService,
-        private taskService: TaskService
+        private taskService: TaskService,
+        private transferService: TransferDataService
     ) {}
 
     async ngOnInit() {
@@ -107,6 +109,10 @@ export class ConfigurationTaskComponent implements OnInit {
 
     modifyTaskTemplate(group) {
         console.log('modifyTaskTemplate - modifyTaskTemplate');
+
+        this.transferService.objectParam = group.value[0];
+
+        this.router.navigate(['/back-office/task-template/edit']);
     }
 
     createTask(group) {

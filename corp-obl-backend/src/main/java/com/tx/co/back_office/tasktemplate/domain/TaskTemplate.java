@@ -69,6 +69,9 @@ public class TaskTemplate implements Serializable {
 
 	@Column(nullable = false, name = "daysofnotice")
 	private Integer daysOfNotice;
+	
+	@Column(nullable = false, name = "frequenceofnotice")
+	private Integer frequenceOfNotice;
 
 	@Column(nullable = false, name = "daysbeforeshowexpiration")
 	private Integer daysBeforeShowExpiration;
@@ -163,6 +166,14 @@ public class TaskTemplate implements Serializable {
 
 	public void setDaysOfNotice(Integer daysOfNotice) {
 		this.daysOfNotice = daysOfNotice;
+	}
+
+	public Integer getFrequenceOfNotice() {
+		return frequenceOfNotice;
+	}
+
+	public void setFrequenceOfNotice(Integer frequenceOfNotice) {
+		this.frequenceOfNotice = frequenceOfNotice;
 	}
 
 	public Integer getDaysBeforeShowExpiration() {

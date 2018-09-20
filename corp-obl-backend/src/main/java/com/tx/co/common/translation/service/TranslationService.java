@@ -30,7 +30,7 @@ public class TranslationService implements ITranslationService {
 
 	@Override
 	public List<Translation> getTranslationLikeTablename(String tablename, String lang) {
-		return translationRepository.getTranslationLikeTablename(tablename + "%", lang);
+		return translationRepository.getTranslationLikeTablename("%" + tablename + "%", lang);
 	}
 
 }

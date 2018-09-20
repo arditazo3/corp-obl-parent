@@ -8,3 +8,5 @@ FROM co_task t LEFT JOIN co_tasktemplate tt ON t.tasktemplate_id = tt.id
 
 UPDATE co_tasktemplate
 SET    description = CONCAT('Task Template: @', id);
+
+update co_tasktemplate set expirationclosableby = 1;

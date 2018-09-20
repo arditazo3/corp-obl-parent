@@ -485,7 +485,9 @@ public abstract class ObjectResult {
 		result.setDescription(taskTemplate.getDescription());
 		result.setRecurrence(taskTemplate.getRecurrence());
 		result.setExpirationType(taskTemplate.getExpirationType());
+		result.setDay(taskTemplate.getDay());
 		result.setDaysOfNotice(taskTemplate.getDaysOfNotice());
+		result.setFrequenceOfNotice(taskTemplate.getFrequenceOfNotice());
 		result.setDaysBeforeShowExpiration(taskTemplate.getDaysBeforeShowExpiration());
 		result.setExpirationClosableBy(taskTemplate.getExpirationClosableBy());
 		if(!isEmpty(taskTemplate.getTopic())) {
@@ -508,6 +510,7 @@ public abstract class ObjectResult {
 		taskResult.setExpirationType(task.getExpirationType());
 		taskResult.setDay(task.getDay());
 		taskResult.setDaysOfNotice(task.getDaysOfNotice());
+		taskResult.setFrequenceOfNotice(task.getFrequenceOfNotice());
 		taskResult.setDaysBeforeShowExpiration(task.getDaysBeforeShowExpiration());
 
 		return taskResult;

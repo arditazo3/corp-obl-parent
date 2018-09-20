@@ -8,6 +8,7 @@ export class Task {
     expirationType: string;
     day: number;
     daysOfNotice: number;
+    frequenceOfNotice: number;
     daysBeforeShowExpiration: number;
     idTaskTemplate: number;
 }

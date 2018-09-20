@@ -44,31 +44,26 @@
                                     <label class="control-label col-form-label">Who manages the task</label>
                                     <div class="form-check">
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input"
-                                                   value="1" formControlName="expirationclosableby"
-                                                   id="customControlValidation2" name="expirationclosableby"
-                                                   [checked]="isForeign">
+                                            <input type="radio" formControlName="expirationRadio"
+                                                   class="custom-control-input" [value]=1
+                                                   id="customControlValidation2">
                                             <label class="custom-control-label"
                                                    for="customControlValidation2">Anyone can close the task</label>
                                         </div>
                                     </div>
-                                    <div *ngIf="!isForeign">
-                                        <div class="form-check">
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input"
-                                                       value="2" formControlName="expirationclosableby"
-                                                       id="customControlValidation3" name="expirationclosableby">
-                                                <label class="custom-control-label"
-                                                       for="customControlValidation3">Every user has his task</label>
-                                            </div>
-                                        </div>
-                                        <div *ngIf="submitted && f.expirationclosableby.errors"
-                                             class="invalid-feedback">
-                                            <div *ngIf="f.expirationclosableby.errors.required">Expiration closed by is
-                                                required
-                                            </div>
+                                    <div class="form-check">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" formControlName="expirationRadio"
+                                                   class="custom-control-input" [value]=2
+                                                   id="customControlValidation3">
+                                            <label class="custom-control-label"
+                                                   for="customControlValidation3">Every user has his task</label>
                                         </div>
                                     </div>
+                                    <span *ngIf="submitted && f.expirationRadio.errors" class="invalid-feedback-show">
+                                    <div *ngIf="f.expirationRadio.errors.required">Expiration closed by is
+                                        required</div>
+                                </span>
                                 </div>
                             </div>
                         </div>
@@ -86,6 +81,9 @@
                                                [ngModelOptions]="{standalone: true}"
                                                placeholder="Select Periodicity">
                                     </ng-select>
+                                    <div *ngIf="submitted && !selectedPeriodicity" class="invalid-feedback-show">
+                                        Periodicity is required
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-4">
@@ -100,6 +98,9 @@
                                                [ngModelOptions]="{standalone: true}"
                                                placeholder="Select Expiration type">
                                     </ng-select>
+                                    <div *ngIf="submitted && !selectedExpirationType" class="invalid-feedback-show">
+                                        Expiration is required
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-4">
@@ -108,7 +109,7 @@
                                     <input type="number" class="form-control"
                                            formControlName="day"
                                            id="day"
-                                           [ngClass]="{'is-invalid': submitted && f.description.errors }">
+                                           [ngClass]="{'is-invalid': submitted && f.day.errors }">
                                     <div *ngIf="submitted && f.day.errors" class="invalid-feedback">
                                         <div *ngIf="f.day.errors.required">Day is required</div>
                                     </div>
@@ -132,30 +133,30 @@
                             </div>
                             <div class="col-sm-12 col-md-4">
                                 <div class="form-group">
-                                    <label for="daysBeforeShowExpiration" class="control-label col-form-label">Days
-                                        before show expiration</label>
+                                    <label for="frequenceOfNotice" class="control-label col-form-label">Frequence of
+                                        notice</label>
                                     <input type="number" class="form-control"
-                                           formControlName="daysBeforeShowExpiration"
-                                           id="daysBeforeShowExpiration"
-                                           [ngClass]="{'is-invalid': submitted && f.daysBeforeShowExpiration.errors }">
-                                    <div *ngIf="submitted && f.daysBeforeShowExpiration.errors"
+                                           formControlName="frequenceOfNotice"
+                                           id="frequenceOfNotice"
+                                           [ngClass]="{'is-invalid': submitted && f.frequenceOfNotice.errors }">
+                                    <div *ngIf="submitted && f.frequenceOfNotice.errors"
                                          class="invalid-feedback">
-                                        <div *ngIf="f.daysBeforeShowExpiration.errors.required">Days before show
-                                            expiration is required
+                                        <div *ngIf="f.frequenceOfNotice.errors.required">Frequence of Notice is required
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-4">
                                 <div class="form-group">
-                                    <label for="expirationClosableBy" class="control-label col-form-label">Expiration
+                                    <label for="daysBeforeShowExpiration" class="control-label col-form-label">Expiration
                                         closable</label>
                                     <input type="number" class="form-control"
-                                           formControlName="expirationClosableBy"
-                                           id="expirationClosableBy"
-                                           [ngClass]="{'is-invalid': submitted && f.expirationClosableBy.errors }">
-                                    <div *ngIf="submitted && f.expirationClosableBy.errors" class="invalid-feedback">
-                                        <div *ngIf="f.expirationClosableBy.errors.required">Expiration closable is
+                                           formControlName="daysBeforeShowExpiration"
+                                           id="daysBeforeShowExpiration"
+                                           [ngClass]="{'is-invalid': submitted && f.daysBeforeShowExpiration.errors }">
+                                    <div *ngIf="submitted && f.daysBeforeShowExpiration.errors"
+                                         class="invalid-feedback">
+                                        <div *ngIf="f.daysBeforeShowExpiration.errors.required">Expiration closable is
                                             required
                                         </div>
                                     </div>

@@ -18,6 +18,7 @@ public class TaskTemplateResult {
 	private String expirationType;
 	private Integer day;
 	private Integer daysOfNotice;
+	private Integer frequenceOfNotice;
 	private Integer daysBeforeShowExpiration;
 	private Integer expirationClosableBy;
 	
@@ -62,6 +63,12 @@ public class TaskTemplateResult {
 	}
 	public void setDaysOfNotice(Integer daysOfNotice) {
 		this.daysOfNotice = daysOfNotice;
+	}
+	public Integer getFrequenceOfNotice() {
+		return frequenceOfNotice;
+	}
+	public void setFrequenceOfNotice(Integer frequenceOfNotice) {
+		this.frequenceOfNotice = frequenceOfNotice;
 	}
 	public Integer getDaysBeforeShowExpiration() {
 		return daysBeforeShowExpiration;
