@@ -59,7 +59,7 @@ public class TaskTemplate implements Serializable {
 	private String description;
 
 	@Column(nullable = false)
-	private String recurrence;
+	private String recurrence; 
 
 	@Column(nullable = false, name = "expirationtype")
 	private String expirationType;
