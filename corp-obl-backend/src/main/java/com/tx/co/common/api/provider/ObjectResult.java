@@ -459,6 +459,9 @@ public abstract class ObjectResult {
 		if(!isEmpty(taskTemplateResult.getDaysOfNotice())) {
 			taskTemplate.setDaysOfNotice(taskTemplateResult.getDaysOfNotice());
 		}
+		if(!isEmpty(taskTemplateResult.getFrequenceOfNotice())) {
+			taskTemplate.setFrequenceOfNotice(taskTemplateResult.getFrequenceOfNotice());
+		}
 		if(!isEmpty(taskTemplateResult.getDaysBeforeShowExpiration())) {
 			taskTemplate.setDaysBeforeShowExpiration(taskTemplateResult.getDaysBeforeShowExpiration());
 		}
