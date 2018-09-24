@@ -19,6 +19,8 @@ import com.tx.co.back_office.task.api.model.TaskResult;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
+import com.tx.co.back_office.tasktemplateattachment.api.model.TaskTemplateAttachmentResult;
+import com.tx.co.back_office.tasktemplateattachment.model.TaskTemplateAttachment;
 import com.tx.co.back_office.topic.api.model.TopicConsultantResult;
 import com.tx.co.back_office.topic.api.model.TopicResult;
 import com.tx.co.back_office.topic.domain.Topic;
@@ -503,6 +505,13 @@ public abstract class ObjectResult {
 			}
 			result.setTaskResults(taskResults);
 		}
+		if(!isEmpty(taskTemplate.getTaskTemplateAttachments())) {
+			List<TaskTemplateAttachmentResult> attachmentResults = new ArrayList<>();
+			for (TaskTemplateAttachment taskTemplateAttachment : taskTemplate.getTaskTemplateAttachments()) {
+				attachmentResults.add(toTaskTemplateAttachmentResult(taskTemplateAttachment));
+			}
+			result.setTaskTemplateAttachmentResults(attachmentResults);
+		}
 		return result;
 	}
 
@@ -525,5 +534,20 @@ public abstract class ObjectResult {
 			taskResult.setIdTaskTemplate(task.getTaskTemplate().getIdTaskTemplate());
 		}
 		return taskResult;
+	}
+	
+	/**
+	 * @param taskTemplateAttachment
+	 * @return TaskTemplateAttachmentResult
+	 */
+	public TaskTemplateAttachmentResult toTaskTemplateAttachmentResult(TaskTemplateAttachment taskTemplateAttachment) {
+		TaskTemplateAttachmentResult taskTemplateAttachmentResult = new TaskTemplateAttachmentResult();
+
+		taskTemplateAttachmentResult.setIdTaskTemplateAttachment(taskTemplateAttachment.getIdTaskTemplateAttachment());
+		taskTemplateAttachmentResult.setFileName(taskTemplateAttachment.getFileName());
+		taskTemplateAttachmentResult.setFilePath(taskTemplateAttachment.getFilePath());
+		taskTemplateAttachmentResult.setFileType(taskTemplateAttachment.getFileType());
+		
+		return taskTemplateAttachmentResult;
 	}
 }
