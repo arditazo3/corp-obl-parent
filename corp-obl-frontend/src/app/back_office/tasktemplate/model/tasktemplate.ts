@@ -1,9 +1,11 @@
 import {Topic} from '../../topic/model/topic';
+import {Task} from '../../task/model/task';
 
 export class TaskTemplate {
 
     idTaskTemplate: number;
     topic: Topic;
+    taskResults: Task[];
     description: string;
     recurrence: string;
     expirationType: string;

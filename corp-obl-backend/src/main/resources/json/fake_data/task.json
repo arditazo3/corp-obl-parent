@@ -1,838 +1,3497 @@
 [
-  {
-    "idTask": 8,
-    "idTaskTemplate": 26,
-    "taskTemplate": {
-      "idTaskTemplate": 26,
-      "topic": {
-        "idTopic": 6,
-        "description": "a11",
-        "companyList": [
-          {
-            "idCompany": 28,
-            "description": "a11",
-            "usersAssociated": [
-              {
-                "idCompanyUser": 114,
-                "username": "TEST",
-                "companyAdmin": false
-              },
-              {
-                "idCompanyUser": 113,
-                "username": "USER",
-                "companyAdmin": true
-              },
-              {
-                "idCompanyUser": 115,
-                "username": "INLAND",
-                "companyAdmin": true
-              }
-            ]
-          }
-        ],
-        "topicConsultantList": [
-          {
-            "consultant": {
-              "idCompanyConsultant": 24,
-              "name": "a11a11",
-              "email": "arditazo3@gmail.com",
-              "company": {
-                "idCompany": 28,
-                "description": "a11",
-                "usersAssociated": [
-                  {
-                    "idCompanyUser": 114,
-                    "username": "TEST",
-                    "companyAdmin": false
-                  },
-                  {
-                    "idCompanyUser": 113,
-                    "username": "USER",
-                    "companyAdmin": true
-                  },
-                  {
-                    "idCompanyUser": 115,
-                    "username": "INLAND",
-                    "companyAdmin": true
-                  }
-                ]
-              }
-            }
-          }
-        ],
-        "consultantList": []
-      },
-      "description": "h",
-      "recurrence": "monthly",
-      "expirationType": "month_end",
-      "daysOfNotice": 4,
-      "daysBeforeShowExpiration": 6,
-      "expirationClosableBy": 1
-    },
-    "recurrence": "20",
-    "expirationType": "10",
-    "day": 10,
-    "daysOfNotice": 10,
-    "daysBeforeShowExpiration": 10
-  },
-  {
-    "idTask": 9,
-    "idTaskTemplate": 25,
-    "taskTemplate": {
-      "idTaskTemplate": 25,
-      "topic": {
-        "idTopic": 6,
-        "description": "a11",
-        "companyList": [
-          {
-            "idCompany": 28,
-            "description": "a11",
-            "usersAssociated": [
-              {
-                "idCompanyUser": 114,
-                "username": "TEST",
-                "companyAdmin": false
-              },
-              {
-                "idCompanyUser": 113,
-                "username": "USER",
-                "companyAdmin": true
-              },
-              {
-                "idCompanyUser": 115,
-                "username": "INLAND",
-                "companyAdmin": true
-              }
-            ]
-          }
-        ],
-        "topicConsultantList": [
-          {
-            "consultant": {
-              "idCompanyConsultant": 24,
-              "name": "a11a11",
-              "email": "arditazo3@gmail.com",
-              "company": {
-                "idCompany": 28,
-                "description": "a11",
-                "usersAssociated": [
-                  {
-                    "idCompanyUser": 114,
-                    "username": "TEST",
-                    "companyAdmin": false
-                  },
-                  {
-                    "idCompanyUser": 113,
-                    "username": "USER",
-                    "companyAdmin": true
-                  },
-                  {
-                    "idCompanyUser": 115,
-                    "username": "INLAND",
-                    "companyAdmin": true
-                  }
-                ]
-              }
-            }
-          }
-        ],
-        "consultantList": []
-      },
-      "description": "h",
-      "recurrence": "monthly",
-      "expirationType": "month_end",
-      "daysOfNotice": 4,
-      "daysBeforeShowExpiration": 6,
-      "expirationClosableBy": 1
-    },
-    "recurrence": "20",
-    "expirationType": "10",
-    "day": 10,
-    "daysOfNotice": 10,
-    "daysBeforeShowExpiration": 10
-  },
-  {
-    "idTask": 3,
-    "idTaskTemplate": 20,
-    "taskTemplate": {
-      "idTaskTemplate": 20,
-      "topic": {
-        "idTopic": 6,
-        "description": "a11",
-        "companyList": [
-          {
-            "idCompany": 28,
-            "description": "a11",
-            "usersAssociated": [
-              {
-                "idCompanyUser": 114,
-                "username": "TEST",
-                "companyAdmin": false
-              },
-              {
-                "idCompanyUser": 113,
-                "username": "USER",
-                "companyAdmin": true
-              },
-              {
-                "idCompanyUser": 115,
-                "username": "INLAND",
-                "companyAdmin": true
-              }
-            ]
-          }
-        ],
-        "topicConsultantList": [
-          {
-            "consultant": {
-              "idCompanyConsultant": 24,
-              "name": "a11a11",
-              "email": "arditazo3@gmail.com",
-              "company": {
-                "idCompany": 28,
-                "description": "a11",
-                "usersAssociated": [
-                  {
-                    "idCompanyUser": 114,
-                    "username": "TEST",
-                    "companyAdmin": false
-                  },
-                  {
-                    "idCompanyUser": 113,
-                    "username": "USER",
-                    "companyAdmin": true
-                  },
-                  {
-                    "idCompanyUser": 115,
-                    "username": "INLAND",
-                    "companyAdmin": true
-                  }
-                ]
-              }
-            }
-          }
-        ],
-        "consultantList": []
-      },
-      "description": "Test",
-      "recurrence": "yearly",
-      "expirationType": "month_start",
-      "daysOfNotice": 5,
-      "daysBeforeShowExpiration": 10,
-      "expirationClosableBy": 5
-    },
-    "recurrence": "20",
-    "expirationType": "10",
-    "day": 10,
-    "daysOfNotice": 10,
-    "daysBeforeShowExpiration": 10
-  },
-  {
-    "idTask": 2,
-    "idTaskTemplate": 20,
-    "taskTemplate": {
-      "idTaskTemplate": 20,
-      "topic": {
-        "idTopic": 6,
-        "description": "a11",
-        "companyList": [
-          {
-            "idCompany": 28,
-            "description": "a11",
-            "usersAssociated": [
-              {
-                "idCompanyUser": 114,
-                "username": "TEST",
-                "companyAdmin": false
-              },
-              {
-                "idCompanyUser": 113,
-                "username": "USER",
-                "companyAdmin": true
-              },
-              {
-                "idCompanyUser": 115,
-                "username": "INLAND",
-                "companyAdmin": true
-              }
-            ]
-          }
-        ],
-        "topicConsultantList": [
-          {
-            "consultant": {
-              "idCompanyConsultant": 24,
-              "name": "a11a11",
-              "email": "arditazo3@gmail.com",
-              "company": {
-                "idCompany": 28,
-                "description": "a11",
-                "usersAssociated": [
-                  {
-                    "idCompanyUser": 114,
-                    "username": "TEST",
-                    "companyAdmin": false
-                  },
-                  {
-                    "idCompanyUser": 113,
-                    "username": "USER",
-                    "companyAdmin": true
-                  },
-                  {
-                    "idCompanyUser": 115,
-                    "username": "INLAND",
-                    "companyAdmin": true
-                  }
-                ]
-              }
-            }
-          }
-        ],
-        "consultantList": []
-      },
-      "description": "Test",
-      "recurrence": "yearly",
-      "expirationType": "month_start",
-      "daysOfNotice": 5,
-      "daysBeforeShowExpiration": 10,
-      "expirationClosableBy": 5
-    },
-    "recurrence": "20",
-    "expirationType": "10",
-    "day": 10,
-    "daysOfNotice": 10,
-    "daysBeforeShowExpiration": 10
-  },
-  {
-    "idTask": 7,
-    "idTaskTemplate": 24,
-    "taskTemplate": {
-      "idTaskTemplate": 24,
-      "topic": {
-        "idTopic": 6,
-        "description": "a11",
-        "companyList": [
-          {
-            "idCompany": 28,
-            "description": "a11",
-            "usersAssociated": [
-              {
-                "idCompanyUser": 114,
-                "username": "TEST",
-                "companyAdmin": false
-              },
-              {
-                "idCompanyUser": 113,
-                "username": "USER",
-                "companyAdmin": true
-              },
-              {
-                "idCompanyUser": 115,
-                "username": "INLAND",
-                "companyAdmin": true
-              }
-            ]
-          }
-        ],
-        "topicConsultantList": [
-          {
-            "consultant": {
-              "idCompanyConsultant": 24,
-              "name": "a11a11",
-              "email": "arditazo3@gmail.com",
-              "company": {
-                "idCompany": 28,
-                "description": "a11",
-                "usersAssociated": [
-                  {
-                    "idCompanyUser": 114,
-                    "username": "TEST",
-                    "companyAdmin": false
-                  },
-                  {
-                    "idCompanyUser": 113,
-                    "username": "USER",
-                    "companyAdmin": true
-                  },
-                  {
-                    "idCompanyUser": 115,
-                    "username": "INLAND",
-                    "companyAdmin": true
-                  }
-                ]
-              }
-            }
-          }
-        ],
-        "consultantList": []
-      },
-      "description": "Test Test",
-      "recurrence": "monthly",
-      "expirationType": "fix_day",
-      "daysOfNotice": 3,
-      "daysBeforeShowExpiration": 3,
-      "expirationClosableBy": 3
-    },
-    "recurrence": "20",
-    "expirationType": "10",
-    "day": 10,
-    "daysOfNotice": 10,
-    "daysBeforeShowExpiration": 10
-  },
-  {
-    "idTask": 5,
-    "idTaskTemplate": 22,
-    "taskTemplate": {
-      "idTaskTemplate": 22,
-      "topic": {
-        "idTopic": 6,
-        "description": "a11",
-        "companyList": [
-          {
-            "idCompany": 28,
-            "description": "a11",
-            "usersAssociated": [
-              {
-                "idCompanyUser": 114,
-                "username": "TEST",
-                "companyAdmin": false
-              },
-              {
-                "idCompanyUser": 113,
-                "username": "USER",
-                "companyAdmin": true
-              },
-              {
-                "idCompanyUser": 115,
-                "username": "INLAND",
-                "companyAdmin": true
-              }
-            ]
-          }
-        ],
-        "topicConsultantList": [
-          {
-            "consultant": {
-              "idCompanyConsultant": 24,
-              "name": "a11a11",
-              "email": "arditazo3@gmail.com",
-              "company": {
-                "idCompany": 28,
-                "description": "a11",
-                "usersAssociated": [
-                  {
-                    "idCompanyUser": 114,
-                    "username": "TEST",
-                    "companyAdmin": false
-                  },
-                  {
-                    "idCompanyUser": 113,
-                    "username": "USER",
-                    "companyAdmin": true
-                  },
-                  {
-                    "idCompanyUser": 115,
-                    "username": "INLAND",
-                    "companyAdmin": true
-                  }
-                ]
-              }
-            }
-          }
-        ],
-        "consultantList": []
-      },
-      "description": "Test Test",
-      "recurrence": "monthly",
-      "expirationType": "fix_day",
-      "daysOfNotice": 3,
-      "daysBeforeShowExpiration": 3,
-      "expirationClosableBy": 3
-    },
-    "recurrence": "20",
-    "expirationType": "10",
-    "day": 10,
-    "daysOfNotice": 10,
-    "daysBeforeShowExpiration": 10
-  },
-  {
-    "idTask": 1,
-    "idTaskTemplate": 10,
-    "taskTemplate": {
-      "idTaskTemplate": 10,
-      "topic": {
-        "idTopic": 6,
-        "description": "a11",
-        "companyList": [
-          {
-            "idCompany": 28,
-            "description": "a11",
-            "usersAssociated": [
-              {
-                "idCompanyUser": 114,
-                "username": "TEST",
-                "companyAdmin": false
-              },
-              {
-                "idCompanyUser": 113,
-                "username": "USER",
-                "companyAdmin": true
-              },
-              {
-                "idCompanyUser": 115,
-                "username": "INLAND",
-                "companyAdmin": true
-              }
-            ]
-          }
-        ],
-        "topicConsultantList": [
-          {
-            "consultant": {
-              "idCompanyConsultant": 24,
-              "name": "a11a11",
-              "email": "arditazo3@gmail.com",
-              "company": {
-                "idCompany": 28,
-                "description": "a11",
-                "usersAssociated": [
-                  {
-                    "idCompanyUser": 114,
-                    "username": "TEST",
-                    "companyAdmin": false
-                  },
-                  {
-                    "idCompanyUser": 113,
-                    "username": "USER",
-                    "companyAdmin": true
-                  },
-                  {
-                    "idCompanyUser": 115,
-                    "username": "INLAND",
-                    "companyAdmin": true
-                  }
-                ]
-              }
-            }
-          }
-        ],
-        "consultantList": []
-      },
-      "description": "Test Test",
-      "recurrence": "monthly",
-      "expirationType": "fix_day",
-      "daysOfNotice": 53,
-      "daysBeforeShowExpiration": 51,
-      "expirationClosableBy": 53
-    },
-    "recurrence": "10",
-    "expirationType": "10",
-    "day": 10,
-    "daysOfNotice": 10,
-    "daysBeforeShowExpiration": 10
-  },
-  {
-    "idTask": 10,
-    "idTaskTemplate": 27,
-    "taskTemplate": {
-      "idTaskTemplate": 27,
-      "topic": {
-        "idTopic": 6,
-        "description": "a11",
-        "companyList": [
-          {
-            "idCompany": 28,
-            "description": "a11",
-            "usersAssociated": [
-              {
-                "idCompanyUser": 114,
-                "username": "TEST",
-                "companyAdmin": false
-              },
-              {
-                "idCompanyUser": 113,
-                "username": "USER",
-                "companyAdmin": true
-              },
-              {
-                "idCompanyUser": 115,
-                "username": "INLAND",
-                "companyAdmin": true
-              }
-            ]
-          }
-        ],
-        "topicConsultantList": [
-          {
-            "consultant": {
-              "idCompanyConsultant": 24,
-              "name": "a11a11",
-              "email": "arditazo3@gmail.com",
-              "company": {
-                "idCompany": 28,
-                "description": "a11",
-                "usersAssociated": [
-                  {
-                    "idCompanyUser": 114,
-                    "username": "TEST",
-                    "companyAdmin": false
-                  },
-                  {
-                    "idCompanyUser": 113,
-                    "username": "USER",
-                    "companyAdmin": true
-                  },
-                  {
-                    "idCompanyUser": 115,
-                    "username": "INLAND",
-                    "companyAdmin": true
-                  }
-                ]
-              }
-            }
-          }
-        ],
-        "consultantList": []
-      },
-      "description": "Test Test",
-      "recurrence": "monthly",
-      "expirationType": "fix_day",
-      "daysOfNotice": 8,
-      "daysBeforeShowExpiration": 8,
-      "expirationClosableBy": 8
-    },
-    "recurrence": "20",
-    "expirationType": "10",
-    "day": 10,
-    "daysOfNotice": 10,
-    "daysBeforeShowExpiration": 10
-  },
-  {
-    "idTask": 6,
-    "idTaskTemplate": 22,
-    "taskTemplate": {
-      "idTaskTemplate": 22,
-      "topic": {
-        "idTopic": 6,
-        "description": "a11",
-        "companyList": [
-          {
-            "idCompany": 28,
-            "description": "a11",
-            "usersAssociated": [
-              {
-                "idCompanyUser": 114,
-                "username": "TEST",
-                "companyAdmin": false
-              },
-              {
-                "idCompanyUser": 113,
-                "username": "USER",
-                "companyAdmin": true
-              },
-              {
-                "idCompanyUser": 115,
-                "username": "INLAND",
-                "companyAdmin": true
-              }
-            ]
-          }
-        ],
-        "topicConsultantList": [
-          {
-            "consultant": {
-              "idCompanyConsultant": 24,
-              "name": "a11a11",
-              "email": "arditazo3@gmail.com",
-              "company": {
-                "idCompany": 28,
-                "description": "a11",
-                "usersAssociated": [
-                  {
-                    "idCompanyUser": 114,
-                    "username": "TEST",
-                    "companyAdmin": false
-                  },
-                  {
-                    "idCompanyUser": 113,
-                    "username": "USER",
-                    "companyAdmin": true
-                  },
-                  {
-                    "idCompanyUser": 115,
-                    "username": "INLAND",
-                    "companyAdmin": true
-                  }
-                ]
-              }
-            }
-          }
-        ],
-        "consultantList": []
-      },
-      "description": "Test Test",
-      "recurrence": "monthly",
-      "expirationType": "fix_day",
-      "daysOfNotice": 3,
-      "daysBeforeShowExpiration": 3,
-      "expirationClosableBy": 3
-    },
-    "recurrence": "20",
-    "expirationType": "10",
-    "day": 10,
-    "daysOfNotice": 10,
-    "daysBeforeShowExpiration": 10
-  },
-  {
-    "idTask": 4,
-    "idTaskTemplate": 21,
-    "taskTemplate": {
-      "idTaskTemplate": 21,
-      "topic": {
-        "idTopic": 6,
-        "description": "a11",
-        "companyList": [
-          {
-            "idCompany": 28,
-            "description": "a11",
-            "usersAssociated": [
-              {
-                "idCompanyUser": 114,
-                "username": "TEST",
-                "companyAdmin": false
-              },
-              {
-                "idCompanyUser": 113,
-                "username": "USER",
-                "companyAdmin": true
-              },
-              {
-                "idCompanyUser": 115,
-                "username": "INLAND",
-                "companyAdmin": true
-              }
-            ]
-          }
-        ],
-        "topicConsultantList": [
-          {
-            "consultant": {
-              "idCompanyConsultant": 24,
-              "name": "a11a11",
-              "email": "arditazo3@gmail.com",
-              "company": {
-                "idCompany": 28,
-                "description": "a11",
-                "usersAssociated": [
-                  {
-                    "idCompanyUser": 114,
-                    "username": "TEST",
-                    "companyAdmin": false
-                  },
-                  {
-                    "idCompanyUser": 113,
-                    "username": "USER",
-                    "companyAdmin": true
-                  },
-                  {
-                    "idCompanyUser": 115,
-                    "username": "INLAND",
-                    "companyAdmin": true
-                  }
-                ]
-              }
-            }
-          }
-        ],
-        "consultantList": []
-      },
-      "description": "Test Test",
-      "recurrence": "monthly",
-      "expirationType": "fix_day",
-      "daysOfNotice": 3,
-      "daysBeforeShowExpiration": 3,
-      "expirationClosableBy": 3
-    },
-    "recurrence": "20",
-    "expirationType": "10",
-    "day": 10,
-    "daysOfNotice": 10,
-    "daysBeforeShowExpiration": 10
-  },
-  {
-    "idTask": 11,
-    "idTaskTemplate": 28,
-    "taskTemplate": {
-      "idTaskTemplate": 28,
-      "topic": {
-        "idTopic": 6,
-        "description": "a11",
-        "companyList": [
-          {
-            "idCompany": 28,
-            "description": "a11",
-            "usersAssociated": [
-              {
-                "idCompanyUser": 114,
-                "username": "TEST",
-                "companyAdmin": false
-              },
-              {
-                "idCompanyUser": 113,
-                "username": "USER",
-                "companyAdmin": true
-              },
-              {
-                "idCompanyUser": 115,
-                "username": "INLAND",
-                "companyAdmin": true
-              }
-            ]
-          }
-        ],
-        "topicConsultantList": [
-          {
-            "consultant": {
-              "idCompanyConsultant": 24,
-              "name": "a11a11",
-              "email": "arditazo3@gmail.com",
-              "company": {
-                "idCompany": 28,
-                "description": "a11",
-                "usersAssociated": [
-                  {
-                    "idCompanyUser": 114,
-                    "username": "TEST",
-                    "companyAdmin": false
-                  },
-                  {
-                    "idCompanyUser": 113,
-                    "username": "USER",
-                    "companyAdmin": true
-                  },
-                  {
-                    "idCompanyUser": 115,
-                    "username": "INLAND",
-                    "companyAdmin": true
-                  }
-                ]
-              }
-            }
-          }
-        ],
-        "consultantList": []
-      },
-      "description": "Test Test",
-      "recurrence": "monthly",
-      "expirationType": "fix_day",
-      "daysOfNotice": 8,
-      "daysBeforeShowExpiration": 8,
-      "expirationClosableBy": 8
-    },
-    "recurrence": "20",
-    "expirationType": "10",
-    "day": 10,
-    "daysOfNotice": 10,
-    "daysBeforeShowExpiration": 10
-  }
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 34,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "aa 11",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 1,
+			"daysOfNotice": 2,
+			"frequenceOfNotice": 3,
+			"daysBeforeShowExpiration": 4,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 33,
+			"topic": {
+				"idTopic": 7,
+				"description": "a11a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				]
+			},
+			"description": "aa 11",
+			"recurrence": "weekly",
+			"expirationType": "month_start",
+			"day": 1,
+			"daysOfNotice": 4,
+			"frequenceOfNotice": 3,
+			"daysBeforeShowExpiration": 2,
+			"expirationClosableBy": 2
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 32,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "AA 11",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 1,
+			"daysOfNotice": 2,
+			"frequenceOfNotice": 3,
+			"daysBeforeShowExpiration": 4,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 31,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Aa 11",
+			"recurrence": "weekly",
+			"expirationType": "fix_day",
+			"day": 1,
+			"daysOfNotice": 2,
+			"frequenceOfNotice": 3,
+			"daysBeforeShowExpiration": 4,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 35,
+			"topic": {
+				"idTopic": 7,
+				"description": "a11a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				]
+			},
+			"description": "aa 123",
+			"recurrence": "monthly",
+			"expirationType": "month_end",
+			"day": 1,
+			"daysOfNotice": 2,
+			"frequenceOfNotice": 3,
+			"daysBeforeShowExpiration": 4,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 1,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @1",
+			"recurrence": "weekly",
+			"expirationType": "fix_day",
+			"day": 1,
+			"daysOfNotice": 2,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 3,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 10,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @10",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 57,
+			"daysOfNotice": 53,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 51,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": 1,
+		"taskTemplate": {
+			"idTaskTemplate": 10,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @10",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 57,
+			"daysOfNotice": 53,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 51,
+			"expirationClosableBy": 1
+		},
+		"recurrence": "10",
+		"expirationType": "10",
+		"day": 10,
+		"daysOfNotice": 10,
+		"frequenceOfNotice": 0,
+		"daysBeforeShowExpiration": 10
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 11,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @11",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 57,
+			"daysOfNotice": 53,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 51,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 12,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @12",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 57,
+			"daysOfNotice": 53,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 51,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 13,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @13",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 57,
+			"daysOfNotice": 53,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 51,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 14,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @14",
+			"recurrence": "weekly",
+			"expirationType": "fix_day",
+			"day": 7,
+			"daysOfNotice": 7,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 5,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 15,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @15",
+			"recurrence": "yearly",
+			"expirationType": "month_start",
+			"day": 5,
+			"daysOfNotice": 5,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 10,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 16,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @16",
+			"recurrence": "yearly",
+			"expirationType": "month_start",
+			"day": 5,
+			"daysOfNotice": 5,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 10,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 17,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @17",
+			"recurrence": "yearly",
+			"expirationType": "month_start",
+			"day": 5,
+			"daysOfNotice": 5,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 10,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 18,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @18",
+			"recurrence": "yearly",
+			"expirationType": "month_start",
+			"day": 5,
+			"daysOfNotice": 5,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 10,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 19,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @19",
+			"recurrence": "yearly",
+			"expirationType": "month_start",
+			"day": 5,
+			"daysOfNotice": 5,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 10,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 2,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @2",
+			"recurrence": "weekly",
+			"expirationType": "fix_day",
+			"day": 51,
+			"daysOfNotice": 43,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 31,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 20,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @20",
+			"recurrence": "yearly",
+			"expirationType": "month_start",
+			"day": 5,
+			"daysOfNotice": 5,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 10,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": 2,
+		"taskTemplate": {
+			"idTaskTemplate": 20,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @20",
+			"recurrence": "yearly",
+			"expirationType": "month_start",
+			"day": 5,
+			"daysOfNotice": 5,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 10,
+			"expirationClosableBy": 1
+		},
+		"recurrence": "20",
+		"expirationType": "10",
+		"day": 10,
+		"daysOfNotice": 10,
+		"frequenceOfNotice": 0,
+		"daysBeforeShowExpiration": 10
+	},
+	{
+		"idTask": 3,
+		"taskTemplate": {
+			"idTaskTemplate": 20,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @20",
+			"recurrence": "yearly",
+			"expirationType": "month_start",
+			"day": 5,
+			"daysOfNotice": 5,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 10,
+			"expirationClosableBy": 1
+		},
+		"recurrence": "20",
+		"expirationType": "10",
+		"day": 10,
+		"daysOfNotice": 10,
+		"frequenceOfNotice": 0,
+		"daysBeforeShowExpiration": 10
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 21,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @21",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 34,
+			"daysOfNotice": 3,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 3,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": 4,
+		"taskTemplate": {
+			"idTaskTemplate": 21,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @21",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 34,
+			"daysOfNotice": 3,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 3,
+			"expirationClosableBy": 1
+		},
+		"recurrence": "20",
+		"expirationType": "10",
+		"day": 10,
+		"daysOfNotice": 10,
+		"frequenceOfNotice": 0,
+		"daysBeforeShowExpiration": 10
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 22,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @22",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 34,
+			"daysOfNotice": 3,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 3,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": 5,
+		"taskTemplate": {
+			"idTaskTemplate": 22,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @22",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 34,
+			"daysOfNotice": 3,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 3,
+			"expirationClosableBy": 1
+		},
+		"recurrence": "20",
+		"expirationType": "10",
+		"day": 10,
+		"daysOfNotice": 10,
+		"frequenceOfNotice": 0,
+		"daysBeforeShowExpiration": 10
+	},
+	{
+		"idTask": 6,
+		"taskTemplate": {
+			"idTaskTemplate": 22,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @22",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 34,
+			"daysOfNotice": 3,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 3,
+			"expirationClosableBy": 1
+		},
+		"recurrence": "20",
+		"expirationType": "10",
+		"day": 10,
+		"daysOfNotice": 10,
+		"frequenceOfNotice": 0,
+		"daysBeforeShowExpiration": 10
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 23,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @23",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 34,
+			"daysOfNotice": 3,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 3,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 24,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @24",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 34,
+			"daysOfNotice": 3,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 3,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": 7,
+		"taskTemplate": {
+			"idTaskTemplate": 24,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @24",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 34,
+			"daysOfNotice": 3,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 3,
+			"expirationClosableBy": 1
+		},
+		"recurrence": "20",
+		"expirationType": "10",
+		"day": 10,
+		"daysOfNotice": 10,
+		"frequenceOfNotice": 0,
+		"daysBeforeShowExpiration": 10
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 25,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @25",
+			"recurrence": "monthly",
+			"expirationType": "month_end",
+			"day": 45,
+			"daysOfNotice": 4,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 6,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": 9,
+		"taskTemplate": {
+			"idTaskTemplate": 25,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @25",
+			"recurrence": "monthly",
+			"expirationType": "month_end",
+			"day": 45,
+			"daysOfNotice": 4,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 6,
+			"expirationClosableBy": 1
+		},
+		"recurrence": "20",
+		"expirationType": "10",
+		"day": 10,
+		"daysOfNotice": 10,
+		"frequenceOfNotice": 0,
+		"daysBeforeShowExpiration": 10
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 26,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @26",
+			"recurrence": "monthly",
+			"expirationType": "month_end",
+			"day": 45,
+			"daysOfNotice": 4,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 6,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": 8,
+		"taskTemplate": {
+			"idTaskTemplate": 26,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @26",
+			"recurrence": "monthly",
+			"expirationType": "month_end",
+			"day": 45,
+			"daysOfNotice": 4,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 6,
+			"expirationClosableBy": 1
+		},
+		"recurrence": "20",
+		"expirationType": "10",
+		"day": 10,
+		"daysOfNotice": 10,
+		"frequenceOfNotice": 0,
+		"daysBeforeShowExpiration": 10
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 27,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @27",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 8,
+			"daysOfNotice": 8,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 8,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": 10,
+		"taskTemplate": {
+			"idTaskTemplate": 27,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @27",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 8,
+			"daysOfNotice": 8,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 8,
+			"expirationClosableBy": 1
+		},
+		"recurrence": "20",
+		"expirationType": "10",
+		"day": 10,
+		"daysOfNotice": 10,
+		"frequenceOfNotice": 0,
+		"daysBeforeShowExpiration": 10
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 28,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @28",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 8,
+			"daysOfNotice": 8,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 8,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": 11,
+		"taskTemplate": {
+			"idTaskTemplate": 28,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @28",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 8,
+			"daysOfNotice": 8,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 8,
+			"expirationClosableBy": 1
+		},
+		"recurrence": "20",
+		"expirationType": "10",
+		"day": 10,
+		"daysOfNotice": 10,
+		"frequenceOfNotice": 0,
+		"daysBeforeShowExpiration": 10
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 29,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @29",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 8,
+			"daysOfNotice": 8,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 8,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 3,
+			"topic": {
+				"idTopic": 7,
+				"description": "a11a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				]
+			},
+			"description": "Task Template: @3",
+			"recurrence": "weekly",
+			"expirationType": "fix_day",
+			"day": 44,
+			"daysOfNotice": 33,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 22,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 30,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @30",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 8,
+			"daysOfNotice": 8,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 8,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 4,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @4",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 57,
+			"daysOfNotice": 53,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 51,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 5,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @5",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 57,
+			"daysOfNotice": 53,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 51,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 6,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @6",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 57,
+			"daysOfNotice": 53,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 51,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 7,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @7",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 57,
+			"daysOfNotice": 53,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 51,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 8,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @8",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 57,
+			"daysOfNotice": 53,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 51,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	},
+	{
+		"idTask": null,
+		"taskTemplate": {
+			"idTaskTemplate": 9,
+			"topic": {
+				"idTopic": 6,
+				"description": "a11",
+				"companyList": [
+					{
+						"idCompany": 28,
+						"description": "a11",
+						"usersAssociated": [
+							{
+								"idCompanyUser": 114,
+								"username": "TEST",
+								"companyAdmin": false
+							},
+							{
+								"idCompanyUser": 115,
+								"username": "INLAND",
+								"companyAdmin": true
+							},
+							{
+								"idCompanyUser": 113,
+								"username": "USER",
+								"companyAdmin": true
+							}
+						]
+					}
+				],
+				"topicConsultantList": [
+					{
+						"consultant": {
+							"idCompanyConsultant": 24,
+							"name": "a11a11",
+							"email": "arditazo3@gmail.com",
+							"company": {
+								"idCompany": 28,
+								"description": "a11",
+								"usersAssociated": [
+									{
+										"idCompanyUser": 114,
+										"username": "TEST",
+										"companyAdmin": false
+									},
+									{
+										"idCompanyUser": 115,
+										"username": "INLAND",
+										"companyAdmin": true
+									},
+									{
+										"idCompanyUser": 113,
+										"username": "USER",
+										"companyAdmin": true
+									}
+								]
+							}
+						}
+					}
+				],
+				"consultantList": []
+			},
+			"description": "Task Template: @9",
+			"recurrence": "monthly",
+			"expirationType": "fix_day",
+			"day": 57,
+			"daysOfNotice": 53,
+			"frequenceOfNotice": 0,
+			"daysBeforeShowExpiration": 51,
+			"expirationClosableBy": 1
+		},
+		"recurrence": null,
+		"expirationType": null,
+		"day": null,
+		"daysOfNotice": null,
+		"frequenceOfNotice": null,
+		"daysBeforeShowExpiration": null
+	}
 ]

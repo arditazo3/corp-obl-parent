@@ -2,8 +2,6 @@ package com.tx.co.back_office.task.repository;
 
 import java.util.List;
 
-import javax.ws.rs.QueryParam;
-
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

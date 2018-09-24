@@ -2,7 +2,9 @@ package com.tx.co.back_office.tasktemplate.service;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,11 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.repository.TaskTemplateRepository;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
+import com.tx.co.security.domain.Authority;
+import com.tx.co.user.domain.User;
 
 /**
  * Service for {@link com.tx.co.back_office.tasktemplate.domain.TaskTemplate}s.
@@ -50,9 +55,18 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 			taskTemplateStored = taskTemplate;
 		} else { // Existing Task template
 			taskTemplateStored = getTaskTemplateById(taskTemplate.getIdTaskTemplate());
-			taskTemplateStored.setDescription(taskTemplate.getDescription());
+			
 		}
 
+		
+		taskTemplateStored.setDescription(taskTemplate.getDescription());
+		taskTemplateStored.setDay(taskTemplate.getDay());
+		taskTemplateStored.setDaysBeforeShowExpiration(taskTemplate.getDaysBeforeShowExpiration());
+		taskTemplateStored.setDaysOfNotice(taskTemplate.getDaysOfNotice());
+		taskTemplateStored.setExpirationClosableBy(taskTemplate.getExpirationClosableBy());
+		taskTemplateStored.setExpirationType(taskTemplate.getExpirationType());
+		taskTemplateStored.setFrequenceOfNotice(taskTemplate.getFrequenceOfNotice());
+		taskTemplateStored.setRecurrence(taskTemplate.getRecurrence());
 		taskTemplateStored.setTopic(taskTemplate.getTopic());
 		taskTemplateStored.setModificationDate(new Date());
 		taskTemplateStored.setModifiedBy(username);
@@ -63,8 +77,8 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 		return taskTemplateStored;
 	}
-	
-	
+
+
 
 	@Override
 	public AuthenticationTokenUserDetails getTokenUserDetails() {
@@ -77,5 +91,36 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		return taskTemplateRepository.findById(idTaskTemplate);
 	}
 
+	@Override
+	public List<Task> getTasksForTable() {
 
+		User userLoggedIn = getTokenUserDetails().getUser();
+		List<Task> tasks = new ArrayList<>();
+
+		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+			tasks = covertToTaskForTable(taskTemplateRepository.findAllOrderByDescriptionAsc());
+		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
+			// FIXME
+			return new ArrayList<>();
+		}
+		return tasks;
+	}
+
+	public List<Task> covertToTaskForTable(List<TaskTemplate> taskTemplates) {
+
+		List<Task> tasks = new ArrayList<>();
+		for (TaskTemplate taskTemplate : taskTemplates) {
+
+			if(!isEmpty(taskTemplate.getTasks())) {
+				for (Task taskLoop : taskTemplate.getTasks()) {
+					tasks.add(taskLoop);
+				}
+			} else {
+				Task task = new Task();
+				task.setTaskTemplate(taskTemplate);
+				tasks.add(task);
+			}
+		}
+		return tasks;
+	}
 }

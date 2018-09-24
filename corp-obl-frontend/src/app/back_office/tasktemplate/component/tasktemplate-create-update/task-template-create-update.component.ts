@@ -17,12 +17,14 @@ import {AppConfig} from '../../../../shared/common/api/app-config';
 import {ApiRequestService} from '../../../../shared/common/service/api-request.service';
 import {saveAs as importedSaveAs} from 'file-saver';
 import {Task} from '../../../task/model/task';
+import {UploadService} from '../../../../shared/common/service/upload.service';
 
 @Component({
     selector: 'app-tasktemplate-create-update',
     templateUrl: './task-template-create-update.component.html',
     styleUrls: ['./task-template-create-update.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [UploadService]
 })
 export class TaskTemplateCreateUpdateComponent implements OnInit {
 
@@ -55,8 +57,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         private taskTemplateService: TaskTemplateService,
         private userInfoService: UserInfoService,
         private translationService: TranslationService,
-        private appConfig: AppConfig,
-        private apiRequestServie: ApiRequestService
+        private uploadService: UploadService
     ) {
     }
 
@@ -100,18 +101,19 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
 
         this.createEditTaskTemplate = this.formBuilder.group({
             description: new FormControl({value: this.taskTemplate.description, disabled: false}, Validators.required),
-        //    expirationClosableBy: new FormControl({value: this.taskTemplate.expirationClosableBy}, Validators.required),
+            //    expirationClosableBy: new FormControl({value: this.taskTemplate.expirationClosableBy}, Validators.required),
             expirationRadio: new FormControl(this.taskTemplate.expirationClosableBy, Validators.required),
             day: new FormControl({value: this.taskTemplate.day, disabled: false}, Validators.required),
             daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
             frequenceOfNotice: new FormControl({value: this.taskTemplate.frequenceOfNotice, disabled: false}, Validators.required),
-            daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false}, Validators.required)
+            daysBeforeShowExpiration: new FormControl({
+                value: this.taskTemplate.daysBeforeShowExpiration,
+                disabled: false
+            }, Validators.required)
         });
 
-
-
-        this.uploader = this.apiRequestServie.uploader;
-        this.apiRequestServie.uploadFileWithAuth();
+        this.uploader = this.uploadService.uploader;
+        this.uploadService.uploadFileWithAuth();
         this.uploader.onBeforeUploadItem = (item) => {
             item.withCredentials = false;
         };
@@ -157,33 +159,33 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         this.taskTemplate.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
         this.taskTemplate.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
 
-
-
         this.confirmationTaskTemplateSwal.title = 'Do you want to save: ' + this.taskTemplate.description + '?';
         this.confirmationTaskTemplateSwal.show()
             .then(function (result) {
-                // handle confirm, result is needed for modals with input
-                me.taskTemplateService.saveUpdateTaskTemplate(me.taskTemplate).subscribe(
-                    (data) => {
-                        const taskTemplate: TaskTemplate = data;
-                        me.errorDetails = undefined;
-                        console.log('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit - next');
+                if (result.value === true) {
+                    // handle confirm, result is needed for modals with input
+                    me.taskTemplateService.saveUpdateTaskTemplate(me.taskTemplate).subscribe(
+                        (data) => {
+                            const taskTemplate: TaskTemplate = data;
+                            me.errorDetails = undefined;
+                            console.log('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit - next');
 
-                        me.uploader.onBuildItemForm = (fileItem: any, form: any) => {
-                            form.append('idTaskTemplate', taskTemplate.idTaskTemplate);
-                        };
+                            me.uploader.onBuildItemForm = (fileItem: any, form: any) => {
+                                form.append('idTaskTemplate', taskTemplate.idTaskTemplate);
+                            };
 
-                        me.uploader.queue.forEach((item) => {
-                            item.upload();
-                        });
+                            me.uploader.queue.forEach((item) => {
+                                item.upload();
+                            });
 
-                        me.router.navigate(['/back-office/task']);
-                    }, error => {
-                        me.errorDetails = error.error;
-                    //    me.showErrorDescriptionSwal();
-                        console.log('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit - error');
-                    }
-                );
+                            me.router.navigate(['/back-office/task']);
+                        }, error => {
+                            me.errorDetails = error.error;
+                            //    me.showErrorDescriptionSwal();
+                            console.log('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit - error');
+                        }
+                    );
+                }
             }, function (dismiss) {
                 // dismiss can be "cancel" | "close" | "outside"
             });

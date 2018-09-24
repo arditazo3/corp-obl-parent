@@ -3,6 +3,7 @@ import {TaskTemplate} from '../../tasktemplate/model/tasktemplate';
 export class Task {
 
     idTask: number;
+    idTaskTemplate: number;
     taskTemplate: TaskTemplate;
     recurrence: string;
     expirationType: string;
@@ -10,5 +11,4 @@ export class Task {
     daysOfNotice: number;
     frequenceOfNotice: number;
     daysBeforeShowExpiration: number;
-    idTaskTemplate: number;
 }

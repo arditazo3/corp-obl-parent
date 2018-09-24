@@ -2,7 +2,12 @@ package com.tx.co.back_office.tasktemplate.resource;
 
 import static com.tx.co.common.constants.ApiConstants.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -16,6 +21,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.tx.co.back_office.task.api.model.TaskResult;
+import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.service.ITaskTemplateService;
@@ -37,6 +44,22 @@ public class TaskTemplateResource extends ObjectResult {
 		this.taskTemplateService = taskTemplateService;
 	}
 
+	@GET
+    @Path(TASK_TEMPLATE_LIST_FOR_TABLE)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+    public Response getTaskTemplatesForTable() {
+
+		Iterable<Task> taskForTableIterable = taskTemplateService.getTasksForTable();
+        List<TaskResult> queryDetailsList =
+                StreamSupport.stream(taskForTableIterable.spliterator(), false)
+                        .map(this::toTaskResult)
+                        .collect(Collectors.toList());
+
+        return Response.ok(queryDetailsList).build();
+    }
+	
 	@POST
 	@Path(TASK_TEMPLATE_CREATE_UPDATE)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -45,7 +68,7 @@ public class TaskTemplateResource extends ObjectResult {
 
 		TaskTemplate taskTemplateStored = taskTemplateService.saveUpdateTaskTemplate(toTaskTemplate(taskTemplateResult));
 
-		return Response.ok(toTaskTemplateResult(taskTemplateStored)).build();
+		return Response.ok(toTaskTemplateResult(taskTemplateStored, true)).build();
 	}
 
 }

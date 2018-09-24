@@ -1,6 +1,9 @@
 package com.tx.co.back_office.tasktemplate.api.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.tx.co.back_office.task.api.model.TaskResult;
 import com.tx.co.back_office.topic.api.model.TopicResult;
 
 /**
@@ -13,6 +16,7 @@ public class TaskTemplateResult {
 	
 	private Long idTaskTemplate;
 	private TopicResult topic;
+	private List<TaskResult> taskResults;
 	private String description;
 	private String recurrence;
 	private String expirationType;
@@ -33,6 +37,12 @@ public class TaskTemplateResult {
 	}
 	public void setTopic(TopicResult topic) {
 		this.topic = topic;
+	}
+	public List<TaskResult> getTaskResults() {
+		return taskResults;
+	}
+	public void setTaskResults(List<TaskResult> taskResults) {
+		this.taskResults = taskResults;
 	}
 	public String getDescription() {
 		return description;

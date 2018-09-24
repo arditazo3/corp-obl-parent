@@ -228,7 +228,7 @@ public abstract class ObjectResult {
 	public Topic toTopic(TopicResult topicResult) {
 		return toTopic(topicResult, false);
 	}
-	
+
 	/**
 	 * @param topicResult, hasTranslations
 	 * @return
@@ -482,7 +482,7 @@ public abstract class ObjectResult {
 	 * @param taskTemplate
 	 * @return TaskTemplateResult
 	 */
-	public TaskTemplateResult toTaskTemplateResult(TaskTemplate taskTemplate) {
+	public TaskTemplateResult toTaskTemplateResult(TaskTemplate taskTemplate, Boolean withTask) {
 		TaskTemplateResult result = new TaskTemplateResult();
 		result.setIdTaskTemplate(taskTemplate.getIdTaskTemplate());
 		result.setDescription(taskTemplate.getDescription());
@@ -496,9 +496,16 @@ public abstract class ObjectResult {
 		if(!isEmpty(taskTemplate.getTopic())) {
 			result.setTopic(toTopicResult(taskTemplate.getTopic()));
 		}
+		if(!isEmpty(taskTemplate.getTasks()) && withTask) {
+			List<TaskResult> taskResults = new ArrayList<>();
+			for (Task task : taskTemplate.getTasks()) {
+				taskResults.add(toTaskResult(task));
+			}
+			result.setTaskResults(taskResults);
+		}
 		return result;
 	}
-	
+
 	/**
 	 * @param task
 	 * @return TaskResult
@@ -507,15 +514,16 @@ public abstract class ObjectResult {
 		TaskResult taskResult = new TaskResult();
 
 		taskResult.setIdTask(task.getIdTask());
-		taskResult.setTaskTemplate(toTaskTemplateResult(task.getTaskTemplate()));
-		taskResult.setIdTaskTemplate(task.getTaskTemplate().getIdTaskTemplate());
 		taskResult.setRecurrence(task.getRecurrence());
 		taskResult.setExpirationType(task.getExpirationType());
 		taskResult.setDay(task.getDay());
 		taskResult.setDaysOfNotice(task.getDaysOfNotice());
 		taskResult.setFrequenceOfNotice(task.getFrequenceOfNotice());
 		taskResult.setDaysBeforeShowExpiration(task.getDaysBeforeShowExpiration());
-
+		if(!isEmpty(task.getTaskTemplate())) {
+			taskResult.setTaskTemplate(toTaskTemplateResult(task.getTaskTemplate(), false));
+			taskResult.setIdTaskTemplate(task.getTaskTemplate().getIdTaskTemplate());
+		}
 		return taskResult;
 	}
 }

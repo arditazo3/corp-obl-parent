@@ -65,6 +65,7 @@ export class AppConfig {
     // Task template URL's
     public taskTemplatePath = '/task-template';
     public getTaskTemplates = this.backOfficePath + this.taskTemplatePath + this.list;                        // GET
+    public getTaskTemplatesForTable = this.backOfficePath + this.taskTemplatePath + this.list + '/for-table'; // GET
     public deleteTaskTemplate = this.backOfficePath + this.taskTemplatePath + this.delete;                    // PUT
     public createUpdateTaskTemplate = this.backOfficePath + this.taskTemplatePath + this.createupdate;
 

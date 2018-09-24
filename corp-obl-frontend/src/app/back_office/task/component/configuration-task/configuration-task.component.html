@@ -64,7 +64,7 @@
                        [footerHeight]="50"
                        [rowHeight]="40"
                        [rows]='rows'
-                       [limit]="5"
+                       [limit]="10"
                        [groupExpansionDefault]="false">
 
           <!-- Group Header Template -->
@@ -76,7 +76,7 @@
                         [class.datatable-icon-down]="expanded"
                         title="Expand/Collapse Group"
                         (click)="toggleExpandGroup(group)">
-                  {{ expanded ? 'Collapse' : 'Expan' }}
+                  {{ expanded ? 'Collapse' : 'Expand' }}
                 </button>
 
                 <button type="button" class="btn-tnx btn-xs btn-primary"
@@ -98,7 +98,7 @@
 
           <ngx-datatable-column name="" ></ngx-datatable-column>
 
-          <ngx-datatable-column name="Description" prop="taskTemplate.description"></ngx-datatable-column>
+          <ngx-datatable-column name="Description" prop="idTask"></ngx-datatable-column>
 
           <!-- End Column Templates -->
         </ngx-datatable>

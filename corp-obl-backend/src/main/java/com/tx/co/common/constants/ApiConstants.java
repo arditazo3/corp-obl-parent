@@ -69,6 +69,7 @@ public final class ApiConstants {
 	// Task Template URL
 	public static final String TASK_TEMPLATE = "task-template";
 	public static final String TASK_TEMPLATE_LIST = TASK_TEMPLATE + LIST;
+	public static final String TASK_TEMPLATE_LIST_FOR_TABLE = TASK_TEMPLATE + LIST + "/for-table";
 	public static final String TASK_TEMPLATE_CREATE_UPDATE = TASK_TEMPLATE + CREATE_UPDATE;
 	public static final String TASK_TEMPLATE_DELETE = TASK_TEMPLATE + DELETE;
 

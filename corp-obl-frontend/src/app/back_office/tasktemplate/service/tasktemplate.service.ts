@@ -11,6 +11,16 @@ export class TaskTemplateService {
         private appConfig: AppConfig
     ) {}
 
+    getTaskTemplates(): Observable<any> {
+
+        return this.apiRequest.get(this.appConfig.getTaskTemplates);
+    }
+
+    getTaskTemplatesForTable(): Observable<any> {
+
+        return this.apiRequest.get(this.appConfig.getTaskTemplatesForTable);
+    }
+
     saveUpdateTaskTemplate(taskTemplate): Observable<any> {
         console.log('TaskTemplateService - saveUpdateTaskTemplate');
 

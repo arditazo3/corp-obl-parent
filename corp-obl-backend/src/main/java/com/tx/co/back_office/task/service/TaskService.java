@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.tx.co.back_office.company.domain.Company;
-import com.tx.co.back_office.company.service.CompanyService;
 import com.tx.co.back_office.company.service.ICompanyService;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.task.repository.TaskRepository;

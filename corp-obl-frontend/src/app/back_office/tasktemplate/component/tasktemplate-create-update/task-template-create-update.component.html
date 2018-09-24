@@ -172,7 +172,7 @@
                                     Files
                                 </button>
                                 <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
-                                    <input type="file" #fileInput ng2FileSelect [uploader]="uploader" multiple/>
+                                    <input #selectedFile type="file" #fileInput ng2FileSelect [uploader]="uploader" multiple/>
                                 </span>
                             </div>
                         </div>
@@ -190,7 +190,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr *ngFor="let item of uploader.queue">
+                                    <tr *ngFor="let item of uploader?.queue">
                                         <td>
                                             <strong>{{ item?.file?.name }}</strong>
                                         </td>
@@ -227,12 +227,10 @@
                                                     (click)="item.remove()">
                                                 <span class="fa fa-trash"></span> Remove
                                             </button>
-                                            <div *ngIf="!isNewForm">
-                                                <button type="button" class="btn-tnx btn-sm"
-                                                        (click)="downloadFile(item?.file?.rawFile)">
-                                                    <span class="fa fa-download"></span> Download
-                                                </button>
-                                            </div>
+                                            <button *ngIf="!isNewForm" type="button" class="btn-tnx btn-xs"
+                                                    (click)="downloadFile(item?.file?.rawFile)">
+                                                <span class="fa fa-download"></span> Download
+                                            </button>
                                         </td>
                                     </tr>
                                     </tbody>

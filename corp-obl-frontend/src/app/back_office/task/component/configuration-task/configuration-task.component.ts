@@ -9,6 +9,7 @@ import {TopicService} from '../../../topic/service/topic.service';
 import {TaskService} from '../../service/task.service';
 import {Task} from '../../model/task';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
+import {TaskTemplate} from '../../../tasktemplate/model/tasktemplate';
 
 @Component({
     selector: 'app-configuration-task',
@@ -36,7 +37,6 @@ export class ConfigurationTaskComponent implements OnInit {
         private taskTemplateService: TaskTemplateService,
         private topicService: TopicService,
         private companyService: CompanyService,
-        private taskService: TaskService,
         private transferService: TransferDataService
     ) {}
 
@@ -45,10 +45,7 @@ export class ConfigurationTaskComponent implements OnInit {
 
         this.getCompanies();
         this.getTopics();
-
-        this.getTasks();
-
-
+        this.getTaskTemplates();
     }
 
     getCompanies() {
@@ -65,14 +62,14 @@ export class ConfigurationTaskComponent implements OnInit {
         me.topicsObservable = me.topicService.getTopicsByRole();
     }
 
-    getTasks() {
-        console.log('ConfigurationTaskComponent - getTasks');
+    getTaskTemplates() {
+        console.log('ConfigurationTaskComponent - getTaskTemplates');
 
         const me = this;
-        this.taskService.getTasks().subscribe(
+        this.taskTemplateService.getTaskTemplatesForTable().subscribe(
             (data) => {
                 me.rows = data;
-       //       console.log(JSON.stringify(data));
+           //     console.log(JSON.stringify(data));
             }
         );
     }

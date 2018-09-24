@@ -8,7 +8,7 @@ import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
  *
  * @author aazo
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.ALWAYS)
 public class TaskResult {
 
 	private Long idTask;
