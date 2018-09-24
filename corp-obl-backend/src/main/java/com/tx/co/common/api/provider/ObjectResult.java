@@ -500,7 +500,7 @@ public abstract class ObjectResult {
 		}
 		if(!isEmpty(taskTemplate.getTasks()) && withTask) {
 			List<TaskResult> taskResults = new ArrayList<>();
-			for (Task task : taskTemplate.getTasks()) {
+			for (Task task : taskTemplate.getTasks()) { 
 				taskResults.add(toTaskResult(task));
 			}
 			result.setTaskResults(taskResults);
