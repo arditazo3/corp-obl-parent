@@ -12,7 +12,7 @@ import {Topic} from '../../../topic/model/topic';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {TranslationService} from '../../../../shared/common/translation/translation.service';
 import {Translation} from '../../../../shared/common/translation/model/translation';
-import {FileLikeObject, FileUploader} from 'ng2-file-upload';
+import {FileItem, FileLikeObject, FileUploader} from 'ng2-file-upload';
 import {AppConfig} from '../../../../shared/common/api/app-config';
 import {ApiRequestService} from '../../../../shared/common/service/api-request.service';
 import {saveAs as importedSaveAs} from 'file-saver';
@@ -118,6 +118,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             item.withCredentials = false;
         };
         this.uploader.onWhenAddingFileFailed = (item, filter, options) => this.onWhenAddingFileFailed(item, filter, options);
+        this.onLoadFilesUploaded();
 
         this.isForeign = this.userInfoService.isRoleForeign();
     }
@@ -210,6 +211,19 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 break;
             default:
                 this.errorDetails.message = `Unknown error (filter is ${filter.name})`;
+        }
+    }
+
+    onLoadFilesUploaded() {
+        console.log('TaskTemplateCreateUpdateComponent - onLoadFilesUploaded');
+
+        if (this.taskTemplate.taskTemplateAttachmentResults && this.taskTemplate.taskTemplateAttachmentResults.length > 0) {
+            this.taskTemplate.taskTemplateAttachmentResults.forEach((attachment) => {
+                const fileItem: FileItem = new FileItem(null, null, null);
+                fileItem.isUploaded = true;
+                const file: File = new File()
+                fileItem._file = true;
+            });
         }
     }
 }
