@@ -5,7 +5,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tx.co.back_office.company.api.model.CompanyResult;
 import com.tx.co.back_office.topic.api.model.TopicResult;
-import com.tx.co.back_office.topic.domain.Topic;
 
 /**
  * API model for returning task table details.

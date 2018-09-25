@@ -1,7 +1,8 @@
 package com.tx.co.back_office.tasktemplateattachment.api.model;
 
+import java.sql.Blob;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 
 /**
  * API model for returning task template attachment details.
@@ -15,6 +16,7 @@ public class TaskTemplateAttachmentResult {
 	private String fileName;
 	private String fileType;
 	private String filePath;
+	private Long fileSize;
 	
 	public Long getIdTaskTemplateAttachment() {
 		return idTaskTemplateAttachment;
@@ -40,6 +42,10 @@ public class TaskTemplateAttachmentResult {
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
-	
-	
+	public Long getFileSize() {
+		return fileSize;
+	}
+	public void setFileSize(Long fileSize) {
+		this.fileSize = fileSize;
+	}
 }

@@ -58,13 +58,16 @@ public class TaskTemplateAttachmentService extends UpdateCacheData implements IT
 		
 		taskTemplateAttachment.setFileName(request.getHttpFile().getSubmittedFileName());
 		
-		String[] splitFileName = request.getHttpFile().getSubmittedFileName().split("\\.");
-		if(!isEmpty(splitFileName)) {
-			taskTemplateAttachment.setFileType(splitFileName[splitFileName.length-1]);
-		} else {
-			taskTemplateAttachment.setFileType(request.getHttpFile().getFileType());
-		}
+//		String[] splitFileName = request.getHttpFile().getSubmittedFileName().split("\\.");
+//		if(!isEmpty(splitFileName)) {
+//			taskTemplateAttachment.setFileType(splitFileName[splitFileName.length-1]);
+//		} else {
+//			taskTemplateAttachment.setFileType(request.getHttpFile().getFileType());
+//		}
+		
+		taskTemplateAttachment.setFileType(request.getHttpFile().getFileType());
 		taskTemplateAttachment.setFilePath(request.getHttpFile().getFilePath());
+		taskTemplateAttachment.setFileSize(request.getHttpFile().getSize());
 
 		taskTemplateAttachment = taskTemplateAttachmentRepository.save(taskTemplateAttachment);
 

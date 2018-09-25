@@ -79,6 +79,7 @@ public final class ApiConstants {
 
 	// Upload files URL
 	public static final String UPLOAD_FILES = "upload-files";
+	public static final String DOWNLOAD_FILES = "download-files";
 
 	// Task URL
 	public static final String TASK = "task";
@@ -108,4 +109,8 @@ public final class ApiConstants {
 
 	public static final String STORAGE_DATA_CACHE = "StorageDataCache";
 	/* End of the cache key */
+	
+	
+	/* File static values */
+	public static final String FILE_MAX_SIZE = "20";
 }

@@ -48,6 +48,9 @@ public class TaskTemplateAttachment implements Serializable {
 	@Column(nullable = false, name="filepath")
 	private String filePath;
 	
+	@Column(nullable = false, name="filesize")
+	private Long fileSize;
+	
 	@Column(nullable = false, name = "creationdate")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
@@ -100,6 +103,14 @@ public class TaskTemplateAttachment implements Serializable {
 
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}
+
+	public Long getFileSize() {
+		return fileSize;
+	}
+
+	public void setFileSize(Long fileSize) {
+		this.fileSize = fileSize;
 	}
 
 	public Date getCreationDate() {
