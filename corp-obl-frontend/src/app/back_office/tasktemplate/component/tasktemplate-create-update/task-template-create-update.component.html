@@ -224,11 +224,11 @@
                                             <!--<span class="fa fa-ban"></span> Cancel-->
                                             <!--</button>-->
                                             <button type="button" class="btn-tnx btn-danger btn-xs"
-                                                    (click)="item.remove()">
+                                                    (click)="removeFile(item)">
+                                                <!--(click)="item.remove()"-->
                                                 <span class="fa fa-trash"></span> Remove
                                             </button>
-                                            <!--*ngIf="!isNewForm"-->
-                                            <button  type="button" class="btn-tnx btn-xs"
+                                            <button *ngIf="!isNewForm" type="button" class="btn-tnx btn-xs"
                                                     (click)="downloadFile(item)">
                                                 <span class="fa fa-download"></span> Download
                                             </button>

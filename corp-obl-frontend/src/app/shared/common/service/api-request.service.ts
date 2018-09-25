@@ -8,6 +8,7 @@ import 'rxjs/add/operator/catch';
 import {ErrorObservable} from 'rxjs-compat/observable/ErrorObservable';
 import {FileUploader} from 'ng2-file-upload';
 import {FileUploaderOptions} from 'ng2-file-upload/file-upload/file-uploader.class';
+import {ResponseContentType} from '@angular/http';
 
 @Injectable()
 export class ApiRequestService {
@@ -37,21 +38,6 @@ export class ApiRequestService {
         return headers;
     }
 
-    getHeadersDownloadFile(): HttpHeaders {
-        let headers = new HttpHeaders();
-        const token = this.userInfoService.getStoredToken();
-
-        headers = headers.append('Accept', 'application/octet-stream');
-        headers = headers.append('Content-Type', 'application/json');
-        headers = headers.append('Access-Control-Allow-Origin', '*');
-
-        if (token !== null) {
-            headers = headers.append('Authorization', 'Bearer ' + token);
-        }
-        return headers;
-    }
-
-
     get(url: string, urlParams?: HttpParams): Observable<any> {
 //    console.log('ApiRequestService - get');
 
@@ -68,10 +54,11 @@ export class ApiRequestService {
     }
 
     getDownloadFile(url: string, body: Object): Observable<any> {
-//    console.log('ApiRequestService - get');
+//    console.log('ApiRequestService - getDownloadFile');
 
         const me = this;
-        return this.http.post(this.appConfig.baseApiPath + url, JSON.stringify(body), {headers: this.getHeadersDownloadFile()})
+        return this.http.post(this.appConfig.baseApiPath + url, JSON.stringify(body),
+            {headers: this.getHeaders(), responseType: 'blob'})
             .catch(function (error: any) {
                 {
                     if (error.status === 401 || error.status === 403) {

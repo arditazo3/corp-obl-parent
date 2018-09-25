@@ -74,8 +74,9 @@ export class AppConfig {
     public getTranslationsLikeTablename = this.backOfficePath + this.translationPath + '/like-tablename';     // GET
 
     // File upload URL's
-    public fileUpload = this.backOfficePath + '/upload-files';     // POST
-    public downloadUpload = this.backOfficePath + '/download-files';     // POST
+    public uploadFile = this.backOfficePath + '/upload-files';              // POST
+    public downloadFile = this.backOfficePath + '/download-files';          // POST
+    public removeFile = this.backOfficePath + '/remove-files';              // PUT
 
     // Task URL's
     public taskPath = '/task';

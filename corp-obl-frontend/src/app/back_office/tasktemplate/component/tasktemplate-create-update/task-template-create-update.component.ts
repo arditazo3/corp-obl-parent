@@ -12,12 +12,13 @@ import {Topic} from '../../../topic/model/topic';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {TranslationService} from '../../../../shared/common/translation/translation.service';
 import {Translation} from '../../../../shared/common/translation/model/translation';
-import {FileItem, FileLikeObject, FileUploader} from 'ng2-file-upload';
+import {FileItem, FileLikeObject, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
 import {AppConfig} from '../../../../shared/common/api/app-config';
 import {ApiRequestService} from '../../../../shared/common/service/api-request.service';
 import {saveAs as importedSaveAs} from 'file-saver';
 import {Task} from '../../../task/model/task';
 import {UploadService} from '../../../../shared/common/service/upload.service';
+import {TaskTemplateAttachment} from '../../../tasktemplateattachment/tasktemplateattachment';
 
 @Component({
     selector: 'app-tasktemplate-create-update',
@@ -176,10 +177,14 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                             };
 
                             me.uploader.queue.forEach((item) => {
-                                item.upload();
+                                if (!item.formData || item.formData.length === 0) {
+                                    item.upload();
+                                }
                             });
 
-                            me.router.navigate(['/back-office/task']);
+                            me.uploader.onErrorItem = (item, response, status, headers) => me.onErrorItem(item, response, status, headers);
+                            me.uploader.onSuccessItem = (item, response, status, headers) => me.onSuccessItem(item, response, status, headers);
+
                         }, error => {
                             me.errorDetails = error.error;
                             //    me.showErrorDescriptionSwal();
@@ -192,37 +197,52 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             });
     }
 
+    onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
+        this.router.navigate(['/back-office/task']);
+    }
+
+    onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
+        this.router.navigate(['/back-office/task']);
+    }
+
     downloadFile(item) {
         console.log('TaskTemplateCreateUpdateComponent - downloadFile');
 
         const me = this;
-        // if (item.formData) {
-        //     this.uploadService.downloadFile(item.formData).subscribe(
-        //         (data) => {
-        //             this.downloadFileData(data);
-        //             console.log('TaskTemplateCreateUpdateComponent - downloadFile - next');
-        //         },
-        //         error => {
-        //             me.errorDetails = error.error;
-        //             console.log('TaskTemplateCreateUpdateComponent - downloadFile - error');
-        //         });
-        // } else {
-        //     importedSaveAs(item.file.rawFile);
-        // }
-
-
         if (item.formData) {
+            const taskTempAttach: TaskTemplateAttachment = item.formData;
             this.uploadService.downloadFile(item.formData).subscribe(
-                data => this.downloadFileData(data),
-                error => console.log('Error downloading the file.', error)
-            );
+                (data) => {
+                    importedSaveAs(data, taskTempAttach.fileName);
+                    console.log('TaskTemplateCreateUpdateComponent - downloadFile - next');
+                },
+                error => {
+                    me.errorDetails = error.error;
+                    console.log('TaskTemplateCreateUpdateComponent - downloadFile - error');
+                });
+        } else {
+            importedSaveAs(item.file.rawFile);
         }
     }
 
-    downloadFileData(data: Response) {
-        const blob = new Blob([data], {type: data.type});
-        const url = window.URL.createObjectURL(blob);
-        window.open(url);
+    removeFile(item) {
+        console.log('TaskTemplateCreateUpdateComponent - removeFile');
+
+        const me = this;
+        if (item.formData && item.formData.length === undefined) {
+            const taskTempAttach: TaskTemplateAttachment = item.formData;
+
+            this.uploadService.removeFile(taskTempAttach).subscribe(
+                data => {
+                    console.log('TaskTemplateCreateUpdateComponent - removeFile - next');
+                },
+                error => {
+                    me.errorDetails = error.error;
+                    console.log('TaskTemplateCreateUpdateComponent - removeFile - error');
+                }
+            );
+        }
+         item.remove();
     }
 
     onWhenAddingFileFailed(item: FileLikeObject, filter: any, options: any) {

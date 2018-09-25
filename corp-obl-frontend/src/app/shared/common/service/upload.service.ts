@@ -20,7 +20,7 @@ export class UploadService {
     }
 
     uploader: FileUploader = new FileUploader({
-        url: this.appConfig.baseApiPath + this.appConfig.fileUpload,
+        url: this.appConfig.baseApiPath + this.appConfig.uploadFile,
         isHTML5: true,
         allowedMimeType: [
             'image/png', 'image/jpg', 'image/jpeg', 'image/gif', // images
@@ -45,9 +45,14 @@ export class UploadService {
     }
 
     downloadFile(taskTempAttach): Observable<any> {
+        console.log('UploadService - downloadFile');
 
-      //  const httpParms: HttpParams = new HttpParams().set('filePath', taskTempAttach.filePath);
+        return this.apiRequest.getDownloadFile(this.appConfig.downloadFile, taskTempAttach);
+    }
 
-        return this.apiRequest.getDownloadFile(this.appConfig.downloadUpload, taskTempAttach);
+    removeFile(taskTempAttach): Observable<any> {
+        console.log('UploadService - removeFile');
+
+        return this.apiRequest.put(this.appConfig.removeFile, taskTempAttach);
     }
 }
