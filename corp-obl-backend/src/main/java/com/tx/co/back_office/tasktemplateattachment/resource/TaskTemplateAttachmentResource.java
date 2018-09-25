@@ -3,6 +3,7 @@ package com.tx.co.back_office.tasktemplateattachment.resource;
 import static com.tx.co.common.constants.ApiConstants.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -22,6 +23,8 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -78,20 +81,28 @@ public class TaskTemplateAttachmentResource extends ObjectResult {
 
 	@GET
 	@Path(DOWNLOAD_FILES)
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response fileUpload(@QueryParam("filePath") String filePath) { 
 
-		String path = null;
-
-		File file = new File(filePath);
 		try {
+			
+			File file = new File(filePath);
+			InputStream is = new FileInputStream(filePath);
+			
 			String contentType = Files.probeContentType(file.toPath());
 
-			Response.ResponseBuilder response = Response.ok((Object) file);
-			response.header("Content-Disposition", "attachment; filename="+file.getName());
-			response.header("Content-Type", contentType);
-			response.header("Content-Length", file.length());
-			return response.build();
+//			Response.ResponseBuilder response = Response.ok((Object) file);
+//			response.header("Content-Disposition", "attachment; filename="+file.getName());
+//			response.header("Content-Type", contentType);
+//			response.header("Content-Length", file.length());
+//			return response.build();
+			
+			// create a byte array of the file in correct format
+			byte[] docStream = IOUtils.toByteArray(is);
+
+			return Response
+			            .ok(docStream, contentType)
+			            .header("content-disposition", "attachment; filename=" + file.getName())
+			            .build();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
