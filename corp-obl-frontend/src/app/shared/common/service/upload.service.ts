@@ -48,6 +48,6 @@ export class UploadService {
 
         const httpParms: HttpParams = new HttpParams().set('filePath', taskTempAttach.filePath);
 
-        return this.apiRequest.get(this.appConfig.downloadUpload, httpParms);
+        return this.apiRequest.getDownloadFile(this.appConfig.downloadUpload, httpParms);
     }
 }

@@ -37,11 +37,41 @@ export class ApiRequestService {
         return headers;
     }
 
+    getHeadersDownloadFile(): HttpHeaders {
+        let headers = new HttpHeaders();
+        const token = this.userInfoService.getStoredToken();
+
+        headers = headers.append('Accept', '*');
+        headers = headers.append('Content-Type', 'application/json');
+        headers = headers.append('Access-Control-Allow-Origin', '*');
+
+        if (token !== null) {
+            headers = headers.append('Authorization', 'Bearer ' + token);
+        }
+        return headers;
+    }
+
+
     get(url: string, urlParams?: HttpParams): Observable<any> {
 //    console.log('ApiRequestService - get');
 
         const me = this;
         return this.http.get(this.appConfig.baseApiPath + url, {headers: this.getHeaders(), params: urlParams})
+            .catch(function (error: any) {
+                {
+                    if (error.status === 401 || error.status === 403) {
+                        me.router.navigate(['/logout']);
+                    }
+                    return ErrorObservable.create(error || 'Server error');
+                }
+            });
+    }
+
+    getDownloadFile(url: string, urlParams?: HttpParams): Observable<any> {
+//    console.log('ApiRequestService - get');
+
+        const me = this;
+        return this.http.get(this.appConfig.baseApiPath + url, {headers: this.getHeadersDownloadFile(), params: urlParams})
             .catch(function (error: any) {
                 {
                     if (error.status === 401 || error.status === 403) {
