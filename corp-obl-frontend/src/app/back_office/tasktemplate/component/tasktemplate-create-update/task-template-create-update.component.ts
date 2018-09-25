@@ -212,16 +212,10 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
 
 
         if (item.formData) {
-            this.uploadService.downloadFile(item.formData).subscribe(response => {
-
-                    // create a new Blob by defining its content-type
-                    const file = new Blob([response.blob()], { type: 'application/pdf' });
-
-                    console.log(file.size + ' bytes file downloaded. File type: ', file.type);
-                    const url = window.URL.createObjectURL(file);
-                    window.open(url);
-                },
-                error => console.log(JSON.stringify(error)));
+            this.uploadService.downloadFile(item.formData).subscribe(
+                data => this.downloadFileData(data),
+                error => console.log('Error downloading the file.', error)
+            );
         }
     }
 
