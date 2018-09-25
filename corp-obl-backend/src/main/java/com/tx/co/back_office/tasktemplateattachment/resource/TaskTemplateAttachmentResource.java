@@ -92,7 +92,7 @@ public class TaskTemplateAttachmentResource extends ObjectResult {
 		        {
 		            java.nio.file.Path path = Paths.get(taskTemplateAttachmentResult.getFilePath());
 		            byte[] data = Files.readAllBytes(path);
-		            output.write(data);
+		            output.write(data); 
 		            output.flush();
 		        }
 		        catch (Exception e)
