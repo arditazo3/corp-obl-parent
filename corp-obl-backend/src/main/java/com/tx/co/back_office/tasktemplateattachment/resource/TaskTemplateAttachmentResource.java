@@ -79,7 +79,7 @@ public class TaskTemplateAttachmentResource extends ObjectResult {
 	@GET
 	@Path(DOWNLOAD_FILES)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response fileUpload(@QueryParam("filePath") String filePath) {
+	public Response fileUpload(@QueryParam("filePath") String filePath) { 
 
 		String path = null;
 
