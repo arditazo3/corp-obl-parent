@@ -2,17 +2,22 @@ import {Injectable} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
 import {AppConfig} from '../api/app-config';
 import {UserInfoService} from '../../../user/service/user-info.service';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {FileUploaderOptions} from 'ng2-file-upload/file-upload/file-uploader.class';
+import {Observable} from '../../../../../node_modules/rxjs/Rx';
+import {ApiRequestService} from './api-request.service';
+import {AuthorityEnum} from '../api/enum/authority.enum';
 
 @Injectable()
 export class UploadService {
 
     constructor(
         private appConfig: AppConfig,
-        private userInfoService: UserInfoService
-    ) {}
+        private userInfoService: UserInfoService,
+        private apiRequest: ApiRequestService
+    ) {
+    }
 
     uploader: FileUploader = new FileUploader({
         url: this.appConfig.baseApiPath + this.appConfig.fileUpload,
@@ -37,5 +42,12 @@ export class UploadService {
         authHeader.push({name: 'Authorization', value: 'Bearer ' + this.userInfoService.getStoredToken()});
         const uploadOptions = <FileUploaderOptions>{headers: authHeader};
         this.uploader.setOptions(uploadOptions);
+    }
+
+    downloadFile(taskTempAttach): Observable<any> {
+
+        const httpParms: HttpParams = new HttpParams().set('filePath', taskTempAttach.filePath);
+
+        return this.apiRequest.get(this.appConfig.downloadUpload, httpParms);
     }
 }

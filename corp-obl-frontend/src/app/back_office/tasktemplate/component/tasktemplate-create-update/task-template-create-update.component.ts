@@ -192,10 +192,43 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             });
     }
 
-    downloadFile(rawFile) {
+    downloadFile(item) {
         console.log('TaskTemplateCreateUpdateComponent - downloadFile');
 
-        importedSaveAs(rawFile);
+        const me = this;
+        // if (item.formData) {
+        //     this.uploadService.downloadFile(item.formData).subscribe(
+        //         (data) => {
+        //             this.downloadFileData(data);
+        //             console.log('TaskTemplateCreateUpdateComponent - downloadFile - next');
+        //         },
+        //         error => {
+        //             me.errorDetails = error.error;
+        //             console.log('TaskTemplateCreateUpdateComponent - downloadFile - error');
+        //         });
+        // } else {
+        //     importedSaveAs(item.file.rawFile);
+        // }
+
+
+        if (item.formData) {
+            this.uploadService.downloadFile(item.formData).subscribe(response => {
+
+                    // create a new Blob by defining its content-type
+                    const file = new Blob([response.blob()], { type: 'application/octet-stream' });
+
+                    console.log(file.size + ' bytes file downloaded. File type: ', file.type);
+                    const url = window.URL.createObjectURL(file);
+                    window.open(url);
+                },
+                error => console.log(JSON.stringify(error)));
+        }
+    }
+
+    downloadFileData(data: Response) {
+        const blob = new Blob([data], {type: data.type});
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
     }
 
     onWhenAddingFileFailed(item: FileLikeObject, filter: any, options: any) {
@@ -217,12 +250,15 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     onLoadFilesUploaded() {
         console.log('TaskTemplateCreateUpdateComponent - onLoadFilesUploaded');
 
+        const me = this;
         if (this.taskTemplate.taskTemplateAttachmentResults && this.taskTemplate.taskTemplateAttachmentResults.length > 0) {
             this.taskTemplate.taskTemplateAttachmentResults.forEach((attachment) => {
-                const fileItem: FileItem = new FileItem(null, null, null);
+                const file: File = new File(['#'.repeat(attachment.fileSize)], attachment.fileName);
+                const fileItem: FileItem = new FileItem(me.uploader, file, null);
                 fileItem.isUploaded = true;
-                const file: File = new File()
-                fileItem._file = true;
+                fileItem.formData = attachment;
+
+                me.uploader.queue.push(fileItem);
             });
         }
     }

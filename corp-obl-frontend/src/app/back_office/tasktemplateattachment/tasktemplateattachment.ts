@@ -4,4 +4,5 @@ export class TaskTemplateAttachment {
     fileName: string;
     fileType: string;
     filePath: string;
+    fileSize: number;
 }

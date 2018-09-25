@@ -75,6 +75,7 @@ export class AppConfig {
 
     // File upload URL's
     public fileUpload = this.backOfficePath + '/upload-files';     // POST
+    public downloadUpload = this.backOfficePath + '/download-files';     // POST
 
     // Task URL's
     public taskPath = '/task';

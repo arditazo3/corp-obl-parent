@@ -227,8 +227,9 @@
                                                     (click)="item.remove()">
                                                 <span class="fa fa-trash"></span> Remove
                                             </button>
-                                            <button *ngIf="!isNewForm" type="button" class="btn-tnx btn-xs"
-                                                    (click)="downloadFile(item?.file?.rawFile)">
+                                            <!--*ngIf="!isNewForm"-->
+                                            <button  type="button" class="btn-tnx btn-xs"
+                                                    (click)="downloadFile(item)">
                                                 <span class="fa fa-download"></span> Download
                                             </button>
                                         </td>
