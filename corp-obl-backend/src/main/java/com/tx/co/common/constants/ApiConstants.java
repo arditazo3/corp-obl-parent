@@ -80,6 +80,7 @@ public final class ApiConstants {
 	// Upload files URL
 	public static final String UPLOAD_FILES = "upload-files";
 	public static final String DOWNLOAD_FILES = "download-files";
+	public static final String REMOVE_FILES = "remove-files";
 
 	// Task URL
 	public static final String TASK = "task";

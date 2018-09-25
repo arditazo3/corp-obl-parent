@@ -1,7 +1,5 @@
 package com.tx.co.back_office.tasktemplateattachment.api.model;
 
-import java.sql.Blob;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**

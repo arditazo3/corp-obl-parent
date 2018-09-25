@@ -1,8 +1,5 @@
 package com.tx.co.back_office.tasktemplateattachment.model.file;
 
-import static com.tx.co.common.constants.ApiConstants.*;
-import static org.springframework.util.ObjectUtils.isEmpty;
-
 import java.io.InputStream;
 import java.util.Map;
 
@@ -21,14 +18,12 @@ public class HttpFile {
 	private Map<String, String> parameters;
 	private InputStream stream;
 
-	public HttpFile(String name, String submittedFileName, String fileType, long size, Map<String, String> parameters,
+	public HttpFile(String name, String submittedFileName, Map<String, String> parameters,
 			InputStream stream) {
 
 		super();
 		this.name = name;
 		this.submittedFileName = submittedFileName;
-		this.fileType = fileType;
-		this.size = size;
 		this.parameters = parameters;
 		this.stream = stream;
 	}
@@ -37,24 +32,24 @@ public class HttpFile {
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getSubmittedFileName() {
 		return submittedFileName;
+	}
+
+	public void setSubmittedFileName(String submittedFileName) {
+		this.submittedFileName = submittedFileName;
 	}
 
 	public String getFileType() {
 		return fileType;
 	}
 
-	public long getSize() {
-		return size;
-	}
-
-	public Map<String, String> getParameters() {
-		return parameters;
-	}
-
-	public InputStream getStream() {
-		return stream;
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
 	}
 
 	public String getFilePath() {
@@ -64,4 +59,30 @@ public class HttpFile {
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
+
+	public long getSize() {
+		return size;
+	}
+
+	public void setSize(long size) {
+		this.size = size;
+	}
+
+	public Map<String, String> getParameters() {
+		return parameters;
+	}
+
+	public void setParameters(Map<String, String> parameters) {
+		this.parameters = parameters;
+	}
+
+	public InputStream getStream() {
+		return stream;
+	}
+
+	public void setStream(InputStream stream) {
+		this.stream = stream;
+	}
+
+	
 }

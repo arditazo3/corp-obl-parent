@@ -48,7 +48,7 @@ public class TaskTemplate implements Serializable {
 	@JoinColumn(name = "topic_id")
 	private Topic topic;
 	
-	@OneToMany(mappedBy="taskTemplate", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="taskTemplate", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, orphanRemoval = true)
     private Set<TaskTemplateAttachment> taskTemplateAttachments = new HashSet<>();
 	
 	@OneToMany(mappedBy="taskTemplate", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

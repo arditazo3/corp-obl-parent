@@ -10,3 +10,5 @@ UPDATE co_tasktemplate
 SET    description = CONCAT('Task Template: @', id);
 
 update co_tasktemplate set expirationclosableby = 1;
+
+select * from co_tasktemplateattachment;

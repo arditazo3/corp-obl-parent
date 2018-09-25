@@ -10,4 +10,6 @@ public interface ITaskTemplateAttachmentService {
 	TaskTemplateAttachment saveUpdateTaskTemplateAttachment(FileUploadRequest request);
 	
 	Optional<TaskTemplateAttachment> findByIdTaskTemplateAttachment(Long idTaskTemplateAttachment);
+	
+	void deleteTaskTemplateAttachment(Long idTaskTemplateAttachment);
 }

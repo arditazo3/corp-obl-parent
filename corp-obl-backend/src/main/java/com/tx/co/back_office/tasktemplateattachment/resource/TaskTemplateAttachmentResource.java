@@ -3,26 +3,21 @@ package com.tx.co.back_office.tasktemplateattachment.resource;
 import static com.tx.co.common.constants.ApiConstants.*;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -63,7 +58,7 @@ public class TaskTemplateAttachmentResource extends ObjectResult {
 			@FormDataParam("idTaskTemplate") Long idTaskTemplate) {
 
 		// Create the HttpFile:
-		HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(), "", 0, fileDetail.getParameters(), stream);
+		HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(), fileDetail.getParameters(), stream);
 
 		// Create the FileUploadRequest:
 		FileUploadRequest fileUploadRequest = new FileUploadRequest(idTaskTemplate, httpFile);
@@ -82,7 +77,6 @@ public class TaskTemplateAttachmentResource extends ObjectResult {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response fileUpload(TaskTemplateAttachmentResult taskTemplateAttachmentResult) { 
 
-		File file = new File(taskTemplateAttachmentResult.getFilePath());
 		StreamingOutput fileStream =  new StreamingOutput()
 		{
 		    @Override
@@ -107,5 +101,16 @@ public class TaskTemplateAttachmentResource extends ObjectResult {
 		        .build();
 	}
 
+    @PUT
+    @Path(REMOVE_FILES)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+ //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+    public Response deleteFile(TaskTemplateAttachmentResult taskTemplateAttachmentResult) {
+
+    	fileUploadHandler.deleteFile(taskTemplateAttachmentResult);
+
+        return Response.noContent().build();
+    }
 
 }
