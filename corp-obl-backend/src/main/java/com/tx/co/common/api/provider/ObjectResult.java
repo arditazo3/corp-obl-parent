@@ -2,15 +2,8 @@ package com.tx.co.common.api.provider;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.sql.rowset.serial.SerialBlob;
-
-import org.apache.commons.io.IOUtils;
 
 import com.tx.co.back_office.company.api.model.CompanyConsultantResult;
 import com.tx.co.back_office.company.api.model.CompanyResult;

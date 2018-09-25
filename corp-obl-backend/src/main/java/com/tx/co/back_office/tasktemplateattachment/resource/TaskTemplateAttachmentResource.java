@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Base64;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -23,7 +22,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -65,7 +63,7 @@ public class TaskTemplateAttachmentResource extends ObjectResult {
 			@FormDataParam("idTaskTemplate") Long idTaskTemplate) {
 
 		// Create the HttpFile:
-		HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(), fileDetail.getParameters(), stream);
+		HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(), "", 0, fileDetail.getParameters(), stream);
 
 		// Create the FileUploadRequest:
 		FileUploadRequest fileUploadRequest = new FileUploadRequest(idTaskTemplate, httpFile);
@@ -79,34 +77,34 @@ public class TaskTemplateAttachmentResource extends ObjectResult {
 				.build();
 	}
 
-	@GET
+	@POST
 	@Path(DOWNLOAD_FILES)
-	public Response fileUpload(@QueryParam("filePath") String filePath) { 
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response fileUpload(TaskTemplateAttachmentResult taskTemplateAttachmentResult) { 
 
-		try {
-			
-			File file = new File(filePath);
-			InputStream is = new FileInputStream(filePath);
-			
-			String contentType = Files.probeContentType(file.toPath());
-
-//			Response.ResponseBuilder response = Response.ok((Object) file);
-//			response.header("Content-Disposition", "attachment; filename="+file.getName());
-//			response.header("Content-Type", contentType);
-//			response.header("Content-Length", file.length());
-//			return response.build();
-			
-			// create a byte array of the file in correct format
-			byte[] docStream = IOUtils.toByteArray(is);
-
-			return Response
-			            .ok(docStream, contentType)
-			            .header("content-disposition", "attachment; filename=" + file.getName())
-			            .build();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-		}
+		File file = new File(taskTemplateAttachmentResult.getFilePath());
+		StreamingOutput fileStream =  new StreamingOutput()
+		{
+		    @Override
+		    public void write(java.io.OutputStream output) throws GeneralException
+		    {
+		        try
+		        {
+		            java.nio.file.Path path = Paths.get(taskTemplateAttachmentResult.getFilePath());
+		            byte[] data = Files.readAllBytes(path);
+		            output.write(data);
+		            output.flush();
+		        }
+		        catch (Exception e)
+		        {
+		            throw new GeneralException("File Not Found !!");
+		        }
+		    }
+		};
+		return Response
+		        .ok(fileStream, MediaType.APPLICATION_OCTET_STREAM)
+		        .header("content-disposition","attachment; filename = " + taskTemplateAttachmentResult.getFileName())
+		        .build();
 	}
 
 
