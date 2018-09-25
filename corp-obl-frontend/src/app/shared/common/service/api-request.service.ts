@@ -41,7 +41,7 @@ export class ApiRequestService {
         let headers = new HttpHeaders();
         const token = this.userInfoService.getStoredToken();
 
-        headers = headers.append('Accept', '*');
+        headers = headers.append('Accept', 'application/octet-stream');
         headers = headers.append('Content-Type', 'application/json');
         headers = headers.append('Access-Control-Allow-Origin', '*');
 
@@ -67,11 +67,11 @@ export class ApiRequestService {
             });
     }
 
-    getDownloadFile(url: string, urlParams?: HttpParams): Observable<any> {
+    getDownloadFile(url: string, body: Object): Observable<any> {
 //    console.log('ApiRequestService - get');
 
         const me = this;
-        return this.http.get(this.appConfig.baseApiPath + url, {headers: this.getHeadersDownloadFile(), params: urlParams})
+        return this.http.post(this.appConfig.baseApiPath + url, JSON.stringify(body), {headers: this.getHeadersDownloadFile()})
             .catch(function (error: any) {
                 {
                     if (error.status === 401 || error.status === 403) {

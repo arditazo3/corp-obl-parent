@@ -46,8 +46,8 @@ export class UploadService {
 
     downloadFile(taskTempAttach): Observable<any> {
 
-        const httpParms: HttpParams = new HttpParams().set('filePath', taskTempAttach.filePath);
+      //  const httpParms: HttpParams = new HttpParams().set('filePath', taskTempAttach.filePath);
 
-        return this.apiRequest.getDownloadFile(this.appConfig.downloadUpload, httpParms);
+        return this.apiRequest.getDownloadFile(this.appConfig.downloadUpload, taskTempAttach);
     }
 }
