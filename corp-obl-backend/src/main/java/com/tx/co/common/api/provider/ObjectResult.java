@@ -17,6 +17,8 @@ import com.tx.co.back_office.office.api.model.OfficeResult;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.api.model.TaskResult;
 import com.tx.co.back_office.task.model.Task;
+import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplate;
+import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplateResult;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplateattachment.api.model.TaskTemplateAttachmentResult;
@@ -536,6 +538,21 @@ public abstract class ObjectResult {
 		return taskResult;
 	}
 	
+	public Task toTask(TaskResult taskResult) {
+		Task task = new Task();
+
+		task.setIdTask(taskResult.getIdTask());
+		task.setRecurrence(taskResult.getRecurrence());
+		task.setExpirationType(taskResult.getExpirationType());
+		task.setDay(taskResult.getDay());
+		task.setDaysOfNotice(taskResult.getDaysOfNotice());
+		task.setFrequenceOfNotice(taskResult.getFrequenceOfNotice());
+		task.setDaysBeforeShowExpiration(taskResult.getDaysBeforeShowExpiration());
+		task.setTaskTemplate(toTaskTemplate(taskResult.getTaskTemplate()));
+		
+		return task;
+	}
+
 	/**
 	 * @param taskTemplateAttachment
 	 * @return TaskTemplateAttachmentResult
@@ -550,4 +567,26 @@ public abstract class ObjectResult {
 		taskTemplateAttachmentResult.setFileSize(taskTemplateAttachment.getFileSize());
 		return taskTemplateAttachmentResult;
 	}
+
+	public ObjectSearchTaskTemplate toObjectSearchTaskTemplate(ObjectSearchTaskTemplateResult objectSearchTaskTemplateResult) {
+		ObjectSearchTaskTemplate objectSearchTaskTemplate = new ObjectSearchTaskTemplate();
+
+		objectSearchTaskTemplate.setDescriptionTaskTemplate(objectSearchTaskTemplateResult.getDescriptionTaskTemplate());
+		if(!isEmpty(objectSearchTaskTemplateResult.getCompanies())) {
+			List<Company> companies = new ArrayList<>();
+			for (CompanyResult companyResult : objectSearchTaskTemplateResult.getCompanies()) {
+				companies.add(toCompany(companyResult));
+			}
+			objectSearchTaskTemplate.setCompanies(companies);
+		}
+		if(!isEmpty(objectSearchTaskTemplateResult.getTopics())) {
+			List<Topic> topics = new ArrayList<>();
+			for (TopicResult topicResult : objectSearchTaskTemplateResult.getTopics()) {
+				topics.add(toTopic(topicResult));
+			}
+			objectSearchTaskTemplate.setTopics(topics);
+		}
+		return objectSearchTaskTemplate;
+	}
+	
 }

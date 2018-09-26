@@ -6,6 +6,8 @@ import com.tx.co.back_office.company.repository.CompanyRepository;
 import com.tx.co.back_office.company.service.ICompanyConsultantService;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.repository.OfficeRepository;
+import com.tx.co.back_office.task.model.Task;
+import com.tx.co.back_office.task.repository.TaskRepository;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.repository.TaskTemplateRepository;
 import com.tx.co.back_office.tasktemplateattachment.model.TaskTemplateAttachment;
@@ -53,6 +55,7 @@ public abstract class CacheDataLoader {
 	private ITopicService topicService;
 	private ICompanyConsultantService companyConsultantService;
 	private TaskTemplateRepository taskTemplateRepository;
+	private TaskRepository taskRepository;
 	private TaskTemplateAttachmentRepository taskTemplateAttachmentRepository;
 
 	// Split the string with operator ; to get all the languages
@@ -93,10 +96,15 @@ public abstract class CacheDataLoader {
 	}
 
 	@Autowired
+	public void setTaskRepository(TaskRepository taskRepository) {
+		this.taskRepository = taskRepository;
+	}
+
+	@Autowired
 	public void setTaskTemplateRepository(TaskTemplateRepository taskTemplateRepository) {
 		this.taskTemplateRepository = taskTemplateRepository;
 	}
-	
+
 	@Autowired
 	public void setTaskTemplateAttachmentRepository(TaskTemplateAttachmentRepository taskTemplateAttachmentRepository) {
 		this.taskTemplateAttachmentRepository = taskTemplateAttachmentRepository;
@@ -155,7 +163,11 @@ public abstract class CacheDataLoader {
 		// Load all the task templates
 		List<TaskTemplate> taskTemplatesList = taskTemplateRepository.findAllOrderByDescriptionAsc();
 		storageDataCacheManager.put(TASK_TEMPLATE_LIST_CACHE, taskTemplatesList);
-		
+
+		// Load all the task templates
+		List<Task> taskList = taskRepository.getTasks();
+		storageDataCacheManager.put(TASK_LIST_CACHE, taskList);
+
 		// Load all the task template attachment
 		List<TaskTemplateAttachment> taskTemplateAttachmentList = (List<TaskTemplateAttachment>) taskTemplateAttachmentRepository.findAll();
 		storageDataCacheManager.put(TASK_TEMPLATE_ATTACHMENT_LIST_CACHE, taskTemplateAttachmentList);

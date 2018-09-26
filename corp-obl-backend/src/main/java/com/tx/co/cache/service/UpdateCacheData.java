@@ -6,6 +6,7 @@ import com.tx.co.back_office.company.service.CompanyConsultantService;
 import com.tx.co.back_office.company.service.CompanyService;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.service.OfficeService;
+import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.service.TaskTemplateService;
 import com.tx.co.back_office.tasktemplateattachment.model.TaskTemplateAttachment;
@@ -196,6 +197,20 @@ public abstract class UpdateCacheData {
 		Collections.sort(taskTemplateListCache, (a, b) -> a.getDescription().compareToIgnoreCase(b.getDescription()));	
 
 		return taskTemplateListCache;
+	}
+	
+	/**
+	 * @return get the Task  from the cache in order to not execute the query to the database
+	 */
+	public List<Task> getTaskFromCache() {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		List<Task> taskListCache = (List<Task>) storageDataCacheManager.get(TASK_LIST_CACHE);
+
+		Collections.sort(taskListCache, (a, b) -> a.getIdTask().compareTo(b.getIdTask()));	
+
+		return taskListCache;
 	}
 
 	/**
@@ -492,6 +507,24 @@ public abstract class UpdateCacheData {
             }
         }
         return taskTemplate;
+    }
+    
+    /**
+     * @param idTask
+     * @return the existing Task on the cache
+     */
+    public Task getTaskById(Long idTask) {
+    	Task task = null;
+        List<Task> taskListCache = getTaskFromCache();
+        if(!isEmpty(taskListCache)) {
+            for (Task taskLoop : taskListCache) {
+                if(idTask.compareTo(taskLoop.getIdTask()) == 0) {
+                	task = taskLoop;
+                    break;
+                }
+            }
+        }
+        return task;
     }
     
     /**

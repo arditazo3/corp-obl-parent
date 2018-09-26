@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 
 import com.tx.co.back_office.task.api.model.TaskResult;
 import com.tx.co.back_office.task.model.Task;
+import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplateResult;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.service.ITaskTemplateService;
@@ -69,6 +70,21 @@ public class TaskTemplateResource extends ObjectResult {
 		TaskTemplate taskTemplateStored = taskTemplateService.saveUpdateTaskTemplate(toTaskTemplate(taskTemplateResult));
 
 		return Response.ok(toTaskTemplateResult(taskTemplateStored, true)).build();
+	}
+	
+	@POST
+	@Path(TASK_TEMPLATE_SEARCH)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response searchTaskTemplate(ObjectSearchTaskTemplateResult objectSearchTaskTemplateResult) {
+
+		Iterable<Task> taskForTableIterable = taskTemplateService.searchTaskTemplate(toObjectSearchTaskTemplate(objectSearchTaskTemplateResult));
+        List<TaskResult> queryDetailsList =
+                StreamSupport.stream(taskForTableIterable.spliterator(), false)
+                        .map(this::toTaskResult)
+                        .collect(Collectors.toList());
+
+        return Response.ok(queryDetailsList).build();
 	}
 
 }

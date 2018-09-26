@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.tx.co.back_office.task.model.Task;
+import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplate;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 
 public interface ITaskTemplateService {
@@ -13,4 +14,6 @@ public interface ITaskTemplateService {
 	TaskTemplate saveUpdateTaskTemplate(TaskTemplate taskTemplate);
 	
 	Optional<TaskTemplate> findByIdTaskTemplate(Long idTaskTemplate);
+	
+	List<Task> searchTaskTemplate(ObjectSearchTaskTemplate objectSearchTaskTemplate);
 }

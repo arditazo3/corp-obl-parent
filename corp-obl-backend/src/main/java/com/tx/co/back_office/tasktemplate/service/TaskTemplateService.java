@@ -7,6 +7,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.tx.co.back_office.task.model.Task;
+import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplate;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.repository.TaskTemplateRepository;
 import com.tx.co.cache.service.UpdateCacheData;
@@ -33,10 +37,16 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	private static final Logger logger = LogManager.getLogger(TaskTemplateService.class);
 
 	private TaskTemplateRepository taskTemplateRepository;
-
+	private EntityManager em;
+	
 	@Autowired
 	public void setTaskTemplateRepository(TaskTemplateRepository taskTemplateRepository) {
 		this.taskTemplateRepository = taskTemplateRepository;
+	}
+
+	@Autowired
+	public void setEm(EntityManager em) {
+		this.em = em;
 	}
 
 	@Override
@@ -122,5 +132,37 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 			}
 		}
 		return tasks;
+	}
+
+	@Override
+	public List<Task> searchTaskTemplate(ObjectSearchTaskTemplate objectSearchTaskTemplate) {
+		
+		
+		String querySql = "select tt from TaskTemplate tt "
+				+ "left join tt.topic top "
+				+ "left join top.companyTopic ct "
+				+ "left join ct.company c "
+				+ "where tt.enabled <> 0 and top.enabled <> 0 and ct.enabled <> 0 and c.enabled <> 0";
+		Query query;
+		
+		if(isEmpty(objectSearchTaskTemplate.getCompanies()) && isEmpty(objectSearchTaskTemplate.getTopics())) {
+			querySql += "and tt.description like :description "
+					+ "group by tt.idTaskTemplate "
+					+ "order by tt.description asc";
+			query = em.createQuery(querySql);
+			
+			query.setParameter("description", "%" + objectSearchTaskTemplate.getDescriptionTaskTemplate() + "%");
+		} else {
+			querySql += "and tt.description like :description and "
+					+ "(top in :topicsList and c in :companiesList) "
+					+ "group by tt.idTaskTemplate "
+					+ "order by tt.description asc";
+			query = em.createQuery(querySql);
+			
+			query.setParameter("description", "%" + objectSearchTaskTemplate.getDescriptionTaskTemplate() + "%");
+			query.setParameter("topicsList", objectSearchTaskTemplate.getTopics());
+			query.setParameter("companiesList", objectSearchTaskTemplate.getCompanies());
+		}
+		return covertToTaskForTable(query.getResultList());
 	}
 }

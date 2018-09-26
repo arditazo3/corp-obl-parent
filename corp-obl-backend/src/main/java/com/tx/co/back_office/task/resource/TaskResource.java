@@ -27,6 +27,7 @@ import com.tx.co.back_office.task.api.model.TaskObjectTableResult;
 import com.tx.co.back_office.task.api.model.TaskResult;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.task.service.ITaskService;
+import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.topic.api.model.TopicResult;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.common.api.provider.ObjectResult;
@@ -45,6 +46,17 @@ public class TaskResource extends ObjectResult {
 	@Autowired
 	public void setTaskService(ITaskService taskService) {
 		this.taskService = taskService;
+	}
+	
+	@POST
+	@Path(TASK_CREATE_UPDATE)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response createUpdateTask(TaskResult taskResult) {
+
+		Task taskStored = taskService.saveUpdateTask(toTask(taskResult));
+
+		return Response.ok(toTaskResult(taskStored)).build();
 	}
 	
 	@GET

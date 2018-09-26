@@ -72,6 +72,8 @@ public final class ApiConstants {
 	public static final String TASK_TEMPLATE_LIST_FOR_TABLE = TASK_TEMPLATE + LIST + "/for-table";
 	public static final String TASK_TEMPLATE_CREATE_UPDATE = TASK_TEMPLATE + CREATE_UPDATE;
 	public static final String TASK_TEMPLATE_DELETE = TASK_TEMPLATE + DELETE;
+	public static final String TASK_TEMPLATE_SEARCH = TASK_TEMPLATE + "/search-task-template";
+	
 
 	// Translate URL
 	public static final String TRANSLATION = "translation";
@@ -85,6 +87,7 @@ public final class ApiConstants {
 	// Task URL
 	public static final String TASK = "task";
 	public static final String TASK_LIST = TASK + LIST;
+	public static final String TASK_CREATE_UPDATE = TASK + CREATE_UPDATE;
 	public static final String TASK_DESC_COMP_TOPIC = TASK + "/like-desc-comp-topic";
 
 	/**
@@ -106,6 +109,7 @@ public final class ApiConstants {
 	public static final String LANGUAGE_LIST_CACHE = "LANGUAGE_LIST_CACHE";
 	public static final String LANGUAGE_NOT_AVAILABLE_LIST_CACHE = "LANGUAGE_NOT_AVAILABLE_LIST_CACHE";
 	public static final String TASK_TEMPLATE_LIST_CACHE = "TASK_TEMPLATE_LIST_CACHE";
+	public static final String TASK_LIST_CACHE = "TASK_LIST_CACHE";
 	public static final String TASK_TEMPLATE_ATTACHMENT_LIST_CACHE = "TASK_TEMPLATE_ATTACHMENT_LIST_CACHE";
 
 	public static final String STORAGE_DATA_CACHE = "StorageDataCache";
