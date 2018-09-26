@@ -10,6 +10,7 @@ import {TaskService} from '../../service/task.service';
 import {Task} from '../../model/task';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {TaskTemplate} from '../../../tasktemplate/model/tasktemplate';
+import {ObjectSearchTaskTemplate} from '../../../tasktemplate/model/object-search-tasktemplate';
 
 @Component({
     selector: 'app-configuration-task',
@@ -19,6 +20,8 @@ import {TaskTemplate} from '../../../tasktemplate/model/tasktemplate';
 export class ConfigurationTaskComponent implements OnInit {
 
     @ViewChild('myTable') table: any;
+
+    descriptionTaskTemplate: string;
 
     columns: any[];
     rows: Task[];
@@ -76,6 +79,11 @@ export class ConfigurationTaskComponent implements OnInit {
 
     searchTaskTemplate() {
         console.log('ConfigurationTaskComponent - createNewTaskTemplate');
+
+        const objectSearchTaskTemplate = new ObjectSearchTaskTemplate(this.descriptionTaskTemplate, this.selectedCompanies, this.selectedTopics);
+
+        this.taskTemplateService.searchTaskTemplate(objectSearchTaskTemplate);
+
     }
 
     createNewTaskTemplate() {
