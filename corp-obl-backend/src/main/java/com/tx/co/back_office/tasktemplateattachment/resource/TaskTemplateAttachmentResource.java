@@ -80,7 +80,7 @@ public class TaskTemplateAttachmentResource extends ObjectResult {
 		StreamingOutput fileStream =  new StreamingOutput()
 		{
 		    @Override
-		    public void write(java.io.OutputStream output) throws GeneralException
+		    public void write(java.io.OutputStream output)
 		    {
 		        try
 		        {

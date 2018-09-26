@@ -1,8 +1,10 @@
 package com.tx.co.back_office.tasktemplateattachment.model.errors;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ServiceError {
+public class ServiceError implements Serializable {
 
     private final String code;
     private final String message;
