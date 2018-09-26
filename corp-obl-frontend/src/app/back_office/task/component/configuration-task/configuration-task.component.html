@@ -1,119 +1,154 @@
 <div class="row">
-  <!-- column -->
-  <div class="col-lg-12">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-subtitle">Task Management</h5>
-        <div class="row">
+    <!-- column -->
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-subtitle">Task Management</h5>
+                <div class="row">
 
-          <div class="col-md-3">
-            <input type='text' class="form-control" [(ngModel)] = "descriptionTaskTemplate" placeholder='Search the description' />
-          </div>
+                    <div class="col-md-3">
+                        <input type='text' class="form-control" [(ngModel)]="descriptionTaskTemplate"
+                               placeholder='Search the description'/>
+                    </div>
 
-          <div class="col-md-3">
-            <ng-select
-                    [items]="companiesObservable | async"
-                    [multiple]="true"
-                    [closeOnSelect]="false"
-                    [searchable]="true"
-                    bindLabel="description"
-                    placeholder="Select companies"
-                    [ngModelOptions]="{standalone: true}"
-                    [(ngModel)]="selectedCompanies">
-              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-                <input [ngModelOptions]="{standalone: true}"
-                       id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.description}}
-              </ng-template>
-            </ng-select>
-          </div>
+                    <div class="col-md-3">
+                        <ng-select
+                                [items]="companiesObservable | async"
+                                [multiple]="true"
+                                [closeOnSelect]="false"
+                                [searchable]="true"
+                                bindLabel="description"
+                                placeholder="Select companies"
+                                [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="selectedCompanies">
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <input [ngModelOptions]="{standalone: true}"
+                                       id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/>
+                                {{item.description}}
+                            </ng-template>
+                        </ng-select>
+                    </div>
 
-          <div class="col-md-3">
-            <ng-select
-                    [items]="topicsObservable | async"
-                    [multiple]="true"
-                    [closeOnSelect]="false"
-                    [searchable]="true"
-                    bindLabel="description"
-                    placeholder="Select topics"
-                    [ngModelOptions]="{standalone: true}"
-                    [(ngModel)]="selectedTopics">
-              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-                <input [ngModelOptions]="{standalone: true}"
-                       id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.description}}
-              </ng-template>
-            </ng-select>
-          </div>
+                    <div class="col-md-3">
+                        <ng-select
+                                [items]="topicsObservable | async"
+                                [multiple]="true"
+                                [closeOnSelect]="false"
+                                [searchable]="true"
+                                bindLabel="description"
+                                placeholder="Select topics"
+                                [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="selectedTopics">
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                <input [ngModelOptions]="{standalone: true}"
+                                       id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/>
+                                {{item.description}}
+                            </ng-template>
+                        </ng-select>
+                    </div>
 
-          <div class="col-md-1">
-            <button class="btn-tnx btn-info btn-block" type="button" (click)="searchTaskTemplate()">Search
-            </button>
-          </div>
+                    <div class="col-md-1">
+                        <button class="btn-tnx btn-info btn-block" type="button" (click)="searchTaskTemplate()">Search
+                        </button>
+                    </div>
 
-          <div class="col-md-1 text-right">
-            <button class="btn-tnx btn-info btn-block" type="button" (click)="createNewTaskTemplate()">Create
-            </button>
-          </div>
+                    <div class="col-md-1 text-right">
+                        <button class="btn-tnx btn-info btn-block" type="button" (click)="createNewTaskTemplate()">
+                            Create
+                        </button>
+                    </div>
+                </div>
+                <hr>
+                <ngx-datatable #myTable
+                               class='material expandable'
+                               [groupRowsBy]="'idTaskTemplate'"
+                               [columnMode]="'force'"
+                               [scrollbarH]="true"
+                               [headerHeight]="50"
+                               [footerHeight]="50"
+                               [rowHeight]="40"
+                               [rows]='rows'
+                               [limit]="10"
+                               [groupExpansionDefault]="false">
+
+                    <!-- Group Header Template -->
+                    <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+                        <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+                            <div class="row" style="padding-left:5px;">
+                                <div class="col-3">
+                                    <button type="button" class="btn-tnx btn-xs btn-primary"
+                                            [class.datatable-icon-right]="!expanded"
+                                            [class.datatable-icon-down]="expanded"
+                                            title="Expand/Collapse Group"
+                                            (click)="toggleExpandGroup(group)">
+                                        {{ expanded ? 'Collapse' : 'Expand' }}
+                                    </button>
+
+                                    <button type="button" class="btn-tnx btn-xs btn-primary"
+                                            title="Expand/Collapse Group"
+                                            (click)="modifyTaskTemplate(group)">
+                                        Modify
+                                    </button>
+
+                                    <button type="button" class="btn-tnx btn-xs btn-primary"
+                                            title="Expand/Collapse Group"
+                                            (click)="createTask(group)">
+                                        New Config.
+                                    </button>
+                                </div>
+
+                                <div class="col-5">
+                                    <b>{{ group.value[0].taskTemplate.description }}</b>
+                                </div>
+
+                                <div class="col-4">
+                                    <b>{{ group.value[0].taskTemplate.topic.description }}</b>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-group-header>
+
+                    <ngx-datatable-column name="" prop="idTask">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+                                     let-group="group" let-rowHeight="rowHeight">
+                            <button *ngIf="row.idTask" type="button" class="btn-tnx btn-xs btn-primary"
+                                    title="Expand/Collapse Group"
+                                    (click)="modifyTask(row)">
+                                Modify task
+                            </button>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <!--<ngx-datatable-column name="Description" prop="idTask"></ngx-datatable-column>-->
+
+                    <ngx-datatable-column name="Description" prop="idTask">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+                                     let-group="group" let-rowHeight="rowHeight">
+                            <p>{{ displayConfigurationText(row, group) }}</p>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Topic" prop="idTask">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+                                     let-group="group" let-rowHeight="rowHeight">
+                            {{ displayConfigurationText(row, group) }}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <!-- End Column Templates -->
+                </ngx-datatable>
+
+                <swal
+                        #deleteOfficeSwal
+                        title=""
+                        text="This cannot be undone."
+                        type="question"
+                        [showCancelButton]="true"
+                        [focusCancel]="true"
+                        (confirm)="deleteOfficeCofirm(rowSelected.id)">
+                </swal>
+
+            </div>
         </div>
-        <hr>
-        <ngx-datatable #myTable
-                       class='material expandable'
-                       [groupRowsBy]="'idTaskTemplate'"
-                       [columnMode]="'force'"
-                       [scrollbarH]="true"
-                       [headerHeight]="50"
-                       [footerHeight]="50"
-                       [rowHeight]="40"
-                       [rows]='rows'
-                       [limit]="10"
-                       [groupExpansionDefault]="false">
-
-          <!-- Group Header Template -->
-          <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
-            <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
-              <div style="padding-left:5px;">
-                <button type="button" class="btn-tnx btn-xs btn-primary"
-                        [class.datatable-icon-right]="!expanded"
-                        [class.datatable-icon-down]="expanded"
-                        title="Expand/Collapse Group"
-                        (click)="toggleExpandGroup(group)">
-                  {{ expanded ? 'Collapse' : 'Expand' }}
-                </button>
-
-                <button type="button" class="btn-tnx btn-xs btn-primary"
-                        title="Expand/Collapse Group"
-                        (click)="modifyTaskTemplate(group)">
-                  Modify
-                </button>
-
-                <button type="button" class="btn-tnx btn-xs btn-primary"
-                        title="Expand/Collapse Group"
-                        (click)="createTask(group)">
-                  New Config.
-                </button>
-
-                <b>{{ group.value[0].taskTemplate.description }}</b>
-              </div>
-            </ng-template>
-          </ngx-datatable-group-header>
-
-          <ngx-datatable-column name="" ></ngx-datatable-column>
-
-          <ngx-datatable-column name="Description" prop="idTask"></ngx-datatable-column>
-
-          <!-- End Column Templates -->
-        </ngx-datatable>
-
-        <swal
-                #deleteOfficeSwal
-                title=""
-                text="This cannot be undone."
-                type="question"
-                [showCancelButton]="true"
-                [focusCancel]="true"
-                (confirm)="deleteOfficeCofirm(rowSelected.id)">
-        </swal>
-
-      </div>
     </div>
-  </div>
 </div>

@@ -81,7 +81,8 @@ export class AppConfig {
 
     // Task URL's
     public taskPath = '/task';
-    public getTasks = this.backOfficePath + this.taskPath + this.list;     // GET
+    public getTasks = this.backOfficePath + this.taskPath + this.list;                                      // GET
+    public createUpdateTask = this.backOfficePath + this.taskPath + this.createupdate;                      // POST
     public getTaskByDescrOrCompOrTopic = this.backOfficePath + this.taskPath + '/like-desc-comp-topic';     // GET
 
     constructor() {

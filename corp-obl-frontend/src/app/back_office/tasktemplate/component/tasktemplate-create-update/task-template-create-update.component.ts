@@ -19,6 +19,7 @@ import {saveAs as importedSaveAs} from 'file-saver';
 import {Task} from '../../../task/model/task';
 import {UploadService} from '../../../../shared/common/service/upload.service';
 import {TaskTemplateAttachment} from '../../../tasktemplateattachment/tasktemplateattachment';
+import {TaskService} from '../../../task/service/task.service';
 
 @Component({
     selector: 'app-tasktemplate-create-update',
@@ -31,7 +32,9 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
 
     isNewForm;
     isForeign = true;
+    isTaskTemplateForm = true;
     taskTemplate: TaskTemplate = new TaskTemplate();
+    task: Task = new Task();
     submitted = false;
     errorDetails: ApiErrorDetails = new ApiErrorDetails();
 
@@ -56,6 +59,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         private formBuilder: FormBuilder,
         private topicService: TopicService,
         private taskTemplateService: TaskTemplateService,
+        private taskService: TaskService,
         private userInfoService: UserInfoService,
         private translationService: TranslationService,
         private uploadService: UploadService
@@ -66,18 +70,50 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         console.log('TaskTemplateCreateUpdateComponent - ngOnInit');
 
         const me = this;
-        const task: Task = this.transferService.objectParam;
+        let objectParam = this.transferService.objectParam;
+        if (!objectParam) {
+            const taskTemplateTemp = new TaskTemplate();
+            const taskTemp = new Task();
+            taskTemp.taskTemplate = taskTemplateTemp;
+            objectParam = {isTaskTemplateForm: true, task: taskTemp};
+        }
+        this.isTaskTemplateForm = objectParam.isTaskTemplateForm;
+        this.task = objectParam.task;
 
         this.getTopics();
         this.periodicityObservable = this.getTranslationLikeTablename('tasktemplate#periodicity');
         this.expirationTypeObservable = this.getTranslationLikeTablename('tasktemplate#expirationtype');
 
-        if (task === undefined) {
+        if (this.isTaskTemplateForm && this.task === undefined) {
             this.isNewForm = true;
             this.taskTemplate = new TaskTemplate();
-        } else {
+            this.submitBtn.nativeElement.innerText = 'Create Task Template';
+        } else if (!this.isTaskTemplateForm && this.task && objectParam.newTask) {
+            this.isNewForm = true;
+            this.submitBtn.nativeElement.innerText = 'Create Task';
+            this.taskTemplate = this.task.taskTemplate;
+
+            this.periodicityObservable.subscribe(
+                (data) => {
+                    data.forEach((item) => {
+                        if (item && item.tablename.indexOf(me.task.taskTemplate.recurrence) >= 0) {
+                            me.selectedPeriodicity = item;
+                        }
+                    });
+                }
+            );
+            this.expirationTypeObservable.subscribe(
+                (data) => {
+                    data.forEach((item) => {
+                        if (item && item.tablename.indexOf(me.task.taskTemplate.expirationType) >= 0) {
+                            me.selectedExpirationType = item;
+                        }
+                    });
+                }
+            );
+        } else if (this.isTaskTemplateForm) {
             this.submitBtn.nativeElement.innerText = 'Update Task Template';
-            this.taskTemplate = task.taskTemplate;
+            this.taskTemplate = this.task.taskTemplate;
             this.selectedTopic = this.taskTemplate.topic;
 
             this.periodicityObservable.subscribe(
@@ -98,20 +134,50 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                     });
                 }
             );
+        } else if (!this.isTaskTemplateForm && !objectParam.newTask) {
+            this.submitBtn.nativeElement.innerText = 'Update Task';
+
+            this.periodicityObservable.subscribe(
+                (data) => {
+                    data.forEach((item) => {
+                        if (item && item.tablename.indexOf(me.task.recurrence) >= 0) {
+                            me.selectedPeriodicity = item;
+                        }
+                    });
+                }
+            );
+            this.expirationTypeObservable.subscribe(
+                (data) => {
+                    data.forEach((item) => {
+                        if (item && item.tablename.indexOf(me.task.expirationType) >= 0) {
+                            me.selectedExpirationType = item;
+                        }
+                    });
+                }
+            );
         }
 
-        this.createEditTaskTemplate = this.formBuilder.group({
-            description: new FormControl({value: this.taskTemplate.description, disabled: false}, Validators.required),
-            //    expirationClosableBy: new FormControl({value: this.taskTemplate.expirationClosableBy}, Validators.required),
-            expirationRadio: new FormControl(this.taskTemplate.expirationClosableBy, Validators.required),
-            day: new FormControl({value: this.taskTemplate.day, disabled: false}, Validators.required),
-            daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
-            frequenceOfNotice: new FormControl({value: this.taskTemplate.frequenceOfNotice, disabled: false}, Validators.required),
-            daysBeforeShowExpiration: new FormControl({
-                value: this.taskTemplate.daysBeforeShowExpiration,
-                disabled: false
-            }, Validators.required)
-        });
+        if (this.isTaskTemplateForm || (!this.isTaskTemplateForm && objectParam.newTask)) {
+            this.createEditTaskTemplate = this.formBuilder.group({
+                description: new FormControl({value: this.taskTemplate.description, disabled: false}, Validators.required),
+                expirationRadio: new FormControl(this.taskTemplate.expirationClosableBy, Validators.required),
+                day: new FormControl({value: this.taskTemplate.day, disabled: false}, Validators.required),
+                daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
+                frequenceOfNotice: new FormControl({value: this.taskTemplate.frequenceOfNotice, disabled: false}, Validators.required),
+                daysBeforeShowExpiration: new FormControl({
+                    value: this.taskTemplate.daysBeforeShowExpiration,
+                    disabled: false
+                }, Validators.required)
+            });
+        } else {
+            this.createEditTaskTemplate = this.formBuilder.group({
+                description: new FormControl({value: this.task.taskTemplate.description, disabled: true}),
+                day: new FormControl({value: this.task.day, disabled: false}, Validators.required),
+                daysOfNotice: new FormControl({value: this.task.daysOfNotice, disabled: false}, Validators.required),
+                frequenceOfNotice: new FormControl({value: this.task.frequenceOfNotice, disabled: false}, Validators.required),
+                daysBeforeShowExpiration: new FormControl({value: this.task.daysBeforeShowExpiration, disabled: false}, Validators.required)
+            });
+        }
 
         this.uploader = this.uploadService.uploader;
         this.uploadService.uploadFileWithAuth();
@@ -151,46 +217,72 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             return;
         }
 
-        this.taskTemplate.description = this.createEditTaskTemplate.get('description').value;
-        this.taskTemplate.topic = this.selectedTopic;
-        this.taskTemplate.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
-        this.taskTemplate.expirationType = this.selectedExpirationType.tablename.split('#')[2];
-        this.taskTemplate.expirationClosableBy = this.createEditTaskTemplate.get('expirationRadio').value;
-        this.taskTemplate.day = this.createEditTaskTemplate.get('day').value;
-        this.taskTemplate.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
-        this.taskTemplate.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
-        this.taskTemplate.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
+        if (this.isTaskTemplateForm) {
+            this.taskTemplate.description = this.createEditTaskTemplate.get('description').value;
+            this.taskTemplate.topic = this.selectedTopic;
+            this.taskTemplate.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
+            this.taskTemplate.expirationType = this.selectedExpirationType.tablename.split('#')[2];
+            this.taskTemplate.expirationClosableBy = this.createEditTaskTemplate.get('expirationRadio').value;
+            this.taskTemplate.day = this.createEditTaskTemplate.get('day').value;
+            this.taskTemplate.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
+            this.taskTemplate.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
+            this.taskTemplate.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
+        } else {
+            this.task.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
+            this.task.expirationType = this.selectedExpirationType.tablename.split('#')[2];
+            this.task.day = this.createEditTaskTemplate.get('day').value;
+            this.task.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
+            this.task.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
+            this.task.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
+        }
 
         this.confirmationTaskTemplateSwal.title = 'Do you want to save: ' + this.taskTemplate.description + '?';
         this.confirmationTaskTemplateSwal.show()
             .then(function (result) {
                 if (result.value === true) {
                     // handle confirm, result is needed for modals with input
-                    me.taskTemplateService.saveUpdateTaskTemplate(me.taskTemplate).subscribe(
-                        (data) => {
-                            const taskTemplate: TaskTemplate = data;
-                            me.errorDetails = undefined;
-                            console.log('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit - next');
 
-                            me.uploader.onBuildItemForm = (fileItem: any, form: any) => {
-                                form.append('idTaskTemplate', taskTemplate.idTaskTemplate);
-                            };
+                    if (me.isTaskTemplateForm) {
+                        me.taskTemplateService.saveUpdateTaskTemplate(me.taskTemplate).subscribe(
+                            (data) => {
+                                const taskTemplate: TaskTemplate = data;
+                                me.errorDetails = undefined;
+                                console.log('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit - next');
 
-                            me.uploader.queue.forEach((item) => {
-                                if (!item.formData || item.formData.length === 0) {
-                                    item.upload();
-                                }
-                            });
+                                me.uploader.onBuildItemForm = (fileItem: any, form: any) => {
+                                    form.append('idTaskTemplate', taskTemplate.idTaskTemplate);
+                                };
 
-                            me.uploader.onErrorItem = (item, response, status, headers) => me.onErrorItem(item, response, status, headers);
-                            me.uploader.onSuccessItem = (item, response, status, headers) => me.onSuccessItem(item, response, status, headers);
+                                me.uploader.queue.forEach((item) => {
+                                    if (!item.formData || item.formData.length === 0) {
+                                        item.upload();
+                                    }
+                                });
 
-                        }, error => {
-                            me.errorDetails = error.error;
-                            //    me.showErrorDescriptionSwal();
-                            console.log('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit - error');
-                        }
-                    );
+                                me.uploader.onErrorItem = (item, response, status, headers) => me.onErrorItem(item, response, status, headers);
+                                me.uploader.onSuccessItem = (item, response, status, headers) => me.onSuccessItem(item, response, status, headers);
+
+                            }, error => {
+                                me.errorDetails = error.error;
+                                //    me.showErrorDescriptionSwal();
+                                console.log('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit - error');
+                            }
+                        );
+                    } else {
+                        me.taskService.saveUpdateTask(me.task).subscribe(
+                            (data) => {
+                                const taskTemplate: TaskTemplate = data;
+                                me.errorDetails = undefined;
+                                console.log('TaskTemplateCreateUpdateComponent - createEditTaskSubmit - next');
+
+                                me.router.navigate(['/back-office/task']);
+                            }, error => {
+                                me.errorDetails = error.error;
+                                //    me.showErrorDescriptionSwal();
+                                console.log('TaskTemplateCreateUpdateComponent - createEditTaskSubmit - error');
+                            }
+                        );
+                    }
                 }
             }, function (dismiss) {
                 // dismiss can be "cancel" | "close" | "outside"
@@ -242,7 +334,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 }
             );
         }
-         item.remove();
+        item.remove();
     }
 
     onWhenAddingFileFailed(item: FileLikeObject, filter: any, options: any) {

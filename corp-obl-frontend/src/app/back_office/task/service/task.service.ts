@@ -13,6 +13,12 @@ export class TaskService {
         private appConfig: AppConfig
     ) {}
 
+    saveUpdateTask(task): Observable<any> {
+        console.log('TaskTemplateService - saveUpdateTask');
+
+        return this.apiRequest.post(this.appConfig.createUpdateTask, task);
+    }
+
     getTasks(): Observable<any> {
 
         return this.apiRequest.get(this.appConfig.getTasks);

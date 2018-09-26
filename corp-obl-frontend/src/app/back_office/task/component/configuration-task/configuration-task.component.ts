@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {Office} from '../../../office/model/office';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {Router} from '@angular/router';
@@ -15,7 +15,7 @@ import {ObjectSearchTaskTemplate} from '../../../tasktemplate/model/object-searc
 @Component({
     selector: 'app-configuration-task',
     templateUrl: './configuration-task.component.html',
-    styleUrls: ['./configuration-task.component.css']
+    styleUrls: ['./configuration-task.component.css'],
 })
 export class ConfigurationTaskComponent implements OnInit {
 
@@ -28,6 +28,8 @@ export class ConfigurationTaskComponent implements OnInit {
     data: any;
     temp = [];
     errorDetails: ApiErrorDetails;
+    idGroup = 0;
+    index = 1;
 
     companiesObservable: Observable<any[]>;
     topicsObservable: Observable<any[]>;
@@ -80,14 +82,25 @@ export class ConfigurationTaskComponent implements OnInit {
     searchTaskTemplate() {
         console.log('ConfigurationTaskComponent - createNewTaskTemplate');
 
+        const me = this;
         const objectSearchTaskTemplate = new ObjectSearchTaskTemplate(this.descriptionTaskTemplate, this.selectedCompanies, this.selectedTopics);
 
-        this.taskTemplateService.searchTaskTemplate(objectSearchTaskTemplate);
+        this.taskTemplateService.searchTaskTemplate(objectSearchTaskTemplate).subscribe(
+            (data) => {
+                me.rows = data;
+                //     console.log(JSON.stringify(data));
+            }
+        );
 
     }
 
     createNewTaskTemplate() {
         console.log('ConfigurationTaskComponent - createNewTaskTemplate');
+
+        this.transferService.objectParam = {
+            isTaskTemplateForm: true,
+            task: undefined
+        };
 
         this.router.navigate(['/back-office/task-template/create']);
     }
@@ -115,12 +128,57 @@ export class ConfigurationTaskComponent implements OnInit {
     modifyTaskTemplate(group) {
         console.log('modifyTaskTemplate - modifyTaskTemplate');
 
-        this.transferService.objectParam = group.value[0];
+        this.transferService.objectParam = {
+            isTaskTemplateForm: true,
+            task: group.value[0]
+        };
 
         this.router.navigate(['/back-office/task-template/edit']);
     }
 
     createTask(group) {
         console.log('modifyTaskTemplate - createTask');
+
+        const taskTemp = group.value[0];
+        const newTaskTemp = new Task();
+        newTaskTemp.taskTemplate = taskTemp.taskTemplate;
+
+        this.transferService.objectParam = {
+            isTaskTemplateForm: false,
+            task: newTaskTemp,
+            newTask: true
+        };
+
+        this.router.navigate(['/back-office/task-template/create']);
+    }
+
+    displayConfigurationText(row, group): string {
+
+        if (row && row.idTask && row.idTaskTemplate) {
+
+            let configText = '';
+
+            if (this.idGroup !== row.idTaskTemplate) {
+                this.index = 1;
+                this.idGroup = row.idTaskTemplate;
+            } else {
+                this.index++;
+            }
+
+            configText += 'Configuration ' + this.index + ': ' + row.expirationType + ' - ' + row.daysBeforeShowExpiration;
+            return configText;
+        }
+        return;
+    }
+
+    modifyTask(row) {
+        console.log('modifyTaskTemplate - modifyTask');
+
+        this.transferService.objectParam = {
+            isTaskTemplateForm: false,
+            task: row
+        };
+
+        this.router.navigate(['/back-office/task-template/edit']);
     }
 }
