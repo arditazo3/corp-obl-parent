@@ -36,6 +36,8 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     taskTemplate: TaskTemplate = new TaskTemplate();
     task: Task = new Task();
     submitted = false;
+    counterUpload = 0;
+    counterCallback = 0;
     errorDetails: ApiErrorDetails = new ApiErrorDetails();
 
     topicsObservable: Observable<any[]>;
@@ -164,10 +166,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 day: new FormControl({value: this.taskTemplate.day, disabled: false}, Validators.required),
                 daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
                 frequenceOfNotice: new FormControl({value: this.taskTemplate.frequenceOfNotice, disabled: false}, Validators.required),
-                daysBeforeShowExpiration: new FormControl({
-                    value: this.taskTemplate.daysBeforeShowExpiration,
-                    disabled: false
-                }, Validators.required)
+                daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false }, Validators.required)
             });
         } else {
             this.createEditTaskTemplate = this.formBuilder.group({
@@ -218,6 +217,9 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         }
 
         if (this.isTaskTemplateForm) {
+            if (this.selectedTopic === undefined || this.selectedPeriodicity === undefined || this.selectedExpirationType === undefined) {
+                return;
+            }
             this.taskTemplate.description = this.createEditTaskTemplate.get('description').value;
             this.taskTemplate.topic = this.selectedTopic;
             this.taskTemplate.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
@@ -228,6 +230,9 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             this.taskTemplate.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
             this.taskTemplate.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
         } else {
+            if (this.selectedPeriodicity === undefined || this.selectedExpirationType === undefined) {
+                return;
+            }
             this.task.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
             this.task.expirationType = this.selectedExpirationType.tablename.split('#')[2];
             this.task.day = this.createEditTaskTemplate.get('day').value;
@@ -253,15 +258,23 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                                     form.append('idTaskTemplate', taskTemplate.idTaskTemplate);
                                 };
 
-                                me.uploader.queue.forEach((item) => {
-                                    if (!item.formData || item.formData.length === 0) {
-                                        item.upload();
+                                if (me.uploader.queue.length === 0) {
+                                    me.router.navigate(['/back-office/task']);
+                                } else {
+                                    let noFileUpload = true;
+                                    me.uploader.queue.forEach((item) => {
+                                        if (!item.formData || item.formData.length === 0) {
+                                            item.upload();
+                                            noFileUpload = false;
+                                            me.counterUpload++;
+                                        }
+                                    });
+                                    if (noFileUpload) {
+                                        me.router.navigate(['/back-office/task']);
                                     }
-                                });
-
-                                me.uploader.onErrorItem = (item, response, status, headers) => me.onErrorItem(item, response, status, headers);
-                                me.uploader.onSuccessItem = (item, response, status, headers) => me.onSuccessItem(item, response, status, headers);
-
+                                    me.uploader.onErrorItem = (item, response, status, headers) => me.onErrorItem(item, response, status, headers);
+                                    me.uploader.onSuccessItem = (item, response, status, headers) => me.onSuccessItem(item, response, status, headers);
+                                }
                             }, error => {
                                 me.errorDetails = error.error;
                                 //    me.showErrorDescriptionSwal();
@@ -290,11 +303,17 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     }
 
     onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-        this.router.navigate(['/back-office/task']);
+        this.counterCallback++;
+        if (this.counterUpload === this.counterCallback) {
+            this.router.navigate(['/back-office/task']);
+        }
     }
 
     onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
-        this.router.navigate(['/back-office/task']);
+        this.counterCallback++;
+        if (this.counterUpload === this.counterCallback) {
+            this.router.navigate(['/back-office/task']);
+        }
     }
 
     downloadFile(item) {
