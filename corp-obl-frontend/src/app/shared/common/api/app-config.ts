@@ -39,6 +39,7 @@ export class AppConfig {
     // Office URL's
     public officePath = '/office';
     public getOffices = this.backOfficePath + this.officePath + this.list;                      // GET
+    public getOfficesByRole = this.backOfficePath + this.officePath + this.list + '/by-role';                      // GET
     public createUpdateOffice = this.backOfficePath + this.officePath + this.createupdate;      // POST
     public deleteOffice = this.backOfficePath + this.officePath + this.delete;                  // PUT
 
@@ -84,6 +85,10 @@ export class AppConfig {
     public getTasks = this.backOfficePath + this.taskPath + this.list;                                      // GET
     public createUpdateTask = this.backOfficePath + this.taskPath + this.createupdate;                      // POST
     public getTaskByDescrOrCompOrTopic = this.backOfficePath + this.taskPath + '/like-desc-comp-topic';     // GET
+
+    // Office task URL's
+    public officeTaskPath = '/office-task';
+    public searchOfficeTask = this.officeTaskPath + '/search-office';
 
     constructor() {
         console.log('AppConfig - constructor');

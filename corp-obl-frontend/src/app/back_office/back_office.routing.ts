@@ -11,6 +11,7 @@ import {ConsultantCreateUpdateComponent} from './consultant/component/consultant
 import {TaskTemplateCreateUpdateComponent} from './tasktemplate/component/tasktemplate-create-update/task-template-create-update.component';
 import {TaskTemplateComponent} from './tasktemplate/component/task-template.component';
 import {TaskComponent} from './task/component/task.component';
+import {OfficeTaskComponent} from './office-task/component/office-task.component';
 
 export const BackOfficeRoutes: Routes = [
     {
@@ -199,6 +200,17 @@ export const BackOfficeRoutes: Routes = [
                     title: 'Task template Management',
                     urls: [
                         {title: 'Back Office', url: '/back-office/task-template'},
+                        {title: 'Task template management'}
+                    ]
+                }
+            },
+            {
+                path: 'office-task',
+                component: OfficeTaskComponent,
+                data: {
+                    title: 'Office Task Management',
+                    urls: [
+                        {title: 'Back Office', url: '/back-office/office-task'},
                         {title: 'Task template management'}
                     ]
                 }
