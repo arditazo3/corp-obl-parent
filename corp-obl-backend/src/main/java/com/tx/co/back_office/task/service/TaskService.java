@@ -92,7 +92,8 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			task.setEnabled(true);
 			taskStored = task;
 		} else { // Existing Task template
-			taskStored = getTaskById(task.getIdTask());
+			taskStored = taskRepository.findById(task.getIdTask()).get();
+//			taskStored = getTaskById(task.getIdTask());
 		}
 
 		taskStored.setDay(task.getDay());
