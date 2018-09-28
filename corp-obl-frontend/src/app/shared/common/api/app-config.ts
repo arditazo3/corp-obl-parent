@@ -88,7 +88,7 @@ export class AppConfig {
 
     // Office task URL's
     public officeTaskPath = '/office-task';
-    public searchOfficeTask = this.officeTaskPath + '/search-office';
+    public searchOfficeTask = this.backOfficePath + this.officeTaskPath + '/search-office';
 
     constructor() {
         console.log('AppConfig - constructor');

@@ -18,9 +18,9 @@
                     [closeOnSelect]="false"
                     [searchable]="true"
                     bindLabel="description"
-                    placeholder="Select companies"
+                    placeholder="Select offcies"
                     [ngModelOptions]="{standalone: true}"
-                    [(ngModel)]="selectedCompanies">
+                    [(ngModel)]="offices">
               <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
                 <input [ngModelOptions]="{standalone: true}"
                        id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/>
@@ -29,14 +29,14 @@
             </ng-select>
           </div>
 
-          <div class="col-md-1">
-            <button class="btn-tnx btn-info btn-block" type="button" (click)="searchOffice()">Search
+          <div class="col-md-2">
+            <button class="btn-tnx btn-info btn-block" type="button" (click)="searchOfficeTasks()">Search
             </button>
           </div>
         </div>
         <hr>
 
-
+        <app-office-taks-collapse></app-office-taks-collapse>
 
         <swal
                 #deleteOfficeSwal

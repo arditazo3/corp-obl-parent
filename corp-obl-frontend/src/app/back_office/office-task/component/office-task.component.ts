@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Observable} from '../../../../../node_modules/rxjs/Rx';
 import {ObjectSearchTaskTemplate} from '../../tasktemplate/model/object-search-tasktemplate';
 import {Router} from '@angular/router';
 import {OfficeTaskService} from '../service/office-task.service';
 import {OfficeService} from '../../office/service/office.service';
+import {TaskTempOfficies} from '../model/tasktemp-officies';
+import {OfficeTaksCollapseComponent} from './office-taks-collapse/office-taks-collapse.component';
 
 @Component({
     selector: 'app-office-task',
@@ -12,9 +14,12 @@ import {OfficeService} from '../../office/service/office.service';
 })
 export class OfficeTaskComponent implements OnInit {
 
+    @ViewChild(OfficeTaksCollapseComponent) officeTaksCollapse: OfficeTaksCollapseComponent;
+
     descriptionTaskTemplate: string;
+    officesTaskTemplates = [];
     selectedOfficies = [];
-    officesTasks = [];
+    offices = [];
 
     officiesObservable: Observable<any[]>;
 
@@ -38,18 +43,18 @@ export class OfficeTaskComponent implements OnInit {
         me.officiesObservable = me.officeService.getOfficesByRole();
     }
 
-    searchOffice() {
+    searchOfficeTasks() {
         console.log('OfficeTaskComponent - searchOffice');
 
         const me = this;
-        const objectSearchDescrTaskTempOfficies = {
-            description: this.descriptionTaskTemplate,
-            officies: this.selectedOfficies
-        };
+        const taskTempOfficies = new TaskTempOfficies();
+        taskTempOfficies.descriptionTaskTemplate = this.descriptionTaskTemplate;
+        taskTempOfficies.officies = this.offices;
 
-        this.officeTaskService.searchOffice(objectSearchDescrTaskTempOfficies).subscribe(
+        this.officeTaskService.searchOfficeTasks(taskTempOfficies).subscribe(
             (data) => {
-                me.officesTasks = data;
+                me.officeTaksCollapse.getOfficeTaskTemplatesArray(data);
+                console.log('OfficeTaskComponent - searchOffice - next');
             }
         );
     }
