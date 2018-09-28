@@ -2,7 +2,6 @@ package com.tx.co.back_office.tasktemplateattachment.resource;
 
 import static com.tx.co.common.constants.ApiConstants.*;
 
-import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;

@@ -14,6 +14,10 @@ import com.tx.co.back_office.company.domain.CompanyConsultant;
 import com.tx.co.back_office.company.domain.CompanyTopic;
 import com.tx.co.back_office.company.domain.CompanyUser;
 import com.tx.co.back_office.office.api.model.OfficeResult;
+import com.tx.co.back_office.office.api.model.OfficeTaskTemplates;
+import com.tx.co.back_office.office.api.model.OfficeTaskTemplatesResult;
+import com.tx.co.back_office.office.api.model.TaskTempOfficies;
+import com.tx.co.back_office.office.api.model.TaskTempOfficiesResult;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.api.model.TaskResult;
 import com.tx.co.back_office.task.model.Task;
@@ -587,6 +591,41 @@ public abstract class ObjectResult {
 			objectSearchTaskTemplate.setTopics(topics);
 		}
 		return objectSearchTaskTemplate;
+	}
+	
+	public TaskTempOfficies toTaskTempOfficies(TaskTempOfficiesResult taskTempOfficiesResult) {
+
+		TaskTempOfficies taskTempOfficies = new TaskTempOfficies();
+		
+		if(isEmpty(taskTempOfficiesResult.getDescriptionTaskTemplate())) {
+			taskTempOfficies.setDescriptionTaskTemplate("");
+		} else {
+			taskTempOfficies.setDescriptionTaskTemplate(taskTempOfficiesResult.getDescriptionTaskTemplate());
+		}
+		if(!isEmpty(taskTempOfficiesResult.getOfficies())) {
+			List<Office> offices = new ArrayList<>();
+			for (OfficeResult officeResult : taskTempOfficiesResult.getOfficies()) {
+				offices.add(toOffice(officeResult));
+			}
+			taskTempOfficies.setOfficies(offices);
+		}
+		return taskTempOfficies;
+	}
+	
+	public OfficeTaskTemplatesResult toOfficeTaskTemplates(OfficeTaskTemplates officeTaskTemplates) {
+		
+		OfficeTaskTemplatesResult officeTasksResult = new OfficeTaskTemplatesResult();
+		
+		officeTasksResult.setOffice(toOfficeResult(officeTaskTemplates.getOffice()));
+		
+		if(!isEmpty(officeTaskTemplates.getTaskTemplates())) {
+			List<TaskTemplateResult> taskTemplateResults = new ArrayList<>();
+			for (TaskTemplate taskTemplate : officeTaskTemplates.getTaskTemplates()) {
+				taskTemplateResults.add(toTaskTemplateResult(taskTemplate, false));
+			}
+			officeTasksResult.setTaskTemplates(taskTemplateResults);
+		}
+		return officeTasksResult;
 	}
 	
 }

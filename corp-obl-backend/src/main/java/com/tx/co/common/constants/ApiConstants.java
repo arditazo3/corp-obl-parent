@@ -73,7 +73,7 @@ public final class ApiConstants {
 	public static final String TASK_TEMPLATE_CREATE_UPDATE = TASK_TEMPLATE + CREATE_UPDATE;
 	public static final String TASK_TEMPLATE_DELETE = TASK_TEMPLATE + DELETE;
 	public static final String TASK_TEMPLATE_SEARCH = TASK_TEMPLATE + "/search-task-template";
-	
+
 
 	// Translate URL
 	public static final String TRANSLATION = "translation";
@@ -89,6 +89,10 @@ public final class ApiConstants {
 	public static final String TASK_LIST = TASK + LIST;
 	public static final String TASK_CREATE_UPDATE = TASK + CREATE_UPDATE;
 	public static final String TASK_DESC_COMP_TOPIC = TASK + "/like-desc-comp-topic";
+
+	// Task URL
+	public static final String OFFICE_TASKS = "office-task";
+	public static final String SEARCH_OFFICE_TASKS = OFFICE_TASKS + "/search-office";
 
 	/**
 	 * List of authorization Role
@@ -114,8 +118,8 @@ public final class ApiConstants {
 
 	public static final String STORAGE_DATA_CACHE = "StorageDataCache";
 	/* End of the cache key */
-	
-	
+
+
 	/* File static values */
 	public static final String FILE_MAX_SIZE = "20";
 }

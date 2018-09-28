@@ -27,7 +27,6 @@ import com.tx.co.back_office.task.api.model.TaskObjectTableResult;
 import com.tx.co.back_office.task.api.model.TaskResult;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.task.service.ITaskService;
-import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.topic.api.model.TopicResult;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.common.api.provider.ObjectResult;

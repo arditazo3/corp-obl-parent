@@ -4,9 +4,12 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.ws.rs.NotFoundException;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,8 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.tx.co.back_office.company.domain.OfficeTaskTemplate;
+import com.tx.co.back_office.office.api.model.OfficeTaskTemplates;
+import com.tx.co.back_office.office.api.model.TaskTempOfficies;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.repository.OfficeRepository;
+import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
@@ -33,10 +40,16 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 	private static final Logger logger = LogManager.getLogger(OfficeService.class);
 
 	private OfficeRepository officeRepository;
+	private EntityManager em;
 
 	@Autowired
 	public void setOfficeRepository(OfficeRepository officeRepository) {
 		this.officeRepository = officeRepository;
+	}
+
+	@Autowired
+	public void setEm(EntityManager em) {
+		this.em = em;
 	}
 
 	/**
@@ -158,6 +171,107 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 
 	}
 
+	@Override
+	public List<OfficeTaskTemplates> searchOfficeTaskTEmplates(TaskTempOfficies taskTempOfficies) {
 
+		String querySql = "select o, tt from TaskTemplate tt "
+				+ "left join tt.topic top "
+				+ "left join top.companyTopic ct "
+				+ "left join ct.company c "
+				+ "left join c.office o "
+				+ "where tt.enabled <> 0 and top.enabled <> 0 and "
+				+ "ct.enabled <> 0 and c.enabled <> 0 and o.enabled <> 0 ";
+		Query query;
+
+		if(isEmpty(taskTempOfficies.getOfficies())) {
+			querySql += "and tt.description like :description "
+					+ "group by o.idOffice "
+					+ "order by tt.description asc ";
+			query = em.createQuery(querySql);
+
+			query.setParameter("description", "%" + taskTempOfficies.getDescriptionTaskTemplate() + "%");
+		} else {
+			querySql += "and tt.description like :description and "
+					+ "o in :officeList "
+					+ "group by top "
+					+ "order by tt.description asc ";
+			query = em.createQuery(querySql);
+
+			query.setParameter("description", "%" + taskTempOfficies.getDescriptionTaskTemplate() + "%");
+			query.setParameter("officeList", taskTempOfficies.getOfficies());
+		}
+
+		List<OfficeTaskTemplates> officeTaskTemplatesList = new ArrayList<>();
+		List<Object[]> officeTaskTemplateList = query.getResultList();
+		if(!isEmpty(officeTaskTemplateList)) {
+			List<OfficeTaskTemplate> officeTaskTemplates = new ArrayList<>();
+
+			for (Object[] officeTaskTemplateObject : officeTaskTemplateList) {
+				OfficeTaskTemplate officeTaskTemplate = new OfficeTaskTemplate();
+				Office officeToSet = (Office) officeTaskTemplateObject[0];
+				TaskTemplate taskTemplateToSet = (TaskTemplate) officeTaskTemplateObject[1];
+
+				officeTaskTemplate.setOffice(officeToSet);
+				officeTaskTemplate.setTaskTemplate(taskTemplateToSet);
+				officeTaskTemplates.add(officeTaskTemplate);
+			}
+			officeTaskTemplatesList =  convertToOfficeTasks(officeTaskTemplates);
+		}
+
+		if(!isEmpty(taskTempOfficies.getOfficies()) && 
+				taskTempOfficies.getOfficies().size() > officeTaskTemplatesList.size()) {
+
+			List<OfficeTaskTemplates> officeTasksListTemp = new ArrayList<>();
+			for (Office officeFirstLoop : taskTempOfficies.getOfficies()) {
+				if(!isEmpty(officeTaskTemplatesList)) {
+					boolean hasOffice = false;
+					for (OfficeTaskTemplates officeTasksLoop : officeTaskTemplatesList) {
+						if(officeFirstLoop.getIdOffice().compareTo(officeTasksLoop.getOffice().getIdOffice()) == 0) {
+							hasOffice = true;
+							continue;
+						}
+					}
+					if(!hasOffice) {
+						OfficeTaskTemplates officeTasks = new OfficeTaskTemplates();
+						officeTasks.setOffice(officeFirstLoop);
+						officeTasksListTemp.add(officeTasks);
+					}
+				} else {
+					OfficeTaskTemplates officeTasks = new OfficeTaskTemplates();
+					officeTasks.setOffice(officeFirstLoop);
+					officeTasksListTemp.add(officeTasks);
+				}
+			}
+			officeTaskTemplatesList.addAll(officeTasksListTemp);
+		}
+
+		return officeTaskTemplatesList;
+	}
+
+	public List<OfficeTaskTemplates> convertToOfficeTasks(List<OfficeTaskTemplate> officeTaskList) {
+
+		HashMap<Office, List<TaskTemplate>> officeTaskTemplatesMap = new HashMap<Office, List<TaskTemplate>>();
+		for (OfficeTaskTemplate officeTask : officeTaskList) {
+			Office office = officeTask.getOffice();
+			TaskTemplate taskTemplate = officeTask.getTaskTemplate();
+			if(!officeTaskTemplatesMap.containsKey(office)) {
+				List<TaskTemplate> taskTemplates = new ArrayList<>();
+				taskTemplates.add(taskTemplate);
+				officeTaskTemplatesMap.put(office, taskTemplates);
+			} else {
+				officeTaskTemplatesMap.get(office).add(taskTemplate);
+			}
+		}
+
+		List<OfficeTaskTemplates> officeTasks = new ArrayList<>();
+		for(Office officeLoop : officeTaskTemplatesMap.keySet()) {
+			OfficeTaskTemplates officeTaskFinal = new OfficeTaskTemplates();
+			officeTaskFinal.setOffice(officeLoop);
+			officeTaskFinal.setTaskTemplates(officeTaskTemplatesMap.get(officeLoop));
+			officeTasks.add(officeTaskFinal);
+		}
+
+		return officeTasks;
+	}
 
 }

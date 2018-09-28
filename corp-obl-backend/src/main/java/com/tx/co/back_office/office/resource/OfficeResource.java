@@ -21,6 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.tx.co.back_office.office.api.model.OfficeResult;
+import com.tx.co.back_office.office.api.model.OfficeTaskTemplates;
+import com.tx.co.back_office.office.api.model.OfficeTaskTemplatesResult;
+import com.tx.co.back_office.office.api.model.TaskTempOfficiesResult;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.service.IOfficeService;
 import com.tx.co.common.api.provider.ObjectResult;
@@ -80,4 +83,19 @@ public class OfficeResource extends ObjectResult {
 
         return Response.noContent().build();
     }
+    
+    @POST
+	@Path(SEARCH_OFFICE_TASKS)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response searchOfficeTaskTemplates(TaskTempOfficiesResult taskTempOfficies) {
+
+		Iterable<OfficeTaskTemplates> officeTasksIterable = officeService.searchOfficeTaskTEmplates(toTaskTempOfficies(taskTempOfficies));
+        List<OfficeTaskTemplatesResult> queryDetailsList =
+                StreamSupport.stream(officeTasksIterable.spliterator(), false)
+                        .map(this::toOfficeTaskTemplates)
+                        .collect(Collectors.toList());
+
+        return Response.ok(queryDetailsList).build();
+	}
 }
