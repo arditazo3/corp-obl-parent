@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {Task} from '../../../task/model/task';
+import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 
 @Component({
     selector: 'app-office-taks-collapse',
@@ -11,7 +13,8 @@ export class OfficeTaksCollapseComponent implements OnInit {
     officeTaskTemplatesArray = [];
 
     constructor(
-        private router: Router
+        private router: Router,
+        private transferService: TransferDataService
     ) {
     }
 
@@ -31,4 +34,27 @@ export class OfficeTaksCollapseComponent implements OnInit {
         this.officeTaskTemplatesArray = officeTaskTemplatessFromParent;
     }
 
+    modifyTaskTemplate(taskTemplate) {
+        console.log('OfficeTaksCollapseComponent - ngOnInit');
+
+        const task: Task = new Task();
+        task.taskTemplate = taskTemplate;
+        this.transferService.objectParam = {
+            isTaskTemplateForm: true,
+            task: task
+        };
+
+        this.router.navigate(['/back-office/task-template/edit']);
+    }
+
+    createTaskTemplate(officeTaskTemplates) {
+        console.log('OfficeTaksCollapseComponent - createTaskTemplate');
+
+        this.transferService.objectParam = {
+            isTaskTemplateForm: true,
+            task: undefined
+        };
+
+        this.router.navigate(['/back-office/task-template/create']);
+    }
 }

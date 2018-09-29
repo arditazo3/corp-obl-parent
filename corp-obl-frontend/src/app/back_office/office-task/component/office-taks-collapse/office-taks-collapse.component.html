@@ -3,10 +3,16 @@
         <ngb-panel title="{{ officeTaskTemplates.office.description }}">
             <ng-template ngbPanelContent>
 
+                <div class="float-right">
+                    <button class="btn-tnx btn-info btn-block" type="button" (click)="createTaskTemplate(officeTaskTemplates)">Create</button>
+                </div>
+
                 <table class="table table-borderless table-responsive">
                     <tbody>
                     <tr *ngFor="let taskTemplate of officeTaskTemplates.taskTemplates">
-                        <td>{{taskTemplate.idTaskTemplate}}</td>
+                        <td>
+                            <button class="btn-tnx btn-info btn-block" type="button" (click)="modifyTaskTemplate(taskTemplate)">Modify</button>
+                        </td>
                         <td>{{taskTemplate.description}}</td>
                     </tr>
                     </tbody>
