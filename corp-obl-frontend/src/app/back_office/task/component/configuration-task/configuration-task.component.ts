@@ -153,20 +153,20 @@ export class ConfigurationTaskComponent implements OnInit {
         this.router.navigate(['/back-office/task/create-edit']);
     }
 
-    displayConfigurationText(row, group): string {
+    displayConfigurationText(row, group, rowIndex): string {
 
         if (row && row.idTask && row.idTaskTemplate) {
 
             let configText = '';
 
             if (this.idGroup !== row.idTaskTemplate) {
-                this.index = 1;
+            //    this.index = 1;
                 this.idGroup = row.idTaskTemplate;
             } else {
                 this.index++;
             }
 
-            configText += 'Configuration ' + this.index + ': ' + row.expirationType + ' - ' + row.daysBeforeShowExpiration;
+            configText += 'Configuration ' + rowIndex + ': ' + row.expirationType + ' - ' + row.daysBeforeShowExpiration;
             return configText;
         }
         return;

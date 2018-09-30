@@ -132,14 +132,14 @@
                     <ngx-datatable-column name="Description" prop="idTask">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
                                      let-group="group" let-rowHeight="rowHeight">
-                            <p>{{ displayConfigurationText(row, group) }}</p>
+                           {{ displayConfigurationText(row, group, rowIndex) }}
                         </ng-template>
                     </ngx-datatable-column>
 
                     <ngx-datatable-column name="Topic" prop="idTask">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
                                      let-group="group" let-rowHeight="rowHeight">
-                            {{ displayConfigurationText(row, group) }}
+                            {{ displayConfigurationText(row, group, rowIndex) }}
                         </ng-template>
                     </ngx-datatable-column>
 
