@@ -34,4 +34,5 @@ export class OfficeService {
 
         return this.apiRequest.put(this.appConfig.deleteOffice, office);
     }
+
 }

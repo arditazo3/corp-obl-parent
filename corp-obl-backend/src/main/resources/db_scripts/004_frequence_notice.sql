@@ -14,3 +14,5 @@ ALTER TABLE co_tasktemplateattachment ADD filesize int NOT NULL COMMENT 'File si
 ALTER TABLE co_tasktemplateattachment
   MODIFY COLUMN creationdate datetime NOT NULL COMMENT 'The DATE of creation of the record' AFTER filesize,
   MODIFY COLUMN filesize int NOT NULL AFTER filepath;  
+  
+  

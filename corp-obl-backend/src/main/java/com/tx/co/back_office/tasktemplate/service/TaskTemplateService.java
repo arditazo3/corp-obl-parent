@@ -67,7 +67,6 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 			taskTemplateStored = getTaskTemplateById(taskTemplate.getIdTaskTemplate());
 			
 		}
-
 		
 		taskTemplateStored.setDescription(taskTemplate.getDescription());
 		taskTemplateStored.setDay(taskTemplate.getDay());

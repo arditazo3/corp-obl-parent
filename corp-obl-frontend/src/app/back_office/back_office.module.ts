@@ -41,6 +41,7 @@ import {TaskService} from './task/service/task.service';
 import { OfficeTaskComponent } from './office-task/component/office-task.component';
 import {OfficeTaskService} from './office-task/service/office-task.service';
 import { OfficeTaksCollapseComponent } from './office-task/component/office-taks-collapse/office-taks-collapse.component';
+import { AssociationOfficeComponent } from './task/component/association-office/association-office.component';
 
 @NgModule({
     imports: [
@@ -84,7 +85,8 @@ import { OfficeTaksCollapseComponent } from './office-task/component/office-taks
         ConfigurationTaskComponent,
         TaskComponent,
         OfficeTaskComponent,
-        OfficeTaksCollapseComponent
+        OfficeTaksCollapseComponent,
+        AssociationOfficeComponent
     ],
     providers: [
         CompanyService,

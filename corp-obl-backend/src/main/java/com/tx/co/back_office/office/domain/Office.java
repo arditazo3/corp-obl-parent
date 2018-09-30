@@ -2,19 +2,28 @@ package com.tx.co.back_office.office.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.back_office.task.model.TaskOffice;
+import com.tx.co.user.domain.User;
 
 /**
  * Domain model that represents a office.
@@ -58,7 +67,16 @@ public class Office implements Serializable {
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
+    
+    @OneToMany(mappedBy="task", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<TaskOffice> taskOffices = new HashSet<>();
 
+    @Transient
+    private List<User> userProviders;
+    
+    @Transient
+    private List<User> userBeneficiaries;
+    
 	public Long getIdOffice() {
 		return idOffice;
 	}
@@ -121,6 +139,30 @@ public class Office implements Serializable {
 
 	public void setCompany(Company company) {
 		this.company = company;
+	}
+
+	public Set<TaskOffice> getTaskOffices() {
+		return taskOffices;
+	}
+
+	public void setTaskOffices(Set<TaskOffice> taskOffices) {
+		this.taskOffices = taskOffices;
+	}
+
+	public List<User> getUserProviders() {
+		return userProviders;
+	}
+
+	public void setUserProviders(List<User> userProviders) {
+		this.userProviders = userProviders;
+	}
+
+	public List<User> getUserBeneficiaries() {
+		return userBeneficiaries;
+	}
+
+	public void setUserBeneficiaries(List<User> userBeneficiaries) {
+		this.userBeneficiaries = userBeneficiaries;
 	}
     
     

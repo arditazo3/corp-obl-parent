@@ -1,17 +1,36 @@
 <div *ngFor="let officeTaskTemplates of officeTaskTemplatesArray">
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" class="accordion nav-accordion">
-        <ngb-panel title="{{ officeTaskTemplates.office.description }}">
-            <ng-template ngbPanelContent>
+        <ngb-panel>
+            <ng-template ngbPanelTitle>
+                <div id="container-fluid">
+                    <div class="row">
+                        <div class="col-2">
+                            <span class="float-left">{{ officeTaskTemplates.office.description }}</span>
+                        </div>
+                        <div class="col-4 text-center">
+                        </div>
+                        <div *ngIf="!officeTaskTemplates?.taskTemplates" class="col-4 text-center">
+                        </div>
 
-                <div class="float-right">
-                    <button class="btn-tnx btn-info btn-block" type="button" (click)="createTaskTemplate(officeTaskTemplates)">Create</button>
+                        <div *ngIf="officeTaskTemplates?.taskTemplates" class="col-4 float-right">
+                            Task templates: {{ officeTaskTemplates?.taskTemplates?.length }}
+                        </div>
+                        <div class="col-2 float-right">
+                            <button class="btn-tnx btn-info btn-block " type="button"
+                                    (click)="createTaskTemplate(officeTaskTemplates)">Create
+                            </button>
+                        </div>
+                    </div>
                 </div>
-
+            </ng-template>
+            <ng-template ngbPanelContent>
                 <table class="table table-borderless table-responsive">
                     <tbody>
                     <tr *ngFor="let taskTemplate of officeTaskTemplates.taskTemplates">
                         <td>
-                            <button class="btn-tnx btn-info btn-block" type="button" (click)="modifyTaskTemplate(taskTemplate)">Modify</button>
+                            <button class="btn-tnx btn-info btn-block" type="button"
+                                    (click)="modifyTaskTemplate(taskTemplate)">Modify
+                            </button>
                         </td>
                         <td>{{taskTemplate.description}}</td>
                     </tr>

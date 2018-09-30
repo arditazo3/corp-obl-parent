@@ -69,7 +69,7 @@
                                [rowHeight]="40"
                                [rows]='rows'
                                [limit]="10"
-                               [groupExpansionDefault]="false">
+                               [groupExpansionDefault]="expansionDefault">
 
                     <!-- Group Header Template -->
                     <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
@@ -108,18 +108,26 @@
                         </ng-template>
                     </ngx-datatable-group-header>
 
-                    <ngx-datatable-column name="" prop="idTask">
+                    <ngx-datatable-column name="" prop="">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                            <button type="button" class="btn-tnx btn-xs btn-primary"
+                                    title="Expand"
+                                    (click)="toggleExpandCollapse(false)">Expand
+                            </button>
+                            <button type="button" class="btn-tnx btn-xs btn-primary"
+                                    title="Collapse"
+                                    (click)="toggleExpandCollapse(true)">Collapse
+                            </button>
+                        </ng-template>
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
                                      let-group="group" let-rowHeight="rowHeight">
                             <button *ngIf="row.idTask" type="button" class="btn-tnx btn-xs btn-primary"
                                     title="Expand/Collapse Group"
                                     (click)="modifyTask(row)">
-                                Modify task
+                                Modify config.
                             </button>
                         </ng-template>
                     </ngx-datatable-column>
-
-                    <!--<ngx-datatable-column name="Description" prop="idTask"></ngx-datatable-column>-->
 
                     <ngx-datatable-column name="Description" prop="idTask">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"

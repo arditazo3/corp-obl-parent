@@ -1,9 +1,12 @@
 package com.tx.co.common.api.provider;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
+import static com.tx.co.common.constants.ApiConstants.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.tx.co.back_office.company.api.model.CompanyConsultantResult;
 import com.tx.co.back_office.company.api.model.CompanyResult;
@@ -19,8 +22,12 @@ import com.tx.co.back_office.office.api.model.OfficeTaskTemplatesResult;
 import com.tx.co.back_office.office.api.model.TaskTempOfficies;
 import com.tx.co.back_office.office.api.model.TaskTempOfficiesResult;
 import com.tx.co.back_office.office.domain.Office;
+import com.tx.co.back_office.task.api.model.TaskOfficeRelationsResult;
+import com.tx.co.back_office.task.api.model.TaskOfficeResult;
 import com.tx.co.back_office.task.api.model.TaskResult;
 import com.tx.co.back_office.task.model.Task;
+import com.tx.co.back_office.task.model.TaskOffice;
+import com.tx.co.back_office.task.model.TaskOfficeRelations;
 import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplate;
 import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplateResult;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
@@ -31,6 +38,8 @@ import com.tx.co.back_office.topic.api.model.TopicConsultantResult;
 import com.tx.co.back_office.topic.api.model.TopicResult;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.domain.TopicConsultant;
+import com.tx.co.cache.service.UpdateCacheData;
+
 import static com.tx.co.common.constants.AppConstants.*;
 import com.tx.co.common.translation.api.model.TranslationResult;
 import com.tx.co.common.translation.domain.Translation;
@@ -38,7 +47,7 @@ import com.tx.co.security.exception.GeneralException;
 import com.tx.co.user.api.model.UserResult;
 import com.tx.co.user.domain.User;
 
-public abstract class ObjectResult {
+public abstract class ObjectResult extends UpdateCacheData {
 
 	/**
 	 * Map a {@link User} instance to a {@link UserResult} instance.
@@ -157,8 +166,47 @@ public abstract class ObjectResult {
 		result.setIdOffice(office.getIdOffice());
 		result.setDescription(office.getDescription());
 		if(!isEmpty(office.getCompany())) {
-
 			result.setCompany(toCompanyResult(office.getCompany()));
+		}
+		return result;
+	}
+
+	/**
+	 * Map a {@link Office} instance to a {@link OfficeResult} instance.
+	 *
+	 * @param office
+	 * @return OfficeResult
+	 */
+	public OfficeResult toOfficeWithTaskOfficeRelationsResult(Office office, Set<TaskOfficeRelations> taskOfficeRelations) {
+
+		OfficeResult result = toOfficeResult(office);
+
+		//		if(!isEmpty(office.getUserProviders())) {
+		//			List<User> users = new ArrayList<>();
+		//			for (User user : office.getUserProviders()) {
+		//				users.add(user);
+		//			}
+		//			result.setUserProviders(users);
+		//		}
+		//		if(!isEmpty(office.getUserBeneficiaries())) {
+		//			List<User> users = new ArrayList<>();
+		//			for (User user : office.getUserBeneficiaries()) {
+		//				users.add(user);
+		//			}
+		//			result.setUserBeneficiaries(users);
+		//		}
+		if(!isEmpty(taskOfficeRelations)) {
+			List<User> userProviders = new ArrayList<>();
+			List<User> userBeneficiaries = new ArrayList<>();
+			for (TaskOfficeRelations taskOfficeRelation : taskOfficeRelations) {
+				if(taskOfficeRelation.getRelationType().compareTo(CONTROLLER) == 0) {
+					userProviders.add(getUserFromUsername(taskOfficeRelation.getUsername()));
+				} else if (taskOfficeRelation.getRelationType().compareTo(CONTROLLED) == 0) {
+					userBeneficiaries.add(getUserFromUsername(taskOfficeRelation.getUsername()));
+				}
+			}
+			result.setUserProviders(userProviders);
+			result.setUserBeneficiaries(userBeneficiaries);
 		}
 		return result;
 	}
@@ -183,6 +231,21 @@ public abstract class ObjectResult {
 		} else {
 			throw new GeneralException(FULLFIT_FORM);
 		}
+		if(!isEmpty(officeResult.getUserProviders())) {
+			List<User> users = new ArrayList<>();
+			for (User user : officeResult.getUserProviders()) {
+				users.add(user);
+			}
+			office.setUserProviders(users);
+		}
+		if(!isEmpty(officeResult.getUserBeneficiaries())) {
+			List<User> users = new ArrayList<>();
+			for (User user : officeResult.getUserBeneficiaries()) {
+				users.add(user);
+			}
+			office.setUserBeneficiaries(users);
+		}
+
 		return office;
 	}
 
@@ -234,14 +297,6 @@ public abstract class ObjectResult {
 	 * @return
 	 */
 	public Topic toTopic(TopicResult topicResult) {
-		return toTopic(topicResult, false);
-	}
-
-	/**
-	 * @param topicResult, hasTranslations
-	 * @return
-	 */
-	public Topic toTopic(TopicResult topicResult, Boolean hasTranslations) {
 		Topic topic = new Topic();
 		if(isEmpty(topicResult)) {
 			throw new GeneralException(EMPTY_FORM);
@@ -262,19 +317,29 @@ public abstract class ObjectResult {
 		} else {
 			throw new GeneralException(FULLFIT_FORM);
 		}
-		if(hasTranslations) {
-			if(!isEmpty(topicResult.getTranslationList())) {
-				for (TranslationResult translationResult : topicResult.getTranslationList()) {
-					if(!isEmpty(translationResult.getDescription())) {
-						topic.getTranslationList().add(toTranslation(translationResult));
-					}
+
+		return topic;
+	}
+
+	/**
+	 * @param topicResult, hasTranslations
+	 * @return
+	 */
+	public Topic toTopicWithTranslation(TopicResult topicResult) {
+
+		Topic topic = toTopic(topicResult);
+
+		if(!isEmpty(topicResult.getTranslationList())) {
+			for (TranslationResult translationResult : topicResult.getTranslationList()) {
+				if(!isEmpty(translationResult.getDescription())) {
+					topic.getTranslationList().add(toTranslation(translationResult));
 				}
-				if(isEmpty(topic.getTranslationList())) {
-					throw new GeneralException(FULLFIT_FORM);	
-				}
-			} else {
-				throw new GeneralException(FULLFIT_FORM);
 			}
+			if(isEmpty(topic.getTranslationList())) {
+				throw new GeneralException(FULLFIT_FORM);	
+			}
+		} else {
+			throw new GeneralException(FULLFIT_FORM);
 		}
 
 		return topic;
@@ -421,7 +486,7 @@ public abstract class ObjectResult {
 		if(isEmpty(topicConsultantResult.getTopic())) {
 			throw new GeneralException("The Topic Consultant is empty");
 		} else {
-			topicConsultant.setTopic(toTopic(topicConsultantResult.getTopic(),true));
+			topicConsultant.setTopic(toTopicWithTranslation(topicConsultantResult.getTopic()));
 		}
 		return topicConsultant;
 	}
@@ -477,7 +542,7 @@ public abstract class ObjectResult {
 			taskTemplate.setExpirationClosableBy(taskTemplateResult.getExpirationClosableBy());
 		}
 		if(!isEmpty(taskTemplateResult.getTopic())) {
-			taskTemplate.setTopic(toTopic(taskTemplateResult.getTopic(), false));
+			taskTemplate.setTopic(toTopic(taskTemplateResult.getTopic()));
 		} else {
 			throw new GeneralException(FULLFIT_FORM);
 		}
@@ -490,7 +555,7 @@ public abstract class ObjectResult {
 	 * @param taskTemplate
 	 * @return TaskTemplateResult
 	 */
-	public TaskTemplateResult toTaskTemplateResult(TaskTemplate taskTemplate, Boolean withTask) {
+	public TaskTemplateResult toTaskTemplateResult(TaskTemplate taskTemplate) {
 		TaskTemplateResult result = new TaskTemplateResult();
 		result.setIdTaskTemplate(taskTemplate.getIdTaskTemplate());
 		result.setDescription(taskTemplate.getDescription());
@@ -504,19 +569,31 @@ public abstract class ObjectResult {
 		if(!isEmpty(taskTemplate.getTopic())) {
 			result.setTopic(toTopicResult(taskTemplate.getTopic()));
 		}
-		if(!isEmpty(taskTemplate.getTasks()) && withTask) {
-			List<TaskResult> taskResults = new ArrayList<>();
-			for (Task task : taskTemplate.getTasks()) { 
-				taskResults.add(toTaskResult(task));
-			}
-			result.setTaskResults(taskResults);
-		}
 		if(!isEmpty(taskTemplate.getTaskTemplateAttachments())) {
 			List<TaskTemplateAttachmentResult> attachmentResults = new ArrayList<>();
 			for (TaskTemplateAttachment taskTemplateAttachment : taskTemplate.getTaskTemplateAttachments()) {
 				attachmentResults.add(toTaskTemplateAttachmentResult(taskTemplateAttachment));
 			}
 			result.setTaskTemplateAttachmentResults(attachmentResults);
+		}
+		return result;
+	}
+	
+	/**
+	 * Map a {@link TaskTemplate} instance to a {@link TaskTemplateResult} instance.
+	 *
+	 * @param taskTemplate
+	 * @return TaskTemplateResult
+	 */
+	public TaskTemplateResult toTaskTemplateWithTaskResult(TaskTemplate taskTemplate) {
+		TaskTemplateResult result = toTaskTemplateResult(taskTemplate);
+		
+		if(!isEmpty(taskTemplate.getTasks())) {
+			List<TaskResult> taskResults = new ArrayList<>();
+			for (Task task : taskTemplate.getTasks()) { 
+				taskResults.add(toTaskResult(task));
+			}
+			result.setTaskResults(taskResults);
 		}
 		return result;
 	}
@@ -536,12 +613,19 @@ public abstract class ObjectResult {
 		taskResult.setFrequenceOfNotice(task.getFrequenceOfNotice());
 		taskResult.setDaysBeforeShowExpiration(task.getDaysBeforeShowExpiration());
 		if(!isEmpty(task.getTaskTemplate())) {
-			taskResult.setTaskTemplate(toTaskTemplateResult(task.getTaskTemplate(), false));
+			taskResult.setTaskTemplate(toTaskTemplateResult(task.getTaskTemplate()));
 			taskResult.setIdTaskTemplate(task.getTaskTemplate().getIdTaskTemplate());
+		}
+		if(!isEmpty(task.getTaskOffices())) {
+			List<TaskOfficeResult> taskOfficeResults = new ArrayList<>();
+			for (TaskOffice taskOffice : task.getTaskOffices()) {
+				taskOfficeResults.add(toTaskOfficeWithTaskOfficeRelationResult(taskOffice));
+			}
+			taskResult.setTaskOffices(taskOfficeResults);
 		}
 		return taskResult;
 	}
-	
+
 	public Task toTask(TaskResult taskResult) {
 		Task task = new Task();
 
@@ -553,7 +637,24 @@ public abstract class ObjectResult {
 		task.setFrequenceOfNotice(taskResult.getFrequenceOfNotice());
 		task.setDaysBeforeShowExpiration(taskResult.getDaysBeforeShowExpiration());
 		task.setTaskTemplate(toTaskTemplate(taskResult.getTaskTemplate()));
+		task.setTaskTemplate(toTaskTemplate(taskResult.getTaskTemplate()));
+
+		return task;
+	}
+	
+	public Task toTaskWithTaskOffices(TaskResult taskResult) {
+		Task task = toTask(taskResult);
 		
+		if(!isEmpty(taskResult.getTaskOffices())) {
+			List<TaskOffice> taskOffices = new ArrayList<>();
+			for (TaskOfficeResult taskOfficeResult : taskResult.getTaskOffices()) {
+				taskOfficeResult.setTaskTemplate(taskResult.getTaskTemplate());
+				taskOfficeResult.setTask(taskResult);
+				taskOffices.add(toTaskOffice(taskOfficeResult));
+			}
+			task.setTaskOffices(new HashSet<TaskOffice>(taskOffices));
+		}
+
 		return task;
 	}
 
@@ -592,11 +693,11 @@ public abstract class ObjectResult {
 		}
 		return objectSearchTaskTemplate;
 	}
-	
+
 	public TaskTempOfficies toTaskTempOfficies(TaskTempOfficiesResult taskTempOfficiesResult) {
 
 		TaskTempOfficies taskTempOfficies = new TaskTempOfficies();
-		
+
 		if(isEmpty(taskTempOfficiesResult.getDescriptionTaskTemplate())) {
 			taskTempOfficies.setDescriptionTaskTemplate("");
 		} else {
@@ -611,21 +712,103 @@ public abstract class ObjectResult {
 		}
 		return taskTempOfficies;
 	}
-	
+
 	public OfficeTaskTemplatesResult toOfficeTaskTemplates(OfficeTaskTemplates officeTaskTemplates) {
-		
+
 		OfficeTaskTemplatesResult officeTasksResult = new OfficeTaskTemplatesResult();
-		
-		officeTasksResult.setOffice(toOfficeResult(officeTaskTemplates.getOffice()));
-		
+
+		officeTasksResult.setOffice(toOfficeWithTaskOfficeRelationsResult(officeTaskTemplates.getOffice(), null));
+
 		if(!isEmpty(officeTaskTemplates.getTaskTemplates())) {
 			List<TaskTemplateResult> taskTemplateResults = new ArrayList<>();
 			for (TaskTemplate taskTemplate : officeTaskTemplates.getTaskTemplates()) {
-				taskTemplateResults.add(toTaskTemplateResult(taskTemplate, false));
+				taskTemplateResults.add(toTaskTemplateResult(taskTemplate));
 			}
 			officeTasksResult.setTaskTemplates(taskTemplateResults);
 		}
 		return officeTasksResult;
 	}
+
+	public TaskOffice toTaskOffice(TaskOfficeResult taskOfficeResult) {
+		TaskOffice taskOffice = new TaskOffice();
+
+		taskOffice.setIdTaskOffice(taskOfficeResult.getIdTaskOffice());
+		taskOffice.setTaskTemplate(toTaskTemplate(taskOfficeResult.getTaskTemplate()));
+		taskOffice.setTask(toTask(taskOfficeResult.getTask()));
+		taskOffice.setOffice(toOffice(taskOfficeResult.getOffice()));
+		taskOffice.setStartDate(taskOfficeResult.getStartDate());
+		taskOffice.setEndDate(taskOfficeResult.getEndDate());
+
+		if(!isEmpty(taskOfficeResult.getOffice().getUserProviders())) {
+			List<TaskOfficeRelations> taskOfficeRelations = new ArrayList<>();
+			for (User user : taskOfficeResult.getOffice().getUserProviders()) {
+				TaskOfficeRelations taskOfficeRelation = new TaskOfficeRelations();
+				taskOfficeRelation.setUsername(user.getUsername());
+				taskOfficeRelation.setRelationType(CONTROLLER);
+				taskOfficeRelation.setTaskOffice(taskOffice);
+
+				taskOfficeRelations.add(taskOfficeRelation);
+			}
+			taskOffice.getTaskOfficeRelations().addAll(new HashSet<TaskOfficeRelations>(taskOfficeRelations));
+		}
+		if(!isEmpty(taskOfficeResult.getOffice().getUserBeneficiaries())) {
+			List<TaskOfficeRelations> taskOfficeRelations = new ArrayList<>();
+			for (User user : taskOfficeResult.getOffice().getUserBeneficiaries()) {
+				TaskOfficeRelations taskOfficeRelation = new TaskOfficeRelations();
+				taskOfficeRelation.setUsername(user.getUsername());
+				taskOfficeRelation.setRelationType(CONTROLLED);
+				taskOfficeRelation.setTaskOffice(taskOffice);
+
+				taskOfficeRelations.add(taskOfficeRelation);
+			}
+			taskOffice.getTaskOfficeRelations().addAll(new HashSet<TaskOfficeRelations>(taskOfficeRelations));
+		}
+
+		return taskOffice;
+	}
+
+	public TaskOfficeResult toTaskOfficeResult(TaskOffice taskOffice) {
+		TaskOfficeResult taskOfficeResult = new TaskOfficeResult();
+
+		taskOfficeResult.setIdTaskOffice(taskOffice.getIdTaskOffice());
+		taskOfficeResult.setOffice(toOfficeWithTaskOfficeRelationsResult(taskOffice.getOffice(), taskOffice.getTaskOfficeRelations()));
+		taskOfficeResult.setTaskTemplate(toTaskTemplateResult(taskOffice.getTaskTemplate()));
+		
+		return taskOfficeResult;
+	}
 	
+	public TaskOfficeResult toTaskOfficeWithTaskOfficeRelationResult(TaskOffice taskOffice) {
+		TaskOfficeResult taskOfficeResult = toTaskOfficeResult(taskOffice);
+		
+		if(!isEmpty(taskOffice.getTaskOfficeRelations())) {
+			List<TaskOfficeRelationsResult> taskOfficeRelationsResults = new ArrayList<>();
+			for (TaskOfficeRelations taskOfficeRelation : taskOffice.getTaskOfficeRelations()) {
+				taskOfficeRelationsResults.add(toTaskOfficeRelationResult(taskOfficeRelation));	
+			}
+			taskOfficeResult.setTaskOfficeRelations(taskOfficeRelationsResults);	
+		}
+		return taskOfficeResult;
+	}
+
+	public TaskOfficeRelations toTaskOfficeRelation(TaskOfficeRelationsResult taskOfficeRelationsResult) {
+		TaskOfficeRelations taskOfficeRelation = new TaskOfficeRelations();
+
+		taskOfficeRelation.setIdTaskOfficeRelation(taskOfficeRelationsResult.getIdTaskOfficeRelation());
+		taskOfficeRelation.setTaskOffice(toTaskOffice(taskOfficeRelationsResult.getTaskOffice()));
+		taskOfficeRelation.setUsername(taskOfficeRelationsResult.getUsername());
+		taskOfficeRelation.setRelationType(taskOfficeRelationsResult.getRelationType());
+
+		return taskOfficeRelation;
+	}
+
+	public TaskOfficeRelationsResult toTaskOfficeRelationResult(TaskOfficeRelations taskOfficeRelation) {
+		TaskOfficeRelationsResult taskOfficeRelationResult = new TaskOfficeRelationsResult();
+
+		taskOfficeRelationResult.setIdTaskOfficeRelation(taskOfficeRelation.getIdTaskOfficeRelation());
+		taskOfficeRelationResult.setTaskOffice(toTaskOfficeResult(taskOfficeRelation.getTaskOffice()));
+		taskOfficeRelationResult.setUsername(taskOfficeRelation.getUsername());
+		taskOfficeRelationResult.setRelationType(taskOfficeRelation.getRelationType());
+
+		return taskOfficeRelationResult;
+	}
 }

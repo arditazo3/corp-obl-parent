@@ -27,7 +27,7 @@ export class UploadService {
             'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .doc & .docx
             'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', // .ppt & .pptx
             'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xls & .xlsx
-            'text/plain', 'application/pdf', 'application/zip', 'application/octet-stream', 'application/x-zip-compressed', 'application/x-rar-compressed'
+            'text/plain', 'application/pdf', 'application/zip', , 'application/rar', 'application/octet-stream', 'application/x-zip-compressed', 'application/x-rar', 'application/x-rar-compressed'
         ],
         maxFileSize: 20 * 1024 * 1024 // 20 MB
     });

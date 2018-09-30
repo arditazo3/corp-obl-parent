@@ -15,6 +15,8 @@ FROM co_tasktemplate tt
   LEFT JOIN co_office o ON c.id = o.company_id
 where o.id =  4;
 
+select * from office left JOIN
+
 select * from co_office;
 
 UPDATE co_tasktemplate

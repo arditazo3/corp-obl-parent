@@ -205,6 +205,17 @@ export const BackOfficeRoutes: Routes = [
                 }
             },
             {
+                path: 'task/create-edit',
+                component: TaskTemplateCreateUpdateComponent,
+                data: {
+                    title: 'Task Management',
+                    urls: [
+                        {title: 'Back Office', url: '/back-office/task-template'},
+                        {title: 'Task template management'}
+                    ]
+                }
+            },
+            {
                 path: 'office-task',
                 component: OfficeTaskComponent,
                 data: {

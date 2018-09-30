@@ -85,7 +85,7 @@ public class TopicResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createUpdateTopic(TopicResult topicResult) {
 
-        Topic topicStored = topicService.saveUpdateTopic(toTopic(topicResult, true));
+        Topic topicStored = topicService.saveUpdateTopic(toTopicWithTranslation(topicResult));
 
         return Response.ok(toTopicResult(topicStored)).build();
     }
@@ -132,7 +132,7 @@ public class TopicResource extends ObjectResult {
  //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response deleteTopicConsultant(CompanyTopicResult companyTopicResult) {
 
-    	topicService.deleteTopicConsultants(toCompany(companyTopicResult.getCompany()), toTopic(companyTopicResult.getTopic(), true));
+    	topicService.deleteTopicConsultants(toCompany(companyTopicResult.getCompany()), toTopicWithTranslation(companyTopicResult.getTopic()));
 
         return Response.noContent().build();
     }    

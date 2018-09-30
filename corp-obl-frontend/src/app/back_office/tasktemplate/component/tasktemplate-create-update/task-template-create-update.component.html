@@ -3,7 +3,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Task Template Form</h4>
+                <h4 class="card-title">{{ isTaskTemplateForm ? "Task Template Form" : "Task Form" }}</h4>
                 <hr>
                 <form [formGroup]="createEditTaskTemplate"
                       (ngSubmit)="createEditTaskTemplateSubmit()">
@@ -214,12 +214,14 @@
                             </div>
                         </div>
 
+                        <app-association-office [isTaskTemplateForm]="isTaskTemplateForm"></app-association-office>
+
                     </div>
                     <hr>
                     <div class="card-body">
                         <div class="row">
                             <div class="m-b-0 col text-left">
-                                <button #cancelBtn type="button" routerLink="/back-office/task-template"
+                                <button #cancelBtn type="button" routerLink="/back-office/task"
                                         class="btn-tnx btn-outline-secondary waves-effect waves-light">
                                     Cancel
                                 </button>
@@ -239,6 +241,12 @@
                         confirmButtonText="Yes, save it!"
                         cancelButtonText="No, cancel!"
                         type="warning">
+                </swal>
+                <swal
+                        #errorTaskTemplateSwal
+                        title=""
+                        text=""
+                        type="error">
                 </swal>
 
             </div>

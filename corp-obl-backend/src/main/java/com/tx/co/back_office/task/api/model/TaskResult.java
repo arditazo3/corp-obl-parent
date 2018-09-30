@@ -1,6 +1,9 @@
 package com.tx.co.back_office.task.api.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.tx.co.back_office.office.api.model.OfficeResult;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
 
 /**
@@ -20,6 +23,7 @@ public class TaskResult {
 	private Integer daysOfNotice;
 	private Integer frequenceOfNotice;
 	private Integer daysBeforeShowExpiration;
+	private List<TaskOfficeResult> taskOffices;
 	
 	public Long getIdTask() {
 		return idTask;
@@ -75,6 +79,13 @@ public class TaskResult {
 	public void setDaysBeforeShowExpiration(Integer daysBeforeShowExpiration) {
 		this.daysBeforeShowExpiration = daysBeforeShowExpiration;
 	}
+	public List<TaskOfficeResult> getTaskOffices() {
+		return taskOffices;
+	}
+	public void setTaskOffices(List<TaskOfficeResult> taskOffices) {
+		this.taskOffices = taskOffices;
+	}
+	
 
 	
 }

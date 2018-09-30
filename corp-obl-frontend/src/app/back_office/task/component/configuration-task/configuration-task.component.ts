@@ -20,6 +20,7 @@ import {ObjectSearchTaskTemplate} from '../../../tasktemplate/model/object-searc
 export class ConfigurationTaskComponent implements OnInit {
 
     @ViewChild('myTable') table: any;
+    expansionDefault = false;
 
     descriptionTaskTemplate: string;
 
@@ -149,7 +150,7 @@ export class ConfigurationTaskComponent implements OnInit {
             newTask: true
         };
 
-        this.router.navigate(['/back-office/task-template/create']);
+        this.router.navigate(['/back-office/task/create-edit']);
     }
 
     displayConfigurationText(row, group): string {
@@ -179,6 +180,15 @@ export class ConfigurationTaskComponent implements OnInit {
             task: row
         };
 
-        this.router.navigate(['/back-office/task-template/edit']);
+        this.router.navigate(['/back-office/task/create-edit']);
+    }
+
+    toggleExpandCollapse(collapse) {
+        if (collapse) {
+            this.expansionDefault = collapse;
+        } else {
+            this.expansionDefault = collapse;
+            this.getTaskTemplates();
+        }
     }
 }

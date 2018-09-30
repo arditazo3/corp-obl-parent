@@ -20,6 +20,8 @@ import {Task} from '../../../task/model/task';
 import {UploadService} from '../../../../shared/common/service/upload.service';
 import {TaskTemplateAttachment} from '../../../tasktemplateattachment/tasktemplateattachment';
 import {TaskService} from '../../../task/service/task.service';
+import {OfficeTaksCollapseComponent} from '../../../office-task/component/office-taks-collapse/office-taks-collapse.component';
+import {AssociationOfficeComponent} from '../../../task/component/association-office/association-office.component';
 
 @Component({
     selector: 'app-tasktemplate-create-update',
@@ -52,6 +54,8 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     @ViewChild('cancelBtn') cancelBtn;
     @ViewChild('submitBtn') submitBtn;
     @ViewChild('confirmationTaskTemplateSwal') private confirmationTaskTemplateSwal: SwalComponent;
+    @ViewChild('errorTaskTemplateSwal') private errorTaskTemplateSwal: SwalComponent;
+    @ViewChild(AssociationOfficeComponent) associationOffice: AssociationOfficeComponent;
     createEditTaskTemplate: FormGroup;
 
 
@@ -176,6 +180,8 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 frequenceOfNotice: new FormControl({value: this.task.frequenceOfNotice, disabled: false}, Validators.required),
                 daysBeforeShowExpiration: new FormControl({value: this.task.daysBeforeShowExpiration, disabled: false}, Validators.required)
             });
+
+            this.associationOffice.getTaskOfficesArray(this.task.taskOffices);
         }
 
         this.uploader = this.uploadService.uploader;
@@ -282,6 +288,9 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                             }
                         );
                     } else {
+
+                        me.task.taskOffices = me.associationOffice.taskOfficesArray;
+
                         me.taskService.saveUpdateTask(me.task).subscribe(
                             (data) => {
                                 const taskTemplate: TaskTemplate = data;
@@ -361,15 +370,18 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
 
         switch (filter.name) {
             case 'fileSize':
-                this.errorDetails.message = `Maximum upload size exceeded (${item.size} of ${this.uploader.options.maxFileSize} allowed)`;
+                this.errorDetails.message = 'Maximum upload size exceeded (' + (item.size / 1024 / 1024).toFixed(2) + ' MB of ' + (this.uploader.options.maxFileSize / 1024 / 1024).toFixed(2) + ' MB allowed)';
                 break;
             case 'mimeType':
                 const allowedTypes = this.uploader.options.allowedMimeType.join();
-                this.errorDetails.message = `Type "${item.type} is not allowed. Allowed types: "${allowedTypes}"`;
+                this.errorDetails.message = `Type ${item.type} is not allowed. Allowed types: document, zip, image`;
                 break;
             default:
                 this.errorDetails.message = `Unknown error (filter is ${filter.name})`;
         }
+
+        this.errorTaskTemplateSwal.title = this.errorDetails.message;
+        this.errorTaskTemplateSwal.show();
     }
 
     onLoadFilesUploaded() {

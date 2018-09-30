@@ -53,9 +53,10 @@ public class TaskResource extends ObjectResult {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createUpdateTask(TaskResult taskResult) {
 
-		Task taskStored = taskService.saveUpdateTask(toTask(taskResult));
+		Task taskStored = taskService.saveUpdateTask(toTaskWithTaskOffices(taskResult));
 
-		return Response.ok(toTaskResult(taskStored)).build();
+//		return Response.ok(toTaskResult(taskStored)).build();
+		return Response.noContent().build();
 	}
 	
 	@GET

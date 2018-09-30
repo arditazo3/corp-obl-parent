@@ -195,3 +195,10 @@
 .btn.active .text {
   display: none;
 }
+
+.btn-link {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  width: 100%;
+}

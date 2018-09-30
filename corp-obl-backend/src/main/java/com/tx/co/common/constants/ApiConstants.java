@@ -93,6 +93,7 @@ public final class ApiConstants {
 	// Task URL
 	public static final String OFFICE_TASKS = "office-task";
 	public static final String SEARCH_OFFICE_TASKS = OFFICE_TASKS + "/search-office";
+	
 
 	/**
 	 * List of authorization Role
@@ -122,4 +123,8 @@ public final class ApiConstants {
 
 	/* File static values */
 	public static final String FILE_MAX_SIZE = "20";
+	
+	/* Task Office Relations Type */
+	public static final Integer CONTROLLER = 1;
+	public static final Integer CONTROLLED = 2;
 }

@@ -69,7 +69,7 @@ public class TaskTemplateResource extends ObjectResult {
 
 		TaskTemplate taskTemplateStored = taskTemplateService.saveUpdateTaskTemplate(toTaskTemplate(taskTemplateResult));
 
-		return Response.ok(toTaskTemplateResult(taskTemplateStored, true)).build();
+		return Response.ok(toTaskTemplateWithTaskResult(taskTemplateStored)).build();
 	}
 	
 	@POST
