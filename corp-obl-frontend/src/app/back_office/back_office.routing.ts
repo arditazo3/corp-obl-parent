@@ -12,6 +12,7 @@ import {TaskTemplateCreateUpdateComponent} from './tasktemplate/component/taskte
 import {TaskTemplateComponent} from './tasktemplate/component/task-template.component';
 import {TaskComponent} from './task/component/task.component';
 import {OfficeTaskComponent} from './office-task/component/office-task.component';
+import {QuickConfigurationComponent} from './office-task/component/quick-configuration/quick-configuration.component';
 
 export const BackOfficeRoutes: Routes = [
     {
@@ -220,6 +221,17 @@ export const BackOfficeRoutes: Routes = [
                 component: OfficeTaskComponent,
                 data: {
                     title: 'Office Task Management',
+                    urls: [
+                        {title: 'Back Office', url: '/back-office/office-task'},
+                        {title: 'Task template management'}
+                    ]
+                }
+            },
+            {
+                path: 'quick-configuration',
+                component: QuickConfigurationComponent,
+                data: {
+                    title: 'Quick Configuration Management',
                     urls: [
                         {title: 'Back Office', url: '/back-office/office-task'},
                         {title: 'Task template management'}

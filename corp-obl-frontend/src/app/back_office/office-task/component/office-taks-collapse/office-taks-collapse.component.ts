@@ -44,7 +44,7 @@ export class OfficeTaksCollapseComponent implements OnInit {
             task: task
         };
 
-        this.router.navigate(['/back-office/task-template/edit']);
+        this.router.navigate(['/back-office/quick-configuration']);
     }
 
     createTaskTemplate(officeTaskTemplates) {
@@ -55,6 +55,6 @@ export class OfficeTaksCollapseComponent implements OnInit {
             task: undefined
         };
 
-        this.router.navigate(['/back-office/task-template/create']);
+        this.router.navigate(['/back-office/quick-configuration']);
     }
 }
