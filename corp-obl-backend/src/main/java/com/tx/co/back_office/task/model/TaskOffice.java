@@ -44,7 +44,6 @@ public class TaskOffice implements Serializable {
 	
 	@ManyToOne
     @JoinColumn(name = "tasktemplate_id")
-	
     private TaskTemplate taskTemplate;
 	
 	@ManyToOne

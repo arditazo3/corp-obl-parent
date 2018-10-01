@@ -13,11 +13,11 @@ FROM co_tasktemplate tt
   LEFT JOIN co_companytopic ct ON top.id = ct.topic_id
   LEFT JOIN co_company c ON ct.company_id = c.id
   LEFT JOIN co_office o ON c.id = o.company_id
-where o.id =  4;
+where o.id =  6;
+
+select * from co_taskoffice;
 
 select * from office left JOIN
-
-select * from co_office;
 
 UPDATE co_tasktemplate
 SET    description = CONCAT('Task Template: @', id);
