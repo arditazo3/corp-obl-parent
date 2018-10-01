@@ -3,12 +3,10 @@ package com.tx.co.back_office.task.service;
 import java.util.List;
 
 import com.tx.co.back_office.company.domain.Company;
-import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.task.model.TaskOffice;
 import com.tx.co.back_office.task.model.TaskOfficeRelations;
 import com.tx.co.back_office.topic.domain.Topic;
-import com.tx.co.user.domain.User;
 
 public interface ITaskService {
 

@@ -3,7 +3,6 @@ package com.tx.co.back_office.task.api.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.tx.co.back_office.office.api.model.OfficeResult;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
 
 /**

@@ -1,7 +1,6 @@
 package com.tx.co.back_office.company.service;
 
 import com.tx.co.back_office.company.domain.Company;
-import com.tx.co.back_office.office.domain.Office;
 
 import java.util.List;
 import java.util.Optional;
