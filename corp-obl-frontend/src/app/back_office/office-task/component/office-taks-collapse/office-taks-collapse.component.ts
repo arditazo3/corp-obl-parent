@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Task} from '../../../task/model/task';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
+import {TaskService} from '../../../task/service/task.service';
 
 @Component({
     selector: 'app-office-taks-collapse',
@@ -14,7 +15,8 @@ export class OfficeTaksCollapseComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private transferService: TransferDataService
+        private transferService: TransferDataService,
+        private taskService: TaskService
     ) {
     }
 
@@ -34,27 +36,44 @@ export class OfficeTaksCollapseComponent implements OnInit {
         this.officeTaskTemplatesArray = officeTaskTemplatessFromParent;
     }
 
-    modifyTaskTemplate(taskTemplate) {
+    modifyTaskTemplate(taskTemplate, office) {
         console.log('OfficeTaksCollapseComponent - ngOnInit');
 
+        const me = this;
         const task: Task = new Task();
         task.taskTemplate = taskTemplate;
-        this.transferService.objectParam = {
-            isTaskTemplateForm: true,
-            task: task
+        const tempObject = {
+            isNewForm: false,
+            task: task,
+            office: office,
+            taskOffice: null
         };
 
-        this.router.navigate(['/back-office/quick-configuration']);
+        this.taskService.getTaskOfficeByTaskTemplateAndOffice(taskTemplate, office).subscribe(
+            data => {
+
+                tempObject.taskOffice = data;
+                me.transferService.objectParam = tempObject;
+
+                this.router.navigate(['/back-office/quick-configuration/edit']);
+
+                console.log('OfficeTaksCollapseComponent - modifyTaskTemplate - next');
+            },
+            error => {
+                console.log('OfficeTaksCollapseComponent - modifyTaskTemplate - error');
+            }
+        );
     }
 
     createTaskTemplate(officeTaskTemplates) {
         console.log('OfficeTaksCollapseComponent - createTaskTemplate');
 
         this.transferService.objectParam = {
-            isTaskTemplateForm: true,
-            task: undefined
+            isNewForm: true,
+            task: undefined,
+            office: officeTaskTemplates.office
         };
 
-        this.router.navigate(['/back-office/quick-configuration']);
+        this.router.navigate(['/back-office/quick-configuration/create']);
     }
 }

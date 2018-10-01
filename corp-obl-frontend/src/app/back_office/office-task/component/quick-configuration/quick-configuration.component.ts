@@ -19,6 +19,8 @@ import {UploadService} from '../../../../shared/common/service/upload.service';
 import {FileItem, FileLikeObject, ParsedResponseHeaders} from 'ng2-file-upload';
 import {TaskTemplateAttachment} from '../../../tasktemplateattachment/tasktemplateattachment';
 import {saveAs as importedSaveAs} from 'file-saver';
+import {Office} from '../../../office/model/office';
+import {TaskOffice} from '../../../task/model/taskoffice';
 
 @Component({
     selector: 'app-quick-configuration',
@@ -28,11 +30,12 @@ import {saveAs as importedSaveAs} from 'file-saver';
     providers: [UploadService]
 })
 export class QuickConfigurationComponent implements OnInit {
-    isNewForm;
+    isNewForm = true;
     isForeign = true;
-    isTaskTemplateForm = true;
     taskTemplate: TaskTemplate = new TaskTemplate();
     task: Task = new Task();
+    office: Office = new Office();
+    taskOffice: TaskOffice = new TaskOffice();
     submitted = false;
     counterUpload = 0;
     counterCallback = 0;
@@ -72,25 +75,31 @@ export class QuickConfigurationComponent implements OnInit {
         console.log('QuickConfigurationComponent - ngOnInit');
 
         const me = this;
-        let objectParam = this.transferService.objectParam;
+        const objectParam = this.transferService.objectParam;
         if (!objectParam) {
-            const taskTemplateTemp = new TaskTemplate();
-            const taskTemp = new Task();
-            taskTemp.taskTemplate = taskTemplateTemp;
-            objectParam = {isTaskTemplateForm: true, task: taskTemp};
+            this.router.navigate(['/back-office/office-task']);
+        } else {
+            this.isNewForm = objectParam.isNewForm;
+            this.task = objectParam.task;
+            this.office = objectParam.office;
+            this.taskOffice = objectParam.taskOffice;
+
+            if (objectParam.isNewForm) {
+                this.task = new Task();
+
+                this.taskOffice = new TaskOffice();
+                this.taskOffice.office = this.office;
+
+                this.submitBtn.nativeElement.innerText = 'Create Task Template';
+            }
+            this.associationOffice.getTaskOfficesArray([this.taskOffice]);
         }
-        this.isTaskTemplateForm = objectParam.isTaskTemplateForm;
-        this.task = objectParam.task;
 
         this.getTopics();
         this.periodicityObservable = this.getTranslationLikeTablename('tasktemplate#periodicity');
         this.expirationTypeObservable = this.getTranslationLikeTablename('tasktemplate#expirationtype');
 
-        if (this.isTaskTemplateForm && this.task === undefined) {
-            this.isNewForm = true;
-            this.taskTemplate = new TaskTemplate();
-            this.submitBtn.nativeElement.innerText = 'Create Task Template';
-        } else if (this.isTaskTemplateForm) {
+        if (!this.isNewForm) {
             this.submitBtn.nativeElement.innerText = 'Update Task Template';
             this.taskTemplate = this.task.taskTemplate;
             this.selectedTopic = this.taskTemplate.topic;
@@ -115,17 +124,15 @@ export class QuickConfigurationComponent implements OnInit {
             );
         }
 
-        if (this.isTaskTemplateForm || (!this.isTaskTemplateForm && objectParam.newTask)) {
-            this.createEditTaskTemplate = this.formBuilder.group({
-                description: new FormControl({value: this.taskTemplate.description, disabled: false}, Validators.required),
-                expirationRadio: new FormControl(this.taskTemplate.expirationClosableBy, Validators.required),
-                day: new FormControl({value: this.taskTemplate.day, disabled: false}, Validators.required),
-                daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
-                frequenceOfNotice: new FormControl({value: this.taskTemplate.frequenceOfNotice, disabled: false}, Validators.required),
-                daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false },
-                    Validators.required)
-            });
-        }
+        this.createEditTaskTemplate = this.formBuilder.group({
+            description: new FormControl({value: this.taskTemplate.description, disabled: false}, Validators.required),
+            expirationRadio: new FormControl(this.taskTemplate.expirationClosableBy, Validators.required),
+            day: new FormControl({value: this.taskTemplate.day, disabled: false}, Validators.required),
+            daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
+            frequenceOfNotice: new FormControl({value: this.taskTemplate.frequenceOfNotice, disabled: false}, Validators.required),
+            daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false},
+                Validators.required)
+        });
 
         this.uploader = this.uploadService.uploader;
         this.uploadService.uploadFileWithAuth();
@@ -165,7 +172,7 @@ export class QuickConfigurationComponent implements OnInit {
             return;
         }
 
-        if (this.isTaskTemplateForm) {
+        if (this.isNewForm) {
             if (this.selectedTopic === undefined || this.selectedPeriodicity === undefined || this.selectedExpirationType === undefined) {
                 return;
             }
@@ -191,45 +198,61 @@ export class QuickConfigurationComponent implements OnInit {
         this.confirmationTaskTemplateSwal.show()
             .then(function (result) {
                 if (result.value === true) {
-                    // handle confirm, result is needed for modals with input
 
-                    if (me.isTaskTemplateForm) {
-                        me.taskTemplateService.saveUpdateTaskTemplate(me.taskTemplate).subscribe(
-                            (data) => {
-                                const taskTemplate: TaskTemplate = data;
-                                me.errorDetails = undefined;
-                                console.log('QuickConfigurationComponent - createEditTaskTemplateSubmit - next');
 
-                                me.uploader.onBuildItemForm = (fileItem: any, form: any) => {
-                                    form.append('idTaskTemplate', taskTemplate.idTaskTemplate);
-                                };
+                    me.taskTemplateService.saveUpdateTaskTemplate(me.taskTemplate).subscribe(
+                        (data) => {
+                            const taskTemplate: TaskTemplate = data;
+                            me.errorDetails = undefined;
+                            console.log('QuickConfigurationComponent - createEditTaskTemplateSubmit - next');
 
-                                if (me.uploader.queue.length === 0) {
-                                    me.router.navigate(['/back-office/task']);
-                                } else {
-                                    let noFileUpload = true;
-                                    me.uploader.queue.forEach((item) => {
-                                        if (!item.formData || item.formData.length === 0) {
-                                            item.upload();
-                                            noFileUpload = false;
-                                            me.counterUpload++;
-                                        }
-                                    });
-                                    if (noFileUpload) {
-                                        me.router.navigate(['/back-office/task']);
+                            me.uploader.onBuildItemForm = (fileItem: any, form: any) => {
+                                form.append('idTaskTemplate', taskTemplate.idTaskTemplate);
+                            };
+
+                            if (me.uploader.queue.length === 0 && !me.isNewForm) {
+                                me.router.navigate(['/back-office/task']);
+                            } else {
+                                let noFileUpload = true;
+                                me.uploader.queue.forEach((item) => {
+                                    if (!item.formData || item.formData.length === 0) {
+                                        item.upload();
+                                        noFileUpload = false;
+                                        me.counterUpload++;
                                     }
-                                    me.uploader.onErrorItem = (item, response, status, headers) =>
-                                        me.onErrorItem(item, response, status, headers);
-                                    me.uploader.onSuccessItem = (item, response, status, headers) =>
-                                        me.onSuccessItem(item, response, status, headers);
+                                });
+                                if (noFileUpload && !me.isNewForm) {
+                                    me.router.navigate(['/back-office/office-task']);
                                 }
-                            }, error => {
-                                me.errorDetails = error.error;
-                                //    me.showErrorDescriptionSwal();
-                                console.log('QuickConfigurationComponent - createEditTaskTemplateSubmit - error');
+                                me.uploader.onErrorItem = (item, response, status, headers) =>
+                                    me.onErrorItem(item, response, status, headers);
+                                me.uploader.onSuccessItem = (item, response, status, headers) =>
+                                    me.onSuccessItem(item, response, status, headers);
+
+                                if (me.isNewForm) {
+                                    me.task.taskTemplate = taskTemplate;
+                                    me.task.taskOffices = me.associationOffice.taskOfficesArray;
+
+                                    me.taskService.saveUpdateTask(me.task).subscribe(
+                                        dataTask => {
+                                            console.log('QuickConfigurationComponent - createEditTaskSubmit - next');
+
+                                            me.router.navigate(['/back-office/office-task']);
+                                        },
+                                        errorTask => {
+                                            me.errorDetails = errorTask.error;
+                                            //    me.showErrorDescriptionSwal();
+                                            console.log('QuickConfigurationComponent - createEditTaskSubmit - error');
+                                        }
+                                    );
+                                }
                             }
-                        );
-                    }
+                        }, error => {
+                            me.errorDetails = error.error;
+                            //    me.showErrorDescriptionSwal();
+                            console.log('QuickConfigurationComponent - createEditTaskTemplateSubmit - error');
+                        }
+                    );
                 }
             }, function (dismiss) {
                 // dismiss can be "cancel" | "close" | "outside"
@@ -238,14 +261,14 @@ export class QuickConfigurationComponent implements OnInit {
 
     onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
         this.counterCallback++;
-        if (this.counterUpload === this.counterCallback) {
-            this.router.navigate(['/back-office/task']);
+        if (this.counterUpload === this.counterCallback && !this.isNewForm) {
+            this.router.navigate(['/back-office/office-task']);
         }
     }
 
     onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
         this.counterCallback++;
-        if (this.counterUpload === this.counterCallback) {
+        if (this.counterUpload === this.counterCallback && !this.isNewForm) {
             this.router.navigate(['/back-office/task']);
         }
     }

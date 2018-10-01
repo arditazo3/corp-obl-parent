@@ -228,7 +228,18 @@ export const BackOfficeRoutes: Routes = [
                 }
             },
             {
-                path: 'quick-configuration',
+                path: 'quick-configuration/create',
+                component: QuickConfigurationComponent,
+                data: {
+                    title: 'Quick Configuration Management',
+                    urls: [
+                        {title: 'Back Office', url: '/back-office/office-task'},
+                        {title: 'Task template management'}
+                    ]
+                }
+            },
+            {
+                path: 'quick-configuration/edit',
                 component: QuickConfigurationComponent,
                 data: {
                     title: 'Quick Configuration Management',

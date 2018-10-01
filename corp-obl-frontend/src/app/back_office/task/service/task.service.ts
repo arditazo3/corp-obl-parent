@@ -26,4 +26,11 @@ export class TaskService {
 
         return this.apiRequest.post(this.appConfig.getTaskByDescrOrCompOrTopic, taskObjectTable);
     }
+
+    getTaskOfficeByTaskTemplateAndOffice(taskTemplate, office): Observable<any> {
+
+        const taskTemplateOffice = {taskTemplate: taskTemplate, office: office};
+
+        return this.apiRequest.post(this.appConfig.taskTemplateOffice, taskTemplateOffice);
+    }
 }

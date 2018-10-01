@@ -94,6 +94,8 @@ public final class ApiConstants {
 	public static final String OFFICE_TASKS = "office-task";
 	public static final String SEARCH_OFFICE_TASKS = OFFICE_TASKS + "/search-office";
 	
+	// Task template office URL
+	public static final String TASK_TEMPLATE_OFFICE = "tasktemplate-office";
 
 	/**
 	 * List of authorization Role

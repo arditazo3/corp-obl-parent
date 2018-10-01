@@ -17,12 +17,14 @@ import org.springframework.stereotype.Service;
 
 import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.service.ICompanyService;
+import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.task.model.TaskOffice;
 import com.tx.co.back_office.task.model.TaskOfficeRelations;
 import com.tx.co.back_office.task.repository.TaskOfficeRelationRepository;
 import com.tx.co.back_office.task.repository.TaskOfficeRepository;
 import com.tx.co.back_office.task.repository.TaskRepository;
+import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.service.ITopicService;
 import com.tx.co.cache.service.UpdateCacheData;
@@ -229,9 +231,11 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 					if(!isEmpty(taskOfficeStored.getTaskOfficeRelations())) {
 						for (TaskOfficeRelations taskOfficeRelationToDelete : taskOfficeStored.getTaskOfficeRelations()) {
-							Optional<TaskOfficeRelations> checkIfExist = taskOfficeRelationRepository.findById(taskOfficeRelationToDelete.getIdTaskOfficeRelation());
-							if(checkIfExist.isPresent()) {
-								taskOfficeRelationRepository.delete(checkIfExist.get());	
+							if(!isEmpty(taskOfficeRelationToDelete.getIdTaskOfficeRelation())) {
+								Optional<TaskOfficeRelations> checkIfExist = taskOfficeRelationRepository.findById(taskOfficeRelationToDelete.getIdTaskOfficeRelation());
+								if(checkIfExist.isPresent()) {
+									taskOfficeRelationRepository.delete(checkIfExist.get());	
+								}
 							}
 						}
 					}
@@ -257,5 +261,10 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		taskStored.getTaskOffices().addAll(taskOfficesToSave);
 
 		return taskStored.getTaskOffices();
+	}
+
+	@Override
+	public TaskOffice getTaskOfficeByTaskTemplateAndOffice(TaskTemplate taskTemplate, Office office) {
+		return taskOfficeRepository.getTaskOfficeByTaskTemplateAndOffice(taskTemplate, office);
 	}
 }

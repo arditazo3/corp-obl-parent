@@ -16,7 +16,7 @@
                                     <input type="text" class="form-control"
                                            formControlName="description"
                                            id="description"
-                                           [attr.disabled]="!isTaskTemplateForm ? '' : null"
+                                           [attr.disabled]="!isNewForm ? '' : null"
                                            [ngClass]="{'is-invalid': submitted && f.description.errors }">
                                     <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
                                         <div *ngIf="f.description.errors.required">Description is required</div>
@@ -208,14 +208,14 @@
                             </div>
                         </div>
 
-                        <app-association-office [isTaskTemplateForm]="!isTaskTemplateForm"></app-association-office>
+                        <app-association-office [isTaskTemplateForm]="false"></app-association-office>
 
                     </div>
                     <hr>
                     <div class="card-body">
                         <div class="row">
                             <div class="m-b-0 col text-left">
-                                <button #cancelBtn type="button" routerLink="/back-office/task"
+                                <button #cancelBtn type="button" routerLink="/back-office/office-task"
                                         class="btn-tnx btn-outline-secondary waves-effect waves-light">
                                     Cancel
                                 </button>

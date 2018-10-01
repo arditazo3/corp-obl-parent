@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {OfficeTaskService} from '../service/office-task.service';
 import {OfficeService} from '../../office/service/office.service';
-import {TaskTempOfficies} from '../model/tasktemp-officies';
+import {TaskTempOffices} from '../model/tasktemp-offices';
 import {OfficeTaksCollapseComponent} from './office-taks-collapse/office-taks-collapse.component';
 
 @Component({
@@ -18,7 +18,7 @@ export class OfficeTaskComponent implements OnInit {
     descriptionTaskTemplate: string;
     offices = [];
 
-    officiesObservable: Observable<any[]>;
+    officesObservable: Observable<any[]>;
 
     constructor(
         private router: Router,
@@ -30,25 +30,25 @@ export class OfficeTaskComponent implements OnInit {
     ngOnInit() {
         console.log('OfficeTaskComponent - ngOnInit');
 
-        this.getOfficies();
+        this.getOffices();
     }
 
-    getOfficies() {
-        console.log('OfficeTaskComponent - getOfficies');
+    getOffices() {
+        console.log('OfficeTaskComponent - getOffices');
 
         const me = this;
-        me.officiesObservable = me.officeService.getOfficesByRole();
+        me.officesObservable = me.officeService.getOfficesByRole();
     }
 
     searchOfficeTasks() {
         console.log('OfficeTaskComponent - searchOffice');
 
         const me = this;
-        const taskTempOfficies = new TaskTempOfficies();
-        taskTempOfficies.descriptionTaskTemplate = this.descriptionTaskTemplate;
-        taskTempOfficies.officies = this.offices;
+        const taskTempOffices = new TaskTempOffices();
+        taskTempOffices.descriptionTaskTemplate = this.descriptionTaskTemplate;
+        taskTempOffices.offices = this.offices;
 
-        this.officeTaskService.searchOfficeTasks(taskTempOfficies).subscribe(
+        this.officeTaskService.searchOfficeTasks(taskTempOffices).subscribe(
             (data) => {
                 me.officeTaksCollapse.getOfficeTaskTemplatesArray(data);
                 console.log('OfficeTaskComponent - searchOffice - next');

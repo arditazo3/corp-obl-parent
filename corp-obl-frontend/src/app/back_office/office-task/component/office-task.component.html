@@ -13,12 +13,12 @@
 
           <div class="col-md-3">
             <ng-select
-                    [items]="officiesObservable | async"
+                    [items]="officesObservable | async"
                     [multiple]="true"
                     [closeOnSelect]="false"
                     [searchable]="true"
                     bindLabel="description"
-                    placeholder="Select officies"
+                    placeholder="Select offices"
                     [ngModelOptions]="{standalone: true}"
                     [(ngModel)]="offices">
               <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">

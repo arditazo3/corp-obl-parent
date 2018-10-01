@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 import com.tx.co.back_office.office.api.model.OfficeResult;
 import com.tx.co.back_office.office.api.model.OfficeTaskTemplates;
 import com.tx.co.back_office.office.api.model.OfficeTaskTemplatesResult;
-import com.tx.co.back_office.office.api.model.TaskTempOfficiesResult;
+import com.tx.co.back_office.office.api.model.TaskTempOfficesResult;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.service.IOfficeService;
 import com.tx.co.common.api.provider.ObjectResult;
@@ -88,9 +88,9 @@ public class OfficeResource extends ObjectResult {
 	@Path(SEARCH_OFFICE_TASKS)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response searchOfficeTaskTemplates(TaskTempOfficiesResult taskTempOfficies) {
+	public Response searchOfficeTaskTemplates(TaskTempOfficesResult taskTempOffices) {
 
-		Iterable<OfficeTaskTemplates> officeTasksIterable = officeService.searchOfficeTaskTEmplates(toTaskTempOfficies(taskTempOfficies));
+		Iterable<OfficeTaskTemplates> officeTasksIterable = officeService.searchOfficeTaskTemplates(toTaskTempOffices(taskTempOffices));
         List<OfficeTaskTemplatesResult> queryDetailsList =
                 StreamSupport.stream(officeTasksIterable.spliterator(), false)
                         .map(this::toOfficeTaskTemplates)

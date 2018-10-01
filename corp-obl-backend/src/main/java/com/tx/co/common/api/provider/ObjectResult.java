@@ -19,8 +19,8 @@ import com.tx.co.back_office.company.domain.CompanyUser;
 import com.tx.co.back_office.office.api.model.OfficeResult;
 import com.tx.co.back_office.office.api.model.OfficeTaskTemplates;
 import com.tx.co.back_office.office.api.model.OfficeTaskTemplatesResult;
-import com.tx.co.back_office.office.api.model.TaskTempOfficies;
-import com.tx.co.back_office.office.api.model.TaskTempOfficiesResult;
+import com.tx.co.back_office.office.api.model.TaskTempOffices;
+import com.tx.co.back_office.office.api.model.TaskTempOfficesResult;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.api.model.TaskOfficeRelationsResult;
 import com.tx.co.back_office.task.api.model.TaskOfficeResult;
@@ -694,23 +694,23 @@ public abstract class ObjectResult extends UpdateCacheData {
 		return objectSearchTaskTemplate;
 	}
 
-	public TaskTempOfficies toTaskTempOfficies(TaskTempOfficiesResult taskTempOfficiesResult) {
+	public TaskTempOffices toTaskTempOffices(TaskTempOfficesResult taskTempOfficesResult) {
 
-		TaskTempOfficies taskTempOfficies = new TaskTempOfficies();
+		TaskTempOffices taskTempOffices = new TaskTempOffices();
 
-		if(isEmpty(taskTempOfficiesResult.getDescriptionTaskTemplate())) {
-			taskTempOfficies.setDescriptionTaskTemplate("");
+		if(isEmpty(taskTempOfficesResult.getDescriptionTaskTemplate())) {
+			taskTempOffices.setDescriptionTaskTemplate("");
 		} else {
-			taskTempOfficies.setDescriptionTaskTemplate(taskTempOfficiesResult.getDescriptionTaskTemplate());
+			taskTempOffices.setDescriptionTaskTemplate(taskTempOfficesResult.getDescriptionTaskTemplate());
 		}
-		if(!isEmpty(taskTempOfficiesResult.getOfficies())) {
+		if(!isEmpty(taskTempOfficesResult.getOffices())) {
 			List<Office> offices = new ArrayList<>();
-			for (OfficeResult officeResult : taskTempOfficiesResult.getOfficies()) {
+			for (OfficeResult officeResult : taskTempOfficesResult.getOffices()) {
 				offices.add(toOffice(officeResult));
 			}
-			taskTempOfficies.setOfficies(offices);
+			taskTempOffices.setOffices(offices);
 		}
-		return taskTempOfficies;
+		return taskTempOffices;
 	}
 
 	public OfficeTaskTemplatesResult toOfficeTaskTemplates(OfficeTaskTemplates officeTaskTemplates) {

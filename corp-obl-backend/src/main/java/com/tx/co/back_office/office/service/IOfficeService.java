@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.tx.co.back_office.office.api.model.OfficeTaskTemplates;
-import com.tx.co.back_office.office.api.model.TaskTempOfficies;
+import com.tx.co.back_office.office.api.model.TaskTempOffices;
 import com.tx.co.back_office.office.domain.Office;
 
 public interface IOfficeService {
@@ -17,5 +17,5 @@ public interface IOfficeService {
 	
 	void deleteOffice(Long idOffice);
 	
-	List<OfficeTaskTemplates> searchOfficeTaskTEmplates(TaskTempOfficies taskTempOfficies);
+	List<OfficeTaskTemplates> searchOfficeTaskTemplates(TaskTempOffices taskTempOffices);
 }

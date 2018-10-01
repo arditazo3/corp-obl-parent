@@ -29,7 +29,7 @@
                     <tr *ngFor="let taskTemplate of officeTaskTemplates.taskTemplates">
                         <td>
                             <button class="btn-tnx btn-info btn-block" type="button"
-                                    (click)="modifyTaskTemplate(taskTemplate)">Modify
+                                    (click)="modifyTaskTemplate(taskTemplate, officeTaskTemplates?.office)">Modify
                             </button>
                         </td>
                         <td>{{taskTemplate.description}}</td>

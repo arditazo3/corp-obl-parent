@@ -80,7 +80,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             taskTemp.taskTemplate = taskTemplateTemp;
             objectParam = {isTaskTemplateForm: true, task: taskTemp};
         }
-        this.isTaskTemplateForm = objectParam.isTaskTemplateForm;
+        this.isTaskTemplateForm = objectParam.isNewForm;
         this.task = objectParam.task;
 
         this.getTopics();

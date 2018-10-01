@@ -1,7 +1,7 @@
 import {Office} from '../../office/model/office';
 
-export class TaskTempOfficies {
+export class TaskTempOffices {
 
     descriptionTaskTemplate: string;
-    officies: Office[];
+    offices: Office[];
 }
