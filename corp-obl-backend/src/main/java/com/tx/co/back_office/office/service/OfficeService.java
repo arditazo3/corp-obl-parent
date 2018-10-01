@@ -202,6 +202,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		}
 
 		List<OfficeTaskTemplates> officeTaskTemplatesList = new ArrayList<>();
+		@SuppressWarnings("unchecked")
 		List<Object[]> officeTaskTemplateList = query.getResultList();
 		if(!isEmpty(officeTaskTemplateList)) {
 			List<OfficeTaskTemplate> officeTaskTemplates = new ArrayList<>();

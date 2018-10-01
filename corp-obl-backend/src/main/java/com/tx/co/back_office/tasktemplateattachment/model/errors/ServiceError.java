@@ -6,7 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ServiceError implements Serializable {
 
-    private final String code;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final String code;
     private final String message;
 
     public ServiceError(String code, String message) {

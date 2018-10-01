@@ -133,6 +133,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		return tasks;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Task> searchTaskTemplate(ObjectSearchTaskTemplate objectSearchTaskTemplate) {
 		

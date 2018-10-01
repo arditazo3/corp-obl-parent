@@ -4,7 +4,12 @@ import java.io.Serializable;
 
 public class HttpServiceError implements Serializable {
 
-    private final int httpStatusCode;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private final int httpStatusCode;
 
     private final ServiceError serviceError;
 

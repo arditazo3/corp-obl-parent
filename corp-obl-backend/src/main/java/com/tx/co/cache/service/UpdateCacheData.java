@@ -87,6 +87,7 @@ public abstract class UpdateCacheData {
 	/**
 	 * @return get the Languages from the cache in order to not execute the query to the database
 	 */
+	@SuppressWarnings("unchecked")
 	public List<String> getLanguagesFromCache() {
 
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
@@ -98,6 +99,7 @@ public abstract class UpdateCacheData {
 	/**
 	 * @return get the Languages from the cache in order to not execute the query to the database
 	 */
+	@SuppressWarnings("unchecked")
 	public List<String> getLanguagesNotAvailableFromCache() {
 
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
@@ -111,6 +113,7 @@ public abstract class UpdateCacheData {
 	/**
 	 * @return get the Companies from the cache in order to not execute the query to the database
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Company> getCompaniesFromCache() {
 
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
@@ -134,6 +137,7 @@ public abstract class UpdateCacheData {
 	/**
 	 * @return get the Offices from the cache in order to not execute the query to the database
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Office> getOfficesFromCache() {
 
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
@@ -148,6 +152,7 @@ public abstract class UpdateCacheData {
 	/**
 	 * @return get the Topics from the cache in order to not execute the query to the database
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Topic> getTopicsFromCache() {
 
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
@@ -162,6 +167,7 @@ public abstract class UpdateCacheData {
 	/**
 	 * @return get the Topic Consultants from the cache in order to not execute the query to the database
 	 */
+	@SuppressWarnings("unchecked")
 	public List<TopicConsultant> getTopicConsultantsFromCache() {
 
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
@@ -176,6 +182,7 @@ public abstract class UpdateCacheData {
 	/**
 	 * @return get the CompanyConsultant from the cache in order to not execute the query to the database
 	 */
+	@SuppressWarnings("unchecked")
 	public Map<Long, List<CompanyConsultant>> getCompanyConsultantsFromCache() {
 
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
@@ -188,6 +195,7 @@ public abstract class UpdateCacheData {
 	/**
 	 * @return get the Task templates from the cache in order to not execute the query to the database
 	 */
+	@SuppressWarnings("unchecked")
 	public List<TaskTemplate> getTaskTemplatesFromCache() {
 
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
@@ -202,6 +210,7 @@ public abstract class UpdateCacheData {
 	/**
 	 * @return get the Task  from the cache in order to not execute the query to the database
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Task> getTaskFromCache() {
 
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
@@ -216,6 +225,7 @@ public abstract class UpdateCacheData {
 	/**
 	 * @return get the Task templates from the cache in order to not execute the query to the database
 	 */
+	@SuppressWarnings("unchecked")
 	public List<TaskTemplateAttachment> getTaskTemplatesAttachmentFromCache() {
 
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
@@ -548,6 +558,7 @@ public abstract class UpdateCacheData {
 	/**
 	 * @return get the Users from the cache in order to not execute the query to the database
 	 */
+	@SuppressWarnings("unchecked")
 	public List<User> getUsersFromCache() {
 
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
