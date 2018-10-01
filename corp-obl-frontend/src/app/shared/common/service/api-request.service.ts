@@ -6,9 +6,6 @@ import {UserInfoService} from '../../../user/service/user-info.service';
 import {Observable} from 'rxjs';
 import 'rxjs/add/operator/catch';
 import {ErrorObservable} from 'rxjs-compat/observable/ErrorObservable';
-import {FileUploader} from 'ng2-file-upload';
-import {FileUploaderOptions} from 'ng2-file-upload/file-upload/file-uploader.class';
-import {ResponseContentType} from '@angular/http';
 
 @Injectable()
 export class ApiRequestService {

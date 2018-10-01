@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {OfficeService} from '../../service/office.service';
-import {Observable} from '../../../../../../node_modules/rxjs/Rx';
+import {Observable} from 'rxjs';
 import {Company} from '../../../company/model/company';
 import {CompanyService} from '../../../company/service/company.service';
 
@@ -74,7 +74,7 @@ export class OfficeCreateEditComponent implements OnInit {
     createEditOfficeSubmit() {
         console.log('OfficeCreateEditComponent - createEditOfficeSubmit');
 
-        let me = this;
+        const me = this;
         this.submitted = true;
 
         if (this.createEditOffice.invalid) {

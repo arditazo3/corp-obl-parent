@@ -1,11 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {TopicService} from '../../../topic/service/topic.service';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {Router} from '@angular/router';
 import {CompanyService} from '../../../company/service/company.service';
-import {Observable} from '../../../../../../node_modules/rxjs/Rx';
+import {Observable} from 'rxjs';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {Topic} from '../../../topic/model/topic';
 import {Company} from '../../../company/model/company';

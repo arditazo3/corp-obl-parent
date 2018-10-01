@@ -1,20 +1,20 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
 
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ChartsModule } from 'ng2-charts';
-import { ChartistModule } from 'ng-chartist';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { CalendarModule, CalendarDateFormatter } from 'angular-calendar';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ChartsModule} from 'ng2-charts';
+import {ChartistModule} from 'ng-chartist';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {NgxDatatableModule} from '@swimlane/ngx-datatable';
+import {CalendarModule} from 'angular-calendar';
 
-import { DashboardRoutes } from './dashboard.routing';
+import {DashboardRoutes} from './dashboard.routing';
 
-import { Dashboard8Component } from './dashboard8/dashboard8.component';
+import {Dashboard8Component} from './dashboard8/dashboard8.component';
 
 @NgModule({
   imports: [

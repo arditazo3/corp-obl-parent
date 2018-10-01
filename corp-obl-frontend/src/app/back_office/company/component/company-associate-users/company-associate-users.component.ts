@@ -1,6 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {User} from '../../../../user/model/user';
-import { Observable } from 'rxjs/Rx';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {Router} from '@angular/router';
 import {UserService} from '../../../../user/service/user.service';
@@ -10,6 +9,7 @@ import {Company} from '../../model/company';
 import {CompanyService} from '../../service/company.service';
 import {CompanyUser} from '../../model/company_user';
 import {AuthorityEnum} from '../../../../shared/common/api/enum/authority.enum';
+import {Observable} from 'rxjs/Rx';
 
 @Component({
     selector: 'app-company-associate-users',
@@ -25,7 +25,6 @@ export class CompanyAssociateUsersComponent implements OnInit {
     submitted = false;
     errorDetails: ApiErrorDetails;
     @Input() company: Company = new Company();
-    companyUsersArray: CompanyUser[];
     me = this;
 
     associateUsersToCompany: FormGroup;
@@ -81,7 +80,7 @@ export class CompanyAssociateUsersComponent implements OnInit {
                 (user: User) => {
                     let isIncluded = false;
                     if (inside.company.usersAssociated !== undefined) {
-                        let userAssociated = inside.company.usersAssociated;
+                        const userAssociated = inside.company.usersAssociated;
                         for (const usersAssociatedLoop of userAssociated) {
                             if (user.username === usersAssociatedLoop.username && usersAssociatedLoop.companyAdmin) {
                                 isIncluded = true;
@@ -166,7 +165,7 @@ export class CompanyAssociateUsersComponent implements OnInit {
     onChangeSelectUsers($event) {
         console.log('CompanyAssociateUsersComponent - onChangeSelectUsers');
 
-        let selectedUsersToAdminAlternetive = [];
+        const selectedUsersToAdminAlternetive = [];
         this.selectedUsers.forEach((userSelectedFromCB) => {
 
             if (userSelectedFromCB.authorities !== undefined &&

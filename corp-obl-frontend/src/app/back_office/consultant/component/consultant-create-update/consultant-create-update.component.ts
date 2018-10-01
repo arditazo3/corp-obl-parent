@@ -2,13 +2,10 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {CompanyService} from '../../../company/service/company.service';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
-import {UserInfoService} from '../../../../user/service/user-info.service';
 import {Router} from '@angular/router';
 import {Consultant} from '../../model/consultant';
 import {Company} from '../../../company/model/company';
-import {Topic} from '../../../topic/model/topic';
 import {ConsultantService} from '../../service/consultant.service';
 import {AppGlobals} from '../../../../shared/common/api/app-globals';
 

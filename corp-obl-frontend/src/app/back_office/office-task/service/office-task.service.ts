@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ApiRequestService} from '../../../shared/common/service/api-request.service';
 import {AppConfig} from '../../../shared/common/api/app-config';
-import {Observable} from '../../../../../node_modules/rxjs/Rx';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class OfficeTaskService {

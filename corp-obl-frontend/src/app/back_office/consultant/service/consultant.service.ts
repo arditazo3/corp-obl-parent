@@ -1,8 +1,7 @@
 import {AppConfig} from '../../../shared/common/api/app-config';
 import {ApiRequestService} from '../../../shared/common/service/api-request.service';
 import {Injectable} from '@angular/core';
-import {Observable} from '../../../../../node_modules/rxjs/Rx';
-import {AuthorityEnum} from '../../../shared/common/api/enum/authority.enum';
+import {Observable} from 'rxjs';
 import {HttpParams} from '@angular/common/http';
 
 @Injectable()
@@ -15,7 +14,7 @@ export class ConsultantService {
 
     getCompanyConsultant(company): Observable<any> {
 
-        let httpParms: HttpParams = new HttpParams().set('idCompany', company.idCompany.toString());
+        const httpParms: HttpParams = new HttpParams().set('idCompany', company.idCompany.toString());
 
         return this.apiRequest.get(this.appConfig.getConsultants, httpParms);
     }
@@ -35,7 +34,7 @@ export class ConsultantService {
     getCompanyTopic(company): Observable<any> {
         console.log('ConsultantService - getCompanyTopic');
 
-        let httpParms: HttpParams = new HttpParams().set('idCompany', company.idCompany.toString());
+        const httpParms: HttpParams = new HttpParams().set('idCompany', company.idCompany.toString());
 
         return this.apiRequest.get(this.appConfig.getTopicConsultant, httpParms);
     }

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {TaskTemplate} from '../../model/tasktemplate';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -7,20 +7,17 @@ import {Router} from '@angular/router';
 import {UserInfoService} from '../../../../user/service/user-info.service';
 import {TaskTemplateService} from '../../service/tasktemplate.service';
 import {TopicService} from '../../../topic/service/topic.service';
-import {Observable} from '../../../../../../node_modules/rxjs/Rx';
+import {Observable} from 'rxjs';
 import {Topic} from '../../../topic/model/topic';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {TranslationService} from '../../../../shared/common/translation/translation.service';
 import {Translation} from '../../../../shared/common/translation/model/translation';
-import {FileItem, FileLikeObject, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
-import {AppConfig} from '../../../../shared/common/api/app-config';
-import {ApiRequestService} from '../../../../shared/common/service/api-request.service';
+import {FileItem, FileLikeObject, ParsedResponseHeaders} from 'ng2-file-upload';
 import {saveAs as importedSaveAs} from 'file-saver';
 import {Task} from '../../../task/model/task';
 import {UploadService} from '../../../../shared/common/service/upload.service';
 import {TaskTemplateAttachment} from '../../../tasktemplateattachment/tasktemplateattachment';
 import {TaskService} from '../../../task/service/task.service';
-import {OfficeTaksCollapseComponent} from '../../../office-task/component/office-taks-collapse/office-taks-collapse.component';
 import {AssociationOfficeComponent} from '../../../task/component/association-office/association-office.component';
 
 @Component({
@@ -170,7 +167,8 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 day: new FormControl({value: this.taskTemplate.day, disabled: false}, Validators.required),
                 daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
                 frequenceOfNotice: new FormControl({value: this.taskTemplate.frequenceOfNotice, disabled: false}, Validators.required),
-                daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false }, Validators.required)
+                daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false },
+                    Validators.required)
             });
         } else {
             this.createEditTaskTemplate = this.formBuilder.group({
@@ -278,8 +276,10 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                                     if (noFileUpload) {
                                         me.router.navigate(['/back-office/task']);
                                     }
-                                    me.uploader.onErrorItem = (item, response, status, headers) => me.onErrorItem(item, response, status, headers);
-                                    me.uploader.onSuccessItem = (item, response, status, headers) => me.onSuccessItem(item, response, status, headers);
+                                    me.uploader.onErrorItem = (item, response, status, headers) =>
+                                        me.onErrorItem(item, response, status, headers);
+                                    me.uploader.onSuccessItem = (item, response, status, headers) =>
+                                        me.onSuccessItem(item, response, status, headers);
                                 }
                             }, error => {
                                 me.errorDetails = error.error;
@@ -370,7 +370,8 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
 
         switch (filter.name) {
             case 'fileSize':
-                this.errorDetails.message = 'Maximum upload size exceeded (' + (item.size / 1024 / 1024).toFixed(2) + ' MB of ' + (this.uploader.options.maxFileSize / 1024 / 1024).toFixed(2) + ' MB allowed)';
+                this.errorDetails.message = 'Maximum upload size exceeded (' + (item.size / 1024 / 1024).toFixed(2) +
+                    ' MB of ' + (this.uploader.options.maxFileSize / 1024 / 1024).toFixed(2) + ' MB allowed)';
                 break;
             case 'mimeType':
                 const allowedTypes = this.uploader.options.allowedMimeType.join();

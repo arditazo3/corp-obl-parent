@@ -2,14 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {ConsultantService} from '../../service/consultant.service';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {Router} from '@angular/router';
-import {Observable} from '../../../../../../node_modules/rxjs/Rx';
+import {Observable} from 'rxjs';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {TopicService} from '../../../topic/service/topic.service';
 import {TopicConsultant} from '../../../topic/model/topic-consultant';
 import {CompanyTopic} from '../../../company/model/company_topic';
 import {Company} from '../../../company/model/company';
-import {forEach} from '@angular/router/src/utils/collection';
-import {Consultant} from '../../model/consultant';
 
 @Component({
     selector: 'app-topic-consultant',

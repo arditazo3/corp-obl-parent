@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Observable} from '../../../../../node_modules/rxjs/Rx';
-import {ObjectSearchTaskTemplate} from '../../tasktemplate/model/object-search-tasktemplate';
+import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {OfficeTaskService} from '../service/office-task.service';
 import {OfficeService} from '../../office/service/office.service';
@@ -17,8 +16,6 @@ export class OfficeTaskComponent implements OnInit {
     @ViewChild(OfficeTaksCollapseComponent) officeTaksCollapse: OfficeTaksCollapseComponent;
 
     descriptionTaskTemplate: string;
-    officesTaskTemplates = [];
-    selectedOfficies = [];
     offices = [];
 
     officiesObservable: Observable<any[]>;

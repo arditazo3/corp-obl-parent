@@ -1,15 +1,11 @@
-import {ChangeDetectorRef, Component, NgModule, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
-import {UserInfoService} from '../../../../user/service/user-info.service';
-import {User} from '../../../../user/model/user';
-import {UserService} from '../../../../user/service/user.service';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {Company} from '../../model/company';
-import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CompanyService} from '../../service/company.service';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
-import {Observable} from 'rxjs';
 import {CompanyAssociateUsersComponent} from '../company-associate-users/company-associate-users.component';
 
 @Component({
@@ -63,7 +59,7 @@ export class CompanyCreateEditComponent implements OnInit {
     createEditCompanySubmit() {
         console.log('CompanyCreateEditComponent - createEditCompanySubmit');
 
-        let me = this;
+        const me = this;
         this.submitted = true;
 
         if (this.createEditCompany.invalid) {

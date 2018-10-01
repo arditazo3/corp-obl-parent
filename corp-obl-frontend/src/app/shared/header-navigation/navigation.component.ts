@@ -1,13 +1,6 @@
-import {Component, AfterViewInit, EventEmitter, Output, ChangeDetectorRef} from '@angular/core';
-import {
-  NgbModal,
-  ModalDismissReasons,
-  NgbPanelChangeEvent,
-  NgbCarouselConfig
-} from '@ng-bootstrap/ng-bootstrap';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import {LoginService} from '../../authentication/service/login.service';
-import {UserInfoService} from '../../user/service/user-info.service';
+import {AfterViewInit, Component, EventEmitter, Output} from '@angular/core';
+import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
+
 declare var $: any;
 
 @Component({
@@ -21,8 +14,6 @@ export class NavigationComponent implements AfterViewInit {
 
   constructor(
   ) {}
-
-  username = '';
 
   ngAfterViewInit() {
   }

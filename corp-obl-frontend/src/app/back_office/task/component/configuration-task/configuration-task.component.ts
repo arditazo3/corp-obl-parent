@@ -1,16 +1,13 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
-import {Office} from '../../../office/model/office';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {Router} from '@angular/router';
 import {TaskTemplateService} from '../../../tasktemplate/service/tasktemplate.service';
-import {Observable} from '../../../../../../node_modules/rxjs/Rx';
 import {CompanyService} from '../../../company/service/company.service';
 import {TopicService} from '../../../topic/service/topic.service';
-import {TaskService} from '../../service/task.service';
 import {Task} from '../../model/task';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
-import {TaskTemplate} from '../../../tasktemplate/model/tasktemplate';
 import {ObjectSearchTaskTemplate} from '../../../tasktemplate/model/object-search-tasktemplate';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-configuration-task',
@@ -27,7 +24,6 @@ export class ConfigurationTaskComponent implements OnInit {
     columns: any[];
     rows: Task[];
     data: any;
-    temp = [];
     errorDetails: ApiErrorDetails;
     idGroup = 0;
     index = 1;
@@ -84,7 +80,8 @@ export class ConfigurationTaskComponent implements OnInit {
         console.log('ConfigurationTaskComponent - createNewTaskTemplate');
 
         const me = this;
-        const objectSearchTaskTemplate = new ObjectSearchTaskTemplate(this.descriptionTaskTemplate, this.selectedCompanies, this.selectedTopics);
+        const objectSearchTaskTemplate = new ObjectSearchTaskTemplate(this.descriptionTaskTemplate,
+            this.selectedCompanies, this.selectedTopics);
 
         this.taskTemplateService.searchTaskTemplate(objectSearchTaskTemplate).subscribe(
             (data) => {
@@ -104,26 +101,6 @@ export class ConfigurationTaskComponent implements OnInit {
         };
 
         this.router.navigate(['/back-office/task-template/create']);
-    }
-
-    getGroupRowHeight(group, rowHeight) {
-        let style = {};
-
-        style = {
-            height: (group.length * 40) + 'px',
-            width: '100%'
-        };
-
-        return style;
-    }
-
-    toggleExpandGroup(group) {
-        console.log('ConfigurationTaskComponent - toggled expand group', group);
-        this.table.groupHeader.toggleExpandGroup(group);
-    }
-
-    onDetailToggle(event) {
-        console.log('ConfigurationTaskComponent - detail toggled', event);
     }
 
     modifyTaskTemplate(group) {
@@ -190,5 +167,25 @@ export class ConfigurationTaskComponent implements OnInit {
             this.expansionDefault = collapse;
             this.getTaskTemplates();
         }
+    }
+
+    getGroupRowHeight(group, rowHeight) {
+        let style = {};
+
+        style = {
+            height: (group.length * 40) + 'px',
+            width: '100%'
+        };
+
+        return style;
+    }
+
+    toggleExpandGroup(group) {
+        console.log('ConfigurationTaskComponent - toggled expand group', group);
+        this.table.groupHeader.toggleExpandGroup(group);
+    }
+
+    onDetailToggle(event) {
+        console.log('ConfigurationTaskComponent - detail toggled', event);
     }
 }

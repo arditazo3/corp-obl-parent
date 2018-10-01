@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core";
-import {ApiRequestService} from "../../../shared/common/service/api-request.service";
-import {Observable, Subject} from "rxjs/Rx";
-import {AppConfig} from "../../../shared/common/api/app-config";
+import {Injectable} from '@angular/core';
+import {ApiRequestService} from '../../../shared/common/service/api-request.service';
+import {AppConfig} from '../../../shared/common/api/app-config';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class CompanyService {

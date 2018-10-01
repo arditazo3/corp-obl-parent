@@ -6,7 +6,6 @@ export class AppConfig {
     // Provide all the Application Configs here
     public version = '1.0.0';
     public locale = 'en-US';
-    public dateFormat = {day: 'numeric', month: 'short', year: 'numeric'};
 
     // API Related configs
     public apiPort = '8100';
@@ -31,7 +30,6 @@ export class AppConfig {
     public companyPath = '/company';
     public getCompanies = this.backOfficePath + this.companyPath + this.list;                       // GET
     public getCompaniesByRole = this.backOfficePath + this.companyPath + this.list + '/by-role';    // GET
-    public getCompanyById = this.backOfficePath + this.companyPath + '/{idCompany}';                // GET
     public createUpdateCompany = this.backOfficePath + this.companyPath + this.createupdate;        // POST
     public deleteCompany = this.backOfficePath + this.companyPath + this.delete;                    // PUT
     public assocCompanyUsers = this.backOfficePath + this.companyPath + '/assoc-user-company';      // POST
@@ -39,7 +37,6 @@ export class AppConfig {
     // Office URL's
     public officePath = '/office';
     public getOffices = this.backOfficePath + this.officePath + this.list;                      // GET
-    public getOfficesByRole = this.backOfficePath + this.officePath + this.list + '/by-role';   // GET
     public createUpdateOffice = this.backOfficePath + this.officePath + this.createupdate;      // POST
     public deleteOffice = this.backOfficePath + this.officePath + this.delete;                  // PUT
 

@@ -72,14 +72,6 @@ export class OfficeTableComponent implements OnInit {
         this.table = this.data;
     }
 
-    toggleExpandRow(row) {
-        console.log('OfficeTableComponent - Toggled Expand Row!', row);
-        this.table.rowDetail.toggleExpandRow(row);
-    }
-
-    onDetailToggle(event) {
-    }
-
     createNewOffice() {
         console.log('OfficeTableComponent - createNewOffice');
 
@@ -119,5 +111,13 @@ export class OfficeTableComponent implements OnInit {
                 console.log('OfficeTableComponent - deleteOfficeCofirm - error');
             }
         );
+    }
+
+    toggleExpandRow(row) {
+        console.log('OfficeTableComponent - Toggled Expand Row!', row);
+        this.table.rowDetail.toggleExpandRow(row);
+    }
+
+    onDetailToggle(event) {
     }
 }

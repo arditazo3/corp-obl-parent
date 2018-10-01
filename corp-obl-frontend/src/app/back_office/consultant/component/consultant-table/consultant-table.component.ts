@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {Router} from '@angular/router';
@@ -83,14 +83,6 @@ export class ConsultantTableComponent implements OnInit {
         this.table = this.data;
     }
 
-    toggleExpandRow(row) {
-        console.log('ConsultantTableComponent - Toggled Expand Row!', row);
-        this.table.rowDetail.toggleExpandRow(row);
-    }
-
-    onDetailToggle(event) {
-    }
-
     createNewCompanyConsultant() {
         console.log('ConsultantTableComponent - createNewCompanyConsultant');
 
@@ -134,4 +126,11 @@ export class ConsultantTableComponent implements OnInit {
         );
     }
 
+    toggleExpandRow(row) {
+        console.log('ConsultantTableComponent - Toggled Expand Row!', row);
+        this.table.rowDetail.toggleExpandRow(row);
+    }
+
+    onDetailToggle(event) {
+    }
 }

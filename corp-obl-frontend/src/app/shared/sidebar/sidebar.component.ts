@@ -1,10 +1,10 @@
-import {Component, AfterViewInit, OnInit, ChangeDetectorRef} from '@angular/core';
-import { ROUTES } from './menu-items';
-import { RouteInfo } from './sidebar.metadata';
-import { Router, ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {FullComponent} from "../../layouts/full/full.component";
-import {UserInfoService} from "../../user/service/user-info.service";
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ROUTES} from './menu-items';
+import {ActivatedRoute, Router} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {FullComponent} from '../../layouts/full/full.component';
+import {UserInfoService} from '../../user/service/user-info.service';
+
 declare var $: any;
 
 @Component({

@@ -3,8 +3,8 @@ import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {Topic} from '../../../topic/model/topic';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {Router} from '@angular/router';
-import {TopicService} from '../../../topic/service/topic.service';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
+import {TopicService} from '../../service/topic.service';
 
 @Component({
   selector: 'app-topic-table',
@@ -69,14 +69,6 @@ export class TopicTableComponent implements OnInit {
         this.table = this.data;
     }
 
-    toggleExpandRow(row) {
-        console.log('TopicTableComponent - Toggled Expand Row!', row);
-        this.table.rowDetail.toggleExpandRow(row);
-    }
-
-    onDetailToggle(event) {
-    }
-
     createNewTopic() {
         console.log('TopicTableComponent - createNewTopic');
 
@@ -116,6 +108,14 @@ export class TopicTableComponent implements OnInit {
                 console.log('TopicTableComponent - deleteTopicCofirm - error');
             }
         );
+    }
+
+    toggleExpandRow(row) {
+        console.log('TopicTableComponent - Toggled Expand Row!', row);
+        this.table.rowDetail.toggleExpandRow(row);
+    }
+
+    onDetailToggle(event) {
     }
 
 }

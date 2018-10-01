@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/co
 import {TaskTemplate} from '../../../tasktemplate/model/tasktemplate';
 import {Task} from '../../../task/model/task';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
-import {Observable} from '../../../../../../node_modules/rxjs/Rx';
+import {Observable} from 'rxjs';
 import {Topic} from '../../../topic/model/topic';
 import {Translation} from '../../../../shared/common/translation/model/translation';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
@@ -122,7 +122,8 @@ export class QuickConfigurationComponent implements OnInit {
                 day: new FormControl({value: this.taskTemplate.day, disabled: false}, Validators.required),
                 daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
                 frequenceOfNotice: new FormControl({value: this.taskTemplate.frequenceOfNotice, disabled: false}, Validators.required),
-                daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false }, Validators.required)
+                daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false },
+                    Validators.required)
             });
         }
 
@@ -217,8 +218,10 @@ export class QuickConfigurationComponent implements OnInit {
                                     if (noFileUpload) {
                                         me.router.navigate(['/back-office/task']);
                                     }
-                                    me.uploader.onErrorItem = (item, response, status, headers) => me.onErrorItem(item, response, status, headers);
-                                    me.uploader.onSuccessItem = (item, response, status, headers) => me.onSuccessItem(item, response, status, headers);
+                                    me.uploader.onErrorItem = (item, response, status, headers) =>
+                                        me.onErrorItem(item, response, status, headers);
+                                    me.uploader.onSuccessItem = (item, response, status, headers) =>
+                                        me.onSuccessItem(item, response, status, headers);
                                 }
                             }, error => {
                                 me.errorDetails = error.error;
@@ -292,7 +295,8 @@ export class QuickConfigurationComponent implements OnInit {
 
         switch (filter.name) {
             case 'fileSize':
-                this.errorDetails.message = 'Maximum upload size exceeded (' + (item.size / 1024 / 1024).toFixed(2) + ' MB of ' + (this.uploader.options.maxFileSize / 1024 / 1024).toFixed(2) + ' MB allowed)';
+                this.errorDetails.message = 'Maximum upload size exceeded (' + (item.size / 1024 / 1024).toFixed(2) +
+                    ' MB of ' + (this.uploader.options.maxFileSize / 1024 / 1024).toFixed(2) + ' MB allowed)';
                 break;
             case 'mimeType':
                 const allowedTypes = this.uploader.options.allowedMimeType.join();

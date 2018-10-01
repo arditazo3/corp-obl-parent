@@ -2,12 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {OfficeService} from '../../../office/service/office.service';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
-import {AuthorityEnum} from '../../../../shared/common/api/enum/authority.enum';
-import {UserInfoService} from '../../../../user/service/user-info.service';
 import {UserService} from '../../../../user/service/user.service';
 import {IHash} from '../../../../shared/common/interface/ihash';
-import {User} from '../../../../user/model/user';
-import {Company} from '../../../company/model/company';
 import {TaskOffice} from '../../model/taskoffice';
 
 @Component({
@@ -17,9 +13,7 @@ import {TaskOffice} from '../../model/taskoffice';
 })
 export class AssociationOfficeComponent implements OnInit {
 
-    officesArray = [];
     taskOfficesArray = [];
-    selectedTaskOffices = [];
     selectedOffices = [];
     officeUserProviders: IHash = {};
     officeUserBeneficiaries: IHash = {};

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CompanyService} from '../../service/company.service';
 import {Router} from '@angular/router';
 import {Company} from '../../model/company';
@@ -70,14 +70,6 @@ export class CompanyTableComponent implements OnInit {
         this.table = this.data;
     }
 
-    toggleExpandRow(row) {
-        console.log('CompanyTableComponent - Toggled Expand Row!', row);
-        this.table.rowDetail.toggleExpandRow(row);
-    }
-
-    onDetailToggle(event) {
-    }
-
     createNewCompany() {
         console.log('CompanyTableComponent - createNewCompany');
 
@@ -117,6 +109,14 @@ export class CompanyTableComponent implements OnInit {
                 console.log('CompanyTableComponent - deleteCompanyCofirm - error');
             }
         );
+    }
+
+    toggleExpandRow(row) {
+        console.log('CompanyTableComponent - Toggled Expand Row!', row);
+        this.table.rowDetail.toggleExpandRow(row);
+    }
+
+    onDetailToggle(event) {
     }
 
 }
