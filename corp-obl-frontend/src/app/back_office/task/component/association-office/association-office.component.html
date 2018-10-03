@@ -10,16 +10,16 @@
                                [multiple]="true"
                                [closeOnSelect]="false"
                                [searchable]="true"
-                               [(ngModel)]="selectedOffices"
+                               [ngModel]="selectedOfficesEmpty"
                                [ngModelOptions]="{standalone: true}"
                                (add)="onAddOfficeRealation($event)"
                                (remove)="onRemoveOfficeRealation($event)"
                                placeholder="Select offices">
-                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-                            <input [ngModelOptions]="{standalone: true}"
-                                   id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/>
-                            {{item.description}}
-                        </ng-template>
+                        <!--<ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">-->
+                            <!--<input [ngModelOptions]="{standalone: true}"-->
+                                   <!--id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/>-->
+                            <!--{{item.description}}-->
+                        <!--</ng-template>-->
                     </ng-select>
                 </div>
             </div>

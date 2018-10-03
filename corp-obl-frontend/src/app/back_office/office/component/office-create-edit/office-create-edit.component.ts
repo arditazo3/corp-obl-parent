@@ -77,7 +77,7 @@ export class OfficeCreateEditComponent implements OnInit {
         const me = this;
         this.submitted = true;
 
-        if (this.createEditOffice.invalid) {
+        if (this.createEditOffice.invalid || this.selectedCompany === undefined) {
             return;
         }
 

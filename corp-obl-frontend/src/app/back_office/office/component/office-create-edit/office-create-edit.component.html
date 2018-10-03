@@ -32,6 +32,9 @@
                            [ngModelOptions]="{standalone: true}"
                            placeholder="Select a company">
                 </ng-select>
+                <div *ngIf="submitted && !selectedCompany" class="invalid-feedback-show">
+                  Company is required
+                </div>
               </div>
             </div>
 

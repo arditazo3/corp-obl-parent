@@ -22,6 +22,7 @@ export class TopicCreateUpdateComponent implements OnInit {
     isNewForm;
     topic: Topic = new Topic();
     submitted = false;
+    hasDescription = false;
     languageNotAvailable = false;
     errorDetails: ApiErrorDetails;
 
@@ -94,14 +95,15 @@ export class TopicCreateUpdateComponent implements OnInit {
         const me = this;
         this.submitted = true;
 
-        if (this.createEditTopic.invalid) {
-            return;
-        }
-
         this.topic.description = this.createEditTopic.get('description').value;
         this.onChangeSelectLang(this.selectedLang, this.selectedLang);
         this.topic.companyList = this.selectedCompanies;
         this.topic.translationList = this.translationList;
+
+        if (this.createEditTopic.invalid || this.selectedCompanies === undefined || this.selectedCompanies.length === 0
+            || !this.hasDescriptionMultiLang()) {
+            return;
+        }
 
         me.topicService.saveUpdateTopic(me.topic).subscribe(
             (data) => {
@@ -126,6 +128,7 @@ export class TopicCreateUpdateComponent implements OnInit {
     }
 
     onChangeSelectLang(previousValue, actualValue) {
+        console.log('TopicCreateEditComponent - onChangeSelectLang');
 
         if (!previousValue) {
             return;
@@ -174,15 +177,30 @@ export class TopicCreateUpdateComponent implements OnInit {
         }
 
         this.previousLang = actualValue;
+
+        this.hasDescriptionMultiLang();
+    }
+
+    hasDescriptionMultiLang(): boolean {
+        this.hasDescription = false;
+
+        if (this.translationList.length > 0) {
+            this.translationList.forEach((translation) => {
+                if (translation && translation.description && translation.description.trim() !== '') {
+                    this.hasDescription = true;
+                }
+            });
+        }
+        return this.hasDescription;
     }
 
     private setDefaultDescription() {
         if (this.translationList.length > 1) {
             this.translationList.forEach((translation) => {
-               if (translation.lang === this.selectedLang) {
-                   this.f.description.setValue(translation.description);
+                if (translation.lang === this.selectedLang) {
+                    this.f.description.setValue(translation.description);
                     return;
-               }
+                }
             });
         } else if (this.translationList.length === 1) {
             this.selectedLang = this.translationList[0].lang;
