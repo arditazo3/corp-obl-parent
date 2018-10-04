@@ -143,7 +143,7 @@ export class AssociationOfficeComponent implements OnInit {
     }
 
     /*
-    * Render of task office according on change
+    * Render of task office on change
     * */
     populateAvailableUsersOnOffices() {
         console.log('AssociationOfficeComponent - populateAvailableUsersOnOffices');
@@ -171,7 +171,6 @@ export class AssociationOfficeComponent implements OnInit {
                                         if (index > -1) {
                                             listUsersAvailable.splice(index, 1);
                                         }
-
                                     }
                                 );
                             }
@@ -183,15 +182,12 @@ export class AssociationOfficeComponent implements OnInit {
                                         if (index > -1) {
                                             listUsersAvailable.splice(index, 1);
                                         }
-
                                     }
                                 );
                             }
-
                             taskOffice.office.userAvailable = Observable.of(listUsersAvailable);
                         }
                     );
-
                 }
             },
             (error) => {
