@@ -45,9 +45,9 @@
                             <label for="periodicity" class="control-label col-form-label">Providers</label>
                             <div class="col-sm-9">
                                 <ng-select
-                                        [items]="usersObservable | async"
+                                        [items]="taskOffice.office.userAvailable | async"
                                         [multiple]="true"
-                                        [closeOnSelect]="false"
+                                        [closeOnSelect]="true"
                                         [hideSelected]="true"
                                         [searchable]="true"
                                         bindLabel="fullName"
@@ -71,9 +71,9 @@
                             <label for="periodicity" class="control-label col-form-label">Beneficiaries</label>
                             <div class="col-sm-9">
                                 <ng-select
-                                        [items]="usersObservable | async"
+                                        [items]="taskOffice.office.userAvailable | async"
                                         [multiple]="true"
-                                        [closeOnSelect]="false"
+                                        [closeOnSelect]="true"
                                         [hideSelected]="true"
                                         [searchable]="true"
                                         bindLabel="fullName"

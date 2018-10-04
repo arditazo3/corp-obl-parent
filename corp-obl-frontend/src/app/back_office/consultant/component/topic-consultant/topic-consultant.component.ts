@@ -72,7 +72,7 @@ export class TopicConsultantComponent implements OnInit {
                 console.log('TopicConsultantComponent - onRemoveTopicConsultant - next');
             }, error => {
                 me.errorDetails = error.error;
-                console.log('TopicConsultantComponent - onRemoveTopicConsultant - error');
+                console.error('TopicConsultantComponent - onRemoveTopicConsultant - error');
             }
         );
     }
@@ -94,7 +94,7 @@ export class TopicConsultantComponent implements OnInit {
            //         companyTopic.topic.topicConsultantList.push(consultant);
                 }, error => {
                     me.errorDetails = error.error;
-                    console.log('TopicConsultantComponent - onAddTopicConsultant - error');
+                    console.error('TopicConsultantComponent - onAddTopicConsultant - error');
                 }
             );
     }
@@ -113,7 +113,7 @@ export class TopicConsultantComponent implements OnInit {
                 console.log('TopicConsultantComponent - onRemoveTopicConsultant - next');
             }, error => {
                 me.errorDetails = error.error;
-                console.log('TopicConsultantComponent - onRemoveTopicConsultant - error');
+                console.error('TopicConsultantComponent - onRemoveTopicConsultant - error');
             }
         );
     }

@@ -35,10 +35,12 @@ export class AssociationOfficeComponent implements OnInit {
 
         const me = this;
 
-        me.officesObservable = me.officeService.getOffices();
+        me.officesObservable = me.officeService.getOfficesByRole();
         me.usersObservable = me.userService.getAllUsersExceptAdminRole();
 
         me.getTaskOfficesArray(null);
+
+        me.populateAvailableUsersOnOffices();
     }
 
     getTaskOfficesArray(taskOffices) {
@@ -62,6 +64,8 @@ export class AssociationOfficeComponent implements OnInit {
         taskOffice.office = $event;
 
         this.taskOfficesArray.push(taskOffice);
+
+        this.populateAvailableUsersOnOffices();
     }
 
     onRemoveOfficeRealation($event) {
@@ -72,6 +76,8 @@ export class AssociationOfficeComponent implements OnInit {
         if (index > -1) {
             this.taskOfficesArray.splice(index, 1);
         }
+
+        this.populateAvailableUsersOnOffices();
     }
 
     onAddProvidersOffice($event, office) {
@@ -85,6 +91,8 @@ export class AssociationOfficeComponent implements OnInit {
             arrayUsers.push($event);
         }
         this.officeUserProviders[office.idOffice] = arrayUsers;
+
+        this.populateAvailableUsersOnOffices();
     }
 
     onRemoveProvidersOffice($event, office) {
@@ -99,6 +107,8 @@ export class AssociationOfficeComponent implements OnInit {
                 arrayUsers.splice(index, 1);
             }
         }
+
+        this.populateAvailableUsersOnOffices();
     }
 
     onAddBeneficiariesOffice($event, office) {
@@ -112,6 +122,8 @@ export class AssociationOfficeComponent implements OnInit {
             arrayUsers.push($event);
         }
         this.officeUserBeneficiaries[office.idOffice] = arrayUsers;
+
+        this.populateAvailableUsersOnOffices();
     }
 
     onRemoveBeneficiariesOffice($event, office) {
@@ -126,5 +138,66 @@ export class AssociationOfficeComponent implements OnInit {
                 arrayUsers.splice(index, 1);
             }
         }
+
+        this.populateAvailableUsersOnOffices();
+    }
+
+    /*
+    * Render of task office according on change
+    * */
+    populateAvailableUsersOnOffices() {
+        console.log('AssociationOfficeComponent - populateAvailableUsersOnOffices');
+
+        const me = this;
+        me.usersObservable.subscribe(
+            (data) => {
+
+                const listUsersAvailableFinal = data;
+
+                if (listUsersAvailableFinal && listUsersAvailableFinal.length > 0 &&
+                    me.taskOfficesArray && me.taskOfficesArray.length > 0) {
+
+                    me.taskOfficesArray.forEach(
+                        (taskOffice) => {
+
+                            const listUsersAvailable = [];
+                            listUsersAvailableFinal.forEach(user => listUsersAvailable.push(user));
+
+                            if (taskOffice.office.userProviders && taskOffice.office.userProviders.length > 0) {
+                                taskOffice.office.userProviders.forEach(
+                                    (user) => {
+
+                                        const index = listUsersAvailable.findIndex(userAvailable => userAvailable.username === user.username);
+                                        if (index > -1) {
+                                            listUsersAvailable.splice(index, 1);
+                                        }
+
+                                    }
+                                );
+                            }
+                            if (taskOffice.office.userBeneficiaries && taskOffice.office.userBeneficiaries.length > 0) {
+                                taskOffice.office.userBeneficiaries.forEach(
+                                    (user) => {
+
+                                        const index = listUsersAvailable.findIndex(userAvailable => userAvailable.username === user.username);
+                                        if (index > -1) {
+                                            listUsersAvailable.splice(index, 1);
+                                        }
+
+                                    }
+                                );
+                            }
+
+                            taskOffice.office.userAvailable = Observable.of(listUsersAvailable);
+                        }
+                    );
+
+                }
+            },
+            (error) => {
+                console.error('AssociationOfficeComponent - populateAvailableUsersOnOffices - error');
+            }
+        );
+
     }
 }

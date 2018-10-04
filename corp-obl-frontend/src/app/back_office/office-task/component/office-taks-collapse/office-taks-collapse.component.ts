@@ -60,7 +60,7 @@ export class OfficeTaksCollapseComponent implements OnInit {
                 console.log('OfficeTaksCollapseComponent - modifyTaskTemplate - next');
             },
             error => {
-                console.log('OfficeTaksCollapseComponent - modifyTaskTemplate - error');
+                console.error('OfficeTaksCollapseComponent - modifyTaskTemplate - error');
             }
         );
     }

@@ -106,7 +106,7 @@ export class CompanyTableComponent implements OnInit {
                 console.log('CompanyTableComponent - deleteCompanyCofirm - next');
             }, error => {
                 this.errorDetails = error.error;
-                console.log('CompanyTableComponent - deleteCompanyCofirm - error');
+                console.error('CompanyTableComponent - deleteCompanyCofirm - error');
             }
         );
     }

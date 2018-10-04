@@ -8,4 +8,5 @@ export class Office {
     company: Company;
     userProviders: User[];
     userBeneficiaries: User[];
+    userAvailable: User[];
 }

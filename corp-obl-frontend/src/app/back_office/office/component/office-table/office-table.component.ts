@@ -108,7 +108,7 @@ export class OfficeTableComponent implements OnInit {
                 console.log('OfficeTableComponent - deleteOfficeCofirm - next');
             }, error => {
                 this.errorDetails = error.error;
-                console.log('OfficeTableComponent - deleteOfficeCofirm - error');
+                console.error('OfficeTableComponent - deleteOfficeCofirm - error');
             }
         );
     }

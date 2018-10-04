@@ -284,7 +284,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                             }, error => {
                                 me.errorDetails = error.error;
                                 //    me.showErrorDescriptionSwal();
-                                console.log('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit - error');
+                                console.error('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit - error');
                             }
                         );
                     } else {
@@ -301,7 +301,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                             }, error => {
                                 me.errorDetails = error.error;
                                 //    me.showErrorDescriptionSwal();
-                                console.log('TaskTemplateCreateUpdateComponent - createEditTaskSubmit - error');
+                                console.error('TaskTemplateCreateUpdateComponent - createEditTaskSubmit - error');
                             }
                         );
                     }
@@ -338,7 +338,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 },
                 error => {
                     me.errorDetails = error.error;
-                    console.log('TaskTemplateCreateUpdateComponent - downloadFile - error');
+                    console.error('TaskTemplateCreateUpdateComponent - downloadFile - error');
                 });
         } else {
             importedSaveAs(item.file.rawFile);
@@ -358,7 +358,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 },
                 error => {
                     me.errorDetails = error.error;
-                    console.log('TaskTemplateCreateUpdateComponent - removeFile - error');
+                    console.error('TaskTemplateCreateUpdateComponent - removeFile - error');
                 }
             );
         }

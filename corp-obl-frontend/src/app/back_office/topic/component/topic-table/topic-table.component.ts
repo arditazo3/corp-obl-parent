@@ -105,7 +105,7 @@ export class TopicTableComponent implements OnInit {
                 console.log('TopicTableComponent - deleteTopicCofirm - next');
             }, error => {
                 this.errorDetails = error.error;
-                console.log('TopicTableComponent - deleteTopicCofirm - error');
+                console.error('TopicTableComponent - deleteTopicCofirm - error');
             }
         );
     }

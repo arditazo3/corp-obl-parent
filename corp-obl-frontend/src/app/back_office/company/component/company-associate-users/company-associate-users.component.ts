@@ -154,7 +154,7 @@ export class CompanyAssociateUsersComponent implements OnInit {
                 console.log('CompanyAssociateUsersComponent - associateUsersToCompanySubmit - next');
             }, error => {
                 me.errorDetails = error.error;
-                console.log('CompanyAssociateUsersComponent - associateUsersToCompanySubmit - error');
+                console.error('CompanyAssociateUsersComponent - associateUsersToCompanySubmit - error');
             }
         );
 
