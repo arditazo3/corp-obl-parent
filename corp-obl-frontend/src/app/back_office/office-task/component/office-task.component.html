@@ -30,11 +30,13 @@
           </div>
 
           <div class="col-md-2">
-            <button class="btn-tnx btn-info btn-block" type="button" (click)="searchOfficeTasks()">Search
+            <button class="btn-tnx btn-info btn-block" type="button" (click)="searchOfficeTasks(); searchTaskTemplates()">Search
             </button>
           </div>
         </div>
         <hr>
+
+        <app-tasktemplate-table [taskTemplatesArray]="taskTemplatesArray"></app-tasktemplate-table>
 
         <app-office-taks-collapse></app-office-taks-collapse>
 

@@ -172,27 +172,25 @@ export class QuickConfigurationComponent implements OnInit {
             return;
         }
 
-        if (this.isNewForm) {
-            if (this.selectedTopic === undefined || this.selectedPeriodicity === undefined || this.selectedExpirationType === undefined) {
-                return;
-            }
-            this.taskTemplate.description = this.createEditTaskTemplate.get('description').value;
-            this.taskTemplate.topic = this.selectedTopic;
-            this.taskTemplate.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
-            this.taskTemplate.expirationType = this.selectedExpirationType.tablename.split('#')[2];
-            this.taskTemplate.expirationClosableBy = this.createEditTaskTemplate.get('expirationRadio').value;
-            this.taskTemplate.day = this.createEditTaskTemplate.get('day').value;
-            this.taskTemplate.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
-            this.taskTemplate.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
-            this.taskTemplate.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
-
-            this.task.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
-            this.task.expirationType = this.selectedExpirationType.tablename.split('#')[2];
-            this.task.day = this.createEditTaskTemplate.get('day').value;
-            this.task.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
-            this.task.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
-            this.task.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
+        if (this.selectedTopic === undefined || this.selectedPeriodicity === undefined || this.selectedExpirationType === undefined) {
+            return;
         }
+        this.taskTemplate.description = this.createEditTaskTemplate.get('description').value;
+        this.taskTemplate.topic = this.selectedTopic;
+        this.taskTemplate.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
+        this.taskTemplate.expirationType = this.selectedExpirationType.tablename.split('#')[2];
+        this.taskTemplate.expirationClosableBy = this.createEditTaskTemplate.get('expirationRadio').value;
+        this.taskTemplate.day = this.createEditTaskTemplate.get('day').value;
+        this.taskTemplate.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
+        this.taskTemplate.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
+        this.taskTemplate.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
+
+        this.task.recurrence = this.taskTemplate.recurrence;
+        this.task.expirationType = this.taskTemplate.expirationType;
+        this.task.day = this.taskTemplate.day;
+        this.task.daysOfNotice = this.taskTemplate.daysOfNotice;
+        this.task.daysBeforeShowExpiration = this.taskTemplate.daysBeforeShowExpiration;
+        this.task.frequenceOfNotice = this.taskTemplate.frequenceOfNotice;
 
         this.confirmationTaskTemplateSwal.title = 'Do you want to save: ' + this.taskTemplate.description + '?';
         this.confirmationTaskTemplateSwal.show()
@@ -229,23 +227,21 @@ export class QuickConfigurationComponent implements OnInit {
                                 me.uploader.onSuccessItem = (item, response, status, headers) =>
                                     me.onSuccessItem(item, response, status, headers);
 
-                                if (me.isNewForm) {
-                                    me.task.taskTemplate = taskTemplate;
-                                    me.task.taskOffices = me.associationOffice.taskOfficesArray;
+                                me.task.taskTemplate = taskTemplate;
+                                me.task.taskOffices = me.associationOffice.taskOfficesArray;
 
-                                    me.taskService.saveUpdateTask(me.task).subscribe(
-                                        dataTask => {
-                                            console.log('QuickConfigurationComponent - createEditTaskSubmit - next');
+                                me.taskService.saveUpdateTask(me.task).subscribe(
+                                    dataTask => {
+                                        console.log('QuickConfigurationComponent - createEditTaskSubmit - next');
 
-                                            me.router.navigate(['/back-office/office-task']);
-                                        },
-                                        errorTask => {
-                                            me.errorDetails = errorTask.error;
-                                            //    me.showErrorDescriptionSwal();
-                                            console.log('QuickConfigurationComponent - createEditTaskSubmit - error');
-                                        }
-                                    );
-                                }
+                                        me.router.navigate(['/back-office/office-task']);
+                                    },
+                                    errorTask => {
+                                        me.errorDetails = errorTask.error;
+                                        //    me.showErrorDescriptionSwal();
+                                        console.log('QuickConfigurationComponent - createEditTaskSubmit - error');
+                                    }
+                                );
                             }
                         }, error => {
                             me.errorDetails = error.error;

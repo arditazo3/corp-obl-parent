@@ -28,8 +28,14 @@ export class TaskTemplateService {
     }
 
     searchTaskTemplate(objectSearchTaskTemplate): Observable<any> {
-        console.log('TaskTemplateService - saveUpdateTaskTemplate');
+        console.log('TaskTemplateService - searchTaskTemplate');
 
         return this.apiRequest.post(this.appConfig.searchTaskTemplate, objectSearchTaskTemplate);
+    }
+
+    searchTaskTemplateByDescr(description): Observable<any> {
+        console.log('TaskTemplateService - searchTaskTemplate');
+
+        return this.apiRequest.post(this.appConfig.searchTaskTemplateByDescr, description);
     }
 }
