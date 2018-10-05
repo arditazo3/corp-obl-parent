@@ -16,4 +16,6 @@ public interface ITaskTemplateService {
 	Optional<TaskTemplate> findByIdTaskTemplate(Long idTaskTemplate);
 	
 	List<Task> searchTaskTemplate(ObjectSearchTaskTemplate objectSearchTaskTemplate);
+	
+	List<TaskTemplate> searchTaskTemplateByDescr(String description);
 }

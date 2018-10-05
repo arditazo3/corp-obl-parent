@@ -35,7 +35,7 @@ import com.tx.co.security.exception.GeneralException;
  * @author aazo
  */
 @Service
-public class OfficeService extends UpdateCacheData implements IOfficeService, IUserManagementDetails  {
+public class OfficeService extends UpdateCacheData implements IOfficeService, IUserManagementDetails {
 
 	private static final Logger logger = LogManager.getLogger(OfficeService.class);
 
@@ -60,7 +60,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		List<Office> officeList = new ArrayList<>();
 
 		List<Office> officeListFromCache = getOfficesFromCache();
-		if(!isEmpty(getOfficesFromCache())) {
+		if (!isEmpty(getOfficesFromCache())) {
 			officeList = officeListFromCache;
 		} else {
 			officeRepository.findAllByOrderByDescriptionAsc().forEach(officeList::add);
@@ -78,15 +78,14 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 
 	@Override
 	public AuthenticationTokenUserDetails getTokenUserDetails() {
-		return (AuthenticationTokenUserDetails)
-				SecurityContextHolder.getContext().getAuthentication().getDetails();
+		return (AuthenticationTokenUserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
 	}
 
 	@Override
 	public Office saveUpdateOffice(Office office) {
 
 		// Check if exist other office with same description
-		if(checkIfExistOtherOfficeSameDescription(office)) {
+		if (checkIfExistOtherOfficeSameDescription(office)) {
 			throw new GeneralException("This company already exist");
 		}
 
@@ -96,7 +95,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		Office officeStored = null;
 
 		// New Office
-		if(isEmpty(office.getIdOffice())) {
+		if (isEmpty(office.getIdOffice())) {
 			office.setCreationDate(new Date());
 			office.setCreatedBy(username);
 			office.setEnabled(true);
@@ -130,12 +129,10 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		} else {
 			int counter = 0;
 			for (Office officeLoop : officeListByDescription) {
-				if ((!isEmpty(office.getIdOffice()) &&
-						officeLoop.getIdOffice().compareTo(office.getIdOffice()) != 0 &&
-						officeLoop.getDescription().trim().equalsIgnoreCase(office.getDescription().trim()))
-						||
-						(isEmpty(office.getIdOffice()) &&
-								officeLoop.getDescription().trim().equalsIgnoreCase(office.getDescription().trim())) ) {
+				if ((!isEmpty(office.getIdOffice()) && officeLoop.getIdOffice().compareTo(office.getIdOffice()) != 0
+						&& officeLoop.getDescription().trim().equalsIgnoreCase(office.getDescription().trim()))
+						|| (isEmpty(office.getIdOffice()) && officeLoop.getDescription().trim()
+								.equalsIgnoreCase(office.getDescription().trim()))) {
 					counter++;
 				}
 			}
@@ -149,7 +146,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		try {
 			Optional<Office> officeOptional = findByIdOffice(idOffice);
 
-			if(!officeOptional.isPresent()) {
+			if (!officeOptional.isPresent()) {
 				throw new NotFoundException();
 			}
 
@@ -174,23 +171,18 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 	@Override
 	public List<OfficeTaskTemplates> searchOfficeTaskTemplates(TaskTempOffices taskTempOffices) {
 
-		String querySql = "select to.office, tt "
-				+ "from TaskOffice to "
-				+ "left join to.taskTemplate tt ";
+		String querySql = "select to.office, tt " + "from TaskOffice to " + "left join to.taskTemplate tt ";
 		Query query;
 
-		if(isEmpty(taskTempOffices.getOffices())) {
-			querySql += "where tt.description like :description "
-					+ "group by to.idTaskOffice "
+		if (isEmpty(taskTempOffices.getOffices())) {
+			querySql += "where tt.description like :description " + "group by to.idTaskOffice "
 					+ "order by to.taskTemplate.description asc ";
 			query = em.createQuery(querySql);
 
 			query.setParameter("description", "%" + taskTempOffices.getDescriptionTaskTemplate() + "%");
 		} else {
-			querySql += "where tt.description like :description "
-					+ "and to.office in :officeList "
-					+ "group by to.idTaskOffice "
-					+ "order by to.taskTemplate.description asc ";
+			querySql += "where tt.description like :description " + "and to.office in :officeList "
+					+ "group by to.idTaskOffice " + "order by to.taskTemplate.description asc ";
 			query = em.createQuery(querySql);
 
 			query.setParameter("description", "%" + taskTempOffices.getDescriptionTaskTemplate() + "%");
@@ -200,7 +192,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		List<OfficeTaskTemplates> officeTaskTemplatesList = new ArrayList<>();
 		@SuppressWarnings("unchecked")
 		List<Object[]> officeTaskTemplateList = query.getResultList();
-		if(!isEmpty(officeTaskTemplateList)) {
+		if (!isEmpty(officeTaskTemplateList)) {
 			List<OfficeTaskTemplate> officeTaskTemplates = new ArrayList<>();
 
 			for (Object[] officeTaskTemplateObject : officeTaskTemplateList) {
@@ -212,23 +204,23 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 				officeTaskTemplate.setTaskTemplate(taskTemplateToSet);
 				officeTaskTemplates.add(officeTaskTemplate);
 			}
-			officeTaskTemplatesList =  convertToOfficeTasks(officeTaskTemplates);
+			officeTaskTemplatesList = convertToOfficeTasks(officeTaskTemplates);
 		}
 
-		if(!isEmpty(taskTempOffices.getOffices()) && 
-				taskTempOffices.getOffices().size() > officeTaskTemplatesList.size()) {
+		if (!isEmpty(taskTempOffices.getOffices())
+				&& taskTempOffices.getOffices().size() > officeTaskTemplatesList.size()) {
 
 			List<OfficeTaskTemplates> officeTasksListTemp = new ArrayList<>();
 			for (Office officeFirstLoop : taskTempOffices.getOffices()) {
-				if(!isEmpty(officeTaskTemplatesList)) {
+				if (!isEmpty(officeTaskTemplatesList)) {
 					boolean hasOffice = false;
 					for (OfficeTaskTemplates officeTasksLoop : officeTaskTemplatesList) {
-						if(officeFirstLoop.getIdOffice().compareTo(officeTasksLoop.getOffice().getIdOffice()) == 0) {
+						if (officeFirstLoop.getIdOffice().compareTo(officeTasksLoop.getOffice().getIdOffice()) == 0) {
 							hasOffice = true;
 							continue;
 						}
 					}
-					if(!hasOffice) {
+					if (!hasOffice) {
 						OfficeTaskTemplates officeTasks = new OfficeTaskTemplates();
 						officeTasks.setOffice(officeFirstLoop);
 						officeTasksListTemp.add(officeTasks);
@@ -251,7 +243,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		for (OfficeTaskTemplate officeTask : officeTaskList) {
 			Office office = officeTask.getOffice();
 			TaskTemplate taskTemplate = officeTask.getTaskTemplate();
-			if(!officeTaskTemplatesMap.containsKey(office)) {
+			if (!officeTaskTemplatesMap.containsKey(office)) {
 				List<TaskTemplate> taskTemplates = new ArrayList<>();
 				taskTemplates.add(taskTemplate);
 				officeTaskTemplatesMap.put(office, taskTemplates);
@@ -261,7 +253,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		}
 
 		List<OfficeTaskTemplates> officeTasks = new ArrayList<>();
-		for(Office officeLoop : officeTaskTemplatesMap.keySet()) {
+		for (Office officeLoop : officeTaskTemplatesMap.keySet()) {
 			OfficeTaskTemplates officeTaskFinal = new OfficeTaskTemplates();
 			officeTaskFinal.setOffice(officeLoop);
 			officeTaskFinal.setTaskTemplates(officeTaskTemplatesMap.get(officeLoop));

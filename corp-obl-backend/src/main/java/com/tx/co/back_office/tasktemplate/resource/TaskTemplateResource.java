@@ -27,6 +27,7 @@ import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplateResu
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.service.ITaskTemplateService;
+import com.tx.co.common.api.model.StringResult;
 import com.tx.co.common.api.provider.ObjectResult;
 
 @Component
@@ -76,12 +77,27 @@ public class TaskTemplateResource extends ObjectResult {
 	@Path(TASK_TEMPLATE_SEARCH)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response searchTaskTemplate(ObjectSearchTaskTemplateResult objectSearchTaskTemplateResult) {
+	public Response searchTaskTemplateTable(ObjectSearchTaskTemplateResult objectSearchTaskTemplateResult) {
 
 		Iterable<Task> taskForTableIterable = taskTemplateService.searchTaskTemplate(toObjectSearchTaskTemplate(objectSearchTaskTemplateResult));
         List<TaskResult> queryDetailsList =
                 StreamSupport.stream(taskForTableIterable.spliterator(), false)
                         .map(this::toTaskResult)
+                        .collect(Collectors.toList());
+
+        return Response.ok(queryDetailsList).build();
+	}
+	
+	@POST
+	@Path(TASK_TEMPLATE_SEARCH_BY_DESCR)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response searchTaskTemplateTable(StringResult description) {
+
+		List<TaskTemplate> taskTemplateIterable = taskTemplateService.searchTaskTemplateByDescr(description.getResult());
+        List<TaskTemplateResult> queryDetailsList =
+                StreamSupport.stream(taskTemplateIterable.spliterator(), false)
+                        .map(this::toTaskTemplateResult)
                         .collect(Collectors.toList());
 
         return Response.ok(queryDetailsList).build();

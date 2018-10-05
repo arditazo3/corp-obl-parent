@@ -73,6 +73,7 @@ public final class ApiConstants {
 	public static final String TASK_TEMPLATE_CREATE_UPDATE = TASK_TEMPLATE + CREATE_UPDATE;
 	public static final String TASK_TEMPLATE_DELETE = TASK_TEMPLATE + DELETE;
 	public static final String TASK_TEMPLATE_SEARCH = TASK_TEMPLATE + "/search-task-template";
+	public static final String TASK_TEMPLATE_SEARCH_BY_DESCR = TASK_TEMPLATE + "/search-task-template-by-descr";
 
 
 	// Translate URL

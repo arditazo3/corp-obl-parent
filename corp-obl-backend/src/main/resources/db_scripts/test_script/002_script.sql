@@ -17,10 +17,10 @@ where o.id =  6;
 
 select * from co_taskoffice;
 
-select * from office left JOIN
-
-UPDATE co_tasktemplate
-SET    description = CONCAT('Task Template: @', id);
+select * from co_tasktemplate tt
+LEFT JOIN co_taskoffice too on tt.id = too.tasktemplate_id
+  LEFT JOIN co_office o ON too.office_id = o.id
+where tt.description like '%test%' and tt.enabled <> 0;
 
 update co_tasktemplate set expirationclosableby = 1;
 

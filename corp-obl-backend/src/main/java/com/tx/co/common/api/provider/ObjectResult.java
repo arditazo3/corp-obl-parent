@@ -625,6 +625,24 @@ public abstract class ObjectResult extends UpdateCacheData {
 		}
 		return taskResult;
 	}
+	
+	/**
+	 * @param task
+	 * @return TaskResult
+	 */
+	public TaskResult toTaskResultOnly(Task task) {
+		TaskResult taskResult = new TaskResult();
+
+		taskResult.setIdTask(task.getIdTask());
+		taskResult.setRecurrence(task.getRecurrence());
+		taskResult.setExpirationType(task.getExpirationType());
+		taskResult.setDay(task.getDay());
+		taskResult.setDaysOfNotice(task.getDaysOfNotice());
+		taskResult.setFrequenceOfNotice(task.getFrequenceOfNotice());
+		taskResult.setDaysBeforeShowExpiration(task.getDaysBeforeShowExpiration());
+		
+		return taskResult;
+	}
 
 	public Task toTask(TaskResult taskResult) {
 		Task task = new Task();
@@ -773,6 +791,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		taskOfficeResult.setIdTaskOffice(taskOffice.getIdTaskOffice());
 		taskOfficeResult.setOffice(toOfficeWithTaskOfficeRelationsResult(taskOffice.getOffice(), taskOffice.getTaskOfficeRelations()));
 		taskOfficeResult.setTaskTemplate(toTaskTemplateResult(taskOffice.getTaskTemplate()));
+		taskOfficeResult.setTask(toTaskResultOnly(taskOffice.getTask()));
 		
 		return taskOfficeResult;
 	}
