@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {Router} from '@angular/router';
@@ -6,13 +6,16 @@ import {Company} from '../../../company/model/company';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {Consultant} from '../../model/consultant';
 import {ConsultantService} from '../../service/consultant.service';
+import {TopicConsultantComponent} from '../topic-consultant/topic-consultant.component';
 
 @Component({
-  selector: 'app-consultant-table',
-  templateUrl: './consultant-table.component.html',
-  styleUrls: ['./consultant-table.component.css']
+    selector: 'app-consultant-table',
+    templateUrl: './consultant-table.component.html',
+    styleUrls: ['./consultant-table.component.css']
 })
 export class ConsultantTableComponent implements OnInit {
+
+    @Output() deletedConsultant = new EventEmitter<boolean>();
 
     @ViewChild('myTable') table: any;
     @ViewChild('deleteCompanyConsultantSwal') private deleteCompanyConsultantSwal: SwalComponent;
@@ -25,34 +28,35 @@ export class ConsultantTableComponent implements OnInit {
     errorDetails: ApiErrorDetails;
     company: Company;
 
-  constructor(
-      private router: Router,
-      private companyConsultantService: ConsultantService,
-      private transferService: TransferDataService
-  ) { }
+    constructor(
+        private router: Router,
+        private companyConsultantService: ConsultantService,
+        private transferService: TransferDataService
+    ) {
+    }
 
-  ngOnInit() {
-      console.log('ConsultantTableComponent - ngOnInit');
+    ngOnInit() {
+        console.log('ConsultantTableComponent - ngOnInit');
 
-      const me = this;
-      me.getCompanyConsultant(null);
+        const me = this;
+        me.getCompanyConsultant(null);
 
-      me.columns = [
-          {prop: 'name', name: 'Nominative / Business name'},
-          {prop: 'email', name: 'Email'},
-          {prop: 'phone1', name: 'Telephone no.1'},
-          {prop: 'phone2', name: 'Telephone no.2'},
-      ];
-  }
+        me.columns = [
+            {prop: 'name', name: 'Nominative / Business name'},
+            {prop: 'email', name: 'Email'},
+            {prop: 'phone1', name: 'Telephone no.1'},
+            {prop: 'phone2', name: 'Telephone no.2'},
+        ];
+    }
 
     getCompanyConsultant(selectedCompany) {
         console.log('ConsultantTableComponent - getConsultants');
 
-        this.company = selectedCompany;
-
         if (!selectedCompany) {
-          return;
+            return;
         }
+
+        this.company = selectedCompany;
 
         const me = this;
         me.companyConsultantService.getCompanyConsultant(selectedCompany).subscribe(
@@ -112,15 +116,16 @@ export class ConsultantTableComponent implements OnInit {
     deleteCompanyConsultantCofirm() {
         console.log('CompanyConsultantTableComponent - deleteCompanyConsultantCofirm' + this.rowSelected.idCompanyConsultant);
 
+        const me = this;
         const companyConsultantSelected = this.rowSelected;
 
-        this.companyConsultantService.deleteCompanyConsultant(companyConsultantSelected).subscribe(
+        me.companyConsultantService.deleteCompanyConsultant(companyConsultantSelected).subscribe(
             (data) => {
-                this.errorDetails = undefined;
-                this.getCompanyConsultant(this.company);
+                me.errorDetails = undefined;
+                me.deletedConsultant.emit(true);
                 console.log('CompanyConsultantTableComponent - deleteCompanyConsultantCofirm - next');
             }, error => {
-                this.errorDetails = error.error;
+                me.errorDetails = error.error;
                 console.error('CompanyConsultantTableComponent - deleteCompanyConsultantCofirm - error');
             }
         );

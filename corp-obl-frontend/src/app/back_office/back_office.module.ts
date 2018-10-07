@@ -3,7 +3,6 @@ import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {BackOfficeRoutes} from './back_office.routing';
 import {RouterModule} from '@angular/router';
 import {DragulaModule} from 'ng2-dragula';
-import {QuillModule} from 'ngx-quill';
 import {NgbModalModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
@@ -55,7 +54,6 @@ import { TaskTemplateTableComponent } from './office-task/component/tasktemplate
         NgbModalModule.forRoot(),
         CalendarModule.forRoot(),
         NgxDatatableModule,
-        QuillModule,
         DragulaModule,
         RouterModule.forChild(BackOfficeRoutes),
         PerfectScrollbarModule,

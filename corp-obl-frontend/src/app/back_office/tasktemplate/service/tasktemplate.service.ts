@@ -34,7 +34,7 @@ export class TaskTemplateService {
     }
 
     searchTaskTemplateByDescr(description): Observable<any> {
-        console.log('TaskTemplateService - searchTaskTemplate');
+        console.log('TaskTemplateService - searchTaskTemplateByDescr');
 
         return this.apiRequest.post(this.appConfig.searchTaskTemplateByDescr, description);
     }

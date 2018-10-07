@@ -4,50 +4,65 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class TransferDataService {
 
-  private _singleParam;
-  private _objectParam;
-  private _arrayParam;
+    private _singleParam;
+    private _objectParam;
+    private _arrayParam;
+    private _aloneParam;
 
-  constructor(
-    private router: Router
-  ) {}
+    constructor(
+        private router: Router
+    ) {
+    }
 
-  get singleParam() {
-    const _singleParamTemp = this._singleParam;
 
-    this.cleanParams();
-    return _singleParamTemp;
-  }
+    get singleParam() {
+        const _singleParamTemp = this._singleParam;
 
-  set singleParam(value) {
-    this._singleParam = value;
-  }
+        this.cleanParams();
+        return _singleParamTemp;
+    }
 
-  get objectParam() {
-    const _objectParamTemp = this._objectParam;
+    set singleParam(value) {
+        this._singleParam = value;
+    }
 
-    this.cleanParams();
-    return _objectParamTemp;
-  }
+    get objectParam() {
+        const _objectParamTemp = this._objectParam;
 
-  set objectParam(value) {
-    this._objectParam = value;
-  }
+        this.cleanParams();
+        return _objectParamTemp;
+    }
 
-  get arrayParam() {
-    const _arrayParamTemp = this._arrayParam;
+    set objectParam(value) {
+        this._objectParam = value;
+    }
 
-    this.cleanParams();
-    return _arrayParamTemp;
-  }
+    get arrayParam() {
+        const _arrayParamTemp = this._arrayParam;
 
-  set arrayParam(value) {
-    this._arrayParam = value;
-  }
+        this.cleanParams();
+        return _arrayParamTemp;
+    }
 
-  cleanParams() {
-    this._singleParam = undefined;
-    this._objectParam = undefined;
-    this._arrayParam = undefined;
-  }
+    set arrayParam(value) {
+        this._arrayParam = value;
+    }
+
+    get aloneParam() {
+        const _aloneParamTemp = this._aloneParam;
+
+        this._aloneParam = undefined;
+        return _aloneParamTemp;
+    }
+
+    set aloneParam(value) {
+        this._aloneParam = value;
+    }
+
+
+    cleanParams() {
+        this._singleParam = undefined;
+        this._objectParam = undefined;
+        this._arrayParam = undefined;
+    }
 }

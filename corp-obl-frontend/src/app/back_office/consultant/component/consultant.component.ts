@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Company} from '../../company/model/company';
 import {TransferDataService} from '../../../shared/common/service/transfer-data.service';
@@ -8,6 +8,7 @@ import {UserInfoService} from '../../../user/service/user-info.service';
 import {Router} from '@angular/router';
 import {ConsultantTableComponent} from './consultant-table/consultant-table.component';
 import {TopicConsultantComponent} from './topic-consultant/topic-consultant.component';
+import {SwalComponent} from '@toverux/ngx-sweetalert2';
 
 @Component({
     selector: 'app-consultant',
@@ -21,6 +22,7 @@ export class ConsultantComponent implements OnInit {
 
     companiesObservable: Observable<any[]>;
     selectedCompany: Company;
+    validationSelectCompany = false;
 
     constructor(
         private router: Router,
@@ -40,19 +42,33 @@ export class ConsultantComponent implements OnInit {
         }
 
         this.getCompanies();
+
+        const alertFromChild = this.transferService.aloneParam;
+        if (alertFromChild) {
+            this.validationSelectCompany = true;
+        } else {
+            this.validationSelectCompany = false;
+        }
+
     }
 
     getCompanies() {
         console.log('TopicCreateEditComponent - getCompanies');
 
         const me = this;
-        me.companiesObservable = me.companyService.getCompanies();
+        me.companiesObservable = me.companyService.getCompaniesByRole();
     }
 
     onChangeCompany(company) {
         this.consultantTable.company = company;
         this.consultantTable.getCompanyConsultant(company);
         this.topicConsultant.getCompanyTopic(company);
+    }
+
+    deletedConsultant($event) {
+        if ($event) {
+            this.onChangeCompany(this.selectedCompany);
+        }
     }
 
 }

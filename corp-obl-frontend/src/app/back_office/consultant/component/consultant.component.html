@@ -22,12 +22,15 @@
                                         (change)="onChangeCompany($event)"
                                         [(ngModel)]="selectedCompany">
                                 </ng-select>
+                                <div *ngIf="validationSelectCompany && !selectedCompany" class="invalid-feedback-show">
+                                    Select a company
+                                </div>
                             </div>
                         </div>
 
                         <hr>
 
-                            <app-consultant-table #consultantTable></app-consultant-table>
+                            <app-consultant-table (deletedConsultant)="deletedConsultant($event)" #consultantTable></app-consultant-table>
 
                             <app-topic-consultant></app-topic-consultant>
 

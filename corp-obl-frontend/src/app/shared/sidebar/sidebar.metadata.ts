@@ -1,4 +1,6 @@
 // Sidebar route metadata
+import {AuthorityEnum} from '../common/api/enum/authority.enum';
+
 export interface RouteInfo {
   path: string;
   title: string;
@@ -7,4 +9,5 @@ export interface RouteInfo {
   ddclass: string;
   extralink: boolean;
   submenu: RouteInfo[];
+  authorities?: string[];
 }

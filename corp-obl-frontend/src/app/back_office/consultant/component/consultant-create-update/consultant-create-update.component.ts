@@ -1,6 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
-import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {Router} from '@angular/router';
@@ -8,11 +7,12 @@ import {Consultant} from '../../model/consultant';
 import {Company} from '../../../company/model/company';
 import {ConsultantService} from '../../service/consultant.service';
 import {AppGlobals} from '../../../../shared/common/api/app-globals';
+import {SwalComponent} from '@toverux/ngx-sweetalert2';
 
 @Component({
-  selector: 'app-consultant-create-update',
-  templateUrl: './consultant-create-update.component.html',
-  styleUrls: ['./consultant-create-update.component.css']
+    selector: 'app-consultant-create-update',
+    templateUrl: './consultant-create-update.component.html',
+    styleUrls: ['./consultant-create-update.component.css']
 })
 export class ConsultantCreateUpdateComponent implements OnInit {
 
@@ -22,53 +22,52 @@ export class ConsultantCreateUpdateComponent implements OnInit {
     errorDetails: ApiErrorDetails;
     company: Company;
 
-    @ViewChild('errorDescriptionSwal') errorDescriptionSwal: SwalComponent;
-    @ViewChild('errorCompanyEmptySwal') errorCompanyEmptySwal: SwalComponent;
+    @ViewChild('errorDescriptionSwal') private errorDescriptionSwal: SwalComponent;
     @ViewChild('cancelBtn') cancelBtn;
     @ViewChild('submitBtn') submitBtn;
     createEditConsultant: FormGroup;
 
-  constructor(
-      private router: Router,
-      private transferService: TransferDataService,
-      private formBuilder: FormBuilder,
-      private consultantService: ConsultantService
-  ) { }
+    constructor(
+        private router: Router,
+        private transferService: TransferDataService,
+        private formBuilder: FormBuilder,
+        private consultantService: ConsultantService
+    ) {
+    }
 
-  ngOnInit() {
-      console.log('ConsultantCreateUpdateComponent - ngOnInit');
+    ngOnInit() {
+        console.log('ConsultantCreateUpdateComponent - ngOnInit');
 
-      const arrayCompanyConsultant = this.transferService.arrayParam;
+        const arrayCompanyConsultant = this.transferService.arrayParam;
 
-      if (arrayCompanyConsultant) {
-          this.company = arrayCompanyConsultant[0];
-          this.consultant = arrayCompanyConsultant[1];
-      }
+        if (arrayCompanyConsultant) {
+            this.company = arrayCompanyConsultant[0];
+            this.consultant = arrayCompanyConsultant[1];
+        }
 
-      if (!this.consultant) {
-          this.isNewForm = true;
-          this.consultant = new Consultant();
-      } else {
-          this.submitBtn.nativeElement.innerText = 'Update Consultant';
-      }
+        if (!this.consultant) {
+            this.isNewForm = true;
+            this.consultant = new Consultant();
+        } else {
+            this.submitBtn.nativeElement.innerText = 'Update Consultant';
+        }
 
-      this.createEditConsultant = this.formBuilder.group({
-          name: new FormControl({value: this.consultant.name, disabled: false}, Validators.required),
-          email: new FormControl({value: this.consultant.email, disabled: false}, Validators.compose(
-              [ Validators.required, Validators.email, Validators.pattern(AppGlobals.emailPattern) ])),
-          phone1: new FormControl({value: this.consultant.phone1, disabled: false}),
-          phone2: new FormControl({value: this.consultant.phone2, disabled: false})
-      });
+        this.createEditConsultant = this.formBuilder.group({
+            name: new FormControl({value: this.consultant.name, disabled: false}, Validators.required),
+            email: new FormControl({value: this.consultant.email, disabled: false}, Validators.compose(
+                [Validators.required, Validators.email, Validators.pattern(AppGlobals.emailPattern)])),
+            phone1: new FormControl({value: this.consultant.phone1, disabled: false}),
+            phone2: new FormControl({value: this.consultant.phone2, disabled: false})
+        });
 
-      if (!this.company) {
-          this.errorCompanyEmptySwal.text = 'Select a company';
-          this.errorCompanyEmptySwal.title = 'Select a company';
-          this.errorCompanyEmptySwal.show();
+        if (!this.company) {
 
-          this.router.navigate(['/back-office/consultant']);
-          return;
-      }
-  }
+            this.transferService.aloneParam = 'Select a company: mandatory';
+
+            this.router.navigate(['/back-office/consultant']);
+            return;
+        }
+    }
 
     // convenience getter for easy access to form fields
     get f() {

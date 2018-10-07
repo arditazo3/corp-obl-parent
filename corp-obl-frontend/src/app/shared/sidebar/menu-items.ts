@@ -1,4 +1,5 @@
 import {RouteInfo} from './sidebar.metadata';
+import {AuthorityEnum} from '../common/api/enum/authority.enum';
 
 export const ROUTES: RouteInfo[] = [
     {
@@ -61,7 +62,8 @@ export const ROUTES: RouteInfo[] = [
                 class: '',
                 ddclass: '',
                 extralink: false,
-                submenu: []
+                submenu: [],
+                authorities: [AuthorityEnum[AuthorityEnum.CORPOBLIG_ADMIN], AuthorityEnum[AuthorityEnum.CORPOBLIG_BACKOFFICE_FOREIGN]]
             },
             {
                 path: '/back-office/office-task',
@@ -70,7 +72,8 @@ export const ROUTES: RouteInfo[] = [
                 class: '',
                 ddclass: '',
                 extralink: false,
-                submenu: []
+                submenu: [],
+                authorities: [AuthorityEnum[AuthorityEnum.CORPOBLIG_ADMIN], AuthorityEnum[AuthorityEnum.CORPOBLIG_BACKOFFICE_INLAND]]
             }
         ]
     }

@@ -108,6 +108,14 @@ export class UserInfoService {
         return null;
     }
 
+    getAuthorities(): AuthorityEnum[] | null {
+        const userInStorage: UserTokenInStorage = this.getUserInfo();
+        if (userInStorage !== null) {
+            return userInStorage.user.authorities;
+        }
+        return null;
+    }
+
     getLanguages(): string[] | null {
         const userInStorage: UserTokenInStorage = this.getUserInfo();
         if (userInStorage !== null) {
