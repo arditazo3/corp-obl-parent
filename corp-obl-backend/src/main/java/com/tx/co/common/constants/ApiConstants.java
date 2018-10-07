@@ -102,6 +102,8 @@ public final class ApiConstants {
 	 * List of authorization Role
 	 * */
 	public static final String ADMIN_ROLE = "CORPOBLIG_ADMIN";
+	public static final String FOREIGN_ROLE = "CORPOBLIG_BACKOFFICE_FOREIGN";
+	public static final String INLAND_ROLE = "CORPOBLIG_BACKOFFICE_INLAND";
 	public static final String USER_ROLE = "CORPOBLIG_USER";
 	/* End of authorization Role list */
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -16,14 +17,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplate;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.repository.TaskTemplateRepository;
+import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
 import com.tx.co.security.domain.Authority;
+import com.tx.co.security.exception.GeneralException;
 import com.tx.co.user.domain.User;
 
 /**
@@ -38,7 +42,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 	private TaskTemplateRepository taskTemplateRepository;
 	private EntityManager em;
-	
+
 	@Autowired
 	public void setTaskTemplateRepository(TaskTemplateRepository taskTemplateRepository) {
 		this.taskTemplateRepository = taskTemplateRepository;
@@ -65,9 +69,9 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 			taskTemplateStored = taskTemplate;
 		} else { // Existing Task template
 			taskTemplateStored = getTaskTemplateById(taskTemplate.getIdTaskTemplate());
-			
+
 		}
-		
+
 		taskTemplateStored.setDescription(taskTemplate.getDescription());
 		taskTemplateStored.setDay(taskTemplate.getDay());
 		taskTemplateStored.setDaysBeforeShowExpiration(taskTemplate.getDaysBeforeShowExpiration());
@@ -107,15 +111,18 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		List<Task> tasks = new ArrayList<>();
 
 		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
-			tasks = covertToTaskForTable(taskTemplateRepository.findAllOrderByDescriptionAsc());
+			tasks = convertToTaskForTable(taskTemplateRepository.findAllOrderByDescriptionAsc());
 		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
-			// FIXME
-			return new ArrayList<>();
+			List<String> authorities = new ArrayList<>();
+			for (Authority authority : userLoggedIn.getAuthorities()) {
+				authorities.add(authority.name());
+			}
+			tasks = convertToTaskForTable(taskTemplateRepository.getTaskTemplatesByRole(authorities));
 		}
 		return tasks;
 	}
 
-	public List<Task> covertToTaskForTable(List<TaskTemplate> taskTemplates) {
+	public List<Task> convertToTaskForTable(List<TaskTemplate> taskTemplates) {
 
 		List<Task> tasks = new ArrayList<>();
 		for (TaskTemplate taskTemplate : taskTemplates) {
@@ -136,34 +143,59 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Task> searchTaskTemplate(ObjectSearchTaskTemplate objectSearchTaskTemplate) {
-		
-		
-		String querySql = "select tt from TaskTemplate tt "
-				+ "left join tt.topic top "
-				+ "left join top.companyTopic ct "
-				+ "left join ct.company c "
-				+ "where tt.enabled <> 0 and top.enabled <> 0 and ct.enabled <> 0 and c.enabled <> 0";
+
+		User userLoggedIn = getTokenUserDetails().getUser();
+		List<String> authorities = new ArrayList<>();
+
+		String querySql = "select tt.* from co_tasktemplate tt " + 
+				"left join co_topic t on tt.topic_id = t.id " + 
+				"left join co_topicconsultant tc on t.id = tc.topic_id " + 
+				"left join co_companyconsultant cc on tc.consultantcompany_id = cc.id " + 
+				"left join co_company c on cc.company_id = c.id " + 
+				"left join co_companyuser cu on c.id = cu.company_id " + 
+				"left join co_user u on cu.username = u.username " +
+				"left join co_userrole ur on u.username = ur.username " + 
+				"where tt.enabled <> 0 ";
+
+		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
+			querySql += "and ur.roleuid in (:authorities) ";
+
+			for (Authority authority : userLoggedIn.getAuthorities()) {
+				authorities.add(authority.name());
+			}
+		}
+
 		Query query;
-		
+
 		if(isEmpty(objectSearchTaskTemplate.getCompanies()) && isEmpty(objectSearchTaskTemplate.getTopics())) {
+
+
 			querySql += "and tt.description like :description "
-					+ "group by tt.idTaskTemplate "
-					+ "order by tt.description asc";
+					+ "group by tt.id order by tt.description asc";
 			query = em.createQuery(querySql);
-			
+
 			query.setParameter("description", "%" + objectSearchTaskTemplate.getDescriptionTaskTemplate() + "%");
+		} else if(isEmpty(objectSearchTaskTemplate.getCompanies()) || isEmpty(objectSearchTaskTemplate.getTopics())) {
+			throw new GeneralException("Fill in all the fields");
 		} else {
 			querySql += "and tt.description like :description and "
-					+ "(top in :topicsList and c in :companiesList) "
-					+ "group by tt.idTaskTemplate "
-					+ "order by tt.description asc";
-			query = em.createQuery(querySql);
-			
+					+ "(t.id in :topicsList and c.id in :companiesList) "
+					+ "group by tt.id order by tt.description asc";
+			query = em.createNativeQuery(querySql, TaskTemplate.class);
+
 			query.setParameter("description", "%" + objectSearchTaskTemplate.getDescriptionTaskTemplate() + "%");
-			query.setParameter("topicsList", objectSearchTaskTemplate.getTopics());
-			query.setParameter("companiesList", objectSearchTaskTemplate.getCompanies());
+			query.setParameter("topicsList",   objectSearchTaskTemplate.getTopics().stream()
+					.map(Topic::getIdTopic).collect(Collectors.toList()));
+			
+			query.setParameter("companiesList", objectSearchTaskTemplate.getCompanies().stream()
+					.map(Company::getIdCompany).collect(Collectors.toList()));
 		}
-		return covertToTaskForTable(query.getResultList());
+
+		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
+			query.setParameter("authorities", authorities);
+		}
+
+		return convertToTaskForTable(query.getResultList());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -173,12 +205,12 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		String querySql = "select tt from TaskTemplate tt "
 				+ "where tt.enabled <> 0 ";
 		Query query;
-		
+
 		if(!isEmpty(description)) {
 			querySql += "and tt.description like :description "
 					+ "order by tt.description asc";
 			query = em.createQuery(querySql);
-			
+
 			query.setParameter("description", "%" + description + "%");
 		} else {
 			return new ArrayList<>();

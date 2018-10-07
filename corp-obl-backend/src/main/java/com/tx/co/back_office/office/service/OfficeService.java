@@ -171,18 +171,30 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 	@Override
 	public List<OfficeTaskTemplates> searchOfficeTaskTemplates(TaskTempOffices taskTempOffices) {
 
-		String querySql = "select to.office, tt " + "from TaskOffice to " + "left join to.taskTemplate tt ";
+		String querySql = "select o.*, tt.* " + 
+				"from co_taskoffice tasko " + 
+				"       left join co_tasktemplate tt on tasko.tasktemplate_id = tt.id " + 
+				"       left join co_office o on tasko.office_id = o.id " + 
+				"       left join co_company c on o.company_id = c.id " + 
+				"       left join co_companyuser cc on c.id = cc.company_id " + 
+				"       left join co_user u on cc.username = u.username " + 
+				"       left join co_userrole ur on u.username = ur.username " + 
+				" where o.enabled <> 0 " + 
+				" and tt.enabled <> 0 ";
 		Query query;
 
 		if (isEmpty(taskTempOffices.getOffices())) {
-			querySql += "where tt.description like :description " + "group by to.idTaskOffice "
+			querySql += "where tt.description like :description " + 
+					"group by to.idTaskOffice "
 					+ "order by to.taskTemplate.description asc ";
 			query = em.createQuery(querySql);
 
 			query.setParameter("description", "%" + taskTempOffices.getDescriptionTaskTemplate() + "%");
 		} else {
-			querySql += "where tt.description like :description " + "and to.office in :officeList "
-					+ "group by to.idTaskOffice " + "order by to.taskTemplate.description asc ";
+			querySql += "where tt.description like :description " + 
+					"and to.office in :officeList " +
+					"group by tasko.id " + 
+					"order by tt.description asc";
 			query = em.createQuery(querySql);
 
 			query.setParameter("description", "%" + taskTempOffices.getDescriptionTaskTemplate() + "%");

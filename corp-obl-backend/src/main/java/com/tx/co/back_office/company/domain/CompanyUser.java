@@ -3,16 +3,24 @@ package com.tx.co.back_office.company.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Where;
+
+import com.tx.co.user.domain.User;
 
 /**
  * Domain model that represents a company user.
@@ -40,6 +48,11 @@ public class CompanyUser implements Serializable {
     @JoinColumn(name = "company_id")
     private Company company;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "username", insertable = false, updatable = false)
+    @Where(clause = "enabled = 1")
+    private User user;
+    
     @Column(nullable = false, name="companyadmin")
     private Boolean companyAdmin;
     
@@ -82,6 +95,14 @@ public class CompanyUser implements Serializable {
 
 	public void setCompany(Company company) {
 		this.company = company;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Boolean getCompanyAdmin() {
