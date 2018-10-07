@@ -19,6 +19,7 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.tx.co.back_office.task.api.model.TaskResult;
@@ -50,8 +51,8 @@ public class TaskTemplateResource extends ObjectResult {
     @Path(TASK_TEMPLATE_LIST_FOR_TABLE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
-    public Response getTaskTemplatesForTable() {
+	@PreAuthorize("hasAuthority('"+ ADMIN_ROLE + "') or hasAuthority('" + FOREIGN_ROLE + "')")
+	public Response getTaskTemplatesForTable() {
 
 		Iterable<Task> taskForTableIterable = taskTemplateService.getTasksForTable();
         List<TaskResult> queryDetailsList =
@@ -77,6 +78,7 @@ public class TaskTemplateResource extends ObjectResult {
 	@Path(TASK_TEMPLATE_SEARCH)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+	@PreAuthorize("hasAuthority('"+ ADMIN_ROLE + "') or hasAuthority('" + FOREIGN_ROLE + "')")
 	public Response searchTaskTemplateTable(ObjectSearchTaskTemplateResult objectSearchTaskTemplateResult) {
 
 		Iterable<Task> taskForTableIterable = taskTemplateService.searchTaskTemplate(toObjectSearchTaskTemplate(objectSearchTaskTemplateResult));

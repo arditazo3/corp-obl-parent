@@ -1,8 +1,13 @@
 package com.tx.co.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.tx.co.back_office.company.domain.CompanyUser;
 import com.tx.co.security.domain.Authority;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.Where;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -42,7 +47,7 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "roleuid")
     private Set<Authority> authorities = new HashSet<>();
-
+    
     public String getUsername() {
         return username;
     }
@@ -91,7 +96,7 @@ public class User implements Serializable {
         this.authorities = authorities;
     }
 
-    @Override
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

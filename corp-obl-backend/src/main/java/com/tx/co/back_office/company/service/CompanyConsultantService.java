@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import com.tx.co.back_office.company.domain.CompanyConsultant;
 import com.tx.co.back_office.company.repository.CompanyConsultantRepository;
+import com.tx.co.back_office.topic.domain.TopicConsultant;
+import com.tx.co.back_office.topic.service.ITopicService;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
@@ -32,10 +34,16 @@ public class CompanyConsultantService extends UpdateCacheData implements ICompan
 	private static final Logger logger = LogManager.getLogger(CompanyConsultantService.class);
 
 	private CompanyConsultantRepository companyConsultantRepository;
+	private ITopicService topicService;
 	
 	@Autowired
 	public void setCompanyConsultantRepository(CompanyConsultantRepository companyConsultantRepository) {
 		this.companyConsultantRepository = companyConsultantRepository;
+	}
+
+	@Autowired
+	public void setTopicService(ITopicService topicService) {
+		this.topicService = topicService;
 	}
 
 	@Override
@@ -123,6 +131,10 @@ public class CompanyConsultantService extends UpdateCacheData implements ICompan
     		companyConsultant.setModifiedBy(username);
 
     		companyConsultantRepository.save(companyConsultant);
+    		
+    		for (TopicConsultant topicConsultant : companyConsultant.getTopicConsultants()) {
+				topicService.deleteTopicConsultant(topicConsultant);
+			}
 
     		updateCompanyConsultantCache(companyConsultant, false);
     	} catch (Exception e) {

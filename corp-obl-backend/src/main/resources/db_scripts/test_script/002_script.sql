@@ -25,3 +25,37 @@ where tt.description like '%test%' and tt.enabled <> 0;
 update co_tasktemplate set expirationclosableby = 1;
 
 select * from co_tasktemplateattachment;
+
+select *
+from co_company c
+       left join co_companyuser cu on c.id = cu.company_id
+       left join co_user u on cu.username = u.username
+       left join co_userrole ur on u.username = ur.username
+where c.enabled <> 0 and cu.enabled <> 0 and u.enabled <> 0
+and ur.roleuid in ('CORPOBLIG_BACKOFFICE_FOREIGN') and cu.companyadmin <> 0
+group by c.id order by c.description asc;
+
+select * from co_tasktemplate tt left join co_topic t on tt.topic_id = t.id
+left join co_topicconsultant tc on t.id = tc.topic_id
+left join co_companyconsultant cc on tc.consultantcompany_id = cc.id
+left join co_company c on cc.company_id = c.id
+left join co_companyuser cu on c.id = cu.company_id
+left join co_user u on cu.username = u.username
+left join co_userrole ur on u.username = ur.username
+where tt.enabled <> 0 and t.enabled <> 0 and tc.enabled <> 0 and cc.enabled <> 0
+and c.enabled <> 0 and cu.enabled <> 0 and u.enabled <> 0;
+
+select o.*, tt.*
+from co_taskoffice tasko
+       left join co_tasktemplate tt on tasko.tasktemplate_id = tt.id
+       left join co_office o on tasko.office_id = o.id
+       left join co_company c on o.company_id = c.id
+       left join co_companyuser cc on c.id = cc.company_id
+       left join co_user u on cc.username = u.username
+       left JOIN co_userrole ur on u.username = ur.username
+where o.enabled <> 0
+  and tt.enabled <> 0
+group by tasko.id
+order by tt.description asc;
+
+select * from co_user left join co_userrole on co_user.username = co_userrole.username;
