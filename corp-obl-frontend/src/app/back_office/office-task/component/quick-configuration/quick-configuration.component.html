@@ -93,6 +93,7 @@
                                                [clearable]="false"
                                                [(ngModel)]="selectedExpirationType"
                                                [ngModelOptions]="{standalone: true}"
+                                               (change)="onChangeExpiration()"
                                                placeholder="Select Expiration type">
                                     </ng-select>
                                     <div *ngIf="submitted && !selectedExpirationType" class="invalid-feedback-show">

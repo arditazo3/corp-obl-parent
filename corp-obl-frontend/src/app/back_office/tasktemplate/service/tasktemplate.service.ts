@@ -38,4 +38,10 @@ export class TaskTemplateService {
 
         return this.apiRequest.post(this.appConfig.searchTaskTemplateByDescr, description);
     }
+
+    deleteTaskTemplate(taskTemplate): Observable<any> {
+        console.log('TaskTemplateService - deleteTaskTemplate');
+
+        return this.apiRequest.put(this.appConfig.deleteTaskTemplate, taskTemplate);
+    }
 }
