@@ -80,7 +80,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             taskTemp.taskTemplate = taskTemplateTemp;
             objectParam = {isTaskTemplateForm: true, task: taskTemp};
         }
-        this.isTaskTemplateForm = objectParam.isNewForm;
+        this.isTaskTemplateForm = objectParam.isTaskTemplateForm;
         this.task = objectParam.task;
 
         this.getTopics();
@@ -110,6 +110,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                     data.forEach((item) => {
                         if (item && item.tablename.indexOf(me.task.taskTemplate.expirationType) >= 0) {
                             me.selectedExpirationType = item;
+                            me.onChangeExpiration();
                         }
                     });
                 }
@@ -133,6 +134,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                     data.forEach((item) => {
                         if (item && item.tablename.indexOf(me.taskTemplate.expirationType) >= 0) {
                             me.selectedExpirationType = item;
+                            me.onChangeExpiration();
                         }
                     });
                 }
@@ -154,6 +156,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                     data.forEach((item) => {
                         if (item && item.tablename.indexOf(me.task.expirationType) >= 0) {
                             me.selectedExpirationType = item;
+                            me.onChangeExpiration();
                         }
                     });
                 }
@@ -167,7 +170,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 day: new FormControl({value: this.taskTemplate.day, disabled: false}, Validators.required),
                 daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
                 frequenceOfNotice: new FormControl({value: this.taskTemplate.frequenceOfNotice, disabled: false}, Validators.required),
-                daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false },
+                daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false},
                     Validators.required)
             });
         } else {
@@ -181,6 +184,8 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
 
             this.associationOffice.getTaskOfficesArray(this.task.taskOffices);
         }
+
+        me.onChangeExpiration();
 
         this.uploader = this.uploadService.uploader;
         this.uploadService.uploadFileWithAuth();
@@ -311,6 +316,32 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             });
     }
 
+    deleteTaskTemplate() {
+        console.log('TaskTemplateCreateUpdateComponent - deleteTaskTemplate');
+        const me = this;
+
+        if (this.taskTemplate) {
+            this.confirmationTaskTemplateSwal.title = 'Do you want to delete: ' + this.taskTemplate.description + '?';
+            this.confirmationTaskTemplateSwal.show()
+                .then(function (result) {
+                    if (result.value === true) {
+                        // handle confirm, result is needed for modals with input
+                        me.taskTemplateService.deleteTaskTemplate(me.taskTemplate).subscribe(
+                            next => {
+                                me.router.navigate(['/back-office/task']);
+                                console.log('TaskTemplateCreateUpdateComponent - deleteTaskTemplate - next');
+                            },
+                            error => {
+                                console.error('TaskTemplateCreateUpdateComponent - deleteTaskTemplate - error');
+                            }
+                        );
+                    }
+                }, function (dismiss) {
+                    // dismiss can be "cancel" | "close" | "outside"
+                });
+        }
+    }
+
     onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
         this.counterCallback++;
         if (this.counterUpload === this.counterCallback) {
@@ -398,6 +429,21 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
 
                 me.uploader.queue.push(fileItem);
             });
+        }
+    }
+
+    onChangeExpiration() {
+
+        if (!this.selectedExpirationType) {
+            this.createEditTaskTemplate.get('day').disable();
+        } else {
+            const expirationType = this.selectedExpirationType.tablename.split('#')[2];
+            if (expirationType === 'fix_day') {
+                this.createEditTaskTemplate.get('day').disable();
+                this.createEditTaskTemplate.get('day').setValue(0);
+            } else {
+                this.createEditTaskTemplate.get('day').enable();
+            }
         }
     }
 }

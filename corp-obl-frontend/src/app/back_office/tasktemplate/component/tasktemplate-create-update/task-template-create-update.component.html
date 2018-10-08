@@ -52,7 +52,7 @@
                                                    for="customControlValidation2">Anyone can close the task</label>
                                         </div>
                                     </div>
-                                    <div class="form-check">
+                                    <div class="form-check" *ngIf="!isForeign">
                                         <div class="custom-control custom-radio">
                                             <input type="radio" formControlName="expirationRadio"
                                                    class="custom-control-input" [value]=2
@@ -96,6 +96,7 @@
                                                [searchable]="true"
                                                [clearable]="false"
                                                [(ngModel)]="selectedExpirationType"
+                                               (change)="onChangeExpiration()"
                                                [ngModelOptions]="{standalone: true}"
                                                placeholder="Select Expiration type">
                                     </ng-select>
@@ -228,6 +229,7 @@
                                 <button #submitBtn class="btn-tnx btn-success waves-effect waves-light">Save Task
                                     Template
                                 </button>
+                                <button type="button" (click)="deleteTaskTemplate()" *ngIf="!task?.taskOffices  && !isNewForm && isTaskTemplateForm" class="btn-tnx btn-danger waves-effect waves-light">Delete</button>
                             </div>
                         </div>
                     </div>

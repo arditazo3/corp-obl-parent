@@ -118,6 +118,7 @@ export class QuickConfigurationComponent implements OnInit {
                     data.forEach((item) => {
                         if (item && item.tablename.indexOf(me.taskTemplate.expirationType) >= 0) {
                             me.selectedExpirationType = item;
+                            me.onChangeExpiration();
                         }
                     });
                 }
@@ -342,6 +343,21 @@ export class QuickConfigurationComponent implements OnInit {
 
                 me.uploader.queue.push(fileItem);
             });
+        }
+    }
+
+    onChangeExpiration() {
+
+        if (!this.selectedExpirationType) {
+            this.createEditTaskTemplate.get('day').disable();
+        } else {
+            const expirationType = this.selectedExpirationType.tablename.split('#')[2];
+            if (expirationType === 'fix_day') {
+                this.createEditTaskTemplate.get('day').disable();
+                this.createEditTaskTemplate.get('day').setValue(0);
+            } else {
+                this.createEditTaskTemplate.get('day').enable();
+            }
         }
     }
 }
