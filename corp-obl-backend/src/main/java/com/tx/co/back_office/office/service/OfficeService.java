@@ -1,5 +1,8 @@
 package com.tx.co.back_office.office.service;
 
+import static java.util.Comparator.comparingLong;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.ArrayList;
@@ -7,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -18,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.domain.OfficeTaskTemplate;
 import com.tx.co.back_office.office.api.model.OfficeTaskTemplates;
 import com.tx.co.back_office.office.api.model.TaskTempOffices;
@@ -171,7 +176,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 	@Override
 	public List<OfficeTaskTemplates> searchOfficeTaskTemplates(TaskTempOffices taskTempOffices) {
 
-		String querySql = "select o.*, tt.* " + 
+		String querySql = "select o.*" + 
 				"from co_taskoffice tasko " + 
 				"       left join co_tasktemplate tt on tasko.tasktemplate_id = tt.id " + 
 				"       left join co_office o on tasko.office_id = o.id " + 
@@ -184,21 +189,22 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		Query query;
 
 		if (isEmpty(taskTempOffices.getOffices())) {
-			querySql += "where tt.description like :description " + 
-					"group by to.idTaskOffice "
-					+ "order by to.taskTemplate.description asc ";
-			query = em.createQuery(querySql);
+			querySql += "and tt.description like :description " + 
+					"group by tasko.id " + 
+					"order by tt.description asc ";
+			query = em.createNativeQuery(querySql);
 
 			query.setParameter("description", "%" + taskTempOffices.getDescriptionTaskTemplate() + "%");
 		} else {
-			querySql += "where tt.description like :description " + 
-					"and to.office in :officeList " +
+			querySql += "and tt.description like :description " + 
+					"and o.id in :officeList " +
 					"group by tasko.id " + 
 					"order by tt.description asc";
-			query = em.createQuery(querySql);
+			query = em.createNativeQuery(querySql);
 
 			query.setParameter("description", "%" + taskTempOffices.getDescriptionTaskTemplate() + "%");
-			query.setParameter("officeList", taskTempOffices.getOffices());
+			query.setParameter("officeList", taskTempOffices.getOffices().stream()
+                    .collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(Office::getIdOffice))), ArrayList::new)) );
 		}
 
 		List<OfficeTaskTemplates> officeTaskTemplatesList = new ArrayList<>();
