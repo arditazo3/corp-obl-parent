@@ -90,6 +90,12 @@ public class Task implements Serializable {
 	
 	@Transient
 	private List<Office> officesAssociated;
+	
+	@Transient
+	private String descriptionTask;
+	
+	@Transient
+	private Integer counterCompany;
 
 	public Long getIdTask() {
 		return idTask;
@@ -209,5 +215,21 @@ public class Task implements Serializable {
 
 	public void setOfficesAssociated(List<Office> officesAssociated) {
 		this.officesAssociated = officesAssociated;
+	}
+
+	public String getDescriptionTask() {
+		return descriptionTask;
+	}
+
+	public void setDescriptionTask(String descriptionTask) {
+		this.descriptionTask = descriptionTask;
+	}
+
+	public Integer getCounterCompany() {
+		return counterCompany;
+	}
+
+	public void setCounterCompany(Integer counterCompany) {
+		this.counterCompany = counterCompany;
 	}
 }

@@ -59,3 +59,21 @@ group by tasko.id
 order by tt.description asc;
 
 select * from co_user left join co_userrole on co_user.username = co_userrole.username;
+
+select * from co_translations;
+
+select * from co_task;
+
+SELECT
+  o.*,
+  tt.*
+FROM co_taskoffice tasko LEFT JOIN co_tasktemplate tt ON tasko.tasktemplate_id = tt.id
+  LEFT JOIN co_office o ON tasko.office_id = o.id
+  LEFT JOIN co_company c ON o.company_id = c.id
+  LEFT JOIN co_companyuser cc ON c.id = cc.company_id
+  LEFT JOIN co_user u ON cc.username = u.username
+  LEFT JOIN co_userrole ur ON u.username = ur.username
+WHERE o.enabled <> 0 AND tt.enabled <> 0
+  where tt.description like '%task%' and to.office in (6, 5)
+GROUP BY tasko.id
+ORDER BY tt.description ASC ;

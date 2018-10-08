@@ -121,6 +121,7 @@ public final class ApiConstants {
 	public static final String TASK_TEMPLATE_LIST_CACHE = "TASK_TEMPLATE_LIST_CACHE";
 	public static final String TASK_LIST_CACHE = "TASK_LIST_CACHE";
 	public static final String TASK_TEMPLATE_ATTACHMENT_LIST_CACHE = "TASK_TEMPLATE_ATTACHMENT_LIST_CACHE";
+	public static final String TRANSLATION_LIST_CACHE = "TRANSLATION_LIST_CACHE";
 
 	public static final String STORAGE_DATA_CACHE = "StorageDataCache";
 	/* End of the cache key */

@@ -1,14 +1,12 @@
 package com.tx.co.back_office.company.repository;
 
 import com.tx.co.back_office.company.domain.Company;
-import com.tx.co.security.domain.Authority;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Set;
 
 public interface CompanyRepository extends CrudRepository<Company, Long> {
 
@@ -26,7 +24,7 @@ public interface CompanyRepository extends CrudRepository<Company, Long> {
 			"where c.enabled <> 0 and cu.enabled <> 0 and u.enabled <> 0 " + 
 			"and ur.roleuid in (:authorities) " + 
 			"group by c.id order by c.description asc", nativeQuery = true)
-	List<Company> getCompaniesByRole(List<String> authorities);
+	List<Company> getCompaniesByRole(@Param("authorities") List<String> authorities);
 
 	@Query(value = "select c.* " + 
 			"from co_company c " + 

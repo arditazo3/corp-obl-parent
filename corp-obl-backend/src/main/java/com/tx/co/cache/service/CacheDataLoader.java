@@ -15,6 +15,9 @@ import com.tx.co.back_office.tasktemplateattachment.repository.TaskTemplateAttac
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.domain.TopicConsultant;
 import com.tx.co.back_office.topic.service.ITopicService;
+import com.tx.co.common.translation.api.model.TranslationPairKey;
+import com.tx.co.common.translation.domain.Translation;
+import com.tx.co.common.translation.repository.TranslationRepository;
 import com.tx.co.user.domain.User;
 import com.tx.co.user.repository.UserRepository;
 
@@ -57,6 +60,7 @@ public abstract class CacheDataLoader {
 	private TaskTemplateRepository taskTemplateRepository;
 	private TaskRepository taskRepository;
 	private TaskTemplateAttachmentRepository taskTemplateAttachmentRepository;
+	private TranslationRepository translationRepository;
 
 	// Split the string with operator ; to get all the languages
 	@Value("${web.app.language}")
@@ -108,6 +112,11 @@ public abstract class CacheDataLoader {
 	@Autowired
 	public void setTaskTemplateAttachmentRepository(TaskTemplateAttachmentRepository taskTemplateAttachmentRepository) {
 		this.taskTemplateAttachmentRepository = taskTemplateAttachmentRepository;
+	}
+
+	@Autowired
+	public void setTranslationRepository(TranslationRepository translationRepository) {
+		this.translationRepository = translationRepository;
 	}
 
 	/**
@@ -171,6 +180,10 @@ public abstract class CacheDataLoader {
 		// Load all the task template attachment
 		List<TaskTemplateAttachment> taskTemplateAttachmentList = (List<TaskTemplateAttachment>) taskTemplateAttachmentRepository.findAll();
 		storageDataCacheManager.put(TASK_TEMPLATE_ATTACHMENT_LIST_CACHE, taskTemplateAttachmentList);
+		
+		// Load all the translations
+		List<Translation> translations = (List<Translation>) translationRepository.findAll();
+		storageDataCacheManager.put(TRANSLATION_LIST_CACHE, convertHashMapPairKey(translations));
 	}
 
 	private void loadConsultantByCompany(final Cache<String, Object> storageDataCacheManager) {
@@ -196,4 +209,19 @@ public abstract class CacheDataLoader {
 	}
 
 
+	private HashMap<TranslationPairKey, Translation> convertHashMapPairKey(List<Translation> translations) {
+		HashMap<TranslationPairKey, Translation> translationHashMap = new HashMap<TranslationPairKey, Translation>();
+		
+		if(!isEmpty(translations)) {
+			for (Translation translation : translations) {
+				TranslationPairKey translationPairKey = new TranslationPairKey();
+				translationPairKey.setLang(translation.getLang());
+				translationPairKey.setTablename(translation.getTablename());
+				
+				translationHashMap.put(translationPairKey, translation);
+			}
+		}
+		
+		return translationHashMap;
+	}
 }

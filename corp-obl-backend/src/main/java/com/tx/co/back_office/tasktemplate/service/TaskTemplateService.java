@@ -1,11 +1,15 @@
 package com.tx.co.back_office.tasktemplate.service;
 
+import static java.util.Comparator.comparingLong;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -19,11 +23,13 @@ import org.springframework.stereotype.Service;
 
 import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.task.model.Task;
+import com.tx.co.back_office.task.model.TaskOffice;
 import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplate;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.repository.TaskTemplateRepository;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.cache.service.UpdateCacheData;
+import com.tx.co.common.translation.api.model.TranslationPairKey;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
 import com.tx.co.security.domain.Authority;
@@ -124,12 +130,38 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 	public List<Task> convertToTaskForTable(List<TaskTemplate> taskTemplates) {
 
+		User userLoggedIn = getTokenUserDetails().getUser();
+		String lang = userLoggedIn.getLang();
+		
 		List<Task> tasks = new ArrayList<>();
 		for (TaskTemplate taskTemplate : taskTemplates) {
 
+			int index = 1;
 			if(!isEmpty(taskTemplate.getTasks())) {
 				for (Task taskLoop : taskTemplate.getTasks()) {
+
+					List<Company> coumpanyCounterList = new ArrayList<>();
+					for (TaskOffice taskOfficeLoop : taskLoop.getTaskOffices()) {
+						coumpanyCounterList.add(taskOfficeLoop.getOffice().getCompany());
+					}
+					List<Company> uniqueCompanies = coumpanyCounterList.stream()
+                            .collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(Company::getIdCompany))), ArrayList::new));
+					
+					taskLoop.setCounterCompany(uniqueCompanies.size());
+					
+					String descriptionTask = getTranslationByLangLikeTablename(new TranslationPairKey("configurationinterval", lang)).getDescription();
+					
+					descriptionTask += String.valueOf(index) + ": ";
+					
+					descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskLoop.getRecurrence(), lang)).getDescription() + " - ";
+					
+					descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskLoop.getExpirationType(), lang)).getDescription() + " - " + String.valueOf(taskLoop.getDay());
+					
+					taskLoop.setDescriptionTask(descriptionTask);
+					
 					tasks.add(taskLoop);
+					
+					index++;
 				}
 			} else {
 				Task task = new Task();

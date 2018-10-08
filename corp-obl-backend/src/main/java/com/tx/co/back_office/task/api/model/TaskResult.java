@@ -23,6 +23,8 @@ public class TaskResult {
 	private Integer frequenceOfNotice;
 	private Integer daysBeforeShowExpiration;
 	private List<TaskOfficeResult> taskOffices;
+	private String descriptionTask;
+	private Integer counterCompany;
 	
 	public Long getIdTask() {
 		return idTask;
@@ -83,6 +85,18 @@ public class TaskResult {
 	}
 	public void setTaskOffices(List<TaskOfficeResult> taskOffices) {
 		this.taskOffices = taskOffices;
+	}
+	public String getDescriptionTask() {
+		return descriptionTask;
+	}
+	public void setDescriptionTask(String descriptionTask) {
+		this.descriptionTask = descriptionTask;
+	}
+	public Integer getCounterCompany() {
+		return counterCompany;
+	}
+	public void setCounterCompany(Integer counterCompany) {
+		this.counterCompany = counterCompany;
 	}
 	
 

@@ -23,16 +23,12 @@ import org.springframework.stereotype.Component;
 
 import com.tx.co.back_office.company.api.model.CompanyResult;
 import com.tx.co.back_office.company.domain.Company;
-import com.tx.co.back_office.office.api.model.OfficeResult;
-import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.api.model.TaskObjectTableResult;
 import com.tx.co.back_office.task.api.model.TaskResult;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.task.model.TaskOffice;
 import com.tx.co.back_office.task.service.ITaskService;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateOfficeResult;
-import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
-import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.topic.api.model.TopicResult;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.common.api.provider.ObjectResult;

@@ -13,4 +13,6 @@ export class Task {
     frequenceOfNotice: number;
     daysBeforeShowExpiration: number;
     taskOffices: TaskOffice[];
+    descriptionTask: string;
+    counterCompany: number;
 }

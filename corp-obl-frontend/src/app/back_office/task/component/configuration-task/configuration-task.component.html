@@ -129,17 +129,17 @@
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="Description" prop="idTask">
+                    <ngx-datatable-column name="Description" prop="descriptionTask">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
                                      let-group="group" let-rowHeight="rowHeight">
-                           {{ displayConfigurationText(row, group, rowIndex) }}
+                           {{ row.descriptionTask }}
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="Topic" prop="idTask">
+                    <ngx-datatable-column name="Topic" prop="counterCompany">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
                                      let-group="group" let-rowHeight="rowHeight">
-                            {{ displayConfigurationText(row, group, rowIndex) }}
+                            Companies: {{ row.counterCompany }}
                         </ng-template>
                     </ngx-datatable-column>
 
@@ -156,7 +156,7 @@
                         (confirm)="deleteOfficeCofirm(rowSelected.id)">
                 </swal>
 
-            </div>
+            </div>Task Management
         </div>
     </div>
 </div>

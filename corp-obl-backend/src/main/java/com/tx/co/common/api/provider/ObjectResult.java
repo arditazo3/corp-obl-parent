@@ -612,6 +612,9 @@ public abstract class ObjectResult extends UpdateCacheData {
 		taskResult.setDaysOfNotice(task.getDaysOfNotice());
 		taskResult.setFrequenceOfNotice(task.getFrequenceOfNotice());
 		taskResult.setDaysBeforeShowExpiration(task.getDaysBeforeShowExpiration());
+		taskResult.setDescriptionTask(task.getDescriptionTask());
+		taskResult.setCounterCompany(task.getCounterCompany());
+		
 		if(!isEmpty(task.getTaskTemplate())) {
 			taskResult.setTaskTemplate(toTaskTemplateResult(task.getTaskTemplate()));
 			taskResult.setIdTaskTemplate(task.getTaskTemplate().getIdTaskTemplate());

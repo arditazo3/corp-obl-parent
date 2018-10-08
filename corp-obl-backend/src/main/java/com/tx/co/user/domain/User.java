@@ -1,12 +1,7 @@
 package com.tx.co.user.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.tx.co.back_office.company.domain.CompanyUser;
 import com.tx.co.security.domain.Authority;
-
 import javax.persistence.*;
-
-import org.hibernate.annotations.Where;
 
 import java.io.Serializable;
 import java.util.HashSet;

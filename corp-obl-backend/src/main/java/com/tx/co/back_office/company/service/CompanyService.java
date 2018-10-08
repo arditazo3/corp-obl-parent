@@ -1,6 +1,5 @@
 package com.tx.co.back_office.company.service;
 
-import com.mysql.fabric.xmlrpc.base.Array;
 import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.domain.CompanyUser;
 import com.tx.co.back_office.company.repository.CompanyRepository;
@@ -21,10 +20,8 @@ import org.springframework.stereotype.Service;
 import javax.ws.rs.NotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 

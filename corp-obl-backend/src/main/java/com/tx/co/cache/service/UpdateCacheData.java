@@ -14,6 +14,7 @@ import com.tx.co.back_office.tasktemplateattachment.service.TaskTemplateAttachme
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.domain.TopicConsultant;
 import com.tx.co.back_office.topic.service.TopicService;
+import com.tx.co.common.translation.api.model.TranslationPairKey;
 import com.tx.co.common.translation.domain.Translation;
 import com.tx.co.common.translation.service.ITranslationService;
 import com.tx.co.common.utils.UtilStatic;
@@ -238,6 +239,19 @@ public abstract class UpdateCacheData {
 	}
 	
 	/**
+	 * @return get the Translation from the cache in order to not execute the query to the database
+	 */
+	@SuppressWarnings("unchecked")
+	public HashMap<TranslationPairKey, Translation> getTranslationsFromCache() {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		HashMap<TranslationPairKey, Translation> translationHashMap = (HashMap<TranslationPairKey, Translation>) storageDataCacheManager.get(TRANSLATION_LIST_CACHE);
+
+		return translationHashMap;
+	}
+	
+	/**
 	 * @param company
 	 * @param updateFromDB
 	 */
@@ -332,6 +346,22 @@ public abstract class UpdateCacheData {
 		}
 
 		storageDataCacheManager.put(TOPIC_LIST_CACHE, topicList);
+	}
+	
+	@SuppressWarnings("unused")
+	public Translation getTranslationByLangLikeTablename(TranslationPairKey translationPairKey) {
+		
+		HashMap<TranslationPairKey, Translation> translationHashMap = getTranslationsFromCache();
+		
+		for (TranslationPairKey translationPairKeyLoop : translationHashMap.keySet()) {
+			if(translationPairKeyLoop.getLang().equals(translationPairKey.getLang())
+					&& translationPairKeyLoop.getTablename().contains(translationPairKey.getTablename())) {
+				
+				return translationHashMap.get(translationPairKeyLoop);
+			}
+		}
+		
+		return null;
 	}
 
 	/**
