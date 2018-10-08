@@ -361,7 +361,7 @@ public abstract class UpdateCacheData {
 			}
 		}
 		
-		return null;
+		return new Translation();
 	}
 
 	/**

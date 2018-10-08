@@ -32,7 +32,9 @@ import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
+import com.tx.co.security.domain.Authority;
 import com.tx.co.security.exception.GeneralException;
+import com.tx.co.user.domain.User;
 
 /**
  * Service for {@link com.tx.co.back_office.office.domain.Office}s.
@@ -266,5 +268,21 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		}
 
 		return officeTasks;
+	}
+
+	@Override
+	public List<Office> getOfficesByRole() {
+		
+		User userLoggedIn = getTokenUserDetails().getUser();
+		String username = userLoggedIn.getUsername();
+		
+		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+			return officeRepository.findAllByOrderByDescriptionAsc();
+		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) ||
+				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND)) {
+			return officeRepository.getOfficesByRole(username);
+		}
+		
+		return new ArrayList<>();
 	}
 }

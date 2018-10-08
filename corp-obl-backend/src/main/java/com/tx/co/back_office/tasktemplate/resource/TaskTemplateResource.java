@@ -9,6 +9,7 @@ import java.util.stream.StreamSupport;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
+import com.tx.co.back_office.company.api.model.CompanyResult;
 import com.tx.co.back_office.task.api.model.TaskResult;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplateResult;
@@ -73,6 +75,19 @@ public class TaskTemplateResource extends ObjectResult {
 
 		return Response.ok(toTaskTemplateWithTaskResult(taskTemplateStored)).build();
 	}
+	
+	
+    @PUT
+    @Path(TASK_TEMPLATE_DELETE)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+ //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+    public Response deleteCompany(TaskTemplateResult taskTemplateResult) {
+
+    	taskTemplateService.deleteTaskTemplate(toTaskTemplate(taskTemplateResult));
+
+        return Response.noContent().build();
+    }
 	
 	@POST
 	@Path(TASK_TEMPLATE_SEARCH)

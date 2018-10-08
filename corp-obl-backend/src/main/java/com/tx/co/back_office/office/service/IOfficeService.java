@@ -11,6 +11,8 @@ public interface IOfficeService {
 
 	List<Office> findAllOffice();
 	
+	List<Office> getOfficesByRole();
+	
 	Office saveUpdateOffice(Office office);
 	
 	Optional<Office> findByIdOffice(Long idOffice);

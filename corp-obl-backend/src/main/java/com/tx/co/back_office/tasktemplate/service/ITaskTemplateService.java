@@ -18,4 +18,6 @@ public interface ITaskTemplateService {
 	List<Task> searchTaskTemplate(ObjectSearchTaskTemplate objectSearchTaskTemplate);
 	
 	List<TaskTemplate> searchTaskTemplateByDescr(String description);
+	
+	void deleteTaskTemplate(TaskTemplate taskTemplate);
 }

@@ -43,6 +43,7 @@ public final class ApiConstants {
 	// Office URL
 	public static final String OFFICE = "office";
 	public static final String OFFICE_LIST = OFFICE + LIST;
+	public static final String OFFICE_LIST_ROLE = OFFICE + LIST + "/by-role";
 	public static final String OFFICE_CREATE_UPDATE = OFFICE + CREATE_UPDATE;
 	public static final String OFFICE_DELETE = OFFICE + DELETE;
 

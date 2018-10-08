@@ -158,10 +158,15 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 		// New Task office
 		if(isEmpty(taskOffice.getIdTaskOffice())) {
-			taskOffice.setCreationDate(new Date());
-			taskOffice.setCreatedBy(username);
+			
+			taskOfficeStored = taskOfficeRepository.getTaskOfficeByTaskTemplateAndOffice(task.getTaskTemplate(), taskOffice.getOffice());
+			
+			if(isEmpty(taskOfficeStored)) {
+				taskOffice.setCreationDate(new Date());
+				taskOffice.setCreatedBy(username);
 
-			taskOfficeStored = taskOffice;
+				taskOfficeStored = taskOffice;
+			}
 		} else { // Existing Task template
 			taskOfficeStored = taskOfficeRepository.findById(taskOffice.getIdTaskOffice()).get();
 
@@ -226,7 +231,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		for (TaskOffice taskOffice : taskOffices) {
 			for (TaskOffice taskOfficeStored : taskStored.getTaskOffices()) {
 				if(isEmpty(taskOffice.getIdTaskOffice()) || 
-						(!isEmpty(taskOffice.getIdTaskOffice()) && 
+						(!isEmpty(taskOffice.getIdTaskOffice()) && !isEmpty(taskOfficeStored.getIdTaskOffice()) && 
 								taskOffice.getIdTaskOffice().compareTo(taskOfficeStored.getIdTaskOffice()) == 0)) {
 
 					if(!isEmpty(taskOfficeStored.getTaskOfficeRelations())) {

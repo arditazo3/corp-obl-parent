@@ -228,19 +228,15 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 	public List<Company> getCompaniesByRole() {
 		
 		User userLoggedIn = getTokenUserDetails().getUser();
-		
-		List<String> authorities = new ArrayList<>();
-		for (Authority authority : userLoggedIn.getAuthorities()) {
-			authorities.add(authority.name());
-		}
+		String username = userLoggedIn.getUsername();
 		
 		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			return companyRepository.findAllByOrderByDescriptionAsc();
 		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) ||
 				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND)) {
-			return companyRepository.getCompaniesByRole(authorities);
+			return companyRepository.getCompaniesByRole(username);
 		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER)) {
-			return companyRepository.getCompaniesByRoleUser(authorities, userLoggedIn.getUsername());
+			return companyRepository.getCompaniesByRoleUser(username);
 		}
 		
 		return new ArrayList<>();
