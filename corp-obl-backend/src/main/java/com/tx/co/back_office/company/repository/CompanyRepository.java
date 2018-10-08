@@ -25,6 +25,16 @@ public interface CompanyRepository extends CrudRepository<Company, Long> {
 			"and ur.roleuid in (:authorities) " + 
 			"group by c.id order by c.description asc", nativeQuery = true)
 	List<Company> getCompaniesByRole(@Param("authorities") List<String> authorities);
+	
+	@Query(value = "select c.* " + 
+			"from co_company c " + 
+			"       left join co_companyuser cu on c.id = cu.company_id " + 
+			"       left join co_user u on cu.username = u.username " + 
+			"       left join co_userrole ur on u.username = ur.username " + 
+			"where c.enabled <> 0 and cu.enabled <> 0 and u.enabled <> 0 " + 
+			"and ur.roleuid in (:authorities) " + 
+			"group by c.id order by c.description asc", nativeQuery = true)
+	List<Company> getCompaniesByRoleTest(@Param("authorities") List<String> authorities);
 
 	@Query(value = "select c.* " + 
 			"from co_company c " + 
