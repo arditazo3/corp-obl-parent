@@ -58,8 +58,6 @@ public class UserService extends UpdateCacheData implements IUserService {
     @Override
     public User findByUsername(String username) {
 
-        logger.info("The username " + username);
-
         return userRepository.findByUsername(username);
     }
 

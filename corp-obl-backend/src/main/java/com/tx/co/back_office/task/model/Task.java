@@ -21,6 +21,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Where;
 
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
@@ -51,6 +52,7 @@ public class Task implements Serializable {
 	@OneToMany
 	@JoinColumn (name = "task_id", insertable = false, updatable = false)
 	@Fetch(value = FetchMode.JOIN)
+	@Where(clause = "enabled = 1")
     private Set<TaskOffice> taskOffices = new HashSet<>();
 	
 	@Column(nullable = false)
@@ -97,6 +99,12 @@ public class Task implements Serializable {
 	@Transient
 	private Integer counterCompany;
 
+	@Transient
+	private Office office;
+	
+	@Transient
+	private Boolean excludeOffice = false; 
+	
 	public Long getIdTask() {
 		return idTask;
 	}
@@ -232,4 +240,47 @@ public class Task implements Serializable {
 	public void setCounterCompany(Integer counterCompany) {
 		this.counterCompany = counterCompany;
 	}
+
+	public Office getOffice() {
+		return office;
+	}
+
+	public void setOffice(Office office) {
+		this.office = office;
+	}
+
+	public Boolean getExcludeOffice() {
+		return excludeOffice;
+	}
+
+	public void setExcludeOffice(Boolean excludeOffice) {
+		this.excludeOffice = excludeOffice;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idTask == null) ? 0 : idTask.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Task other = (Task) obj;
+		if (idTask == null) {
+			if (other.idTask != null)
+				return false;
+		} else if (!idTask.equals(other.idTask))
+			return false;
+		return true;
+	}
+	
+	
 }

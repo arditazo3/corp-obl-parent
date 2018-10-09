@@ -23,10 +23,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
-import com.tx.co.back_office.company.api.model.CompanyResult;
+import com.tx.co.back_office.office.api.model.OfficeResult;
+import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.api.model.TaskResult;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplateResult;
+import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateOfficeResult;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.service.ITaskTemplateService;
@@ -69,9 +71,13 @@ public class TaskTemplateResource extends ObjectResult {
 	@Path(TASK_TEMPLATE_CREATE_UPDATE)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createUpdateTaskTemplate(TaskTemplateResult taskTemplateResult) {
+	public Response createUpdateTaskTemplate(TaskTemplateOfficeResult taskTemplateOfficeResult) {
 
-		TaskTemplate taskTemplateStored = taskTemplateService.saveUpdateTaskTemplate(toTaskTemplate(taskTemplateResult));
+		TaskTemplateResult taskTemplateRequest = taskTemplateOfficeResult.getTaskTemplate();
+		OfficeResult officeRequest = taskTemplateOfficeResult.getOffice();
+		Office office = officeRequest == null ? null : toOffice(officeRequest);
+		
+		TaskTemplate taskTemplateStored = taskTemplateService.saveUpdateTaskTemplate(toTaskTemplate(taskTemplateRequest), office);
 
 		return Response.ok(toTaskTemplateWithTaskResult(taskTemplateStored)).build();
 	}
@@ -82,7 +88,7 @@ public class TaskTemplateResource extends ObjectResult {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
  //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
-    public Response deleteCompany(TaskTemplateResult taskTemplateResult) {
+    public Response deleteTaskTemplate(TaskTemplateResult taskTemplateResult) {
 
     	taskTemplateService.deleteTaskTemplate(toTaskTemplate(taskTemplateResult));
 

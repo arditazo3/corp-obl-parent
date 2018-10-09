@@ -23,4 +23,6 @@ public interface ITaskService {
 	TaskOfficeRelations saveUpdateTaskOfficeRelation(TaskOfficeRelations taskOfficeRelation, TaskOffice taskOffice);
 	
 	TaskOffice getTaskOfficeByTaskTemplateAndOffice(TaskTemplate taskTemplate, Office office);
+	
+	void deleteTask(Task task);
 }

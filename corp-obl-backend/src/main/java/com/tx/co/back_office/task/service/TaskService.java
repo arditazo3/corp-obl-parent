@@ -1,7 +1,10 @@
 package com.tx.co.back_office.task.service;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
+import static com.tx.co.common.constants.AppConstants.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -131,6 +134,9 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 		taskStored = taskRepository.save(taskStored);
 
+		taskStored.setOffice(task.getOffice());
+		taskStored.setExcludeOffice(task.getExcludeOffice());
+
 		taskStored.setTaskOffices(mergeTaskOffice(taskStored, task.getTaskOffices()));
 
 		if(!isEmpty(task.getTaskOffices())) {
@@ -158,15 +164,24 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 		// New Task office
 		if(isEmpty(taskOffice.getIdTaskOffice())) {
-			
+
 			taskOfficeStored = taskOfficeRepository.getTaskOfficeByTaskTemplateAndOffice(task.getTaskTemplate(), taskOffice.getOffice());
-			
+
 			if(isEmpty(taskOfficeStored)) {
 				taskOffice.setCreationDate(new Date());
 				taskOffice.setCreatedBy(username);
 
 				taskOfficeStored = taskOffice;
 			}
+
+			Date date = null;
+			SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATETIME);
+			try {
+				date = sdf.parse(OFFICE_TASK_END_DATE);
+			} catch (ParseException e) {
+				logger.error("Error parsing date", e);
+			}
+			taskOfficeStored.setEndDate(date);
 		} else { // Existing Task template
 			taskOfficeStored = taskOfficeRepository.findById(taskOffice.getIdTaskOffice()).get();
 
@@ -175,7 +190,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 		taskOfficeStored.setTask(task);
 		taskOfficeStored.setStartDate(new Date());
-		taskOfficeStored.setEndDate(new Date());
+		taskOfficeStored.setEnabled(true);
 		taskOfficeStored.setCreatedBy(username);
 		taskOfficeStored.setCreationDate(new Date());
 		taskOfficeStored.setModifiedBy(username);
@@ -255,13 +270,18 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		taskOfficesToRemove.removeAll(taskOfficesToSave);
 		if(!isEmpty(taskOfficesToRemove)) {
 			for (TaskOffice taskOffice : taskOfficesToRemove) {
-				taskOfficeRelationRepository.deleteAll(taskOffice.getTaskOfficeRelations());
-				taskOffice.setTaskOfficeRelations(new HashSet<>());
+				if( taskStored.getExcludeOffice()  ||
+						(!isEmpty(taskOffice.getOffice()) && 
+								!isEmpty(taskStored.getOffice()) &&
+								taskOffice.getOffice().getIdOffice().compareTo(taskStored.getOffice().getIdOffice()) == 0)) {
+
+					taskOffice.setEnabled(false);
+					taskOffice.setEndDate(new Date());
+					taskOfficeRepository.save(taskOffice);
+				}
 			}
-			taskOfficeRepository.deleteAll(taskOfficesToRemove);
 			taskStored.setTaskOffices(new HashSet<>());
 		}
-
 
 		taskStored.getTaskOffices().addAll(taskOfficesToSave);
 
@@ -271,5 +291,24 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	@Override
 	public TaskOffice getTaskOfficeByTaskTemplateAndOffice(TaskTemplate taskTemplate, Office office) {
 		return taskOfficeRepository.getTaskOfficeByTaskTemplateAndOffice(taskTemplate, office);
+	}
+
+	@Override
+	public void deleteTask(Task task) {
+		
+		if(!isEmpty(task)) {
+			
+			// The modification of User
+			String username = getTokenUserDetails().getUser().getUsername();
+			
+			Task taskStored = taskRepository.findById(task.getIdTask()).get();
+			
+			taskStored.setEnabled(false);
+			taskStored.setModificationDate(new Date());
+			taskStored.setModifiedBy(username);
+			
+			taskRepository.save(taskStored);
+		}
+		
 	}
 }

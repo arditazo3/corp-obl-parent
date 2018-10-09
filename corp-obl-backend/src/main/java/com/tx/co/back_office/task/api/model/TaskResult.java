@@ -3,6 +3,7 @@ package com.tx.co.back_office.task.api.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.tx.co.back_office.office.api.model.OfficeResult;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
 
 /**
@@ -25,6 +26,8 @@ public class TaskResult {
 	private List<TaskOfficeResult> taskOffices;
 	private String descriptionTask;
 	private Integer counterCompany;
+	private OfficeResult office;
+	private Boolean excludeOffice = false; 
 	
 	public Long getIdTask() {
 		return idTask;
@@ -98,7 +101,16 @@ public class TaskResult {
 	public void setCounterCompany(Integer counterCompany) {
 		this.counterCompany = counterCompany;
 	}
-	
-
-	
+	public OfficeResult getOffice() {
+		return office;
+	}
+	public void setOffice(OfficeResult office) {
+		this.office = office;
+	}
+	public Boolean getExcludeOffice() {
+		return excludeOffice;
+	}
+	public void setExcludeOffice(Boolean excludeOffice) {
+		this.excludeOffice = excludeOffice;
+	}
 }

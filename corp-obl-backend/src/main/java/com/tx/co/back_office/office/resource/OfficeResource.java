@@ -20,8 +20,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.tx.co.back_office.company.api.model.CompanyResult;
-import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.office.api.model.OfficeResult;
 import com.tx.co.back_office.office.api.model.OfficeTaskTemplates;
 import com.tx.co.back_office.office.api.model.OfficeTaskTemplatesResult;

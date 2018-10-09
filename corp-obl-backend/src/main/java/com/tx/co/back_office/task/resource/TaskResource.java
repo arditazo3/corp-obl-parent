@@ -9,6 +9,7 @@ import java.util.stream.StreamSupport;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -29,6 +30,7 @@ import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.task.model.TaskOffice;
 import com.tx.co.back_office.task.service.ITaskService;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateOfficeResult;
+import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
 import com.tx.co.back_office.topic.api.model.TopicResult;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.common.api.provider.ObjectResult;
@@ -57,7 +59,6 @@ public class TaskResource extends ObjectResult {
 
 		Task taskStored = taskService.saveUpdateTask(toTaskWithTaskOffices(taskResult));
 
-//		return Response.ok(toTaskResult(taskStored)).build();
 		return Response.noContent().build();
 	}
 	
@@ -118,6 +119,18 @@ public class TaskResource extends ObjectResult {
 				getTaskOfficeByTaskTemplateAndOffice(toTaskTemplate(taskTemplateOffice.getTaskTemplate()), toOffice(taskTemplateOffice.getOffice()));
 
         return Response.ok(toTaskOfficeResult(taskOffice)).build();
+    }
+	
+    @PUT
+    @Path(TASK_DELETE)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+ //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+    public Response deleteTask(TaskResult taskResult) {
+
+    	taskService.deleteTask(toTask(taskResult));
+
+        return Response.noContent().build();
     }
 	
 }

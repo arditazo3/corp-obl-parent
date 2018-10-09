@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -22,12 +21,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.task.model.TaskOffice;
+import com.tx.co.back_office.task.repository.TaskOfficeRepository;
 import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplate;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.repository.TaskTemplateRepository;
-import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.common.translation.api.model.TranslationPairKey;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
@@ -47,6 +47,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	private static final Logger logger = LogManager.getLogger(TaskTemplateService.class);
 
 	private TaskTemplateRepository taskTemplateRepository;
+	private TaskOfficeRepository taskOfficeRepository;
 	private EntityManager em;
 
 	@Autowired
@@ -55,12 +56,17 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	}
 
 	@Autowired
+	public void setTaskOfficeRepository(TaskOfficeRepository taskOfficeRepository) {
+		this.taskOfficeRepository = taskOfficeRepository;
+	}
+
+	@Autowired
 	public void setEm(EntityManager em) {
 		this.em = em;
 	}
 
 	@Override
-	public TaskTemplate saveUpdateTaskTemplate(TaskTemplate taskTemplate) {
+	public TaskTemplate saveUpdateTaskTemplate(TaskTemplate taskTemplate, Office office) {
 
 		// The modification of User
 		String username = getTokenUserDetails().getUser().getUsername();
@@ -92,9 +98,16 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		taskTemplateStored.setTopic(taskTemplate.getTopic());
 		taskTemplateStored.setModificationDate(new Date());
 		taskTemplateStored.setModifiedBy(username);
-		
 
 		taskTemplateStored = taskTemplateRepository.save(taskTemplateStored);
+
+		// Came from office task template, relation one to one task template - task
+		if (!isEmpty(office)) {
+			TaskOffice taskOffice = taskOfficeRepository.getTaskOfficeByTaskTemplateAndOffice(taskTemplateStored, office);
+			if (!isEmpty(taskOffice)) {
+				taskTemplateStored.getTasks().add(taskOffice.getTask());
+			}
+		}
 
 		updateTaskTemplateCache(taskTemplateStored, false);
 
@@ -133,7 +146,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 		User userLoggedIn = getTokenUserDetails().getUser();
 		String lang = userLoggedIn.getLang();
-		
+
 		List<Task> tasks = new ArrayList<>();
 		for (TaskTemplate taskTemplate : taskTemplates) {
 
@@ -146,22 +159,22 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 						coumpanyCounterList.add(taskOfficeLoop.getOffice().getCompany());
 					}
 					List<Company> uniqueCompanies = coumpanyCounterList.stream()
-                            .collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(Company::getIdCompany))), ArrayList::new));
-					
+							.collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(Company::getIdCompany))), ArrayList::new));
+
 					taskLoop.setCounterCompany(uniqueCompanies.size());
-					
+
 					String descriptionTask = getTranslationByLangLikeTablename(new TranslationPairKey("configurationinterval", lang)).getDescription();
-					
+
 					descriptionTask += String.valueOf(index) + ": ";
-					
+
 					descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskLoop.getRecurrence(), lang)).getDescription() + " - ";
-					
+
 					descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskLoop.getExpirationType(), lang)).getDescription() + " - " + String.valueOf(taskLoop.getDay());
-					
+
 					taskLoop.setDescriptionTask(descriptionTask);
-					
+
 					tasks.add(taskLoop);
-					
+
 					index++;
 				}
 			} else {
@@ -218,7 +231,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 			query.setParameter("description", "%" + objectSearchTaskTemplate.getDescriptionTaskTemplate() + "%");
 			query.setParameter("topicsList",   objectSearchTaskTemplate.getTopics());
-			
+
 			query.setParameter("companiesList", objectSearchTaskTemplate.getCompanies());
 		}
 
@@ -251,9 +264,9 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 	@Override
 	public void deleteTaskTemplate(TaskTemplate taskTemplate) {
-		
+
 		taskTemplate.setEnabled(false);
-		
-		saveUpdateTaskTemplate(taskTemplate);
+
+		saveUpdateTaskTemplate(taskTemplate, null);
 	}
 }

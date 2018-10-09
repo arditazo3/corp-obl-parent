@@ -181,20 +181,6 @@ public abstract class ObjectResult extends UpdateCacheData {
 
 		OfficeResult result = toOfficeResult(office);
 
-		//		if(!isEmpty(office.getUserProviders())) {
-		//			List<User> users = new ArrayList<>();
-		//			for (User user : office.getUserProviders()) {
-		//				users.add(user);
-		//			}
-		//			result.setUserProviders(users);
-		//		}
-		//		if(!isEmpty(office.getUserBeneficiaries())) {
-		//			List<User> users = new ArrayList<>();
-		//			for (User user : office.getUserBeneficiaries()) {
-		//				users.add(user);
-		//			}
-		//			result.setUserBeneficiaries(users);
-		//		}
 		if(!isEmpty(taskOfficeRelations)) {
 			List<User> userProviders = new ArrayList<>();
 			List<User> userBeneficiaries = new ArrayList<>();
@@ -674,6 +660,12 @@ public abstract class ObjectResult extends UpdateCacheData {
 				taskOffices.add(toTaskOffice(taskOfficeResult));
 			}
 			task.setTaskOffices(new HashSet<TaskOffice>(taskOffices));
+		}
+		if(!isEmpty(taskResult.getOffice())) {
+			task.setOffice(toOffice(taskResult.getOffice()));
+		}
+		if(!isEmpty(taskResult.getExcludeOffice())) {
+			task.setExcludeOffice(taskResult.getExcludeOffice());
 		}
 
 		return task;

@@ -1,8 +1,5 @@
 package com.tx.co.back_office.office.service;
 
-import static java.util.Comparator.comparingLong;
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toCollection;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.ArrayList;
@@ -10,7 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -22,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.company.domain.OfficeTaskTemplate;
 import com.tx.co.back_office.office.api.model.OfficeTaskTemplates;
 import com.tx.co.back_office.office.api.model.TaskTempOffices;
@@ -178,17 +173,19 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 	@Override
 	public List<OfficeTaskTemplates> searchOfficeTaskTemplates(TaskTempOffices taskTempOffices) {
 
-		String querySql = "select to.office, tt " + "from TaskOffice to " + "left join to.taskTemplate tt ";
+		String querySql = "select to.office, tt " + 
+				"from TaskOffice to " + 
+				"left join to.taskTemplate tt ";
 		Query query;
 
 		if (isEmpty(taskTempOffices.getOffices())) {
-			querySql += "where tt.description like :description " + "group by to.idTaskOffice "
+			querySql += "where to.enabled <> 0 and tt.description like :description " + "group by to.idTaskOffice "
 					+ "order by to.taskTemplate.description asc ";
 			query = em.createQuery(querySql);
 
 			query.setParameter("description", "%" + taskTempOffices.getDescriptionTaskTemplate() + "%");
 		} else {
-			querySql += "where tt.description like :description " + "and to.office in :officeList "
+			querySql += "where to.enabled <> 0 and tt.description like :description " + "and to.office in :officeList "
 					+ "group by to.idTaskOffice " + "order by to.taskTemplate.description asc ";
 			query = em.createQuery(querySql);
 
@@ -272,17 +269,17 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 
 	@Override
 	public List<Office> getOfficesByRole() {
-		
+
 		User userLoggedIn = getTokenUserDetails().getUser();
 		String username = userLoggedIn.getUsername();
-		
+
 		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			return officeRepository.findAllByOrderByDescriptionAsc();
 		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) ||
 				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND)) {
 			return officeRepository.getOfficesByRole(username);
 		}
-		
+
 		return new ArrayList<>();
 	}
 }

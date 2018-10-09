@@ -67,6 +67,9 @@ public class TaskOffice implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 	
+	@Column(nullable = false)
+    private Boolean enabled;
+	
 	@Column(nullable = false, name = "creationdate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
@@ -133,6 +136,14 @@ public class TaskOffice implements Serializable {
 		return endDate;
 	}
 
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
@@ -190,8 +201,9 @@ public class TaskOffice implements Serializable {
 			if (other.idTaskOffice != null)
 				return false;
 			return false;
-		} else if (!idTaskOffice.equals(other.idTaskOffice))
+		} else if (!idTaskOffice.equals(other.idTaskOffice)) {
 			return false;
+		}
 		return true;
 	}
 }

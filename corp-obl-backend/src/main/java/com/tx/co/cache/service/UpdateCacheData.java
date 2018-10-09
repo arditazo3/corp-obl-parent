@@ -348,7 +348,6 @@ public abstract class UpdateCacheData {
 		storageDataCacheManager.put(TOPIC_LIST_CACHE, topicList);
 	}
 	
-	@SuppressWarnings("unused")
 	public Translation getTranslationByLangLikeTablename(TranslationPairKey translationPairKey) {
 		
 		HashMap<TranslationPairKey, Translation> translationHashMap = getTranslationsFromCache();

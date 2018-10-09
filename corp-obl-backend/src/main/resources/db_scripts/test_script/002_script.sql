@@ -40,10 +40,8 @@ left join co_topicconsultant tc on t.id = tc.topic_id
 left join co_companyconsultant cc on tc.consultantcompany_id = cc.id
 left join co_company c on cc.company_id = c.id
 left join co_companyuser cu on c.id = cu.company_id
-left join co_user u on cu.username = u.username
-left join co_userrole ur on u.username = ur.username
 where tt.enabled <> 0 and t.enabled <> 0 and tc.enabled <> 0 and cc.enabled <> 0
-and c.enabled <> 0 and cu.enabled <> 0 and u.enabled <> 0;
+and c.enabled <> 0 and cu.enabled <> 0 and cu.username = 'FOREIGN';
 
 select o.*, tt.*
 from co_taskoffice tasko
