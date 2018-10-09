@@ -259,7 +259,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		} else {
 			return new ArrayList<>();
 		}
-		return query.getResultList();
+		return setDescriptionTaskTemplate(query.getResultList());
 	}
 
 	@Override
@@ -268,5 +268,31 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		taskTemplate.setEnabled(false);
 
 		saveUpdateTaskTemplate(taskTemplate, null);
+	}
+	
+	private List<TaskTemplate> setDescriptionTaskTemplate(List<TaskTemplate> taskTemplates) {
+		
+		User userLoggedIn = getTokenUserDetails().getUser();
+		String lang = userLoggedIn.getLang();
+		
+		int index = 1;
+		if(!isEmpty(taskTemplates)) {
+			for (TaskTemplate taskTemplate : taskTemplates) {
+
+				String descriptionTask = getTranslationByLangLikeTablename(new TranslationPairKey("configurationinterval", lang)).getDescription();
+
+				descriptionTask += String.valueOf(index) + ": ";
+
+				descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getRecurrence(), lang)).getDescription() + " - ";
+
+				descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription() + " - " + String.valueOf(taskTemplate.getDay());
+
+				taskTemplate.setDescriptionTaskTemplate(descriptionTask);
+
+				index++;
+			}
+		}
+		
+		return taskTemplates;
 	}
 }

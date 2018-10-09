@@ -562,6 +562,9 @@ public abstract class ObjectResult extends UpdateCacheData {
 			}
 			result.setTaskTemplateAttachmentResults(attachmentResults);
 		}
+		if(!isEmpty(taskTemplate.getDescriptionTaskTemplate())) {
+			result.setDescriptionTaskTemplate(taskTemplate.getDescriptionTaskTemplate());
+		}
 		return result;
 	}
 	

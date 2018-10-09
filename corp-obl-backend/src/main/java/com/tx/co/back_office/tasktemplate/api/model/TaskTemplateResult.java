@@ -27,6 +27,7 @@ public class TaskTemplateResult {
 	private Integer frequenceOfNotice;
 	private Integer daysBeforeShowExpiration;
 	private Integer expirationClosableBy;
+	private String descriptionTaskTemplate;
 	
 	public Long getIdTaskTemplate() {
 		return idTaskTemplate;
@@ -99,6 +100,12 @@ public class TaskTemplateResult {
 	}
 	public void setExpirationClosableBy(Integer expirationClosableBy) {
 		this.expirationClosableBy = expirationClosableBy;
+	}
+	public String getDescriptionTaskTemplate() {
+		return descriptionTaskTemplate;
+	}
+	public void setDescriptionTaskTemplate(String descriptionTaskTemplate) {
+		this.descriptionTaskTemplate = descriptionTaskTemplate;
 	}
 	
 	

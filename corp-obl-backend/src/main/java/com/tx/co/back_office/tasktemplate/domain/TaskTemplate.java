@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Where;
 
@@ -96,6 +97,9 @@ public class TaskTemplate implements Serializable {
 	@Column(nullable = false, name = "modifiedby")
 	private String modifiedBy;
 
+	@Transient
+	private String descriptionTaskTemplate;
+	
 	public Long getIdTaskTemplate() {
 		return idTaskTemplate;
 	}
@@ -230,6 +234,14 @@ public class TaskTemplate implements Serializable {
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+
+	public String getDescriptionTaskTemplate() {
+		return descriptionTaskTemplate;
+	}
+
+	public void setDescriptionTaskTemplate(String descriptionTaskTemplate) {
+		this.descriptionTaskTemplate = descriptionTaskTemplate;
 	}
 
 
