@@ -22,15 +22,15 @@ import {TaskTemplateAttachment} from '../../../tasktemplateattachment/tasktempla
 import {saveAs as importedSaveAs} from 'file-saver';
 
 @Component({
-  selector: 'app-single-task-create-update',
-  templateUrl: './single-task-create-update.component.html',
-  styleUrls: ['./single-task-create-update.component.css'],
+    selector: 'app-single-task-create-update',
+    templateUrl: './single-task-create-update.component.html',
+    styleUrls: ['./single-task-create-update.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [UploadService]
 })
 export class SingleTaskCreateUpdateComponent implements OnInit {
 
-    isNewForm;
+    isNewForm = true;
     isForeign = true;
     isTaskTemplateForm = true;
     taskTemplate: TaskTemplate = new TaskTemplate();
@@ -80,6 +80,9 @@ export class SingleTaskCreateUpdateComponent implements OnInit {
             const taskTemp = new Task();
             taskTemp.taskTemplate = taskTemplateTemp;
             objectParam = {isTaskTemplateForm: true, task: taskTemp};
+        }
+        if (objectParam.isNewForm || objectParam.isNewForm === false) {
+            this.isNewForm = objectParam.isNewForm;
         }
         this.isTaskTemplateForm = objectParam.isTaskTemplateForm;
         this.task = objectParam.task;
@@ -224,10 +227,15 @@ export class SingleTaskCreateUpdateComponent implements OnInit {
             return;
         }
 
-        if (this.isTaskTemplateForm) {
-            if (this.selectedTopic === undefined || this.selectedPeriodicity === undefined || this.selectedExpirationType === undefined) {
-                return;
-            }
+        if (!this.isNewForm &&
+            (this.selectedPeriodicity === undefined || this.selectedExpirationType === undefined)) {
+            return;
+        } else if (this.isNewForm &&
+            (this.selectedTopic === undefined || this.selectedPeriodicity === undefined || this.selectedExpirationType === undefined)) {
+            return;
+        }
+
+        if (this.isNewForm) {
             this.taskTemplate.description = this.createEditTaskTemplate.get('description').value;
             this.taskTemplate.topic = this.selectedTopic;
             this.taskTemplate.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
@@ -237,17 +245,14 @@ export class SingleTaskCreateUpdateComponent implements OnInit {
             this.taskTemplate.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
             this.taskTemplate.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
             this.taskTemplate.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
-        } else {
-            if (this.selectedPeriodicity === undefined || this.selectedExpirationType === undefined) {
-                return;
-            }
-            this.task.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
-            this.task.expirationType = this.selectedExpirationType.tablename.split('#')[2];
-            this.task.day = this.createEditTaskTemplate.get('day').value;
-            this.task.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
-            this.task.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
-            this.task.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
         }
+
+        this.task.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
+        this.task.expirationType = this.selectedExpirationType.tablename.split('#')[2];
+        this.task.day = this.createEditTaskTemplate.get('day').value;
+        this.task.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
+        this.task.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
+        this.task.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
 
         this.confirmationTaskTemplateSwal.title = 'Do you want to save: ' + this.task.taskTemplate.description + '?';
         this.confirmationTaskTemplateSwal.show()
@@ -263,6 +268,7 @@ export class SingleTaskCreateUpdateComponent implements OnInit {
                         me.taskTemplateService.saveUpdateTaskTemplate(taskTemplateOffice).subscribe(
                             (data) => {
                                 const taskTemplate: TaskTemplate = data;
+                                me.task.taskTemplate = taskTemplate;
                                 me.errorDetails = undefined;
                                 console.log('SingleTaskCreateUpdateComponent - createEditTaskTemplateSubmit - next');
 
@@ -289,6 +295,20 @@ export class SingleTaskCreateUpdateComponent implements OnInit {
                                     me.uploader.onSuccessItem = (item, response, status, headers) =>
                                         me.onSuccessItem(item, response, status, headers);
                                 }
+
+                                me.taskService.saveUpdateTask(me.task).subscribe(
+                                    (dataTask) => {
+                                        me.errorDetails = undefined;
+                                        console.log('SingleTaskCreateUpdateComponent - createEditTaskSubmit - next');
+
+                                        me.router.navigate(['/back-office/office-task']);
+                                    }, error => {
+                                        me.errorDetails = error.error;
+                                        //    me.showErrorDescriptionSwal();
+                                        console.error('SingleTaskCreateUpdateComponent - createEditTaskSubmit - error');
+                                    }
+                                );
+
                             }, error => {
                                 me.errorDetails = error.error;
                                 //    me.showErrorDescriptionSwal();

@@ -3,6 +3,7 @@ import {Task} from '../../../task/model/task';
 import {Router} from '@angular/router';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {TaskService} from '../../../task/service/task.service';
+import {TaskTemplate} from '../../../tasktemplate/model/tasktemplate';
 
 @Component({
   selector: 'app-tasktemplate-table',
@@ -49,6 +50,23 @@ export class TaskTemplateTableComponent implements OnInit {
                 console.error('TaskTemplateTableComponent - modifyTaskTemplate - error');
             }
         );
+    }
+
+    createTask() {
+
+        const me = this;
+        const task: Task = new Task();
+        task.taskTemplate = new TaskTemplate();
+        const tempObject = {
+            isNewForm: true,
+            task: task,
+            office: null,
+            taskOffice: null,
+            isTaskTemplateForm: true
+        };
+
+        me.transferService.objectParam = tempObject;
+        this.router.navigate(['/back-office/single-task/create']);
     }
 
 }
