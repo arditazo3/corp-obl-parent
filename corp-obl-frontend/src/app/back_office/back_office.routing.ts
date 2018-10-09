@@ -13,6 +13,7 @@ import {TaskTemplateComponent} from './tasktemplate/component/task-template.comp
 import {TaskComponent} from './task/component/task.component';
 import {OfficeTaskComponent} from './office-task/component/office-task.component';
 import {QuickConfigurationComponent} from './office-task/component/quick-configuration/quick-configuration.component';
+import {SingleTaskCreateUpdateComponent} from './office-task/component/single-task-create-update/single-task-create-update.component';
 
 export const BackOfficeRoutes: Routes = [
     {
@@ -243,6 +244,28 @@ export const BackOfficeRoutes: Routes = [
                 component: QuickConfigurationComponent,
                 data: {
                     title: 'Quick Configuration Management',
+                    urls: [
+                        {title: 'Back Office', url: '/back-office/office-task'},
+                        {title: 'Task template management'}
+                    ]
+                }
+            },
+            {
+                path: 'single-task/create',
+                component: SingleTaskCreateUpdateComponent,
+                data: {
+                    title: 'Single Task Management',
+                    urls: [
+                        {title: 'Back Office', url: '/back-office/office-task'},
+                        {title: 'Task template management'}
+                    ]
+                }
+            },
+            {
+                path: 'single-task/edit',
+                component: SingleTaskCreateUpdateComponent,
+                data: {
+                    title: 'Single Task Management',
                     urls: [
                         {title: 'Back Office', url: '/back-office/office-task'},
                         {title: 'Task template management'}

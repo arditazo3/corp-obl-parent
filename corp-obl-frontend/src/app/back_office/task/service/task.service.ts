@@ -38,4 +38,9 @@ export class TaskService {
 
         return this.apiRequest.put(this.appConfig.deleteTask, task);
     }
+
+    getSingleTaskByTaskTemplate(taskTemplate): Observable<any> {
+
+        return this.apiRequest.post(this.appConfig.getSingleTaskByTaskTemplate, taskTemplate);
+    }
 }
