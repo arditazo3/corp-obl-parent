@@ -53,7 +53,7 @@ export class OfficeTaskComponent implements OnInit {
         taskTempOffices.descriptionTaskTemplate = this.descriptionTaskTemplate;
         taskTempOffices.offices = this.offices;
 
-        this.officeTaskService.searchOfficeTasks(taskTempOffices).subscribe(
+        this.officeTaskService.searchOfficeTaskTemplates(taskTempOffices).subscribe(
             (data) => {
                 me.officeTaksCollapse.getOfficeTaskTemplatesArray(data);
                 console.log('OfficeTaskComponent - searchOffice - next');

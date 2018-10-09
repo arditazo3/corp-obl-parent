@@ -11,7 +11,7 @@ export class OfficeTaskService {
         private appConfig: AppConfig
     ) {}
 
-    searchOfficeTasks(objectSearchDescrTaskTempOffices): Observable<any> {
+    searchOfficeTaskTemplates(objectSearchDescrTaskTempOffices): Observable<any> {
         console.log('OfficeTaskService - searchOffice');
 
         return this.apiRequest.post(this.appConfig.searchOfficeTask, objectSearchDescrTaskTempOffices);

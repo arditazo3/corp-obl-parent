@@ -21,6 +21,7 @@ import {TaskTemplateAttachment} from '../../../tasktemplateattachment/tasktempla
 import {saveAs as importedSaveAs} from 'file-saver';
 import {Office} from '../../../office/model/office';
 import {TaskOffice} from '../../../task/model/taskoffice';
+import {TaskTemplateOffice} from '../../model/tasktemplate-office';
 
 @Component({
     selector: 'app-quick-configuration',
@@ -198,10 +199,18 @@ export class QuickConfigurationComponent implements OnInit {
             .then(function (result) {
                 if (result.value === true) {
 
+                    const taskTemplateOffice = new TaskTemplateOffice();
+                    taskTemplateOffice.taskTemplate = me.taskTemplate;
+                    taskTemplateOffice.office = me.office;
 
-                    me.taskTemplateService.saveUpdateTaskTemplate(me.taskTemplate).subscribe(
+                    me.taskTemplateService.saveUpdateTaskTemplate(taskTemplateOffice).subscribe(
                         (data) => {
                             const taskTemplate: TaskTemplate = data;
+
+                            if (taskTemplate.taskResults && taskTemplate.taskResults.length === 1) {
+                                me.task.idTask = taskTemplate.taskResults[0].idTask;
+                            }
+
                             me.errorDetails = undefined;
                             console.log('QuickConfigurationComponent - createEditTaskTemplateSubmit - next');
 
@@ -209,41 +218,35 @@ export class QuickConfigurationComponent implements OnInit {
                                 form.append('idTaskTemplate', taskTemplate.idTaskTemplate);
                             };
 
-                            if (me.uploader.queue.length === 0 && !me.isNewForm) {
-                                me.router.navigate(['/back-office/task']);
-                            } else {
-                                let noFileUpload = true;
-                                me.uploader.queue.forEach((item) => {
-                                    if (!item.formData || item.formData.length === 0) {
-                                        item.upload();
-                                        noFileUpload = false;
-                                        me.counterUpload++;
-                                    }
-                                });
-                                if (noFileUpload && !me.isNewForm) {
-                                    me.router.navigate(['/back-office/office-task']);
+                            let noFileUpload = true;
+                            me.uploader.queue.forEach((item) => {
+                                if (!item.formData || item.formData.length === 0) {
+                                    item.upload();
+                                    noFileUpload = false;
+                                    me.counterUpload++;
                                 }
-                                me.uploader.onErrorItem = (item, response, status, headers) =>
-                                    me.onErrorItem(item, response, status, headers);
-                                me.uploader.onSuccessItem = (item, response, status, headers) =>
-                                    me.onSuccessItem(item, response, status, headers);
+                            });
+                            me.uploader.onErrorItem = (item, response, status, headers) =>
+                                me.onErrorItem(item, response, status, headers);
+                            me.uploader.onSuccessItem = (item, response, status, headers) =>
+                                me.onSuccessItem(item, response, status, headers);
 
-                                me.task.taskTemplate = taskTemplate;
-                                me.task.taskOffices = me.associationOffice.taskOfficesArray;
+                            me.task.taskTemplate = taskTemplate;
+                            me.task.taskOffices = me.associationOffice.taskOfficesArray;
+                            me.task.office = me.office;
 
-                                me.taskService.saveUpdateTask(me.task).subscribe(
-                                    dataTask => {
-                                        console.log('QuickConfigurationComponent - createEditTaskSubmit - next');
+                            me.taskService.saveUpdateTask(me.task).subscribe(
+                                dataTask => {
+                                    console.log('QuickConfigurationComponent - createEditTaskSubmit - next');
 
-                                        me.router.navigate(['/back-office/office-task']);
-                                    },
-                                    errorTask => {
-                                        me.errorDetails = errorTask.error;
-                                        //    me.showErrorDescriptionSwal();
-                                        console.log('QuickConfigurationComponent - createEditTaskSubmit - error');
-                                    }
-                                );
-                            }
+                                    me.router.navigate(['/back-office/office-task']);
+                                },
+                                errorTask => {
+                                    me.errorDetails = errorTask.error;
+                                    //    me.showErrorDescriptionSwal();
+                                    console.log('QuickConfigurationComponent - createEditTaskSubmit - error');
+                                }
+                            );
                         }, error => {
                             me.errorDetails = error.error;
                             //    me.showErrorDescriptionSwal();

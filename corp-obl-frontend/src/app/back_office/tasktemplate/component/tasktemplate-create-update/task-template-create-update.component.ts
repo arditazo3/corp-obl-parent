@@ -19,6 +19,7 @@ import {UploadService} from '../../../../shared/common/service/upload.service';
 import {TaskTemplateAttachment} from '../../../tasktemplateattachment/tasktemplateattachment';
 import {TaskService} from '../../../task/service/task.service';
 import {AssociationOfficeComponent} from '../../../task/component/association-office/association-office.component';
+import {TaskTemplateOffice} from '../../../office-task/model/tasktemplate-office';
 
 @Component({
     selector: 'app-tasktemplate-create-update',
@@ -257,7 +258,11 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                     // handle confirm, result is needed for modals with input
 
                     if (me.isTaskTemplateForm) {
-                        me.taskTemplateService.saveUpdateTaskTemplate(me.taskTemplate).subscribe(
+
+                        const taskTemplateOffice = new TaskTemplateOffice();
+                        taskTemplateOffice.taskTemplate = me.taskTemplate;
+
+                        me.taskTemplateService.saveUpdateTaskTemplate(taskTemplateOffice).subscribe(
                             (data) => {
                                 const taskTemplate: TaskTemplate = data;
                                 me.errorDetails = undefined;
@@ -295,6 +300,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                     } else {
 
                         me.task.taskOffices = me.associationOffice.taskOfficesArray;
+                        me.task.excludeOffice = true;
 
                         me.taskService.saveUpdateTask(me.task).subscribe(
                             (data) => {
@@ -333,6 +339,32 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                             },
                             error => {
                                 console.error('TaskTemplateCreateUpdateComponent - deleteTaskTemplate - error');
+                            }
+                        );
+                    }
+                }, function (dismiss) {
+                    // dismiss can be "cancel" | "close" | "outside"
+                });
+        }
+    }
+
+    deleteTask() {
+        console.log('TaskTemplateCreateUpdateComponent - deleteTask');
+        const me = this;
+
+        if (this.taskTemplate) {
+            this.confirmationTaskTemplateSwal.title = 'Do you want to delete: ' + this.taskTemplate.description + '?';
+            this.confirmationTaskTemplateSwal.show()
+                .then(function (result) {
+                    if (result.value === true) {
+                        // handle confirm, result is needed for modals with input
+                        me.taskService.deleteTask(me.task).subscribe(
+                            next => {
+                                me.router.navigate(['/back-office/task']);
+                                console.log('TaskTemplateCreateUpdateComponent - deleteTask - next');
+                            },
+                            error => {
+                                console.error('TaskTemplateCreateUpdateComponent - deleteTask - error');
                             }
                         );
                     }

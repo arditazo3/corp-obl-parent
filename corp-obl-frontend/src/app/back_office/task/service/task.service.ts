@@ -33,4 +33,9 @@ export class TaskService {
 
         return this.apiRequest.post(this.appConfig.taskTemplateOffice, taskTemplateOffice);
     }
+
+    deleteTask(task): Observable<any> {
+
+        return this.apiRequest.put(this.appConfig.deleteTask, task);
+    }
 }
