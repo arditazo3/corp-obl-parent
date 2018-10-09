@@ -121,6 +121,18 @@ public class TaskResource extends ObjectResult {
         return Response.ok(toTaskOfficeResult(taskOffice)).build();
     }
 	
+	@POST
+    @Path(SINGLE_TASK_BY_TASKTEMPLATE)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getSingleTaskByTaskTemplate(TaskTemplateResult taskTemplate) {
+
+		Task task = taskService.
+				getTasksByTaskTemplate(toTaskTemplate(taskTemplate));
+
+        return Response.ok(toTaskResult(task)).build();
+    }
+	
     @PUT
     @Path(TASK_DELETE)
     @Produces(MediaType.APPLICATION_JSON)

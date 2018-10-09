@@ -311,4 +311,17 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		}
 		
 	}
+
+	@Override
+	public Task getTasksByTaskTemplate(TaskTemplate taskTemplate) {
+		
+		List<Task> tasks = taskRepository.getTasksByTaskTemplate(taskTemplate);
+		
+		Optional<Task> firstTask = tasks.stream().findFirst();
+		
+		if(firstTask.isPresent()) {
+			return firstTask.get();
+		}
+		return null;
+	}
 }
