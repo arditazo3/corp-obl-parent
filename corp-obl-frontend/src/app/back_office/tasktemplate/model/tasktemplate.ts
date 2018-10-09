@@ -16,4 +16,5 @@ export class TaskTemplate {
     frequenceOfNotice: number;
     daysBeforeShowExpiration: number;
     expirationClosableBy: number;
+    descriptionTaskTemplate: string;
 }
