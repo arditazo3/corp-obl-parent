@@ -271,21 +271,14 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		for (Office officeLoop : officeTaskTemplatesMap.keySet()) {
 			
 			List<TaskTemplate> taskTemplates = officeTaskTemplatesMap.get(officeLoop);
-			int index = 1;
 			if(!isEmpty(taskTemplates)) {
 				for (TaskTemplate taskTemplate : taskTemplates) {
 
-					String descriptionTask = getTranslationByLangLikeTablename(new TranslationPairKey("configurationinterval", lang)).getDescription();
+					String descriptionTaskTemplate = taskTemplate.getDescription() + " - ";
 
-					descriptionTask += String.valueOf(index) + ": ";
+					descriptionTaskTemplate += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription() + " - " + String.valueOf(taskTemplate.getDay());
 
-					descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getRecurrence(), lang)).getDescription() + " - ";
-
-					descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription() + " - " + String.valueOf(taskTemplate.getDay());
-
-					taskTemplate.setDescriptionTaskTemplate(descriptionTask);
-
-					index++;
+					taskTemplate.setDescriptionTaskTemplate(descriptionTaskTemplate);
 				}
 			}
 			

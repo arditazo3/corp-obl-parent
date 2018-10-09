@@ -275,21 +275,15 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		User userLoggedIn = getTokenUserDetails().getUser();
 		String lang = userLoggedIn.getLang();
 		
-		int index = 1;
 		if(!isEmpty(taskTemplates)) {
 			for (TaskTemplate taskTemplate : taskTemplates) {
 
-				String descriptionTask = getTranslationByLangLikeTablename(new TranslationPairKey("configurationinterval", lang)).getDescription();
+				String descriptionTaskTemplate = taskTemplate.getDescription() + " - ";
 
-				descriptionTask += String.valueOf(index) + ": ";
+				descriptionTaskTemplate += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription() + " - " + String.valueOf(taskTemplate.getDay());
 
-				descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getRecurrence(), lang)).getDescription() + " - ";
+				taskTemplate.setDescriptionTaskTemplate(descriptionTaskTemplate);
 
-				descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription() + " - " + String.valueOf(taskTemplate.getDay());
-
-				taskTemplate.setDescriptionTaskTemplate(descriptionTask);
-
-				index++;
 			}
 		}
 		

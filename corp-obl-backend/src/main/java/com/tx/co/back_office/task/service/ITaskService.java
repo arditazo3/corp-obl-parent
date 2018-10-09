@@ -24,5 +24,7 @@ public interface ITaskService {
 	
 	TaskOffice getTaskOfficeByTaskTemplateAndOffice(TaskTemplate taskTemplate, Office office);
 	
+	Task getTasksByTaskTemplate(TaskTemplate taskTemplate);
+	
 	void deleteTask(Task task);
 }
