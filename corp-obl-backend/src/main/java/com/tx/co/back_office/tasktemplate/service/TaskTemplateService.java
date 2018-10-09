@@ -246,19 +246,19 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	@Override
 	public List<TaskTemplate> searchTaskTemplateByDescr(String description) {
 
+		if(isEmpty(description)) {
+			description = "";
+		}
+		
 		String querySql = "select tt from TaskTemplate tt "
 				+ "where tt.enabled <> 0 ";
 		Query query;
 
-		if(!isEmpty(description)) {
 			querySql += "and tt.description like :description "
 					+ "order by tt.description asc";
 			query = em.createQuery(querySql);
 
 			query.setParameter("description", "%" + description + "%");
-		} else {
-			return new ArrayList<>();
-		}
 		return setDescriptionTaskTemplate(query.getResultList());
 	}
 
@@ -284,6 +284,18 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 				taskTemplate.setDescriptionTaskTemplate(descriptionTaskTemplate);
 
+				List<Office> officeCounterList = new ArrayList<>();
+				
+				Task singleTask = taskTemplate.getTasks().iterator().next();
+				
+				for (TaskOffice taskOfficeLoop : singleTask.getTaskOffices()) {
+					officeCounterList.add(taskOfficeLoop.getOffice());
+				}
+				
+				List<Office> uniqueOffices = officeCounterList.stream()
+						.collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(Office::getIdOffice))), ArrayList::new));
+
+				taskTemplate.setCounterOffices(uniqueOffices.size());
 			}
 		}
 		

@@ -7,7 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.tx.co.back_office.task.model.Task;
-import com.tx.co.back_office.task.model.TaskOffice;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 
 public interface TaskRepository extends CrudRepository<Task, Long> {

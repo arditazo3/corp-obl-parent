@@ -100,6 +100,9 @@ public class TaskTemplate implements Serializable {
 	@Transient
 	private String descriptionTaskTemplate;
 	
+	@Transient
+	private Integer counterOffices;
+	
 	public Long getIdTaskTemplate() {
 		return idTaskTemplate;
 	}
@@ -242,6 +245,14 @@ public class TaskTemplate implements Serializable {
 
 	public void setDescriptionTaskTemplate(String descriptionTaskTemplate) {
 		this.descriptionTaskTemplate = descriptionTaskTemplate;
+	}
+
+	public Integer getCounterOffices() {
+		return counterOffices;
+	}
+
+	public void setCounterOffices(Integer counterOffices) {
+		this.counterOffices = counterOffices;
 	}
 
 

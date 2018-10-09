@@ -565,6 +565,9 @@ public abstract class ObjectResult extends UpdateCacheData {
 		if(!isEmpty(taskTemplate.getDescriptionTaskTemplate())) {
 			result.setDescriptionTaskTemplate(taskTemplate.getDescriptionTaskTemplate());
 		}
+		if(!isEmpty(taskTemplate.getCounterOffices())) {
+			result.setCounterOffices(taskTemplate.getCounterOffices());
+		}
 		return result;
 	}
 	

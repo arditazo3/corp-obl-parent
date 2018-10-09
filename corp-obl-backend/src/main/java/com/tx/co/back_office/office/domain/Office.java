@@ -164,6 +164,29 @@ public class Office implements Serializable {
 	public void setUserBeneficiaries(List<User> userBeneficiaries) {
 		this.userBeneficiaries = userBeneficiaries;
 	}
-    
-    
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idOffice == null) ? 0 : idOffice.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Office other = (Office) obj;
+		if (idOffice == null) {
+			if (other.idOffice != null)
+				return false;
+		} else if (!idOffice.equals(other.idOffice))
+			return false;
+		return true;
+	}
 }

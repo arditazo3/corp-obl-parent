@@ -28,6 +28,7 @@ public class TaskTemplateResult {
 	private Integer daysBeforeShowExpiration;
 	private Integer expirationClosableBy;
 	private String descriptionTaskTemplate;
+	private Integer counterOffices;
 	
 	public Long getIdTaskTemplate() {
 		return idTaskTemplate;
@@ -106,6 +107,12 @@ public class TaskTemplateResult {
 	}
 	public void setDescriptionTaskTemplate(String descriptionTaskTemplate) {
 		this.descriptionTaskTemplate = descriptionTaskTemplate;
+	}
+	public Integer getCounterOffices() {
+		return counterOffices;
+	}
+	public void setCounterOffices(Integer counterOffices) {
+		this.counterOffices = counterOffices;
 	}
 	
 	
