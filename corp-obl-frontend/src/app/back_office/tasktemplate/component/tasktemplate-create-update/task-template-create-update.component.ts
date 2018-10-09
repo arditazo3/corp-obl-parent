@@ -471,10 +471,11 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         } else {
             const expirationType = this.selectedExpirationType.tablename.split('#')[2];
             if (expirationType === 'fix_day') {
-                this.createEditTaskTemplate.get('day').disable();
-                this.createEditTaskTemplate.get('day').setValue(0);
+                this.createEditTaskTemplate.get('day').enable();
             } else {
                 this.createEditTaskTemplate.get('day').enable();
+                this.createEditTaskTemplate.get('day').disable();
+                this.createEditTaskTemplate.get('day').setValue(0);
             }
         }
     }

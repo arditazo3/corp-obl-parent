@@ -32,8 +32,8 @@ export class TaskTemplateTableComponent implements OnInit {
         const tempObject = {
             isNewForm: false,
             task: task,
-            office: null,
-            taskOffice: null,
+            office: undefined,
+            taskOffice: null
         };
 
         this.taskService.getSingleTaskByTaskTemplate(taskTemplate).subscribe(
@@ -42,7 +42,7 @@ export class TaskTemplateTableComponent implements OnInit {
                 tempObject.task = data;
                 me.transferService.objectParam = tempObject;
 
-                this.router.navigate(['/back-office/single-task/edit']);
+                this.router.navigate(['/back-office/quick-configuration/edit']);
 
                 console.log('TaskTemplateTableComponent - modifyTaskTemplate - next');
             },
@@ -55,18 +55,13 @@ export class TaskTemplateTableComponent implements OnInit {
     createTask() {
 
         const me = this;
-        const task: Task = new Task();
-        task.taskTemplate = new TaskTemplate();
-        const tempObject = {
+        this.transferService.objectParam = {
             isNewForm: true,
-            task: task,
-            office: null,
-            taskOffice: null,
-            isTaskTemplateForm: true
+            task: undefined,
+            office: undefined
         };
 
-        me.transferService.objectParam = tempObject;
-        this.router.navigate(['/back-office/single-task/create']);
+        this.router.navigate(['/back-office/quick-configuration/create']);
     }
 
 }

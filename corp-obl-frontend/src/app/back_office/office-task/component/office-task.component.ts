@@ -6,7 +6,6 @@ import {OfficeService} from '../../office/service/office.service';
 import {TaskTempOffices} from '../model/tasktemp-offices';
 import {OfficeTaksCollapseComponent} from './office-taks-collapse/office-taks-collapse.component';
 import {TaskTemplateService} from '../../tasktemplate/service/tasktemplate.service';
-import {ObjectSearchTaskTemplate} from '../../tasktemplate/model/object-search-tasktemplate';
 
 @Component({
     selector: 'app-office-task',
@@ -66,17 +65,11 @@ export class OfficeTaskComponent implements OnInit {
 
         const me = this;
 
-        if (this.descriptionTaskTemplate) {
-
-            this.taskTemplateService.searchTaskTemplateByDescr({result: this.descriptionTaskTemplate}).subscribe(
-                (data) => {
-                    me.taskTemplatesArray = data;
-                }
-            );
-        } else {
-            this.taskTemplatesArray = [];
-        }
-
+        this.taskTemplateService.searchTaskTemplateByDescr({result: this.descriptionTaskTemplate}).subscribe(
+            (data) => {
+                me.taskTemplatesArray = data;
+            }
+        );
     }
 
 }

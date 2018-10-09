@@ -97,7 +97,8 @@ export class ConfigurationTaskComponent implements OnInit {
 
         this.transferService.objectParam = {
             isTaskTemplateForm: true,
-            task: undefined
+            task: undefined,
+            hasOfficeAssociated: true
         };
 
         this.router.navigate(['/back-office/task-template/create']);
@@ -108,7 +109,8 @@ export class ConfigurationTaskComponent implements OnInit {
 
         this.transferService.objectParam = {
             isTaskTemplateForm: true,
-            task: group.value[0]
+            task: group.value[0],
+            hasOfficeAssociated: true
         };
 
         this.router.navigate(['/back-office/task-template/edit']);

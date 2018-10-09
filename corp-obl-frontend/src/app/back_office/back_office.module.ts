@@ -43,8 +43,6 @@ import {OfficeTaksCollapseComponent} from './office-task/component/office-taks-c
 import {AssociationOfficeComponent} from './task/component/association-office/association-office.component';
 import {QuickConfigurationComponent} from './office-task/component/quick-configuration/quick-configuration.component';
 import { TaskTemplateTableComponent } from './office-task/component/tasktemplate-table/tasktemplate-table.component';
-import { SingleTaskCreateUpdateComponent } from './office-task/component/single-task-create-update/single-task-create-update.component';
-import {UploadService} from '../shared/common/service/upload.service';
 
 @NgModule({
     imports: [
@@ -90,8 +88,7 @@ import {UploadService} from '../shared/common/service/upload.service';
         OfficeTaksCollapseComponent,
         AssociationOfficeComponent,
         QuickConfigurationComponent,
-        TaskTemplateTableComponent,
-        SingleTaskCreateUpdateComponent
+        TaskTemplateTableComponent
     ],
     providers: [
         CompanyService,

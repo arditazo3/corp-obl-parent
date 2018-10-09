@@ -19,4 +19,5 @@ export class Task {
     counterCompany: number;
     office: Office;
     excludeOffice = false;
+    counterOffices;
 }

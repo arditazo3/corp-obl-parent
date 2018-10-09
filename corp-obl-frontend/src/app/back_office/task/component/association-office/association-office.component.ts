@@ -52,9 +52,13 @@ export class AssociationOfficeComponent implements OnInit {
 
         me.taskOfficesArray = taskOffices;
 
-        me.taskOfficesArray.forEach((taskOffice) => {
-            me.selectedOffices.push(taskOffice.office);
-        });
+        if (taskOffices && taskOffices[0]) {
+            me.taskOfficesArray.forEach((taskOffice) => {
+                me.selectedOffices.push(taskOffice.office);
+            });
+        } else {
+            me.taskOfficesArray = [];
+        }
     }
 
     onAddOfficeRealation($event) {
