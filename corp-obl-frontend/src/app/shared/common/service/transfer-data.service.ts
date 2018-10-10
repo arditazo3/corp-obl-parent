@@ -1,5 +1,7 @@
 import {Router} from '@angular/router';
 import {Injectable} from '@angular/core';
+import {DataFilter} from '../api/model/data-filter';
+import {PageEnum} from '../api/enum/page.enum';
 
 @Injectable()
 export class TransferDataService {
@@ -8,6 +10,7 @@ export class TransferDataService {
     private _objectParam;
     private _arrayParam;
     private _aloneParam;
+    private _dataFilter: DataFilter;
 
     constructor(
         private router: Router
@@ -59,6 +62,17 @@ export class TransferDataService {
         this._aloneParam = value;
     }
 
+    get dataFilter(): DataFilter {
+
+        const _dataFilterTemp = this._dataFilter;
+
+        this._dataFilter = new DataFilter(PageEnum.NONE);
+        return _dataFilterTemp;
+    }
+
+    set dataFilter(value: DataFilter) {
+        this._dataFilter = value;
+    }
 
     cleanParams() {
         this._singleParam = undefined;

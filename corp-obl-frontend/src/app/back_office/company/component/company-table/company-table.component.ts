@@ -1,10 +1,12 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {CompanyService} from '../../service/company.service';
 import {Router} from '@angular/router';
 import {Company} from '../../model/company';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
+import {DataFilter} from '../../../../shared/common/api/model/data-filter';
+import {PageEnum} from '../../../../shared/common/api/enum/page.enum';
 
 @Component({
     selector: 'app-company-table',
@@ -13,6 +15,7 @@ import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-det
 })
 export class CompanyTableComponent implements OnInit {
 
+    @ViewChild('descriptionCompany') descriptionCompany: ElementRef;
     @ViewChild('myTable') table: any;
     @ViewChild('deleteCompanySwal') private deleteCompanySwal: SwalComponent;
 
@@ -22,6 +25,7 @@ export class CompanyTableComponent implements OnInit {
     temp = [];
     rowSelected: Company;
     errorDetails: ApiErrorDetails;
+    dataFilter: DataFilter = new DataFilter(PageEnum.BO_COMPANY);
 
     constructor(
         private router: Router,
@@ -40,6 +44,11 @@ export class CompanyTableComponent implements OnInit {
             {prop: 'description', name: 'Description'}
         ];
 
+        const dataFilterTemp: DataFilter = this.transferService.dataFilter;
+        if (dataFilterTemp && dataFilterTemp.page === PageEnum.BO_COMPANY) {
+            this.dataFilter = dataFilterTemp;
+            this.descriptionCompany.nativeElement.value = this.dataFilter.description;
+        }
     }
 
     getCompanies() {
@@ -50,8 +59,18 @@ export class CompanyTableComponent implements OnInit {
             (data) => {
                 me.rows = data;
                 me.temp = [...data];
+
+                me.updateDataFilter(this.dataFilter.description);
             }
         );
+    }
+
+    updateDataFilter(val) {
+        console.log('CompanyTableComponent - updateDataFilter');
+
+        if (val) {
+            this.filterData(val);
+        }
     }
 
     updateFilter(event) {
@@ -59,6 +78,10 @@ export class CompanyTableComponent implements OnInit {
 
         const val = event.target.value.toLowerCase();
 
+        this.filterData(val);
+    }
+
+    filterData(val) {
         // filter our data
         const temp = this.temp.filter(function (d) {
             return d.description.toLowerCase().indexOf(val) !== -1 || !val;
@@ -68,10 +91,14 @@ export class CompanyTableComponent implements OnInit {
         this.rows = temp;
         // Whenever the filter changes, always go back to the first page
         this.table = this.data;
+
+        this.dataFilter.description = val;
     }
 
     createNewCompany() {
         console.log('CompanyTableComponent - createNewCompany');
+
+        this.transferService.dataFilter = this.dataFilter;
 
         this.router.navigate(['/back-office/company/create']);
     }
@@ -79,6 +106,7 @@ export class CompanyTableComponent implements OnInit {
     editCompany(company: Company) {
         console.log('CompanyTableComponent - editCompany');
 
+        this.transferService.dataFilter = this.dataFilter;
         this.transferService.objectParam = company;
 
         this.router.navigate(['/back-office/company/edit']);
