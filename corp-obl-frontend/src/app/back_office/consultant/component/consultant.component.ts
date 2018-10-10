@@ -9,6 +9,8 @@ import {Router} from '@angular/router';
 import {ConsultantTableComponent} from './consultant-table/consultant-table.component';
 import {TopicConsultantComponent} from './topic-consultant/topic-consultant.component';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
+import {DataFilter} from '../../../shared/common/api/model/data-filter';
+import {PageEnum} from '../../../shared/common/api/enum/page.enum';
 
 @Component({
     selector: 'app-consultant',
@@ -23,13 +25,13 @@ export class ConsultantComponent implements OnInit {
     companiesObservable: Observable<any[]>;
     selectedCompany: Company;
     validationSelectCompany = false;
+    dataFilter: DataFilter = new DataFilter(PageEnum.BO_CONSULTANT);
 
     constructor(
         private router: Router,
         private transferService: TransferDataService,
         private topicService: TopicService,
         private companyService: CompanyService,
-        private userInfoService: UserInfoService
     ) {
     }
 
@@ -50,6 +52,12 @@ export class ConsultantComponent implements OnInit {
             this.validationSelectCompany = false;
         }
 
+        const dataFilterTemp: DataFilter = this.transferService.dataFilter;
+        if (dataFilterTemp && dataFilterTemp.page === PageEnum.BO_CONSULTANT) {
+            this.dataFilter = dataFilterTemp;
+            this.selectedCompany = this.dataFilter.company;
+            this.onChangeCompany(this.selectedCompany);
+        }
     }
 
     getCompanies() {
@@ -63,6 +71,8 @@ export class ConsultantComponent implements OnInit {
         this.consultantTable.company = company;
         this.consultantTable.getCompanyConsultant(company);
         this.topicConsultant.getCompanyTopic(company);
+
+        this.dataFilter.company = company;
     }
 
     deletedConsultant($event) {

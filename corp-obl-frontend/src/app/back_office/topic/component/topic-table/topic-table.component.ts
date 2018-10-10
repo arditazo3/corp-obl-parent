@@ -1,18 +1,21 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {Topic} from '../../../topic/model/topic';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {Router} from '@angular/router';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {TopicService} from '../../service/topic.service';
+import {DataFilter} from '../../../../shared/common/api/model/data-filter';
+import {PageEnum} from '../../../../shared/common/api/enum/page.enum';
 
 @Component({
-  selector: 'app-topic-table',
-  templateUrl: './topic-table.component.html',
-  styleUrls: ['./topic-table.component.css']
+    selector: 'app-topic-table',
+    templateUrl: './topic-table.component.html',
+    styleUrls: ['./topic-table.component.css']
 })
 export class TopicTableComponent implements OnInit {
 
+    @ViewChild('descriptionTopic') descriptionTopic: ElementRef;
     @ViewChild('myTable') table: any;
     @ViewChild('deleteTopicSwal') deleteTopicSwal: SwalComponent;
 
@@ -22,6 +25,7 @@ export class TopicTableComponent implements OnInit {
     temp = [];
     rowSelected: Topic;
     errorDetails: ApiErrorDetails;
+    dataFilter: DataFilter = new DataFilter(PageEnum.BO_TOPIC);
 
     constructor(
         private router: Router,
@@ -39,6 +43,12 @@ export class TopicTableComponent implements OnInit {
         me.columns = [
             {prop: 'description', name: 'Description'}
         ];
+
+        const dataFilterTemp: DataFilter = this.transferService.dataFilter;
+        if (dataFilterTemp && dataFilterTemp.page === PageEnum.BO_TOPIC) {
+            this.dataFilter = dataFilterTemp;
+            this.descriptionTopic.nativeElement.value = this.dataFilter.description;
+        }
     }
 
     getTopics() {
@@ -49,8 +59,18 @@ export class TopicTableComponent implements OnInit {
             (data) => {
                 me.rows = data;
                 me.temp = [...data];
+
+                me.updateDataFilter(this.dataFilter.description);
             }
         );
+    }
+
+    updateDataFilter(val) {
+        console.log('TopicTableComponent - updateDataFilter');
+
+        if (val) {
+            this.filterData(val);
+        }
     }
 
     updateFilter(event) {
@@ -58,6 +78,10 @@ export class TopicTableComponent implements OnInit {
 
         const val = event.target.value.toLowerCase();
 
+        this.filterData(val);
+    }
+
+    filterData(val) {
         // filter our data
         const temp = this.temp.filter(function (d) {
             return d.description.toLowerCase().indexOf(val) !== -1 || !val;
@@ -67,10 +91,14 @@ export class TopicTableComponent implements OnInit {
         this.rows = temp;
         // Whenever the filter changes, always go back to the first page
         this.table = this.data;
+
+        this.dataFilter.description = val;
     }
 
     createNewTopic() {
         console.log('TopicTableComponent - createNewTopic');
+
+        this.transferService.dataFilter = this.dataFilter;
 
         this.router.navigate(['/back-office/topic/create']);
     }
@@ -78,6 +106,7 @@ export class TopicTableComponent implements OnInit {
     editTopic(topic: Topic) {
         console.log('TopicTableComponent - editTopic');
 
+        this.transferService.dataFilter = this.dataFilter;
         this.transferService.objectParam = topic;
 
         this.router.navigate(['/back-office/topic/edit']);

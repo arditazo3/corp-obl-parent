@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {Router} from '@angular/router';
 import {TaskTemplateService} from '../../../tasktemplate/service/tasktemplate.service';
@@ -8,6 +8,8 @@ import {Task} from '../../model/task';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {ObjectSearchTaskTemplate} from '../../../tasktemplate/model/object-search-tasktemplate';
 import {Observable} from 'rxjs';
+import {DataFilter} from '../../../../shared/common/api/model/data-filter';
+import {PageEnum} from '../../../../shared/common/api/enum/page.enum';
 
 @Component({
     selector: 'app-configuration-task',
@@ -16,6 +18,7 @@ import {Observable} from 'rxjs';
 })
 export class ConfigurationTaskComponent implements OnInit {
 
+    @ViewChild('descriptionTask') descriptionTask: ElementRef;
     @ViewChild('myTable') table: any;
     expansionDefault = false;
 
@@ -33,6 +36,7 @@ export class ConfigurationTaskComponent implements OnInit {
 
     selectedCompanies = [];
     selectedTopics = [];
+    dataFilter: DataFilter = new DataFilter(PageEnum.BO_TASK);
 
     constructor(
         private router: Router,
@@ -40,7 +44,8 @@ export class ConfigurationTaskComponent implements OnInit {
         private topicService: TopicService,
         private companyService: CompanyService,
         private transferService: TransferDataService
-    ) {}
+    ) {
+    }
 
     async ngOnInit() {
         console.log('ConfigurationTaskComponent - ngOnInit');
@@ -48,6 +53,16 @@ export class ConfigurationTaskComponent implements OnInit {
         this.getCompanies();
         this.getTopics();
         this.getTaskTemplates();
+
+        const dataFilterTemp: DataFilter = this.transferService.dataFilter;
+        if (dataFilterTemp && dataFilterTemp.page === PageEnum.BO_TASK) {
+            this.dataFilter = dataFilterTemp;
+            this.descriptionTask.nativeElement.value = this.dataFilter.description;
+            this.selectedCompanies = this.dataFilter.companies;
+            this.selectedTopics = this.dataFilter.topics;
+
+            this.searchTaskTemplate();
+        }
     }
 
     getCompanies() {
@@ -71,7 +86,7 @@ export class ConfigurationTaskComponent implements OnInit {
         this.taskTemplateService.getTaskTemplatesForTable().subscribe(
             (data) => {
                 me.rows = data;
-           //     console.log(JSON.stringify(data));
+                //     console.log(JSON.stringify(data));
             }
         );
     }
@@ -101,12 +116,15 @@ export class ConfigurationTaskComponent implements OnInit {
             hasOfficeAssociated: true
         };
 
+        this.collectDataFilterAndTransfer();
+
         this.router.navigate(['/back-office/task-template/create']);
     }
 
     modifyTaskTemplate(group) {
         console.log('modifyTaskTemplate - modifyTaskTemplate');
 
+        this.collectDataFilterAndTransfer();
         this.transferService.objectParam = {
             isTaskTemplateForm: true,
             task: group.value[0],
@@ -123,6 +141,7 @@ export class ConfigurationTaskComponent implements OnInit {
         const newTaskTemp = new Task();
         newTaskTemp.taskTemplate = taskTemp.taskTemplate;
 
+        this.collectDataFilterAndTransfer();
         this.transferService.objectParam = {
             isTaskTemplateForm: false,
             task: newTaskTemp,
@@ -154,6 +173,7 @@ export class ConfigurationTaskComponent implements OnInit {
     modifyTask(row) {
         console.log('modifyTaskTemplate - modifyTask');
 
+        this.collectDataFilterAndTransfer();
         this.transferService.objectParam = {
             isTaskTemplateForm: false,
             task: row
@@ -189,5 +209,14 @@ export class ConfigurationTaskComponent implements OnInit {
 
     onDetailToggle(event) {
         console.log('ConfigurationTaskComponent - detail toggled', event);
+    }
+
+    collectDataFilterAndTransfer() {
+
+        this.dataFilter.description = this.descriptionTask.nativeElement.value;
+        this.dataFilter.companies = this.selectedCompanies;
+        this.dataFilter.topics = this.selectedTopics;
+
+        this.transferService.dataFilter = this.dataFilter;
     }
 }
