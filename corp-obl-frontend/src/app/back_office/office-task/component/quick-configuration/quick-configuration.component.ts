@@ -88,8 +88,10 @@ export class QuickConfigurationComponent implements OnInit {
             if (objectParam.isNewForm) {
                 this.task = new Task();
 
-                this.taskOffice = new TaskOffice();
-                this.taskOffice.office = this.office;
+                if (this.office) {
+                    this.taskOffice = new TaskOffice();
+                    this.taskOffice.office = this.office;
+                }
 
                 this.submitBtn.nativeElement.innerText = 'Create Task Template';
             }

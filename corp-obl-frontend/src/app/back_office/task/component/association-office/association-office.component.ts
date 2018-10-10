@@ -1,10 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs';
 import {OfficeService} from '../../../office/service/office.service';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {UserService} from '../../../../user/service/user.service';
 import {IHash} from '../../../../shared/common/interface/ihash';
 import {TaskOffice} from '../../model/taskoffice';
+import {NgSelectComponent} from '@ng-select/ng-select';
 
 @Component({
     selector: 'app-association-office',
@@ -35,7 +36,7 @@ export class AssociationOfficeComponent implements OnInit {
 
         const me = this;
 
-        me.officesObservable = me.officeService.getOfficesByRole();
+        me.officesObservable = me.officeService.getOfficesByRole()
         me.usersObservable = me.userService.getAllUsersExceptAdminRole();
 
         me.getTaskOfficesArray(null);
@@ -72,14 +73,40 @@ export class AssociationOfficeComponent implements OnInit {
         this.populateAvailableUsersOnOffices();
     }
 
-    onRemoveOfficeRealation($event) {
-        console.log('AssociationOfficeComponent - onChangeSelectOffices');
+    removeOfficeBtn(office) {
+        console.log('AssociationOfficeComponent - removeOfficeBtn');
+
+        this.removeOffice(office);
+    }
+
+    onRemoveOfficeRelation($event) {
+        console.log('AssociationOfficeComponent - onRemoveOfficeRelation');
 
         const officeToRemove = $event.value;
-        const index = this.taskOfficesArray.findIndex(taskOffice => taskOffice.office.idOffice === officeToRemove.idOffice);
+
+        this.removeOffice(officeToRemove);
+    }
+
+    removeOffice(office) {
+        const index = this.taskOfficesArray.findIndex(taskOffice => taskOffice.office.idOffice === office.idOffice);
         if (index > -1) {
             this.taskOfficesArray.splice(index, 1);
         }
+
+        const indexRemoveOfficeCB = this.selectedOffices.findIndex(officeLoop => officeLoop.idOffice === office.idOffice);
+        if (indexRemoveOfficeCB > -1) {
+            this.selectedOffices.splice(index, 1);
+        }
+
+        this.selectedOffices = [...this.selectedOffices];
+
+        this.populateAvailableUsersOnOffices();
+    }
+
+    clearAll() {
+        console.log('AssociationOfficeComponent - clearAll');
+
+        this.taskOfficesArray = [];
 
         this.populateAvailableUsersOnOffices();
     }
@@ -111,6 +138,16 @@ export class AssociationOfficeComponent implements OnInit {
                 arrayUsers.splice(index, 1);
             }
         }
+
+        this.populateAvailableUsersOnOffices();
+    }
+
+    clearAllUsers(office) {
+        console.log('AssociationOfficeComponent - clearAllUsers');
+
+        let arrayUsers = this.officeUserProviders[office.idOffice];
+
+        arrayUsers = [];
 
         this.populateAvailableUsersOnOffices();
     }

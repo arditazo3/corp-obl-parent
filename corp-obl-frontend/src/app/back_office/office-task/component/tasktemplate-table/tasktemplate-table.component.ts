@@ -6,25 +6,27 @@ import {TaskService} from '../../../task/service/task.service';
 import {TaskTemplate} from '../../../tasktemplate/model/tasktemplate';
 
 @Component({
-  selector: 'app-tasktemplate-table',
-  templateUrl: './tasktemplate-table.component.html',
-  styleUrls: ['./tasktemplate-table.component.css']
+    selector: 'app-tasktemplate-table',
+    templateUrl: './tasktemplate-table.component.html',
+    styleUrls: ['./tasktemplate-table.component.css']
 })
 export class TaskTemplateTableComponent implements OnInit {
 
-  @Input() taskTemplatesArray = [];
+    @Input() taskTemplatesArray = [];
 
-  constructor(
-      private router: Router,
-      private transferService: TransferDataService,
-      private taskService: TaskService
-  ) { }
+    constructor(
+        private router: Router,
+        private transferService: TransferDataService,
+        private taskService: TaskService
+    ) {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+        console.log('TaskTemplateTableComponent - ngOnInit');
+    }
 
     modifyTaskTemplate(taskTemplate) {
-        console.log('TaskTemplateTableComponent - ngOnInit');
+        console.log('TaskTemplateTableComponent - modifyTaskTemplate');
 
         const me = this;
         const task: Task = new Task();

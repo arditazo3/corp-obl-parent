@@ -14,7 +14,8 @@
                                [(ngModel)]="selectedOffices"
                                [ngModelOptions]="{standalone: true}"
                                (add)="onAddOfficeRealation($event)"
-                               (remove)="onRemoveOfficeRealation($event)"
+                               (remove)="onRemoveOfficeRelation($event)"
+                               (clear)="clearAll()"
                                placeholder="Select offices">
                         <!--<ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">-->
                             <!--<input [ngModelOptions]="{standalone: true}"-->
@@ -36,6 +37,13 @@
                             <div class="col-2">
                                 <span class="float-left">{{ taskOffice.office.description }}</span>
                             </div>
+                            <div class="col-8 text-center">
+                            </div>
+                            <div class="col-2 float-right">
+                                <button class="btn-tnx btn-danger btn-block" type="button"
+                                        (click)="removeOfficeBtn(taskOffice.office)">Remove
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </ng-template>
@@ -53,6 +61,7 @@
                                         bindLabel="fullName"
                                         (add)="onAddProvidersOffice($event, taskOffice.office)"
                                         (remove)="onRemoveProvidersOffice($event, taskOffice.office)"
+                                        (clear)="clearAllUsers(taskOffice.office)"
                                         [(ngModel)]="taskOffice.office.userProviders"
                                         placeholder="Select providers">
 

@@ -57,7 +57,7 @@ export class ConfigurationTaskComponent implements OnInit {
         const dataFilterTemp: DataFilter = this.transferService.dataFilter;
         if (dataFilterTemp && dataFilterTemp.page === PageEnum.BO_TASK) {
             this.dataFilter = dataFilterTemp;
-            this.descriptionTask.nativeElement.value = this.dataFilter.description;
+            this.descriptionTaskTemplate = this.dataFilter.description;
             this.selectedCompanies = this.dataFilter.companies;
             this.selectedTopics = this.dataFilter.topics;
 
@@ -101,7 +101,6 @@ export class ConfigurationTaskComponent implements OnInit {
         this.taskTemplateService.searchTaskTemplate(objectSearchTaskTemplate).subscribe(
             (data) => {
                 me.rows = data;
-                //     console.log(JSON.stringify(data));
             }
         );
 
@@ -213,7 +212,7 @@ export class ConfigurationTaskComponent implements OnInit {
 
     collectDataFilterAndTransfer() {
 
-        this.dataFilter.description = this.descriptionTask.nativeElement.value;
+        this.dataFilter.description = this.descriptionTaskTemplate;
         this.dataFilter.companies = this.selectedCompanies;
         this.dataFilter.topics = this.selectedTopics;
 

@@ -40,11 +40,9 @@ export class OfficeTaksCollapseComponent implements OnInit {
         console.log('OfficeTaksCollapseComponent - ngOnInit');
 
         const me = this;
-        const task: Task = new Task();
-        task.taskTemplate = taskTemplate;
         const tempObject = {
             isNewForm: false,
-            task: task,
+            task: null,
             office: office,
             taskOffice: null
         };
@@ -52,6 +50,9 @@ export class OfficeTaksCollapseComponent implements OnInit {
         this.taskService.getTaskOfficeByTaskTemplateAndOffice(taskTemplate, office).subscribe(
             data => {
 
+                const task = data.task;
+                task.taskTemplate = data.taskTemplate;
+                tempObject.task = task;
                 tempObject.taskOffice = data;
                 me.transferService.objectParam = tempObject;
 
