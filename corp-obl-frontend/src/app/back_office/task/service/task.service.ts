@@ -22,11 +22,6 @@ export class TaskService {
         return this.apiRequest.get(this.appConfig.getTasks);
     }
 
-    getTasksByDescriptionOrCompaniesOrTopics(taskObjectTable): Observable<any> {
-
-        return this.apiRequest.post(this.appConfig.getTaskByDescrOrCompOrTopic, taskObjectTable);
-    }
-
     getTaskOfficeByTaskTemplateAndOffice(taskTemplate, office): Observable<any> {
 
         const taskTemplateOffice = {taskTemplate: taskTemplate, office: office};

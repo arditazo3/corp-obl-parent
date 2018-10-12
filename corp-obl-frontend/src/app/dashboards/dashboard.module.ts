@@ -12,7 +12,7 @@ import {CalendarModule} from 'angular-calendar';
 
 import {DashboardRoutes} from './dashboard.routing';
 
-import {Dashboard8Component} from './dashboard8/dashboard8.component';
+import {DashboardHomeComponent} from './dashboard_home/dashboard-home.component';
 
 @NgModule({
   imports: [
@@ -26,7 +26,7 @@ import {Dashboard8Component} from './dashboard8/dashboard8.component';
     NgxDatatableModule
   ],
   declarations: [
-    Dashboard8Component,
+    DashboardHomeComponent,
   ]
 })
 export class DashboardModule {}

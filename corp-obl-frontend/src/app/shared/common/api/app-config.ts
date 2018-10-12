@@ -84,7 +84,6 @@ export class AppConfig {
     public getSingleTaskByTaskTemplate = this.backOfficePath + this.taskPath + '/by-tasktemplate';                                      // GET
     public getTasks = this.backOfficePath + this.taskPath + this.list;                                      // GET
     public createUpdateTask = this.backOfficePath + this.taskPath + this.createupdate;                      // POST
-    public getTaskByDescrOrCompOrTopic = this.backOfficePath + this.taskPath + '/like-desc-comp-topic';     // GET
     public deleteTask = this.backOfficePath + this.taskPath + this.delete;                                  // PUT
 
     // Task template office URL

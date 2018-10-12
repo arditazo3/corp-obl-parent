@@ -16,6 +16,7 @@ export const Approutes: Routes = [
         loadChildren: './dashboards/dashboard.module#DashboardModule'
       },
       { path: 'back-office', loadChildren: './back_office/back_office.module#BackOfficeModule' },
+      { path: 'front-end', loadChildren: './front_end/front_end.module#FrontEndModule' },
     ]
   },
   {
