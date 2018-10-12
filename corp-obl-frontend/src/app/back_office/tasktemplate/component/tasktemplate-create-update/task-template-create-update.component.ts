@@ -392,7 +392,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         console.log('TaskTemplateCreateUpdateComponent - downloadFile');
 
         const me = this;
-        if (item.formData) {
+        if (item.formData && item.formData.fileName) {
             const taskTempAttach: TaskTemplateAttachment = item.formData;
             this.uploadService.downloadFile(item.formData).subscribe(
                 (data) => {
