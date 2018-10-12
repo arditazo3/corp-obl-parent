@@ -23,7 +23,6 @@ import org.hibernate.annotations.Where;
 
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.model.Task;
-import com.tx.co.back_office.task.model.TaskOffice;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 
 /**

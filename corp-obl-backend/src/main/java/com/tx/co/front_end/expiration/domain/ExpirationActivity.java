@@ -19,8 +19,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.tx.co.back_office.tasktemplateattachment.model.TaskTemplateAttachment;
-
 /**
  * Domain model that represents a expiration activity.
  *
