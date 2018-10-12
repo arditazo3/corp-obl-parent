@@ -92,10 +92,14 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 			topic.setCreatedBy(username);
 			topic.setEnabled(true);
 			topicStored = topic;
+			
+			logger.info("Creating the new topic");
 		} else { // Existing Topic
 			topicStored = getTopicById(topic.getIdTopic(), null);
 			topicStored.setDescription(topic.getDescription());
 			topicStored.setCompanyTopic(new HashSet<>());
+			
+			logger.info("Updating the topic with id: " + topicStored.getIdTopic());
 		}
 
 		topicStored.setTranslationList(topic.getTranslationList());
@@ -142,6 +146,8 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 
 		updateTopicsCache(topicStored, true);
 
+		logger.info("Stored the topic with id: " + topicStored.getIdTopic());
+		
 		return topicStored;
 	}
 
@@ -234,6 +240,8 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 
 		updateTopicConsultantsCache(topicConsultantStored, false);
 
+		logger.info("Stored the topicConsultant with id: " + topicConsultantStored.getIdTopicConsultant());
+		
 		return topicConsultantStored;
 	}
 
@@ -245,6 +253,8 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 	@Override
 	public void deleteTopicConsultant(TopicConsultant topicConsultantToDelete) {
 		try {
+			logger.info("Deleting the topicConsultant with id: " + topicConsultantToDelete.getIdTopicConsultant());
+			
 			Optional<TopicConsultant> topicConsultantOptional = findByIdTopicConsultant(topicConsultantToDelete);
 
 			if (!topicConsultantOptional.isPresent()) {
@@ -263,6 +273,8 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 
 			topicConsultantRepository.save(topicConsultant);
 
+			logger.info("Deleted the topicConsultant with id: " + topicConsultantToDelete.getIdTopicConsultant());
+			
 			updateTopicConsultantsCache(topicConsultant, false);
 		} catch (Exception e) {
 			logger.error("Error deleting Topic Consultant", e);

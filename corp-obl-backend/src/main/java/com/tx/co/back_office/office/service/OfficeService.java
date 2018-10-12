@@ -103,9 +103,13 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 			office.setCreatedBy(username);
 			office.setEnabled(true);
 			officeStored = office;
+			
+			logger.info("Creating the new office");
 		} else { // Existing Company
 			officeStored = getOfficeById(office.getIdOffice());
 			officeStored.setDescription(office.getDescription());
+			
+			logger.info("Updating the office with id: " + officeStored.getIdOffice());
 		}
 
 		officeStored.setCompany(office.getCompany());
@@ -116,6 +120,8 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 
 		updateOfficesCache(officeStored, false);
 
+		logger.info("Stored the office with id: " + officeStored.getIdOffice());
+		
 		return officeStored;
 	}
 
@@ -147,6 +153,8 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 	public void deleteOffice(Long idOffice) {
 
 		try {
+			logger.info("Deleting the Office with id: " + idOffice);
+			
 			Optional<Office> officeOptional = findByIdOffice(idOffice);
 
 			if (!officeOptional.isPresent()) {
@@ -165,8 +173,10 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 			officeRepository.save(office);
 
 			updateOfficesCache(office, false);
+			
+			logger.info("Deleted the Office with id: " + idOffice);
 		} catch (Exception e) {
-			throw new GeneralException("Company not found");
+			throw new GeneralException("Office not found");
 		}
 
 	}
@@ -174,6 +184,8 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 	@Override
 	public List<OfficeTaskTemplates> searchOfficeTaskTemplates(TaskTempOffices taskTempOffices) {
 
+		logger.info("Searching Office Task Templates");
+		
 		String querySql = "select to.office, tt " + 
 				"from TaskOffice to " + 
 				"left join to.taskTemplate tt ";
@@ -222,7 +234,6 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 					for (OfficeTaskTemplates officeTasksLoop : officeTaskTemplatesList) {
 						if (officeFirstLoop.getIdOffice().compareTo(officeTasksLoop.getOffice().getIdOffice()) == 0) {
 							hasOffice = true;
-							continue;
 						}
 					}
 					if (!hasOffice) {
@@ -239,6 +250,8 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 			officeTaskTemplatesList.addAll(officeTasksListTemp);
 		}
 
+		logger.info("Number of items: " + officeTaskTemplatesList.size());
+		
 		return officeTaskTemplatesList;
 	}
 
@@ -247,7 +260,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		User userLoggedIn = getTokenUserDetails().getUser();
 		String lang = userLoggedIn.getLang();
 		
-		HashMap<Office, List<TaskTemplate>> officeTaskTemplatesMap = new HashMap<Office, List<TaskTemplate>>();
+		HashMap<Office, List<TaskTemplate>> officeTaskTemplatesMap = new HashMap<>();
 		for (OfficeTaskTemplate officeTask : officeTaskList) {
 			Office office = officeTask.getOffice();
 			TaskTemplate taskTemplate = officeTask.getTaskTemplate();
@@ -269,7 +282,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 
 					String descriptionTaskTemplate = taskTemplate.getDescription() + " - ";
 
-					descriptionTaskTemplate += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription() + " - " + String.valueOf(taskTemplate.getDay());
+					descriptionTaskTemplate += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription() + " - " + taskTemplate.getDay();
 
 					taskTemplate.setDescriptionTaskTemplate(descriptionTaskTemplate);
 				}

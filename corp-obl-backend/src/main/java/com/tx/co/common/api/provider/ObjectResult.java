@@ -639,6 +639,10 @@ public abstract class ObjectResult extends UpdateCacheData {
 		return taskResult;
 	}
 
+	/**
+	 * @param taskResult
+	 * @return
+	 */
 	public Task toTask(TaskResult taskResult) {
 		Task task = new Task();
 
@@ -655,6 +659,10 @@ public abstract class ObjectResult extends UpdateCacheData {
 		return task;
 	}
 	
+	/**
+	 * @param taskResult
+	 * @return
+	 */
 	public Task toTaskWithTaskOffices(TaskResult taskResult) {
 		Task task = toTask(taskResult);
 		
@@ -692,6 +700,10 @@ public abstract class ObjectResult extends UpdateCacheData {
 		return taskTemplateAttachmentResult;
 	}
 
+	/**
+	 * @param objectSearchTaskTemplateResult
+	 * @return
+	 */
 	public ObjectSearchTaskTemplate toObjectSearchTaskTemplate(ObjectSearchTaskTemplateResult objectSearchTaskTemplateResult) {
 		ObjectSearchTaskTemplate objectSearchTaskTemplate = new ObjectSearchTaskTemplate();
 
@@ -713,6 +725,10 @@ public abstract class ObjectResult extends UpdateCacheData {
 		return objectSearchTaskTemplate;
 	}
 
+	/**
+	 * @param taskTempOfficesResult
+	 * @return
+	 */
 	public TaskTempOffices toTaskTempOffices(TaskTempOfficesResult taskTempOfficesResult) {
 
 		TaskTempOffices taskTempOffices = new TaskTempOffices();
@@ -732,6 +748,10 @@ public abstract class ObjectResult extends UpdateCacheData {
 		return taskTempOffices;
 	}
 
+	/**
+	 * @param officeTaskTemplates
+	 * @return
+	 */
 	public OfficeTaskTemplatesResult toOfficeTaskTemplates(OfficeTaskTemplates officeTaskTemplates) {
 
 		OfficeTaskTemplatesResult officeTasksResult = new OfficeTaskTemplatesResult();
@@ -748,6 +768,10 @@ public abstract class ObjectResult extends UpdateCacheData {
 		return officeTasksResult;
 	}
 
+	/**
+	 * @param taskOfficeResult
+	 * @return
+	 */
 	public TaskOffice toTaskOffice(TaskOfficeResult taskOfficeResult) {
 		TaskOffice taskOffice = new TaskOffice();
 
@@ -786,6 +810,10 @@ public abstract class ObjectResult extends UpdateCacheData {
 		return taskOffice;
 	}
 
+	/**
+	 * @param taskOffice
+	 * @return
+	 */
 	public TaskOfficeResult toTaskOfficeResult(TaskOffice taskOffice) {
 		TaskOfficeResult taskOfficeResult = new TaskOfficeResult();
 
@@ -797,6 +825,10 @@ public abstract class ObjectResult extends UpdateCacheData {
 		return taskOfficeResult;
 	}
 	
+	/**
+	 * @param taskOffice
+	 * @return
+	 */
 	public TaskOfficeResult toTaskOfficeWithTaskOfficeRelationResult(TaskOffice taskOffice) {
 		TaskOfficeResult taskOfficeResult = toTaskOfficeResult(taskOffice);
 		
@@ -810,6 +842,10 @@ public abstract class ObjectResult extends UpdateCacheData {
 		return taskOfficeResult;
 	}
 
+	/**
+	 * @param taskOfficeRelationsResult
+	 * @return
+	 */
 	public TaskOfficeRelations toTaskOfficeRelation(TaskOfficeRelationsResult taskOfficeRelationsResult) {
 		TaskOfficeRelations taskOfficeRelation = new TaskOfficeRelations();
 
@@ -821,6 +857,10 @@ public abstract class ObjectResult extends UpdateCacheData {
 		return taskOfficeRelation;
 	}
 
+	/**
+	 * @param taskOfficeRelation
+	 * @return
+	 */
 	public TaskOfficeRelationsResult toTaskOfficeRelationResult(TaskOfficeRelations taskOfficeRelation) {
 		TaskOfficeRelationsResult taskOfficeRelationResult = new TaskOfficeRelationsResult();
 

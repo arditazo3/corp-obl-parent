@@ -37,6 +37,7 @@ public class TranslationResource extends ObjectResult {
 	
 	private ITranslationService translationService;
 
+	@Override
 	@Autowired
 	public void setTranslationService(ITranslationService translationService) {
 		this.translationService = translationService;

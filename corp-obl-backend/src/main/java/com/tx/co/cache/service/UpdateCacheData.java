@@ -242,7 +242,7 @@ public abstract class UpdateCacheData {
 	 * @return get the Translation from the cache in order to not execute the query to the database
 	 */
 	@SuppressWarnings("unchecked")
-	public HashMap<TranslationPairKey, Translation> getTranslationsFromCache() {
+	public Map<TranslationPairKey, Translation> getTranslationsFromCache() {
 
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
@@ -350,7 +350,7 @@ public abstract class UpdateCacheData {
 	
 	public Translation getTranslationByLangLikeTablename(TranslationPairKey translationPairKey) {
 		
-		HashMap<TranslationPairKey, Translation> translationHashMap = getTranslationsFromCache();
+		Map<TranslationPairKey, Translation> translationHashMap = getTranslationsFromCache();
 		
 		for (TranslationPairKey translationPairKeyLoop : translationHashMap.keySet()) {
 			if(translationPairKeyLoop.getLang().equals(translationPairKey.getLang())

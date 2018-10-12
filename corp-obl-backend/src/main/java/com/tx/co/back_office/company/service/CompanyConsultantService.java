@@ -74,10 +74,14 @@ public class CompanyConsultantService extends UpdateCacheData implements ICompan
             companyConsultant.setCreatedBy(username);
             companyConsultant.setEnabled(true);
             companyConsultantStored = companyConsultant;
+            
+            logger.info("Creating the new companyConsultant");
         } else { // Existing Company
             companyConsultantStored = getCompanyConsultantById(companyConsultant.getIdCompanyConsultant());
             companyConsultantStored.setName(companyConsultant.getName());
             companyConsultantStored.setEmail(companyConsultant.getEmail());
+            
+            logger.info("Updating the companyConsultant with id: " + companyConsultantStored.getIdCompanyConsultant());
         }
         
         if(!isEmpty(companyConsultant.getCompany())) {
@@ -97,6 +101,8 @@ public class CompanyConsultantService extends UpdateCacheData implements ICompan
 
         updateCompanyConsultantCache(companyConsultantStored, false);
 
+        logger.info("Stored the companyConsultant with id: " + companyConsultantStored.getIdCompanyConsultant());
+        
         return companyConsultantStored;
     }
 	
@@ -115,6 +121,8 @@ public class CompanyConsultantService extends UpdateCacheData implements ICompan
 	@Override
 	public void deleteCompanyConsultant(Long idCompanyConsultant) {
 		try {
+			logger.info("Deleting the companyConsultant with id: " + idCompanyConsultant );
+			
     		Optional<CompanyConsultant> companyConsultantOptional = findByIdCompanyConsultant(idCompanyConsultant);
 
     		if(!companyConsultantOptional.isPresent()) {
@@ -137,8 +145,10 @@ public class CompanyConsultantService extends UpdateCacheData implements ICompan
 			}
 
     		updateCompanyConsultantCache(companyConsultant, false);
+    		
+    		logger.info("Deleting the companyConsultant with id: " + idCompanyConsultant );
     	} catch (Exception e) {
-    		throw new GeneralException("Company not found");
+    		throw new GeneralException("companyConsultant not found with id: " + idCompanyConsultant);
     	}
 	}
 

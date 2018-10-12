@@ -90,9 +90,13 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
             company.setCreatedBy(username);
             company.setEnabled(true);
             companyStored = company;
+            
+            logger.info("Creating the new company");
         } else { // Existing Company
             companyStored = getCompanyById(company.getIdCompany());
             companyStored.setDescription(company.getDescription());
+            
+            logger.info("Updating the company with id: " + companyStored.getIdCompany());
         }
 
         companyStored.setModificationDate(new Date());
@@ -102,6 +106,8 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 
         updateCompaniesCache(companyStored, false);
 
+        logger.info("Stored the company with id: " + companyStored.getIdCompany());
+        
         return companyStored;
     }
 
@@ -144,6 +150,8 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
     public void deleteCompany(Long idCompany) {
 
     	try {
+    		logger.info("Deleting the Company with id: " + idCompany );
+    		
     		Optional<Company> companyOptional = findByIdCompany(idCompany);
 
     		if(!companyOptional.isPresent()) {
@@ -162,6 +170,8 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
     		companyRepository.save(company);
 
     		updateCompaniesCache(company, false);
+    		
+    		logger.info("Deleting the Company with id: " + idCompany );
     	} catch (Exception e) {
     		throw new GeneralException("Company not found");
     	}
@@ -177,6 +187,9 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 	@Override
 	public void associateUserToCompany(Company company) {
 		if(!isEmpty(company) && !isEmpty(company.getCompanyUsers())) {
+			
+			logger.info("Associating user to company with id: " + company.getIdCompany() );
+			
 			List<String> userListIncluded = new ArrayList<>();
 			// The modification of User
 	        String username = getTokenUserDetails().getUser().getUsername();
@@ -200,7 +213,7 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 		        	if(retrievedCompanyUser.isPresent()) {
 		        		companyUserStored = retrievedCompanyUser.get();
 		        	} else {
-		        		throw new GeneralException("Not row found exception");
+		        		throw new GeneralException("Row not found exception");
 		        	}
 		        }
 				companyUserStored.setEnabled(true);

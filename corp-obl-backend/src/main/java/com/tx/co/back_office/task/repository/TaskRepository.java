@@ -11,12 +11,24 @@ import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 
 public interface TaskRepository extends CrudRepository<Task, Long> {
 
-	@Query("select t from Task t "
-			+ "left join t.taskTemplate tt "
-			+ "where t.enabled <> 0 "
-			+ "group by t.idTask "
-			+ "order by tt.description")
+	@Query("select t from Task t " + 
+			"left join t.taskTemplate tt " + 
+			"where t.enabled <> 0 " + 
+			"group by t.idTask " + 
+			"order by tt.description")
 	List<Task> getTasks();
+	
+	@Query("select t from Task t " + 
+			"left join t.taskTemplate tt " +
+			"left join tt.topic t " + 
+			"left join t.topicConsultants tc " + 
+			"left join tc.companyConsultant cc " + 
+			"left join cc.company c " + 
+			"left join c.companyUsers cu " + 
+			"where tt.enabled <> 0 "+
+			"and cu.username = :username " + 
+			"group by tt.id order by tt.description asc")
+	List<TaskTemplate> getTasksByRole(@Param("username") String username);
 	
 	@Query("select t from Task t "
 			+ "left join t.taskTemplate tt "

@@ -41,6 +41,8 @@ public class CompanyTopicService extends UpdateCacheData implements ICompanyTopi
 		
 		List<CompanyTopic> companyTopics = companyTopicRepository.getCompanyTopicByIdCompany(getCompanyById(Long.valueOf(idCompany)));
 		
+		logger.info("The number of the companyTopics: " + companyTopics.size());
+		
 		for (CompanyTopic companyTopic : companyTopics) {
 			Long idTopic = companyTopic.getTopic().getIdTopic();
 			companyTopic.setTopic(getTopicById(idTopic, idCompany));

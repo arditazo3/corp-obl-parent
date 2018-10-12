@@ -17,30 +17,21 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.tx.co.back_office.company.api.model.CompanyResult;
-import com.tx.co.back_office.company.domain.Company;
-import com.tx.co.back_office.task.api.model.TaskObjectTableResult;
 import com.tx.co.back_office.task.api.model.TaskResult;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.task.model.TaskOffice;
 import com.tx.co.back_office.task.service.ITaskService;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateOfficeResult;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
-import com.tx.co.back_office.topic.api.model.TopicResult;
-import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.common.api.provider.ObjectResult;
 
 @Component
 @Path(BACK_OFFICE)
 public class TaskResource extends ObjectResult {
 
-	private static final Logger logger = LogManager.getLogger(TaskResource.class);
-	
 	@Context
 	private UriInfo uriInfo; 
 	
@@ -57,7 +48,7 @@ public class TaskResource extends ObjectResult {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createUpdateTask(TaskResult taskResult) {
 
-		Task taskStored = taskService.saveUpdateTask(toTaskWithTaskOffices(taskResult));
+		taskService.saveUpdateTask(toTaskWithTaskOffices(taskResult));
 
 		return Response.noContent().build();
 	}
@@ -70,36 +61,6 @@ public class TaskResource extends ObjectResult {
     public Response getTasks() {
 
 		Iterable<Task> taskIterable = taskService.getTasks();
-        List<TaskResult> queryDetailsList =
-                StreamSupport.stream(taskIterable.spliterator(), false)
-                        .map(this::toTaskResult)
-                        .collect(Collectors.toList());
-
-        return Response.ok(queryDetailsList).build();
-    }
-	
-	@POST
-    @Path(TASK_DESC_COMP_TOPIC)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
-    public Response getTasksByDescriptionOrCompaniesOrTopics(TaskObjectTableResult taskObjectTableResult) {
-
-		String description = taskObjectTableResult.getDescription();
-		List<CompanyResult> companies = taskObjectTableResult.getCompanies();
-		List<TopicResult> topics = taskObjectTableResult.getTopics();
-		
-		List<Company> companyList =
-                StreamSupport.stream(companies.spliterator(), false)
-                        .map(this::toCompany)
-                        .collect(Collectors.toList());
-		
-		List<Topic> topicList =
-                StreamSupport.stream(topics.spliterator(), false)
-                        .map(this::toTopic)
-                        .collect(Collectors.toList());
-		
-		Iterable<Task> taskIterable = taskService.getTasksByDescriptionOrCompaniesOrTopics(description, companyList, topicList);
         List<TaskResult> queryDetailsList =
                 StreamSupport.stream(taskIterable.spliterator(), false)
                         .map(this::toTaskResult)

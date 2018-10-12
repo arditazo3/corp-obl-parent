@@ -20,6 +20,7 @@ public final class ApiConstants {
 	public static final String LIST = "/list";
 	public static final String CREATE_UPDATE = "/create-update";
 	public static final String DELETE = "/delete";
+	public static final String BY_ROLE = "/by-role";
 
 	// User URL
 	public static final String USER = "user";
@@ -28,14 +29,16 @@ public final class ApiConstants {
 	public static final String USER_BY_USERNAME = "{username}";
 	public static final String ME = "me";
 
-
+	/**
+	 * Back office Resources
+	 * */
 	public static final String BACK_OFFICE = "back-office";
 
 	// Company URL
 	public static final String COMPANY = "company";
 	public static final String COMPANY_GET_BY_ID = COMPANY + "/{idCompany}";
 	public static final String COMPANY_LIST = COMPANY + LIST;
-	public static final String COMPANY_LIST_ROLE = COMPANY + LIST + "/by-role";
+	public static final String COMPANY_LIST_ROLE = COMPANY + LIST + BY_ROLE;
 	public static final String COMPANY_CREATE_UPDATE = COMPANY + CREATE_UPDATE;
 	public static final String COMPANY_DELETE = COMPANY + DELETE;
 	public static final String ASSOC_USER_COMPANY = COMPANY + "/assoc-user-company";
@@ -43,14 +46,14 @@ public final class ApiConstants {
 	// Office URL
 	public static final String OFFICE = "office";
 	public static final String OFFICE_LIST = OFFICE + LIST;
-	public static final String OFFICE_LIST_ROLE = OFFICE + LIST + "/by-role";
+	public static final String OFFICE_LIST_ROLE = OFFICE + LIST + BY_ROLE;
 	public static final String OFFICE_CREATE_UPDATE = OFFICE + CREATE_UPDATE;
 	public static final String OFFICE_DELETE = OFFICE + DELETE;
 
 	// Topic URL
 	public static final String TOPIC = "topic";
 	public static final String TOPIC_LIST = TOPIC + LIST;
-	public static final String TOPIC_LIST_ROLE = TOPIC + LIST + "/by-role";
+	public static final String TOPIC_LIST_ROLE = TOPIC + LIST + BY_ROLE;
 	public static final String TOPIC_CREATE_UPDATE = TOPIC + CREATE_UPDATE;
 	public static final String TOPIC_DELETE = TOPIC + DELETE;
 
@@ -90,17 +93,26 @@ public final class ApiConstants {
 	public static final String TASK = "task";
 	public static final String TASK_LIST = TASK + LIST;
 	public static final String TASK_CREATE_UPDATE = TASK + CREATE_UPDATE;
-	public static final String TASK_DESC_COMP_TOPIC = TASK + "/like-desc-comp-topic";
 	public static final String SINGLE_TASK_BY_TASKTEMPLATE = TASK + "/by-tasktemplate";
 	public static final String TASK_DELETE = TASK + DELETE;
 
 	// Office Task URL
 	public static final String OFFICE_TASKS = "office-task";
 	public static final String SEARCH_OFFICE_TASKS = OFFICE_TASKS + "/search-office";
-	
+
 	// Task template office URL
 	public static final String TASK_TEMPLATE_OFFICE = "tasktemplate-office";
 
+	/** End Back office Resources */
+	
+	/**
+	 * Front end Resources
+	 * */
+	public static final String FRONT_END = "front-end";
+
+	
+	/** End Front end Resources */
+	
 	/**
 	 * List of authorization Role
 	 * */
@@ -132,7 +144,7 @@ public final class ApiConstants {
 
 	/* File static values */
 	public static final String FILE_MAX_SIZE = "20";
-	
+
 	/* Task Office Relations Type */
 	public static final Integer CONTROLLER = 1;
 	public static final Integer CONTROLLED = 2;

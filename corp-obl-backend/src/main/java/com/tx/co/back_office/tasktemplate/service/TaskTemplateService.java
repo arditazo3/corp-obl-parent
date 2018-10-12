@@ -4,6 +4,7 @@ import static java.util.Comparator.comparingLong;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toCollection;
 import static org.springframework.util.ObjectUtils.isEmpty;
+import static com.tx.co.common.constants.AppConstants.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,12 +80,16 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 			taskTemplate.setCreatedBy(username);
 			taskTemplate.setEnabled(true);
 			taskTemplateStored = taskTemplate;
+			
+			logger.info("Creating the new Task template");
 		} else { // Existing Task template
 			taskTemplateStored = getTaskTemplateById(taskTemplate.getIdTaskTemplate());
 
 			if(!isEmpty(taskTemplate.getEnabled())) {
 				taskTemplateStored.setEnabled(taskTemplate.getEnabled());	
 			}
+			
+			logger.info("Updating the Task template with id: " + taskTemplateStored.getIdTaskTemplate());
 		}
 
 		taskTemplateStored.setDescription(taskTemplate.getDescription());
@@ -111,6 +116,8 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 		updateTaskTemplateCache(taskTemplateStored, false);
 
+		logger.info("Stored the office with id: " + taskTemplateStored.getIdTaskTemplate());
+		
 		return taskTemplateStored;
 	}
 
@@ -139,50 +146,9 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
 			tasks = convertToTaskForTable(taskTemplateRepository.getTaskTemplatesByRole(username));
 		}
-		return tasks;
-	}
-
-	public List<Task> convertToTaskForTable(List<TaskTemplate> taskTemplates) {
-
-		User userLoggedIn = getTokenUserDetails().getUser();
-		String lang = userLoggedIn.getLang();
-
-		List<Task> tasks = new ArrayList<>();
-		for (TaskTemplate taskTemplate : taskTemplates) {
-
-			int index = 1;
-			if(!isEmpty(taskTemplate.getTasks())) {
-				for (Task taskLoop : taskTemplate.getTasks()) {
-
-					List<Company> coumpanyCounterList = new ArrayList<>();
-					for (TaskOffice taskOfficeLoop : taskLoop.getTaskOffices()) {
-						coumpanyCounterList.add(taskOfficeLoop.getOffice().getCompany());
-					}
-					List<Company> uniqueCompanies = coumpanyCounterList.stream()
-							.collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(Company::getIdCompany))), ArrayList::new));
-
-					taskLoop.setCounterCompany(uniqueCompanies.size());
-
-					String descriptionTask = getTranslationByLangLikeTablename(new TranslationPairKey("configurationinterval", lang)).getDescription();
-
-					descriptionTask += String.valueOf(index) + ": ";
-
-					descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskLoop.getRecurrence(), lang)).getDescription() + " - ";
-
-					descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskLoop.getExpirationType(), lang)).getDescription() + " - " + String.valueOf(taskLoop.getDay());
-
-					taskLoop.setDescriptionTask(descriptionTask);
-
-					tasks.add(taskLoop);
-
-					index++;
-				}
-			} else {
-				Task task = new Task();
-				task.setTaskTemplate(taskTemplate);
-				tasks.add(task);
-			}
-		}
+		
+		logger.info("Tasks for table - Number of items: " + tasks.size());
+		
 		return tasks;
 	}
 
@@ -190,6 +156,8 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	@Override
 	public List<Task> searchTaskTemplate(ObjectSearchTaskTemplate objectSearchTaskTemplate) {
 
+		logger.info("Searching Task Templates");
+		
 		User userLoggedIn = getTokenUserDetails().getUser();
 		String username = userLoggedIn.getUsername();
 		List<String> authorities = new ArrayList<>();
@@ -220,7 +188,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 					+ "group by tt.idTaskTemplate order by tt.description asc";
 			query = em.createQuery(querySql);
 
-			query.setParameter("description", "%" + objectSearchTaskTemplate.getDescriptionTaskTemplate() + "%");
+			query.setParameter(DESCRIPTION_QUERY_PARAM, "%" + objectSearchTaskTemplate.getDescriptionTaskTemplate() + "%");
 		} else if(isEmpty(objectSearchTaskTemplate.getCompanies()) || isEmpty(objectSearchTaskTemplate.getTopics())) {
 			throw new GeneralException("Fill in all the fields");
 		} else {
@@ -229,7 +197,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 					+ "group by tt.idTaskTemplate order by tt.description asc";
 			query = em.createQuery(querySql, TaskTemplate.class);
 
-			query.setParameter("description", "%" + objectSearchTaskTemplate.getDescriptionTaskTemplate() + "%");
+			query.setParameter(DESCRIPTION_QUERY_PARAM, "%" + objectSearchTaskTemplate.getDescriptionTaskTemplate() + "%");
 			query.setParameter("topicsList",   objectSearchTaskTemplate.getTopics());
 
 			query.setParameter("companiesList", objectSearchTaskTemplate.getCompanies());
@@ -242,10 +210,59 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		return convertToTaskForTable(query.getResultList());
 	}
 
+	public List<Task> convertToTaskForTable(List<TaskTemplate> taskTemplates) {
+
+		User userLoggedIn = getTokenUserDetails().getUser();
+		String lang = userLoggedIn.getLang();
+
+		List<Task> tasks = new ArrayList<>();
+		for (TaskTemplate taskTemplate : taskTemplates) {
+
+			int index = 1;
+			if(!isEmpty(taskTemplate.getTasks())) {
+				for (Task taskLoop : taskTemplate.getTasks()) {
+
+					List<Company> coumpanyCounterList = new ArrayList<>();
+					for (TaskOffice taskOfficeLoop : taskLoop.getTaskOffices()) {
+						coumpanyCounterList.add(taskOfficeLoop.getOffice().getCompany());
+					}
+					List<Company> uniqueCompanies = coumpanyCounterList.stream()
+							.collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(Company::getIdCompany))), ArrayList::new));
+
+					taskLoop.setCounterCompany(uniqueCompanies.size());
+
+					String descriptionTask = getTranslationByLangLikeTablename(new TranslationPairKey("configurationinterval", lang)).getDescription();
+
+					descriptionTask += String.valueOf(index) + ": ";
+
+					descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskLoop.getRecurrence(), lang)).getDescription() + " - ";
+
+					descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskLoop.getExpirationType(), lang)).getDescription() + " - " + taskLoop.getDay();
+
+					taskLoop.setDescriptionTask(descriptionTask);
+
+					tasks.add(taskLoop);
+
+					index++;
+				}
+			} else {
+				Task task = new Task();
+				task.setTaskTemplate(taskTemplate);
+				tasks.add(task);
+			}
+		}
+		
+		logger.info("Number of items: " + tasks.size());
+		
+		return tasks;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<TaskTemplate> searchTaskTemplateByDescr(String description) {
 
+		logger.info("Searching Office Task Templates by Description");
+		
 		if(isEmpty(description)) {
 			description = "";
 		}
@@ -258,18 +275,10 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 					+ "order by tt.description asc";
 			query = em.createQuery(querySql);
 
-			query.setParameter("description", "%" + description + "%");
+			query.setParameter(DESCRIPTION_QUERY_PARAM, "%" + description + "%");
 		return setDescriptionTaskTemplate(query.getResultList());
 	}
 
-	@Override
-	public void deleteTaskTemplate(TaskTemplate taskTemplate) {
-
-		taskTemplate.setEnabled(false);
-
-		saveUpdateTaskTemplate(taskTemplate, null);
-	}
-	
 	private List<TaskTemplate> setDescriptionTaskTemplate(List<TaskTemplate> taskTemplates) {
 		
 		User userLoggedIn = getTokenUserDetails().getUser();
@@ -280,7 +289,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 				String descriptionTaskTemplate = taskTemplate.getDescription() + " - ";
 
-				descriptionTaskTemplate += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription() + " - " + String.valueOf(taskTemplate.getDay());
+				descriptionTaskTemplate += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription() + " - " + taskTemplate.getDay();
 
 				taskTemplate.setDescriptionTaskTemplate(descriptionTaskTemplate);
 
@@ -299,6 +308,18 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 			}
 		}
 		
+		logger.info("Number of items: " + taskTemplates.size());
+		
 		return taskTemplates;
+	}
+	
+	@Override
+	public void deleteTaskTemplate(TaskTemplate taskTemplate) {
+
+		taskTemplate.setEnabled(false);
+
+		logger.info("Deleted the TaskTemplate with id: " + taskTemplate.getIdTaskTemplate());
+		
+		saveUpdateTaskTemplate(taskTemplate, null);
 	}
 }

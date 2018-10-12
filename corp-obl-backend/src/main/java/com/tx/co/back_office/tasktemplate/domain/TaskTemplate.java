@@ -25,6 +25,7 @@ import org.hibernate.annotations.Where;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplateattachment.model.TaskTemplateAttachment;
 import com.tx.co.back_office.topic.domain.Topic;
+import com.tx.co.front_end.expiration.domain.Expiration;
 
 /**
  * Domain model that represents a task template.
@@ -56,6 +57,10 @@ public class TaskTemplate implements Serializable {
 	@Where(clause = "enabled = 1")
     private Set<Task> tasks = new HashSet<>();
 
+	@OneToMany(mappedBy="taskTemplate", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@Where(clause = "enabled = 1")
+    private Set<Expiration> expirations = new HashSet<>();
+	
 	@Column(nullable = false)
 	private String description;
 
@@ -133,6 +138,14 @@ public class TaskTemplate implements Serializable {
 
 	public void setTasks(Set<Task> tasks) {
 		this.tasks = tasks;
+	}
+
+	public Set<Expiration> getExpirations() {
+		return expirations;
+	}
+
+	public void setExpirations(Set<Expiration> expirations) {
+		this.expirations = expirations;
 	}
 
 	public String getDescription() {

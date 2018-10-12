@@ -25,6 +25,7 @@ import org.hibernate.annotations.Where;
 
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
+import com.tx.co.front_end.expiration.domain.Expiration;
 
 /**
  * Domain model that represents a task.
@@ -54,6 +55,12 @@ public class Task implements Serializable {
 	@Fetch(value = FetchMode.JOIN)
 	@Where(clause = "enabled = 1")
     private Set<TaskOffice> taskOffices = new HashSet<>();
+	
+	@OneToMany
+	@JoinColumn (name = "task_id", insertable = false, updatable = false)
+	@Fetch(value = FetchMode.JOIN)
+	@Where(clause = "enabled = 1")
+    private Set<Expiration> expirations = new HashSet<>();
 	
 	@Column(nullable = false)
 	private String recurrence;
@@ -127,6 +134,14 @@ public class Task implements Serializable {
 
 	public void setTaskOffices(Set<TaskOffice> taskOffices) {
 		this.taskOffices = taskOffices;
+	}
+
+	public Set<Expiration> getExpirations() {
+		return expirations;
+	}
+
+	public void setExpirations(Set<Expiration> expirations) {
+		this.expirations = expirations;
 	}
 
 	public String getRecurrence() {
@@ -277,8 +292,9 @@ public class Task implements Serializable {
 		if (idTask == null) {
 			if (other.idTask != null)
 				return false;
-		} else if (!idTask.equals(other.idTask))
+		} else if (!idTask.equals(other.idTask)) {
 			return false;
+		}
 		return true;
 	}
 	

@@ -20,6 +20,7 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.tx.co.back_office.company.api.model.CompanyTopicResult;
@@ -64,8 +65,7 @@ public class TopicResource extends ObjectResult {
     @GET
     @Path(TOPIC_LIST_ROLE)
     @Produces(MediaType.APPLICATION_JSON)
-//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
-    // TODO set the Roles to the annotation
+    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE + "') or hasAuthority('" + FOREIGN_ROLE + "') or hasAuthority('" + INLAND_ROLE + "')")
     public Response getTopicsByRole() {
 
         Iterable<Topic> topicIterable = topicService.getTopicsByRole();

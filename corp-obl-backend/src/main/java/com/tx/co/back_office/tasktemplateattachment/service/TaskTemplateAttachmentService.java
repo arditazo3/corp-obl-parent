@@ -52,6 +52,8 @@ public class TaskTemplateAttachmentService extends UpdateCacheData implements IT
 	@Override
 	public TaskTemplateAttachment saveUpdateTaskTemplateAttachment(FileUploadRequest request) {
 
+		logger.info("Creating the new TaskTemplateAttachment");
+		
 		// The modification of User
 		String username = getTokenUserDetails().getUser().getUsername();
 
@@ -95,6 +97,8 @@ public class TaskTemplateAttachmentService extends UpdateCacheData implements IT
 			TaskTemplate taskTemplate = taskTemplateAttachment.getTaskTemplate();
 			
 			taskTemplate.getTaskTemplateAttachments().remove(taskTemplateAttachment);
+			
+			logger.info("Deleted the TaskTemplateAttachment with id: " + idTaskTemplateAttachment);
 			
 			taskTemplateRepository.save(taskTemplate);
 		}

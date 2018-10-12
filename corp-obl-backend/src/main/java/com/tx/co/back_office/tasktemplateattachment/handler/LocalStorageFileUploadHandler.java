@@ -50,7 +50,7 @@ public class LocalStorageFileUploadHandler implements IFileUploadHandler {
 
 		// Early exit, if there is no Request:
 		if(request == null) {
-			throw new FileUploadException(new ServiceError("missingFile", "Missing File data"), String.format("Missing Parameter: request"));
+			throw new FileUploadException(new ServiceError("missingFile", "Missing File data"), "Missing Parameter: request");
 		}
 
 		// Get the HttpFile:
@@ -58,7 +58,7 @@ public class LocalStorageFileUploadHandler implements IFileUploadHandler {
 
 		// Early exit, if the Request has no data assigned:
 		if(httpFile == null) {
-			throw new FileUploadException(new ServiceError("missingFile", "Missing File data"), String.format("Missing Parameter: request.httpFile"));
+			throw new FileUploadException(new ServiceError("missingFile", "Missing File data"), "Missing Parameter: request.httpFile");
 		}
 
 		// We don't override existing files

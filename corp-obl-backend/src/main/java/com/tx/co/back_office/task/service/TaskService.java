@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.tx.co.back_office.company.domain.Company;
-import com.tx.co.back_office.company.service.ICompanyService;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.task.model.TaskOffice;
@@ -28,12 +26,11 @@ import com.tx.co.back_office.task.repository.TaskOfficeRelationRepository;
 import com.tx.co.back_office.task.repository.TaskOfficeRepository;
 import com.tx.co.back_office.task.repository.TaskRepository;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
-import com.tx.co.back_office.topic.domain.Topic;
-import com.tx.co.back_office.topic.service.ITopicService;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
 import com.tx.co.security.domain.Authority;
+import com.tx.co.security.exception.GeneralException;
 import com.tx.co.user.domain.User;
 
 /**
@@ -49,22 +46,10 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	private TaskRepository taskRepository;
 	private TaskOfficeRepository taskOfficeRepository;
 	private TaskOfficeRelationRepository taskOfficeRelationRepository;
-	private ICompanyService companyService;
-	private ITopicService topicService;
 
 	@Autowired
 	public void setTaskRepository(TaskRepository taskRepository) {
 		this.taskRepository = taskRepository;
-	}
-
-	@Autowired
-	public void setCompanyService(ICompanyService companyService) {
-		this.companyService = companyService;
-	}
-
-	@Autowired
-	public void setTopicService(ITopicService topicService) {
-		this.topicService = topicService;
 	}
 
 	@Autowired
@@ -78,26 +63,22 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	}
 
 	@Override
-	public List<Task> getTasksByDescriptionOrCompaniesOrTopics(String description, List<Company> companies,
-			List<Topic> topics) {
-
-		return null;
-	}
-
-	@Override
 	public List<Task> getTasks() {
 
 		User userLoggedIn = getTokenUserDetails().getUser();
+		String username = userLoggedIn.getUsername();
 
+		List<Task> tasks = new ArrayList<>();
 		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
-			return taskRepository.getTasks();
+			tasks = taskRepository.getTasks();
 		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
-			List<Company> companies = companyService.getCompaniesByRole();
-			List<Topic> topics = topicService.getTopicsByRole();
-			// FIXME
-			return new ArrayList<>();
+			taskRepository.getTasksByRole(username);
+			tasks =  new ArrayList<>();
 		}
-		return new ArrayList<>();
+
+		logger.info("The number of the tasks: " + tasks.size());
+
+		return tasks;
 	}
 
 	@Override
@@ -118,9 +99,18 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			task.setCreatedBy(username);
 			task.setEnabled(true);
 			taskStored = task;
+
+			logger.info("Creating the new task");
 		} else { // Existing Task template
-			taskStored = taskRepository.findById(task.getIdTask()).get();
-			//			taskStored = getTaskById(task.getIdTask());
+			Optional<Task> taskOptional = taskRepository.findById(task.getIdTask());
+
+			if(taskOptional.isPresent()) {
+				taskStored = taskOptional.get();
+			} else {
+				throw new GeneralException("Task not found, id: " + task.getIdTask());
+			}
+
+			logger.info("Updating the task with id: " + taskStored.getIdTask());
 		}
 
 		taskStored.setDay(task.getDay());
@@ -149,7 +139,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			taskStored.setTaskOffices(new HashSet<TaskOffice>(taskOffices));
 		}
 
-		//	updateTaskCache(taskStored, false);
+		logger.info("Stored the task with id: " + taskStored.getIdTask());
 
 		return taskStored;
 	}
@@ -172,6 +162,8 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 				taskOffice.setCreatedBy(username);
 
 				taskOfficeStored = taskOffice;
+
+				logger.info("Creating the new taskOffice");
 			}
 
 			Date date = null;
@@ -183,9 +175,15 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			}
 			taskOfficeStored.setEndDate(date);
 		} else { // Existing Task template
-			taskOfficeStored = taskOfficeRepository.findById(taskOffice.getIdTaskOffice()).get();
+			Optional<TaskOffice> taskOfficeOptional = taskOfficeRepository.findById(taskOffice.getIdTaskOffice());
 
-			//			taskStored = getTaskById(task.getIdTask());
+			if (taskOfficeOptional.isPresent()) {
+				taskOfficeStored = taskOfficeOptional.get();
+			} else {
+				throw new GeneralException("Task office not found, id: " + taskOffice.getIdTaskOffice());
+			}
+
+			logger.info("Updating the taskOffice with id: " + taskOfficeStored.getIdTaskOffice());
 		}
 
 		taskOfficeStored.setTask(task);
@@ -206,6 +204,8 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			}
 		}
 
+		logger.info("Stored the taskOffice with id: " + taskOfficeStored.getIdTaskOffice());
+
 		return taskOffice;
 	}
 
@@ -224,9 +224,18 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			taskOfficeRelation.setEnabled(true);
 
 			taskOfficeRelationStored = taskOfficeRelation;
+
+			logger.info("Creating the new taskOfficeRelation");
 		} else { // Existing Task template
-			taskOfficeRelationStored = taskOfficeRelationRepository.findById(taskOfficeRelation.getIdTaskOfficeRelation()).get();
-			//			taskStored = getTaskById(task.getIdTask());
+			Optional<TaskOfficeRelations> taskOfficeRelationOptional = taskOfficeRelationRepository.findById(taskOfficeRelation.getIdTaskOfficeRelation());
+
+			if(taskOfficeRelationOptional.isPresent()) {
+				taskOfficeRelationStored = taskOfficeRelationOptional.get();
+			} else {
+				throw new GeneralException("Task office relation not found, id: " + taskOfficeRelation.getIdTaskOfficeRelation());
+			}
+
+			logger.info("Updating the taskOfficeRelation with id: " + taskOfficeRelationStored.getIdTaskOfficeRelation());
 		}
 
 		taskOfficeRelationStored.setUsername(taskOfficeRelation.getUsername());
@@ -237,10 +246,14 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 		taskOfficeRelationStored = taskOfficeRelationRepository.save(taskOfficeRelationStored);
 
+		logger.info("Stored the taskOfficeRelation with id: " + taskOfficeRelationStored.getIdTaskOfficeRelation());
+
 		return taskOfficeRelationStored;
 	}
 
 	public Set<TaskOffice> mergeTaskOffice(Task taskStored, Set<TaskOffice> taskOffices) {
+
+		logger.info("Merging Task - Office");
 
 		Set<TaskOffice> taskOfficesToSave = new HashSet<>();
 		for (TaskOffice taskOffice : taskOffices) {
@@ -269,6 +282,8 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		Set<TaskOffice> taskOfficesToRemove = taskStored.getTaskOffices();
 		taskOfficesToRemove.removeAll(taskOfficesToSave);
 		if(!isEmpty(taskOfficesToRemove)) {
+			logger.info("Number of task offices to remove: " + taskOfficesToRemove.size());
+
 			for (TaskOffice taskOffice : taskOfficesToRemove) {
 				if( taskStored.getExcludeOffice()  ||
 						(!isEmpty(taskOffice.getOffice()) && 
@@ -283,6 +298,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			taskStored.setTaskOffices(new HashSet<>());
 		}
 
+		logger.info("Number of task offices to save: " + taskOfficesToSave.size());
 		taskStored.getTaskOffices().addAll(taskOfficesToSave);
 
 		return taskStored.getTaskOffices();
@@ -295,33 +311,40 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 	@Override
 	public void deleteTask(Task task) {
-		
+
 		if(!isEmpty(task)) {
-			
+
 			// The modification of User
 			String username = getTokenUserDetails().getUser().getUsername();
-			
-			Task taskStored = taskRepository.findById(task.getIdTask()).get();
-			
+
+			Task taskStored;
+			Optional<Task> taskOptional = taskRepository.findById(task.getIdTask());
+			if (taskOptional.isPresent()) {
+				taskStored = taskOptional.get();
+			} else {
+				throw new GeneralException("Task not found, id: " + task.getIdTask());
+			}
+
 			taskStored.setEnabled(false);
 			taskStored.setModificationDate(new Date());
 			taskStored.setModifiedBy(username);
-			
+
 			taskRepository.save(taskStored);
 		}
-		
+
 	}
 
 	@Override
 	public Task getTasksByTaskTemplate(TaskTemplate taskTemplate) {
-		
+
 		List<Task> tasks = taskRepository.getTasksByTaskTemplate(taskTemplate);
-		
+
 		Optional<Task> firstTask = tasks.stream().findFirst();
-		
+
 		if(firstTask.isPresent()) {
 			return firstTask.get();
 		}
 		return null;
 	}
+
 }

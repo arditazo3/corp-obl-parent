@@ -23,6 +23,7 @@ import javax.persistence.Transient;
 
 import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.task.model.TaskOffice;
+import com.tx.co.front_end.expiration.domain.Expiration;
 import com.tx.co.user.domain.User;
 
 /**
@@ -40,43 +41,46 @@ public class Office implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long idOffice;
-	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
+	private Long idOffice;
+
 	@Column(nullable = false)
-    private String description;
+	private String description;
 
-    @Column(nullable = false)
-    private Boolean enabled;
-    
-    @Column(nullable = false, name = "creationdate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date creationDate;
+	@Column(nullable = false)
+	private Boolean enabled;
 
-    @Column(nullable = false, name = "createdby")
-    private String createdBy;
+	@Column(nullable = false, name = "creationdate")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date creationDate;
 
-    @Column(nullable = false, name = "modificationdate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date modificationDate;
+	@Column(nullable = false, name = "createdby")
+	private String createdBy;
 
-    @Column(nullable = false, name = "modifiedby")
-    private String modifiedBy;
-    
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
-    
-    @OneToMany(mappedBy="task", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<TaskOffice> taskOffices = new HashSet<>();
+	@Column(nullable = false, name = "modificationdate")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modificationDate;
 
-    @Transient
-    private List<User> userProviders;
-    
-    @Transient
-    private List<User> userBeneficiaries;
-    
+	@Column(nullable = false, name = "modifiedby")
+	private String modifiedBy;
+
+	@ManyToOne
+	@JoinColumn(name = "company_id")
+	private Company company;
+
+	@OneToMany(mappedBy="task", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<TaskOffice> taskOffices = new HashSet<>();
+
+	@OneToMany(mappedBy="task", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Expiration> expirations = new HashSet<>();
+
+	@Transient
+	private List<User> userProviders;
+
+	@Transient
+	private List<User> userBeneficiaries;
+
 	public Long getIdOffice() {
 		return idOffice;
 	}
@@ -149,6 +153,14 @@ public class Office implements Serializable {
 		this.taskOffices = taskOffices;
 	}
 
+	public Set<Expiration> getExpirations() {
+		return expirations;
+	}
+
+	public void setExpirations(Set<Expiration> expirations) {
+		this.expirations = expirations;
+	}
+
 	public List<User> getUserProviders() {
 		return userProviders;
 	}
@@ -185,8 +197,9 @@ public class Office implements Serializable {
 		if (idOffice == null) {
 			if (other.idOffice != null)
 				return false;
-		} else if (!idOffice.equals(other.idOffice))
+		} else if (!idOffice.equals(other.idOffice)) {
 			return false;
+		}
 		return true;
 	}
 }

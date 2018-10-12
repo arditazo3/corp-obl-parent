@@ -210,7 +210,7 @@ public abstract class CacheDataLoader {
 
 
 	private HashMap<TranslationPairKey, Translation> convertHashMapPairKey(List<Translation> translations) {
-		HashMap<TranslationPairKey, Translation> translationHashMap = new HashMap<TranslationPairKey, Translation>();
+		HashMap<TranslationPairKey, Translation> translationHashMap = new HashMap<>();
 		
 		if(!isEmpty(translations)) {
 			for (Translation translation : translations) {
