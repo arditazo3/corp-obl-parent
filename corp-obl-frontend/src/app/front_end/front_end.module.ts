@@ -11,6 +11,8 @@ import {FileUploadModule} from 'ng2-file-upload';
 import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {FrontEndRoutes} from './front_end.routing';
+import { AgendaComponent } from './agenda/agenda.component';
+import { MyDatePickerModule } from 'mydatepicker';
 
 @NgModule({
     imports: [
@@ -22,10 +24,12 @@ import {FrontEndRoutes} from './front_end.routing';
         NgbModalModule.forRoot(),
         CalendarModule.forRoot(),
         NgxDatatableModule,
+        MyDatePickerModule,
         DragulaModule,
         RouterModule.forChild(FrontEndRoutes),
         PerfectScrollbarModule,
         FileUploadModule,
+
         SweetAlert2Module.forRoot({
             buttonsStyling: false,
             customClass: 'modal-content',
@@ -34,6 +38,7 @@ import {FrontEndRoutes} from './front_end.routing';
         }),
     ],
     declarations: [
+    AgendaComponent
     ],
     providers: [
     ]

@@ -76,5 +76,24 @@ export const ROUTES: RouteInfo[] = [
                 authorities: [AuthorityEnum[AuthorityEnum.CORPOBLIG_ADMIN], AuthorityEnum[AuthorityEnum.CORPOBLIG_BACKOFFICE_INLAND]]
             }
         ]
+    },
+    {
+        path: '',
+        title: 'Front End',
+        icon: 'mdi mdi-airplay',
+        class: 'has-arrow',
+        ddclass: '',
+        extralink: false,
+        submenu: [
+            {
+                path: '/front-end/agenda',
+                title: 'Agenda',
+                icon: 'mdi mdi-view-agenda',
+                class: '',
+                ddclass: '',
+                extralink: false,
+                submenu: []
+            }
+        ]
     }
 ];
