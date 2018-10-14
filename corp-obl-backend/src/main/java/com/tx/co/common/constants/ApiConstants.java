@@ -109,6 +109,9 @@ public final class ApiConstants {
 	 * Front end Resources
 	 * */
 	public static final String FRONT_END = "front-end";
+	
+	public static final String AGENDA = "agenda";
+	public static final String SEARCH_AGENDA_TASK = AGENDA + "/search-task";
 
 	
 	/** End Front end Resources */
@@ -120,6 +123,9 @@ public final class ApiConstants {
 	public static final String FOREIGN_ROLE = "CORPOBLIG_BACKOFFICE_FOREIGN";
 	public static final String INLAND_ROLE = "CORPOBLIG_BACKOFFICE_INLAND";
 	public static final String USER_ROLE = "CORPOBLIG_USER";
+	
+	public static final String AUTH_ADMIN_FOREIGN_INLAND = "hasAuthority('"+ ADMIN_ROLE + "') or hasAuthority('" + FOREIGN_ROLE + "') or hasAuthority('" + INLAND_ROLE + "')";
+	public static final String AUTH_ADMIN_USER = "hasAuthority('"+ ADMIN_ROLE + "') or hasAuthority('" + USER_ROLE + "')";
 	/* End of authorization Role list */
 
 	/**

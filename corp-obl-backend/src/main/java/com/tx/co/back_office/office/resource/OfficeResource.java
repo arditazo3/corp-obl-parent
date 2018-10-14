@@ -18,6 +18,7 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.tx.co.back_office.office.api.model.OfficeResult;
@@ -49,8 +50,8 @@ public class OfficeResource extends ObjectResult {
     @GET
     @Path(OFFICE_LIST)
     @Produces(MediaType.APPLICATION_JSON)
-//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
-    public Response getCompanies() {
+    @PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
+    public Response getOffices() {
 
         Iterable<Office> officeIterable = officeService.findAllOffice();
         List<OfficeResult> queryOfficeList =
@@ -64,8 +65,7 @@ public class OfficeResource extends ObjectResult {
 	@GET
     @Path(OFFICE_LIST_ROLE)
     @Produces(MediaType.APPLICATION_JSON)
-//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
-    public Response getCompaniesByRole() {
+    public Response getOfficesByRole() {
 
         Iterable<Office> officeIterable = officeService.getOfficesByRole();
         List<OfficeResult> queryOfficeList =
@@ -80,6 +80,7 @@ public class OfficeResource extends ObjectResult {
     @Path(OFFICE_CREATE_UPDATE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
     public Response createUpdateOffice(OfficeResult officeResult) {
 
         Office officeStored = officeService.saveUpdateOffice(toOffice(officeResult));
@@ -91,7 +92,7 @@ public class OfficeResource extends ObjectResult {
     @Path(OFFICE_DELETE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
- //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
+    @PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
     public Response deleteOffice(OfficeResult office) {
 
     	officeService.deleteOffice(office.getIdOffice());
@@ -103,6 +104,7 @@ public class OfficeResource extends ObjectResult {
 	@Path(SEARCH_OFFICE_TASKS)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+    @PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
 	public Response searchOfficeTaskTemplates(TaskTempOfficesResult taskTempOffices) {
 
 		Iterable<OfficeTaskTemplates> officeTasksIterable = officeService.searchOfficeTaskTemplates(toTaskTempOffices(taskTempOffices));

@@ -33,6 +33,7 @@ import static com.tx.co.common.constants.ApiConstants.*;
 
 @Component
 @Path(BACK_OFFICE)
+@PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
 public class CompanyResource extends ObjectResult {
 
     private static final Logger logger = LogManager.getLogger(CompanyResource.class);
@@ -62,7 +63,6 @@ public class CompanyResource extends ObjectResult {
 	@GET
     @Path(COMPANY_LIST)
     @Produces(MediaType.APPLICATION_JSON)
-//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response getCompanies() {
 
         Iterable<Company> companyIterable = companyService.findAllCompany();
@@ -77,7 +77,6 @@ public class CompanyResource extends ObjectResult {
 	@GET
     @Path(COMPANY_LIST_ROLE)
     @Produces(MediaType.APPLICATION_JSON)
-//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response getCompaniesByRole() {
 
         Iterable<Company> companyIterable = companyService.getCompaniesByRole();
@@ -125,7 +124,6 @@ public class CompanyResource extends ObjectResult {
     @Path(COMPANY_DELETE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
- //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response deleteCompany(CompanyResult company) {
 
         companyService.deleteCompany(company.getIdCompany());
@@ -137,7 +135,6 @@ public class CompanyResource extends ObjectResult {
     @Path(ASSOC_USER_COMPANY)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
- //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response associateUserToCompany(CompanyResult companyUserListResult) {
 
         companyService.associateUserToCompany(toCompany(companyUserListResult));
@@ -149,7 +146,6 @@ public class CompanyResource extends ObjectResult {
     @Path(CONSULTANT_LIST)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response getCompanyConsultant(@QueryParam("idCompany") String idCompany) {
 
         Iterable<CompanyConsultant> companyConsultantIterable = companyConsultantService.getCompanyConsultantByIdCompany(idCompany);
@@ -176,7 +172,6 @@ public class CompanyResource extends ObjectResult {
     @Path(CONSULTANT_DELETE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
- //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response deleteCompany(CompanyConsultantResult companyConsultant) {
 
     	companyConsultantService.deleteCompanyConsultant(companyConsultant.getIdCompanyConsultant());
@@ -188,7 +183,6 @@ public class CompanyResource extends ObjectResult {
     @Path(TOPIC_CONSULTANT_LIST)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response getCompanyTopic(@QueryParam("idCompany") String idCompany) {
 
         Iterable<CompanyTopic> companyTopicIterable = companyTopicService.getCompanyTopicByIdCompany(idCompany);

@@ -5,6 +5,8 @@ import java.io.File;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailException;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailService implements IEmailService {
 
+	private static final Logger logger = LogManager.getLogger(EmailService.class);
+	
 	@Autowired
 	public JavaMailSender emailSender;
 
@@ -28,7 +32,7 @@ public class EmailService implements IEmailService {
 
 			emailSender.send(message);
 		} catch (MailException exception) {
-			exception.printStackTrace();
+			logger.error(exception);
 		}
 	}
 
@@ -54,7 +58,7 @@ public class EmailService implements IEmailService {
 
 			emailSender.send(message);
 		} catch (MessagingException e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 

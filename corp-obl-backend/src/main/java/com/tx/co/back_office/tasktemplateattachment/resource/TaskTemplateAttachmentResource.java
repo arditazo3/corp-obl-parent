@@ -22,6 +22,7 @@ import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.tx.co.back_office.tasktemplateattachment.api.model.TaskTemplateAttachmentResult;
@@ -34,6 +35,7 @@ import com.tx.co.security.exception.GeneralException;
 
 @Component
 @Path(BACK_OFFICE)
+@PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
 public class TaskTemplateAttachmentResource extends ObjectResult {
 
 	private static final Logger logger = LogManager.getLogger(TaskTemplateAttachmentResource.class);
@@ -104,7 +106,6 @@ public class TaskTemplateAttachmentResource extends ObjectResult {
     @Path(REMOVE_FILES)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
- //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response deleteFile(TaskTemplateAttachmentResult taskTemplateAttachmentResult) {
 
     	fileUploadHandler.deleteFile(taskTemplateAttachmentResult);

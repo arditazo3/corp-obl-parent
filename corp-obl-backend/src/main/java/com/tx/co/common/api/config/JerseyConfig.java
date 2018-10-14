@@ -9,6 +9,7 @@ import com.tx.co.back_office.tasktemplateattachment.resource.TaskTemplateAttachm
 import com.tx.co.back_office.topic.resource.TopicResource;
 import com.tx.co.common.api.provider.ObjectMapperProvider;
 import com.tx.co.common.translation.resource.TranslationResource;
+import com.tx.co.front_end.expiration.resource.ExpirationResource;
 import com.tx.co.security.api.exceptionmapper.AccessDeniedExceptionMapper;
 import com.tx.co.security.api.exceptionmapper.AuthenticationExceptionMapper;
 import com.tx.co.security.api.exceptionmapper.AuthenticationTokenRefreshmentExceptionMapper;
@@ -33,7 +34,6 @@ import static com.tx.co.common.constants.ApiConstants.APP_PATH;
 @ApplicationPath(APP_PATH)
 public class JerseyConfig extends ResourceConfig {
 
-
 	/**
 	 * Jersey URL configuration
 	 */
@@ -52,6 +52,7 @@ public class JerseyConfig extends ResourceConfig {
 		register(TranslationResource.class);
 		register(TaskResource.class);
 		
+		register(ExpirationResource.class);
 
 		/**
 		 * General exception

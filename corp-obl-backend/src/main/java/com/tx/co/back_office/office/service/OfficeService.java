@@ -306,7 +306,9 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			return officeRepository.findAllByOrderByDescriptionAsc();
 		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) ||
-				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND)) {
+				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND) ||
+				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER) ||
+				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER)) {
 			return officeRepository.getOfficesByRole(username);
 		}
 

@@ -37,6 +37,7 @@ import com.tx.co.common.api.provider.ObjectResult;
 
 @Component
 @Path(BACK_OFFICE)
+@PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
 public class TaskTemplateResource extends ObjectResult {
 
 	private static final Logger logger = LogManager.getLogger(TaskTemplateResource.class);
@@ -87,7 +88,6 @@ public class TaskTemplateResource extends ObjectResult {
     @Path(TASK_TEMPLATE_DELETE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
- //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response deleteTaskTemplate(TaskTemplateResult taskTemplateResult) {
 
     	taskTemplateService.deleteTaskTemplate(toTaskTemplate(taskTemplateResult));

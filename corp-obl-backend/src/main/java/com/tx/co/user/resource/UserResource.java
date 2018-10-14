@@ -44,7 +44,6 @@ public class UserResource extends ObjectResult {
     @GET
     @Path(USER_LIST)
     @Produces(MediaType.APPLICATION_JSON)
-//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response getUsers() {
 
         Iterable<User> userIterable = userService.findAllUsers();
@@ -63,7 +62,6 @@ public class UserResource extends ObjectResult {
     @Path(USER_LIST_EXCEPT)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response getUsersExceptRole(@QueryParam("role") String role) {
 
         List<User> userList = userService.findAllUsersExceptRole(role);

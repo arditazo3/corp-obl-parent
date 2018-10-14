@@ -171,7 +171,8 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 				"left join cu.user u on cu.username = u.username " +
 				"where tt.enabled <> 0 ";
 
-		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
+		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) &&
+				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			querySql += "and u.username = :username ";
 
 			for (Authority authority : userLoggedIn.getAuthorities()) {
@@ -203,7 +204,8 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 			query.setParameter("companiesList", objectSearchTaskTemplate.getCompanies());
 		}
 
-		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
+		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) &&
+				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			query.setParameter("username", username);
 		}
 

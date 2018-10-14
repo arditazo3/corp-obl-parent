@@ -33,6 +33,7 @@ import com.tx.co.common.api.provider.ObjectResult;
 
 @Component
 @Path(BACK_OFFICE)
+@PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
 public class TopicResource extends ObjectResult {
 
 	private static final Logger logger = LogManager.getLogger(TopicResource.class);
@@ -50,7 +51,6 @@ public class TopicResource extends ObjectResult {
     @GET
     @Path(TOPIC_LIST)
     @Produces(MediaType.APPLICATION_JSON)
-//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response getTopics() {
 
         Iterable<Topic> topicIterable = topicService.findAllTopic();
@@ -65,7 +65,7 @@ public class TopicResource extends ObjectResult {
     @GET
     @Path(TOPIC_LIST_ROLE)
     @Produces(MediaType.APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE + "') or hasAuthority('" + FOREIGN_ROLE + "') or hasAuthority('" + INLAND_ROLE + "')")
+    @PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
     public Response getTopicsByRole() {
 
         Iterable<Topic> topicIterable = topicService.getTopicsByRole();
@@ -94,7 +94,6 @@ public class TopicResource extends ObjectResult {
     @Path(TOPIC_DELETE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
- //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response deleteTopic(TopicResult topic) {
 
     	topicService.deleteTopic(topic.getIdTopic());
@@ -117,7 +116,6 @@ public class TopicResource extends ObjectResult {
     @Path(TOPIC_CONSULTANT_DELETE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
- //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response deleteTopicConsultant(TopicConsultantResult topicConsultantResult) {
 
     	topicService.deleteTopicConsultant(toTopicConsultant(topicConsultantResult));
@@ -129,7 +127,6 @@ public class TopicResource extends ObjectResult {
     @Path(TOPIC_CONSULTANTS_DELETE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
- //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response deleteTopicConsultant(CompanyTopicResult companyTopicResult) {
 
     	topicService.deleteTopicConsultants(toCompany(companyTopicResult.getCompany()), toTopicWithTranslation(companyTopicResult.getTopic()));

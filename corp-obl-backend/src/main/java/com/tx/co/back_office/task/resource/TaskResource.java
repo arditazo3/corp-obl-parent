@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.tx.co.back_office.task.api.model.TaskResult;
@@ -30,6 +31,7 @@ import com.tx.co.common.api.provider.ObjectResult;
 
 @Component
 @Path(BACK_OFFICE)
+@PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
 public class TaskResource extends ObjectResult {
 
 	@Context
@@ -57,7 +59,6 @@ public class TaskResource extends ObjectResult {
     @Path(TASK_LIST)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response getTasks() {
 
 		Iterable<Task> taskIterable = taskService.getTasks();
@@ -73,7 +74,6 @@ public class TaskResource extends ObjectResult {
     @Path(TASK_TEMPLATE_OFFICE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response getTaskOfficeByTaskTemplateAndOffice(TaskTemplateOfficeResult taskTemplateOffice) {
 
 		TaskOffice taskOffice = taskService.
@@ -98,7 +98,6 @@ public class TaskResource extends ObjectResult {
     @Path(TASK_DELETE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
- //   @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response deleteTask(TaskResult taskResult) {
 
     	taskService.deleteTask(toTask(taskResult));

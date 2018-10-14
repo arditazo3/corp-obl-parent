@@ -47,8 +47,7 @@ public class TranslationResource extends ObjectResult {
     @Path(TRANSLATION_LIKE_TABLENAME)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-//    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
-    public Response getCompany(@QueryParam("tablename") String tablename, @QueryParam("lang") String lang) {
+    public Response getTranslations(@QueryParam("tablename") String tablename, @QueryParam("lang") String lang) {
 
 		Iterable<Translation> translationIterable = translationService.getTranslationLikeTablename(tablename, lang);
         List<TranslationResult> queryDetailsList =
