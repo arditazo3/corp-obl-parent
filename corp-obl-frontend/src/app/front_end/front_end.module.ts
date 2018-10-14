@@ -13,6 +13,8 @@ import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {FrontEndRoutes} from './front_end.routing';
 import { AgendaComponent } from './agenda/agenda.component';
 import { MyDatePickerModule } from 'mydatepicker';
+import {MomentModule} from 'ngx-moment';
+import {ExpirationService} from './service/expiration.service';
 
 @NgModule({
     imports: [
@@ -25,6 +27,7 @@ import { MyDatePickerModule } from 'mydatepicker';
         CalendarModule.forRoot(),
         NgxDatatableModule,
         MyDatePickerModule,
+        MomentModule,
         DragulaModule,
         RouterModule.forChild(FrontEndRoutes),
         PerfectScrollbarModule,
@@ -41,6 +44,7 @@ import { MyDatePickerModule } from 'mydatepicker';
     AgendaComponent
     ],
     providers: [
+        ExpirationService
     ]
 })
 

@@ -29,6 +29,7 @@ import {AuthGuard} from './authentication/service/auth_guard.service';
 import {TransferDataService} from './shared/common/service/transfer-data.service';
 import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 import {NgSelectModule} from '@ng-select/ng-select';
+import {OfficeService} from './back_office/office/service/office.service';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true,
@@ -46,7 +47,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         NavigationComponent,
         BreadcrumbComponent,
         SidebarComponent,
-        BlankComponent
+        BlankComponent,
     ],
     imports: [
         CommonModule,
@@ -83,6 +84,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
             provide: LocationStrategy,
             useClass: HashLocationStrategy
         },
+        OfficeService
     ],
     bootstrap: [AppComponent]
 })

@@ -12,26 +12,18 @@ export class OfficeService {
     ) {}
 
     getOffices(): Observable<any> {
-        console.log('OfficeService - getOffices');
-
         return this.apiRequest.get(this.appConfig.getOffices);
     }
 
     getOfficesByRole(): Observable<any> {
-        console.log('OfficeService - getOffices');
-
         return this.apiRequest.get(this.appConfig.getOfficesByRole);
     }
 
     saveUpdateOffice(office): Observable<any> {
-        console.log('OfficeService - saveUpdateOffice');
-
         return this.apiRequest.post(this.appConfig.createUpdateOffice, office);
     }
 
     deleteOffice(office): Observable<any> {
-        console.log('OfficeService - deleteOffice');
-
         return this.apiRequest.put(this.appConfig.deleteOffice, office);
     }
 

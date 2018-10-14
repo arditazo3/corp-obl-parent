@@ -23,7 +23,9 @@ export class AppConfig {
     public userList = this.userPath + this.list;
     public userListExceptRole = this.userPath + '/user-except';
 
-    // Back office
+    /**
+     * Back office
+     * */
     public backOfficePath = 'back-office';
 
     // Company URL's
@@ -92,6 +94,17 @@ export class AppConfig {
     // Office task URL's
     public officeTaskPath = '/office-task';
     public searchOfficeTask = this.backOfficePath + this.officeTaskPath + '/search-office';
+    /** End Back Office */
+
+    /**
+     * Front end
+     * */
+    public frontEndPath = 'front-end';
+
+    // Expiration
+    public agenda = '/agenda';
+    public expirationSearchTaskTemplateOfficeArchived = this.frontEndPath + this.agenda + '/search-task';
+
 
     constructor() {
         console.log('AppConfig - constructor');
