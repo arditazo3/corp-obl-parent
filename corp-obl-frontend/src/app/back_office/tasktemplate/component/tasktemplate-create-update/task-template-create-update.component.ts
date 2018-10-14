@@ -251,7 +251,15 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             this.task.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
         }
 
-        this.confirmationTaskTemplateSwal.title = 'Do you want to save: ' + this.taskTemplate.description + '?';
+        let msgSwal = 'Do you want to save: ';
+        if (this.taskTemplate) {
+            msgSwal += this.taskTemplate.description;
+        } else {
+            msgSwal += this.task.taskTemplate.description;
+        }
+        msgSwal += '?';
+
+        this.confirmationTaskTemplateSwal.title = msgSwal;
         this.confirmationTaskTemplateSwal.show()
             .then(function (result) {
                 if (result.value === true) {
@@ -294,7 +302,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                             }, error => {
                                 me.errorDetails = error.error;
                                 //    me.showErrorDescriptionSwal();
-                                console.error('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit - error');
+                                console.error('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit - error \n', error);
                             }
                         );
                     } else {
@@ -312,7 +320,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                             }, error => {
                                 me.errorDetails = error.error;
                                 //    me.showErrorDescriptionSwal();
-                                console.error('TaskTemplateCreateUpdateComponent - createEditTaskSubmit - error');
+                                console.error('TaskTemplateCreateUpdateComponent - createEditTaskSubmit - error \n', error);
                             }
                         );
                     }
@@ -338,7 +346,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                                 console.log('TaskTemplateCreateUpdateComponent - deleteTaskTemplate - next');
                             },
                             error => {
-                                console.error('TaskTemplateCreateUpdateComponent - deleteTaskTemplate - error');
+                                console.error('TaskTemplateCreateUpdateComponent - deleteTaskTemplate - error \n', error);
                             }
                         );
                     }
@@ -364,7 +372,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                                 console.log('TaskTemplateCreateUpdateComponent - deleteTask - next');
                             },
                             error => {
-                                console.error('TaskTemplateCreateUpdateComponent - deleteTask - error');
+                                console.error('TaskTemplateCreateUpdateComponent - deleteTask - error \n', error);
                             }
                         );
                     }
@@ -401,7 +409,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 },
                 error => {
                     me.errorDetails = error.error;
-                    console.error('TaskTemplateCreateUpdateComponent - downloadFile - error');
+                    console.error('TaskTemplateCreateUpdateComponent - downloadFile - error \n', error);
                 });
         } else {
             importedSaveAs(item.file.rawFile);
@@ -421,7 +429,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 },
                 error => {
                     me.errorDetails = error.error;
-                    console.error('TaskTemplateCreateUpdateComponent - removeFile - error');
+                    console.error('TaskTemplateCreateUpdateComponent - removeFile - error \n', error);
                 }
             );
         }

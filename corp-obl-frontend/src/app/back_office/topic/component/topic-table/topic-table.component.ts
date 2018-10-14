@@ -47,7 +47,9 @@ export class TopicTableComponent implements OnInit {
         const dataFilterTemp: DataFilter = this.transferService.dataFilter;
         if (dataFilterTemp && dataFilterTemp.page === PageEnum.BO_TOPIC) {
             this.dataFilter = dataFilterTemp;
-            this.descriptionTopic.nativeElement.value = this.dataFilter.description;
+            if (this.dataFilter.description) {
+                this.descriptionTopic.nativeElement.value = this.dataFilter.description;
+            }
         }
     }
 
@@ -134,7 +136,7 @@ export class TopicTableComponent implements OnInit {
                 console.log('TopicTableComponent - deleteTopicCofirm - next');
             }, error => {
                 this.errorDetails = error.error;
-                console.error('TopicTableComponent - deleteTopicCofirm - error');
+                console.error('TopicTableComponent - deleteTopicCofirm - error \n', error);
             }
         );
     }

@@ -45,9 +45,11 @@ import com.tx.co.common.translation.api.model.TranslationResult;
 import com.tx.co.common.translation.domain.Translation;
 import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchived;
 import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchivedResult;
+import com.tx.co.front_end.expiration.api.model.ExpirationResult;
 import com.tx.co.front_end.expiration.api.model.TaskExpirationsResult;
 import com.tx.co.front_end.expiration.api.model.TaskTemplateExpirations;
 import com.tx.co.front_end.expiration.api.model.TaskTemplateExpirationsResult;
+import com.tx.co.front_end.expiration.domain.Expiration;
 import com.tx.co.security.exception.GeneralException;
 import com.tx.co.user.api.model.UserResult;
 import com.tx.co.user.domain.User;
@@ -888,6 +890,13 @@ public abstract class ObjectResult extends UpdateCacheData {
 		TaskExpirationsResult taskExpirationsResult = new TaskExpirationsResult();
 
 		taskExpirationsResult.setTask(toTaskResult(task));
+		if (!isEmpty(task.getExpirations())) {
+			List<ExpirationResult> expirationResults = new ArrayList<>();
+			for (Expiration expirationLoop : task.getExpirations()) {
+				expirationResults.add(toExpirationResult(expirationLoop));
+			}
+			taskExpirationsResult.setExpirations(expirationResults);
+		}
 
 		return taskExpirationsResult;
 	}
@@ -923,15 +932,32 @@ public abstract class ObjectResult extends UpdateCacheData {
 
 		TaskTemplateExpirationsResult taskTemplateExpirationsResult = new TaskTemplateExpirationsResult();
 
+		taskTemplateExpirationsResult.setDescription(taskTemplateExpirations.getDescription());
 		taskTemplateExpirationsResult.setIdTaskTemplate(taskTemplateExpirations.getIdTaskTemplate());
+		taskTemplateExpirationsResult.setTotalCompleted(taskTemplateExpirations.getTotalCompleted());
+		taskTemplateExpirationsResult.setTotalExpirations(taskTemplateExpirations.getTotalExpirations());
 
 		if (!isEmpty(taskTemplateExpirations.getTasks())) {
-			List<TaskExpirationsResult> taskTemplateResults = new ArrayList<>();
+			List<TaskExpirationsResult> taskExpirationsResults = new ArrayList<>();
 			for (Task task : taskTemplateExpirations.getTasks()) {
-				taskTemplateResults.add(toTaskExpirations(task));
+				taskExpirationsResults.add(toTaskExpirations(task));
 			}
-			taskTemplateExpirationsResult.setTasks(taskTemplateResults);
+			taskTemplateExpirationsResult.setTaskExpirations(taskExpirationsResults);
 		}
 		return taskTemplateExpirationsResult;
+	}
+	
+	public ExpirationResult toExpirationResult(Expiration expiration) {
+		ExpirationResult expirationResult = new ExpirationResult();
+		
+		expirationResult.setIdExpiration(expiration.getIdExpiration());
+		expirationResult.setExpirationClosableBy(expiration.getExpirationClosableBy());
+		expirationResult.setUsername(expiration.getUsername());
+		expirationResult.setExpirationDate(expiration.getExpirationDate());
+		expirationResult.setCompleted(expiration.getCompleted());
+		expirationResult.setApproved(expiration.getApproved());
+		expirationResult.setRegistered(expiration.getRegistered());
+		
+		return expirationResult;
 	}
 }

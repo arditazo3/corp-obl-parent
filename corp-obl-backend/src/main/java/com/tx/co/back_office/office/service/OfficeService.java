@@ -103,12 +103,12 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 			office.setCreatedBy(username);
 			office.setEnabled(true);
 			officeStored = office;
-			
+
 			logger.info("Creating the new office");
 		} else { // Existing Company
 			officeStored = getOfficeById(office.getIdOffice());
 			officeStored.setDescription(office.getDescription());
-			
+
 			logger.info("Updating the office with id: " + officeStored.getIdOffice());
 		}
 
@@ -121,7 +121,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		updateOfficesCache(officeStored, false);
 
 		logger.info("Stored the office with id: " + officeStored.getIdOffice());
-		
+
 		return officeStored;
 	}
 
@@ -154,7 +154,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 
 		try {
 			logger.info("Deleting the Office with id: " + idOffice);
-			
+
 			Optional<Office> officeOptional = findByIdOffice(idOffice);
 
 			if (!officeOptional.isPresent()) {
@@ -173,7 +173,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 			officeRepository.save(office);
 
 			updateOfficesCache(office, false);
-			
+
 			logger.info("Deleted the Office with id: " + idOffice);
 		} catch (Exception e) {
 			throw new GeneralException("Office not found");
@@ -185,26 +185,28 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 	public List<OfficeTaskTemplates> searchOfficeTaskTemplates(TaskTempOffices taskTempOffices) {
 
 		logger.info("Searching Office Task Templates");
-		
+
 		String querySql = "select to.office, tt " + 
 				"from TaskOffice to " + 
 				"left join to.taskTemplate tt ";
 		Query query;
 
-		if (isEmpty(taskTempOffices.getOffices())) {
-			querySql += "where to.enabled <> 0 and tt.description like :description " + "group by to.idTaskOffice "
-					+ "order by to.taskTemplate.description asc ";
-			query = em.createQuery(querySql);
 
-			query.setParameter("description", "%" + taskTempOffices.getDescriptionTaskTemplate() + "%");
+		querySql += "where to.enabled <> 0 and tt.description like :description " + 
+				"and to.office in :officeList " + 
+				"group by to.idTaskOffice " + 
+				"order by to.taskTemplate.description asc ";
+		query = em.createQuery(querySql);
+
+		List<Office> offices;
+		if(isEmpty(taskTempOffices.getOffices())) {
+			offices = getOfficesByRole();
 		} else {
-			querySql += "where to.enabled <> 0 and tt.description like :description " + "and to.office in :officeList "
-					+ "group by to.idTaskOffice " + "order by to.taskTemplate.description asc ";
-			query = em.createQuery(querySql);
-
-			query.setParameter("description", "%" + taskTempOffices.getDescriptionTaskTemplate() + "%");
-			query.setParameter("officeList", taskTempOffices.getOffices());
+			offices = taskTempOffices.getOffices();
 		}
+		
+		query.setParameter("description", "%" + taskTempOffices.getDescriptionTaskTemplate() + "%");
+		query.setParameter("officeList", offices);
 
 		List<OfficeTaskTemplates> officeTaskTemplatesList = new ArrayList<>();
 		@SuppressWarnings("unchecked")
@@ -251,7 +253,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		}
 
 		logger.info("Number of items: " + officeTaskTemplatesList.size());
-		
+
 		return officeTaskTemplatesList;
 	}
 
@@ -259,7 +261,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 
 		User userLoggedIn = getTokenUserDetails().getUser();
 		String lang = userLoggedIn.getLang();
-		
+
 		HashMap<Office, List<TaskTemplate>> officeTaskTemplatesMap = new HashMap<>();
 		for (OfficeTaskTemplate officeTask : officeTaskList) {
 			Office office = officeTask.getOffice();
@@ -275,7 +277,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 
 		List<OfficeTaskTemplates> officeTasks = new ArrayList<>();
 		for (Office officeLoop : officeTaskTemplatesMap.keySet()) {
-			
+
 			List<TaskTemplate> taskTemplates = officeTaskTemplatesMap.get(officeLoop);
 			if(!isEmpty(taskTemplates)) {
 				for (TaskTemplate taskTemplate : taskTemplates) {
@@ -287,7 +289,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 					taskTemplate.setDescriptionTaskTemplate(descriptionTaskTemplate);
 				}
 			}
-			
+
 			OfficeTaskTemplates officeTaskFinal = new OfficeTaskTemplates();
 			officeTaskFinal.setOffice(officeLoop);
 			officeTaskFinal.setTaskTemplates(officeTaskTemplatesMap.get(officeLoop));

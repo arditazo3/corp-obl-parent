@@ -47,7 +47,9 @@ export class CompanyTableComponent implements OnInit {
         const dataFilterTemp: DataFilter = this.transferService.dataFilter;
         if (dataFilterTemp && dataFilterTemp.page === PageEnum.BO_COMPANY) {
             this.dataFilter = dataFilterTemp;
-            this.descriptionCompany.nativeElement.value = this.dataFilter.description;
+            if (this.dataFilter.description) {
+                this.descriptionCompany.nativeElement.value = this.dataFilter.description;
+            }
         }
     }
 
@@ -134,7 +136,7 @@ export class CompanyTableComponent implements OnInit {
                 console.log('CompanyTableComponent - deleteCompanyCofirm - next');
             }, error => {
                 this.errorDetails = error.error;
-                console.error('CompanyTableComponent - deleteCompanyCofirm - error');
+                console.error('CompanyTableComponent - deleteCompanyCofirm - error \n', error);
             }
         );
     }

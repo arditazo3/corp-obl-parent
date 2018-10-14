@@ -89,6 +89,7 @@ export const ROUTES: RouteInfo[] = [
         class: 'has-arrow',
         ddclass: '',
         extralink: false,
+        authorities: [AuthorityEnum[AuthorityEnum.CORPOBLIG_ADMIN], AuthorityEnum[AuthorityEnum.CORPOBLIG_USER]],
         submenu: [
             {
                 path: '/front-end/agenda',

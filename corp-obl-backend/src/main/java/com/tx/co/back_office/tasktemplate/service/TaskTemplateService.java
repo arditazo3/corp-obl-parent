@@ -80,7 +80,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 			taskTemplate.setCreatedBy(username);
 			taskTemplate.setEnabled(true);
 			taskTemplateStored = taskTemplate;
-			
+
 			logger.info("Creating the new Task template");
 		} else { // Existing Task template
 			taskTemplateStored = getTaskTemplateById(taskTemplate.getIdTaskTemplate());
@@ -88,7 +88,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 			if(!isEmpty(taskTemplate.getEnabled())) {
 				taskTemplateStored.setEnabled(taskTemplate.getEnabled());	
 			}
-			
+
 			logger.info("Updating the Task template with id: " + taskTemplateStored.getIdTaskTemplate());
 		}
 
@@ -117,7 +117,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		updateTaskTemplateCache(taskTemplateStored, false);
 
 		logger.info("Stored the office with id: " + taskTemplateStored.getIdTaskTemplate());
-		
+
 		return taskTemplateStored;
 	}
 
@@ -146,9 +146,9 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
 			tasks = convertToTaskForTable(taskTemplateRepository.getTaskTemplatesByRole(username));
 		}
-		
+
 		logger.info("Tasks for table - Number of items: " + tasks.size());
-		
+
 		return tasks;
 	}
 
@@ -157,10 +157,9 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	public List<Task> searchTaskTemplate(ObjectSearchTaskTemplate objectSearchTaskTemplate) {
 
 		logger.info("Searching Task Templates");
-		
+
 		User userLoggedIn = getTokenUserDetails().getUser();
 		String username = userLoggedIn.getUsername();
-		List<String> authorities = new ArrayList<>();
 
 		String querySql = "select tt from TaskTemplate tt " + 
 				"left join tt.topic t " + 
@@ -174,10 +173,6 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) &&
 				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			querySql += "and u.username = :username ";
-
-			for (Authority authority : userLoggedIn.getAuthorities()) {
-				authorities.add(authority.name());
-			}
 		}
 
 		Query query;
@@ -253,39 +248,64 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 				tasks.add(task);
 			}
 		}
-		
+
 		logger.info("Number of items: " + tasks.size());
-		
+
 		return tasks;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<TaskTemplate> searchTaskTemplateByDescr(String description) {
 
 		logger.info("Searching Office Task Templates by Description");
-		
+
 		if(isEmpty(description)) {
 			description = "";
 		}
-		
-		String querySql = "select tt from TaskTemplate tt "
-				+ "where tt.enabled <> 0 ";
+
+		User userLoggedIn = getTokenUserDetails().getUser();
+		String username = userLoggedIn.getUsername();
+
+		String querySql = "select tt from TaskTemplate tt ";
+
+		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND) &&
+				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+			querySql += "left join tt.topic t " + 
+					"left join t.topicConsultants tc " + 
+					"left join tc.companyConsultant cc " + 
+					"left join cc.company c " + 
+					"left join c.companyUsers cu " + 
+					"left join cu.user u on cu.username = u.username " +
+					"where tt.enabled <> 0 " +
+					"and u.username = :username " + 
+					"and ";
+		} else {
+			querySql += "where ";
+		}
+
 		Query query;
 
-			querySql += "and tt.description like :description "
-					+ "order by tt.description asc";
-			query = em.createQuery(querySql);
+		querySql += "tt.description like :description " +
+				"group by tt.idTaskTemplate " + 
+				"order by tt.description asc ";
+		query = em.createQuery(querySql);
 
-			query.setParameter(DESCRIPTION_QUERY_PARAM, "%" + description + "%");
+		query.setParameter(DESCRIPTION_QUERY_PARAM, "%" + description + "%");
+		
+		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND) &&
+				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+			query.setParameter("username", username);
+		}
+
 		return setDescriptionTaskTemplate(query.getResultList());
 	}
 
 	private List<TaskTemplate> setDescriptionTaskTemplate(List<TaskTemplate> taskTemplates) {
-		
+
 		User userLoggedIn = getTokenUserDetails().getUser();
 		String lang = userLoggedIn.getLang();
-		
+
 		if(!isEmpty(taskTemplates)) {
 			for (TaskTemplate taskTemplate : taskTemplates) {
 
@@ -296,32 +316,32 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 				taskTemplate.setDescriptionTaskTemplate(descriptionTaskTemplate);
 
 				List<Office> officeCounterList = new ArrayList<>();
-				
+
 				Task singleTask = taskTemplate.getTasks().iterator().next();
-				
+
 				for (TaskOffice taskOfficeLoop : singleTask.getTaskOffices()) {
 					officeCounterList.add(taskOfficeLoop.getOffice());
 				}
-				
+
 				List<Office> uniqueOffices = officeCounterList.stream()
 						.collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(Office::getIdOffice))), ArrayList::new));
 
 				taskTemplate.setCounterOffices(uniqueOffices.size());
 			}
 		}
-		
+
 		logger.info("Number of items: " + taskTemplates.size());
-		
+
 		return taskTemplates;
 	}
-	
+
 	@Override
 	public void deleteTaskTemplate(TaskTemplate taskTemplate) {
 
 		taskTemplate.setEnabled(false);
 
 		logger.info("Deleted the TaskTemplate with id: " + taskTemplate.getIdTaskTemplate());
-		
+
 		saveUpdateTaskTemplate(taskTemplate, null);
 	}
 }

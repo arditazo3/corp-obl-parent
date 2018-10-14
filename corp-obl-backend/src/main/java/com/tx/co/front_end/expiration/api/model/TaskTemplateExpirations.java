@@ -11,7 +11,7 @@ public class TaskTemplateExpirations {
 
 	private Long idTaskTemplate;
 	private String description;
-	private Integer totalTasks;
+	private Integer totalExpirations;
 	private Integer totalCompleted;
 	private Set<Task> tasks;
 	
@@ -27,11 +27,11 @@ public class TaskTemplateExpirations {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Integer getTotalTasks() {
-		return totalTasks;
+	public Integer getTotalExpirations() {
+		return totalExpirations;
 	}
-	public void setTotalTasks(Integer totalTasks) {
-		this.totalTasks = totalTasks;
+	public void setTotalExpirations(Integer totalExpirations) {
+		this.totalExpirations = totalExpirations;
 	}
 	public Integer getTotalCompleted() {
 		return totalCompleted;

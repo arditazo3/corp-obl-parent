@@ -38,7 +38,7 @@ public class EmailService implements IEmailService {
 
 	@Override
 	public void sendSimpleMessageUsingTemplate(String to, String subject, SimpleMailMessage template, String ...templateArgs) {
-		String text = String.format(template.getText(), templateArgs);  
+		String text = template.getText() + templateArgs;  
 		sendSimpleMessage(to, subject, text);
 	}
 

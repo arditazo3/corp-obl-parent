@@ -246,9 +246,7 @@ public abstract class UpdateCacheData {
 
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
-		HashMap<TranslationPairKey, Translation> translationHashMap = (HashMap<TranslationPairKey, Translation>) storageDataCacheManager.get(TRANSLATION_LIST_CACHE);
-
-		return translationHashMap;
+		return (HashMap<TranslationPairKey, Translation>) storageDataCacheManager.get(TRANSLATION_LIST_CACHE);
 	}
 	
 	/**

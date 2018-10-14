@@ -14,9 +14,9 @@ public class TaskTemplateExpirationsResult {
 
 	private Long idTaskTemplate;
 	private String description;
-	private Integer totalTasks;
+	private Integer totalExpirations;
 	private Integer totalCompleted;
-	private List<TaskExpirationsResult> tasks;
+	private List<TaskExpirationsResult> taskExpirations;
 	
 	public Long getIdTaskTemplate() {
 		return idTaskTemplate;
@@ -30,11 +30,12 @@ public class TaskTemplateExpirationsResult {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Integer getTotalTasks() {
-		return totalTasks;
+	
+	public Integer getTotalExpirations() {
+		return totalExpirations;
 	}
-	public void setTotalTasks(Integer totalTasks) {
-		this.totalTasks = totalTasks;
+	public void setTotalExpirations(Integer totalExpirations) {
+		this.totalExpirations = totalExpirations;
 	}
 	public Integer getTotalCompleted() {
 		return totalCompleted;
@@ -42,13 +43,10 @@ public class TaskTemplateExpirationsResult {
 	public void setTotalCompleted(Integer totalCompleted) {
 		this.totalCompleted = totalCompleted;
 	}
-	public List<TaskExpirationsResult> getTasks() {
-		return tasks;
+	public List<TaskExpirationsResult> getTaskExpirations() {
+		return taskExpirations;
 	}
-	public void setTasks(List<TaskExpirationsResult> tasks) {
-		this.tasks = tasks;
+	public void setTaskExpirations(List<TaskExpirationsResult> taskExpirations) {
+		this.taskExpirations = taskExpirations;
 	}
-	
-	
-	
 }

@@ -47,7 +47,9 @@ export class OfficeTableComponent implements OnInit {
         const dataFilterTemp: DataFilter = this.transferService.dataFilter;
         if (dataFilterTemp && dataFilterTemp.page === PageEnum.BO_OFFICE) {
             this.dataFilter = dataFilterTemp;
-            this.descriptionOffice.nativeElement.value = this.dataFilter.description;
+            if (this.dataFilter.description) {
+                this.descriptionOffice.nativeElement.value = this.dataFilter.description;
+            }
         }
     }
 
@@ -134,7 +136,7 @@ export class OfficeTableComponent implements OnInit {
                 console.log('OfficeTableComponent - deleteOfficeCofirm - next');
             }, error => {
                 this.errorDetails = error.error;
-                console.error('OfficeTableComponent - deleteOfficeCofirm - error');
+                console.error('OfficeTableComponent - deleteOfficeCofirm - error \n', error);
             }
         );
     }

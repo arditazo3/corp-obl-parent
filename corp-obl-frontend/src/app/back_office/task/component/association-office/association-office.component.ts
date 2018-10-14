@@ -55,6 +55,10 @@ export class AssociationOfficeComponent implements OnInit {
 
         if (taskOffices && taskOffices[0]) {
             me.taskOfficesArray.forEach((taskOffice) => {
+
+                // avoid infinite cicle json
+                taskOffice.task = undefined;
+
                 me.selectedOffices.push(taskOffice.office);
             });
         } else {
@@ -232,7 +236,7 @@ export class AssociationOfficeComponent implements OnInit {
                 }
             },
             (error) => {
-                console.error('AssociationOfficeComponent - populateAvailableUsersOnOffices - error');
+                console.error('AssociationOfficeComponent - populateAvailableUsersOnOffices - error \n', error);
             }
         );
 

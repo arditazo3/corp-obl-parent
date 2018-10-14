@@ -73,7 +73,8 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 		Query query;
 
-		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) && 
+		if((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER) || 
+				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER)) && 
 				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 
 			querySql += "left join to.office o " +
@@ -94,13 +95,19 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		if (hasArchived) {
 			querySql += "and e.registered < :dateNow ";
 		}
+		if((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER) || 
+				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER)) && 
+				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+			querySql += "and cu.username = :username ";
+		}
 
-		querySql += "group by tt.idTaskTemplate " + 
+		querySql += "group by tt.idTaskTemplate, t.idTask, o.idOffice " + 
 				"order by tt.description asc ";
 
 		query = em.createQuery(querySql);
 
-		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) && 
+		if((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER) || 
+				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER)) && 
 				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			query.setParameter("username", username);
 		}
@@ -148,7 +155,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 				}
 
 				// TODO To ask Roberto
-				taskTemplateExpiration.setTotalTasks(countTaskExpiration);
+				taskTemplateExpiration.setTotalExpirations(countTaskExpiration);
 				taskTemplateExpiration.setTotalCompleted(countTaskExpirationCompleted);
 
 				taskTemplateExpiration.setTasks(taskTemplateLoop.getTasks());
