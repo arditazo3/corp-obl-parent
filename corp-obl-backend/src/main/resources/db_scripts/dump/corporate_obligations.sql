@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2018 at 09:26 PM
+-- Generation Time: Oct 14, 2018 at 11:03 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -156,6 +156,16 @@ CREATE TABLE `co_expiration` (
   `modificationdate` datetime NOT NULL COMMENT 'The DATE of the creation of the record',
   `modifiedby` varchar(100) NOT NULL COMMENT 'That CORPOBLIG_USER that has made the LAST modification'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='The TABLE Expiration';
+
+--
+-- Dumping data for table `co_expiration`
+--
+
+INSERT INTO `co_expiration` (`id`, `tasktemplate_id`, `task_id`, `office_id`, `expirationclosableby`, `username`, `expirationdate`, `completed`, `approved`, `registered`, `enabled`, `creationdate`, `createdby`, `modificationdate`, `modifiedby`) VALUES
+(14, 64, 123, 8, 1, 'USER2', '2018-10-29 22:34:01', '2018-10-19 22:34:01', '2018-10-14 22:34:01', '2018-10-14 22:34:01', 1, '2018-10-14 22:34:01', 'USER2', '2018-10-14 22:34:01', 'USER2'),
+(15, 65, 124, 9, 1, 'USER2', '2018-10-29 22:34:01', '2018-10-19 22:34:01', '2018-10-14 22:34:01', '2018-10-14 22:34:01', 1, '2018-10-14 22:34:01', 'USER2', '2018-10-14 22:34:01', 'USER2'),
+(17, 65, 123, 8, 1, 'USER2', '2018-10-29 22:34:57', '2018-10-29 22:34:57', '2018-10-29 22:34:57', '2018-10-29 22:34:57', 1, '2018-10-14 22:34:57', 'USER2', '2018-10-14 22:34:57', 'USER2'),
+(18, 64, 124, 9, 1, 'USER2', '2018-10-29 22:34:57', '2018-10-29 22:34:57', '2018-10-29 22:34:57', '2018-10-29 22:34:57', 1, '2018-10-14 22:34:57', 'USER2', '2018-10-14 22:34:57', 'USER2');
 
 -- --------------------------------------------------------
 
@@ -712,7 +722,7 @@ ALTER TABLE `co_companyuser`
 -- AUTO_INCREMENT for table `co_expiration`
 --
 ALTER TABLE `co_expiration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `co_expirationactivity`
