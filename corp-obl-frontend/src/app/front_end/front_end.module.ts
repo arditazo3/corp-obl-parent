@@ -15,6 +15,7 @@ import { AgendaComponent } from './agenda/agenda.component';
 import { MyDatePickerModule } from 'mydatepicker';
 import {MomentModule} from 'ngx-moment';
 import {ExpirationService} from './service/expiration.service';
+import { TaskTemplateExpirationsComponent } from './agenda/task-template-expirations/task-template-expirations.component';
 
 @NgModule({
     imports: [
@@ -41,7 +42,8 @@ import {ExpirationService} from './service/expiration.service';
         }),
     ],
     declarations: [
-    AgendaComponent
+    AgendaComponent,
+    TaskTemplateExpirationsComponent
     ],
     providers: [
         ExpirationService

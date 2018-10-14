@@ -113,7 +113,7 @@ export class TopicCreateUpdateComponent implements OnInit {
             }, error => {
                 me.errorDetails = error.error;
                 me.showErrorDescriptionSwal();
-                console.error('TopicCreateEditComponent - createEditTopicSubmit - error');
+                console.error('TopicCreateEditComponent - createEditTopicSubmit - error \n', error);
             }
         );
     }

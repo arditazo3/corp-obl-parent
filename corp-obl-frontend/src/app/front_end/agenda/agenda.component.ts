@@ -7,6 +7,7 @@ import {OfficeService} from '../../back_office/office/service/office.service';
 import {TaskTemplateOffice} from '../../back_office/office-task/model/tasktemplate-office';
 import {DateExpirationOfficesHasArchived} from '../model/date-expiration-offices-hasarchived';
 import {ExpirationService} from '../service/expiration.service';
+import {TaskTemplateExpiration} from '../model/task-template-expiration';
 
 @Component({
     selector: 'app-agenda',
@@ -17,6 +18,8 @@ export class AgendaComponent implements OnInit {
 
     officesObservable: Observable<any[]>;
     offices = [];
+
+    taskTemplateExpirations: TaskTemplateExpiration[] = [];
 
     myDatePickerOptions: IMyOptions = AppGlobals.myDatePickerOptions;
 
@@ -53,12 +56,23 @@ export class AgendaComponent implements OnInit {
     searchTaskTemplates() {
         console.log('AgendaComponent - searchTaskTemplates');
 
+        const me = this;
         const dateExpirationOfficesArchived: DateExpirationOfficesHasArchived = new DateExpirationOfficesHasArchived();
         dateExpirationOfficesArchived.dateStart = AppGlobals.convertDatePickerToDate(this.dateStart.date);
         dateExpirationOfficesArchived.dateEnd = AppGlobals.convertDatePickerToDate(this.dateEnd.date);
         dateExpirationOfficesArchived.offices = this.offices;
         dateExpirationOfficesArchived.hasArchived = this.hideArchivedTasks;
 
-        this.expirationService.searchDateExpirationOffices(dateExpirationOfficesArchived).subscribe();
+        this.expirationService
+            .searchDateExpirationOffices(dateExpirationOfficesArchived)
+            .subscribe(
+                data => {
+                    me.taskTemplateExpirations = data;
+                    console.log('AgendaComponent - searchTaskTemplates - next');
+                },
+                error => {
+                    console.error('AgendaComponent - searchTaskTemplates - error \n', error);
+                }
+            );
     }
 }

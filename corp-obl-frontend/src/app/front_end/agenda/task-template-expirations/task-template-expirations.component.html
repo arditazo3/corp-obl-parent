@@ -1,0 +1,35 @@
+<div *ngFor="let taskTemplateExpiration of taskTemplateExpirations">
+    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" class="accordion nav-accordion">
+        <ngb-panel>
+            <ng-template ngbPanelTitle>
+                <div id="container-fluid">
+                    <div class="row">
+                        <div class="col-4">
+                            <span class="float-left">{{ taskTemplateExpiration.description }}</span>
+                        </div>
+                        <div class="col-2 text-center">
+                        </div>
+                        <div class="col-4 text-center">
+                            <span class="float-left">Completed {{taskTemplateExpiration.totalCompleted}} / {{taskTemplateExpiration.totalExpirations}}</span>
+                        </div>
+                        <div class="col-2 text-center">
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+                <table class="table table-borderless table-responsive">
+                    <tbody>
+                    <div *ngFor="let taskExpiration of taskTemplateExpiration.taskExpirations">
+                        <tr *ngFor="let expiration of taskExpiration.expirations">
+                            <td>
+                                ID: {{expiration.idExpiration}}
+                            </td>
+                        </tr>
+                    </div>
+                    </tbody>
+                </table>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+</div>

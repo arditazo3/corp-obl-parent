@@ -90,7 +90,7 @@ export class CompanyCreateEditComponent implements OnInit {
             (error) => {
                 me.errorDetails = error.error;
                 me.showErrorDescriptionSwal();
-                console.error('CompanyCreateEditComponent - createEditCompanySubmit - error');
+                console.error('CompanyCreateEditComponent - createEditCompanySubmit - error \n', error);
             }
         );
     }

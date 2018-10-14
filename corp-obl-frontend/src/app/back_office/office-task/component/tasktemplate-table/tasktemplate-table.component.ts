@@ -49,7 +49,7 @@ export class TaskTemplateTableComponent implements OnInit {
                 console.log('TaskTemplateTableComponent - modifyTaskTemplate - next');
             },
             error => {
-                console.error('TaskTemplateTableComponent - modifyTaskTemplate - error');
+                console.error('TaskTemplateTableComponent - modifyTaskTemplate - error \n', error);
             }
         );
     }

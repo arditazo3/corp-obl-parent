@@ -246,13 +246,13 @@ export class QuickConfigurationComponent implements OnInit {
                                 errorTask => {
                                     me.errorDetails = errorTask.error;
                                     //    me.showErrorDescriptionSwal();
-                                    console.log('QuickConfigurationComponent - createEditTaskSubmit - error');
+                                    console.log('QuickConfigurationComponent - createEditTaskSubmit - error \n', errorTask);
                                 }
                             );
                         }, error => {
                             me.errorDetails = error.error;
                             //    me.showErrorDescriptionSwal();
-                            console.error('QuickConfigurationComponent - createEditTaskTemplateSubmit - error');
+                            console.error('QuickConfigurationComponent - createEditTaskTemplateSubmit - error \n', error);
                         }
                     );
                 }
@@ -288,7 +288,7 @@ export class QuickConfigurationComponent implements OnInit {
                 },
                 error => {
                     me.errorDetails = error.error;
-                    console.error('QuickConfigurationComponent - downloadFile - error');
+                    console.error('QuickConfigurationComponent - downloadFile - error \n', error);
                 });
         } else {
             importedSaveAs(item.file.rawFile);
@@ -308,7 +308,7 @@ export class QuickConfigurationComponent implements OnInit {
                 },
                 error => {
                     me.errorDetails = error.error;
-                    console.error('QuickConfigurationComponent - removeFile - error');
+                    console.error('QuickConfigurationComponent - removeFile - error \n', error);
                 }
             );
         }

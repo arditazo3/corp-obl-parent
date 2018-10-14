@@ -126,7 +126,7 @@ export class ConsultantTableComponent implements OnInit {
                 console.log('CompanyConsultantTableComponent - deleteCompanyConsultantCofirm - next');
             }, error => {
                 me.errorDetails = error.error;
-                console.error('CompanyConsultantTableComponent - deleteCompanyConsultantCofirm - error');
+                console.error('CompanyConsultantTableComponent - deleteCompanyConsultantCofirm - error \n', error);
             }
         );
     }

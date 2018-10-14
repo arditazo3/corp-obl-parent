@@ -92,7 +92,7 @@ export class OfficeCreateEditComponent implements OnInit {
             }, error => {
                 me.errorDetails = error.error;
                 me.showErrorDescriptionSwal();
-                console.error('OfficeCreateEditComponent - createEditOfficeSubmit - error');
+                console.error('OfficeCreateEditComponent - createEditOfficeSubmit - error \n', error);
             }
         );
     }

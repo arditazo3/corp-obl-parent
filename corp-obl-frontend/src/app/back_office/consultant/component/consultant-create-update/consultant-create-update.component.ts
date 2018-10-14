@@ -99,7 +99,7 @@ export class ConsultantCreateUpdateComponent implements OnInit {
             }, error => {
                 me.errorDetails = error.error;
                 me.showErrorDescriptionSwal();
-                console.error('ConsultantCreateEditComponent - createEditConsultantSubmit - error');
+                console.error('ConsultantCreateEditComponent - createEditConsultantSubmit - error \n', error);
             }
         );
     }

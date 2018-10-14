@@ -28,8 +28,6 @@ export class AppGlobals {
 
     public static convertDatePickerToDate(date): any {
 
-        console.log('AppGlobals - convertDatePickerToDate');
-
         if (!date) {
             return;
         }
