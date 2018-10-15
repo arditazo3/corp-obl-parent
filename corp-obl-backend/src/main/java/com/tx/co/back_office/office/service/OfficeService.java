@@ -24,6 +24,8 @@ import com.tx.co.back_office.office.api.model.TaskTempOffices;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.repository.OfficeRepository;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
+import com.tx.co.back_office.tasktemplate.service.ITaskTemplateService;
+import com.tx.co.back_office.tasktemplate.service.TaskTemplateService;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.common.translation.api.model.TranslationPairKey;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
@@ -44,6 +46,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 
 	private OfficeRepository officeRepository;
 	private EntityManager em;
+	private TaskTemplateService taskTemplateService;
 
 	@Autowired
 	public void setOfficeRepository(OfficeRepository officeRepository) {
@@ -53,6 +56,11 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 	@Autowired
 	public void setEm(EntityManager em) {
 		this.em = em;
+	}
+
+	@Autowired
+	public void setTaskTemplateService(TaskTemplateService taskTemplateService) {
+		this.taskTemplateService = taskTemplateService;
 	}
 
 	/**
@@ -282,7 +290,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 			if(!isEmpty(taskTemplates)) {
 				for (TaskTemplate taskTemplate : taskTemplates) {
 
-					String descriptionTaskTemplate = taskTemplate.getDescription() + " - ";
+					String descriptionTaskTemplate = taskTemplateService.buildDescription(taskTemplate, lang, 0);
 
 					descriptionTaskTemplate += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription() + " - " + taskTemplate.getDay();
 

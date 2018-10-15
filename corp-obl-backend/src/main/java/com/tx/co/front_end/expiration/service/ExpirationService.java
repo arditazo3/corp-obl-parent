@@ -69,7 +69,8 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 				"from Expiration e " + 
 				"left join e.taskTemplate tt " +
 				"left join tt.tasks t " +
-				"left join t.taskOffices to ";
+				"left join t.taskOffices to " +
+				"left join to.office o ";
 
 		Query query;
 
@@ -102,7 +103,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		}
 
 		querySql += "group by tt.idTaskTemplate, t.idTask, o.idOffice " + 
-				"order by tt.description asc ";
+				"order by e.expirationDate desc ";
 
 		query = em.createQuery(querySql);
 
