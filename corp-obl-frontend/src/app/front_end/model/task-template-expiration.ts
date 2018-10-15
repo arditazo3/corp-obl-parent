@@ -6,5 +6,6 @@ export class TaskTemplateExpiration {
     description: string;
     totalExpirations: number;
     totalCompleted: number;
+    colorDefined: string;
     taskExpirations: TaskExpirations[];
 }

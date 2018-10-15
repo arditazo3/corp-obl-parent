@@ -1,8 +1,8 @@
 <div *ngFor="let taskTemplateExpiration of taskTemplateExpirations">
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" class="accordion nav-accordion">
-        <ngb-panel>
+        <ngb-panel type="{{ taskTemplateExpiration.colorDefined }}">
             <ng-template ngbPanelTitle>
-                <div id="container-fluid">
+                <div id="container-fluid"  >
                     <div class="row">
                         <div class="col-4">
                             <span class="float-left">{{ taskTemplateExpiration.description }}</span>
