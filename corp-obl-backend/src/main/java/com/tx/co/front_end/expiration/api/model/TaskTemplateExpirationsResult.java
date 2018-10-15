@@ -16,6 +16,7 @@ public class TaskTemplateExpirationsResult {
 	private String description;
 	private Integer totalExpirations;
 	private Integer totalCompleted;
+	private String colorDefined;
 	private List<TaskExpirationsResult> taskExpirations;
 	
 	public Long getIdTaskTemplate() {
@@ -42,6 +43,12 @@ public class TaskTemplateExpirationsResult {
 	}
 	public void setTotalCompleted(Integer totalCompleted) {
 		this.totalCompleted = totalCompleted;
+	}
+	public String getColorDefined() {
+		return colorDefined;
+	}
+	public void setColorDefined(String colorDefined) {
+		this.colorDefined = colorDefined;
 	}
 	public List<TaskExpirationsResult> getTaskExpirations() {
 		return taskExpirations;

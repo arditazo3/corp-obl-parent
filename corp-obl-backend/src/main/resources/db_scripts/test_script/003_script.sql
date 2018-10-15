@@ -31,6 +31,8 @@ select * from co_task;
 
 select * from co_office;
 
+select * from co_translations where tablename like 'tasktemplate#periodicity%';
+
 select *
 from co_tasktemplate tt
        left join co_task task on tt.id = task.tasktemplate_id

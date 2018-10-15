@@ -228,13 +228,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 					taskLoop.setCounterCompany(uniqueCompanies.size());
 
-					String descriptionTask = getTranslationByLangLikeTablename(new TranslationPairKey("configurationinterval", lang)).getDescription();
-
-					descriptionTask += String.valueOf(index) + ": ";
-
-					descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskLoop.getRecurrence(), lang)).getDescription() + " - ";
-
-					descriptionTask += getTranslationByLangLikeTablename(new TranslationPairKey(taskLoop.getExpirationType(), lang)).getDescription() + " - " + taskLoop.getDay();
+					String descriptionTask = buildDescription(taskLoop, lang, index);
 
 					taskLoop.setDescriptionTask(descriptionTask);
 
@@ -343,5 +337,54 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		logger.info("Deleted the TaskTemplate with id: " + taskTemplate.getIdTaskTemplate());
 
 		saveUpdateTaskTemplate(taskTemplate, null);
+	}
+	
+	/**
+	 * @param object
+	 * @param lang
+	 * @param index
+	 * @return the description
+	 */
+	public String buildDescription(Object object, String lang, int index) {
+		
+		String description = "";
+		
+		if(!isEmpty(object)) {
+			if(object instanceof Task) {
+				Task task = (Task) object;
+				
+				description = getTranslationByLangLikeTablename(new TranslationPairKey("configurationinterval", lang)).getDescription();
+
+				description += " " + String.valueOf(index) + ": ";
+
+				description += getTranslationByLangLikeTablename(new TranslationPairKey(task.getRecurrence(), lang)).getDescription() + " - ";
+
+				description += getTranslationByLangLikeTablename(new TranslationPairKey(task.getExpirationType(), lang)).getDescription();
+			
+				if (task.getExpirationType().compareTo("fix_day") == 0) {
+					if(task.getRecurrence().compareTo("yearly") == 0) {
+						description += " - 31/12";
+					} else {
+						description += " - " + task.getDay();	
+					}
+				}
+			} else if(object instanceof TaskTemplate) {
+				TaskTemplate taskTemplate = (TaskTemplate) object;
+				
+				description = taskTemplate.getDescription() + " - ";
+
+				description += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription();
+				
+				if (taskTemplate.getExpirationType().compareTo("fix_day") == 0) {
+					if(taskTemplate.getRecurrence().compareTo("yearly") == 0) {
+						description += " - 31/12";
+					} else {
+						description += " - " + taskTemplate.getDay();	
+					}
+				}
+			}
+		}
+		
+		return description;
 	}
 }

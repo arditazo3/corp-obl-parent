@@ -937,6 +937,9 @@ public abstract class ObjectResult extends UpdateCacheData {
 		taskTemplateExpirationsResult.setTotalCompleted(taskTemplateExpirations.getTotalCompleted());
 		taskTemplateExpirationsResult.setTotalExpirations(taskTemplateExpirations.getTotalExpirations());
 
+		String colorDefined = buildColor(taskTemplateExpirationsResult);
+		taskTemplateExpirationsResult.setColorDefined(colorDefined);
+		
 		if (!isEmpty(taskTemplateExpirations.getTasks())) {
 			List<TaskExpirationsResult> taskExpirationsResults = new ArrayList<>();
 			for (Task task : taskTemplateExpirations.getTasks()) {
@@ -959,5 +962,26 @@ public abstract class ObjectResult extends UpdateCacheData {
 		expirationResult.setRegistered(expiration.getRegistered());
 		
 		return expirationResult;
+	}
+	
+	public String buildColor(TaskTemplateExpirationsResult taskTemplateExpiration) {
+		
+		Integer totalExpirations = taskTemplateExpiration.getTotalExpirations();
+		Integer totalCompleted = taskTemplateExpiration.getTotalCompleted();
+		
+		String colorDefined = "";
+		if(totalExpirations > 0) {
+			if(totalExpirations.compareTo(totalCompleted) == 0) {
+				colorDefined = "success";
+			} else if(totalCompleted == 0) {
+				colorDefined = "";
+			} else if(totalExpirations.compareTo(totalCompleted) > 0) {
+				colorDefined = "warning";
+			}
+		} else {
+			colorDefined = "";
+		}
+		
+		return colorDefined;
 	}
 }
