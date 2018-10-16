@@ -17,7 +17,6 @@ import com.tx.co.back_office.task.model.Task;
  *
  * @author aazo
  */
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TaskServiceTest extends AbstractServiceTest {

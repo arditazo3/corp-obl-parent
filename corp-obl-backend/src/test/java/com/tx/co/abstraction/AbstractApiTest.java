@@ -91,7 +91,15 @@ public abstract class AbstractApiTest {
         
         User userLogIn = authenticationToken.getUser();
         
-        AuthenticationTokenUserDetails authenticationTokenUserDetails = new AuthenticationTokenUserDetails(null, userLogIn, null, null, 1, 1);
+        AuthenticationTokenUserDetails authenticationTokenUserDetails = new AuthenticationTokenUserDetails.Builder()
+                .withId(null)
+                .withUser(userLogIn)
+                .withIssuedDate(null)
+                .withExpirationDate(null)
+                .withRefreshCount(1)
+                .withRefreshLimit(1)
+                .build();
+        
         AuthenticationTest authenticationTest = new AuthenticationTest();
         authenticationTest.setDetails(authenticationTokenUserDetails);
         
