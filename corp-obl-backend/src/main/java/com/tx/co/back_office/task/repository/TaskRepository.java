@@ -18,8 +18,8 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
 			"order by tt.description")
 	List<Task> getTasks();
 	
-	@Query("select t from Task t " + 
-			"left join t.taskTemplate tt " +
+	@Query("select task from Task task " + 
+			"left join task.taskTemplate tt " +
 			"left join tt.topic t " + 
 			"left join t.topicConsultants tc " + 
 			"left join tc.companyConsultant cc " + 
@@ -28,7 +28,7 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
 			"where tt.enabled <> 0 "+
 			"and cu.username = :username " + 
 			"group by tt.id order by tt.description asc")
-	List<TaskTemplate> getTasksByRole(@Param("username") String username);
+	List<Task> getTasksByRole(@Param("username") String username);
 	
 	@Query("select t from Task t "
 			+ "left join t.taskTemplate tt "

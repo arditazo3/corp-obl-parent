@@ -81,8 +81,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			tasks = taskRepository.getTasks();
 		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
-			taskRepository.getTasksByRole(username);
-			tasks =  new ArrayList<>();
+			tasks = taskRepository.getTasksByRole(username);
 		}
 
 		logger.info("The number of the tasks: " + tasks.size());

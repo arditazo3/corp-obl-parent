@@ -4,16 +4,10 @@ import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.model.AuthenticationTokenUser;
 import com.tx.co.security.api.model.UserCredentials;
 import com.tx.co.security.authentication.AuthenticationTest;
-import com.tx.co.security.service.AuthenticationTokenService;
 import com.tx.co.user.domain.User;
 
 import org.junit.Before;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.security.authentication.AuthenticationDetailsSource;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +16,6 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import java.net.URI;
-import java.util.Collection;
 
 import static com.tx.co.common.constants.ApiConstants.APP_PATH;
 import static com.tx.co.common.constants.ApiConstants.AUTH;
@@ -41,13 +34,6 @@ public abstract class AbstractApiTest {
     protected URI baseUri;
 
     protected Client client;
-    
-    private AuthenticationTokenService authenticationTokenService;
-    
-    @Autowired
-    public void setAuthenticationTokenService(AuthenticationTokenService authenticationTokenService) {
-		this.authenticationTokenService = authenticationTokenService;
-	}
 
 	@Before
     public void setUp() throws Exception {

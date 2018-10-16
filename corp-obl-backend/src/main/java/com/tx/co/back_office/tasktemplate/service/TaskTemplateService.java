@@ -361,8 +361,8 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 				description += getTranslationByLangLikeTablename(new TranslationPairKey(task.getExpirationType(), lang)).getDescription();
 			
-				if (task.getExpirationType().compareTo("fix_day") == 0) {
-					if(task.getRecurrence().compareTo("yearly") == 0) {
+				if (task.getExpirationType().compareTo(EXP_FIX_DAY) == 0) {
+					if(task.getRecurrence().compareTo(REC_YEARLY) == 0) {
 						description += " - 31/12";
 					} else {
 						description += " - " + task.getDay();	
@@ -375,8 +375,8 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 				description += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription();
 				
-				if (taskTemplate.getExpirationType().compareTo("fix_day") == 0) {
-					if(taskTemplate.getRecurrence().compareTo("yearly") == 0) {
+				if (taskTemplate.getExpirationType().compareTo(EXP_FIX_DAY) == 0) {
+					if(taskTemplate.getRecurrence().compareTo(REC_YEARLY) == 0) {
 						description += " - 31/12";
 					} else {
 						description += " - " + taskTemplate.getDay();	
