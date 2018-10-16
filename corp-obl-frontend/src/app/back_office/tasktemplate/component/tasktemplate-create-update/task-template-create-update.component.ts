@@ -43,9 +43,16 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     topicsObservable: Observable<any[]>;
     periodicityObservable: Observable<any[]>;
     expirationTypeObservable: Observable<any[]>;
+    periodWeeklyExpFixedDay: Observable<any[]>;
     selectedTopic: Topic;
     selectedPeriodicity: Translation;
     selectedExpirationType: Translation;
+    selectedPeriodWeeklyExpFixedDay: Translation;
+
+    isFixedDay = false;
+    isWeekly = false;
+    isMonthly = false;
+    isYearly = false;
 
     uploader;
 
@@ -87,6 +94,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         this.getTopics();
         this.periodicityObservable = this.getTranslationLikeTablename('tasktemplate#periodicity');
         this.expirationTypeObservable = this.getTranslationLikeTablename('tasktemplate#expirationtype');
+        this.periodWeeklyExpFixedDay = this.getTranslationLikeTablename('tasktemplate#period_weekly_exp_fix_day');
 
         if (this.isTaskTemplateForm && this.task === undefined) {
             this.isNewForm = true;
@@ -486,5 +494,34 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 this.createEditTaskTemplate.get('day').setValue(0);
             }
         }
+        this.onChangePeriodExpiration();
     }
+
+    onChangePeriodicity() {
+        this.onChangePeriodExpiration();
+    }
+
+    onChangePeriodExpiration() {
+
+        this.isFixedDay = false;
+        this.isWeekly = false;
+        this.isMonthly = false;
+        this.isYearly = false;
+
+        if (this.selectedPeriodicity && this.selectedExpirationType) {
+            const periodicityType = this.selectedPeriodicity.tablename.split('#')[2];
+            const expirationType = this.selectedExpirationType.tablename.split('#')[2];
+            if (expirationType === 'fix_day') {
+                this.isFixedDay = true;
+                if (periodicityType === 'weekly') {
+                    this.isWeekly = true;
+                } else if (periodicityType === 'monthly') {
+                    this.isMonthly = true;
+                } else if (periodicityType === 'yearly') {
+                    this.isYearly = true;
+                }
+            }
+        }
+    }
+
 }
