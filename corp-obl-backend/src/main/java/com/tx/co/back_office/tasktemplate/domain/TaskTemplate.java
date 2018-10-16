@@ -82,6 +82,7 @@ public class TaskTemplate implements Serializable {
 	@Column(nullable = false, name = "daysbeforeshowexpiration")
 	private Integer daysBeforeShowExpiration;
 
+	// 1:Anyone can CLOSE the task, 2:EACH CORPOBLIG_USER has his task
 	@Column(nullable = false, name = "expirationclosableby")
 	private Integer expirationClosableBy;
 

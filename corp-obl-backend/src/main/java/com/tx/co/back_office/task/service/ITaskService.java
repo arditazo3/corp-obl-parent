@@ -11,16 +11,22 @@ import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 public interface ITaskService {
 
 	Task saveUpdateTask(Task task);
-	
+
+	/**
+	 * @rfratti
+	 * @return a list of all tasks for scheduler
+	 */
+	List<Task> getAllTasksForScheduler();
+
 	List<Task> getTasks();
-	
+
 	TaskOffice saveUpdateTaskOffice(Task task, TaskOffice taskOffice);
-	
+
 	TaskOfficeRelations saveUpdateTaskOfficeRelation(TaskOfficeRelations taskOfficeRelation, TaskOffice taskOffice);
-	
+
 	TaskOffice getTaskOfficeByTaskTemplateAndOffice(TaskTemplate taskTemplate, Office office);
-	
+
 	Task getTasksByTaskTemplate(TaskTemplate taskTemplate);
-	
+
 	void deleteTask(Task task);
 }

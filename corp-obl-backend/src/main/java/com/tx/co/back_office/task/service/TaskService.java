@@ -62,6 +62,15 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		this.taskOfficeRelationRepository = taskOfficeRelationRepository;
 	}
 
+	/**
+	 * @author rfratti
+	 * @return return list of task for scheduler
+	 */
+	@Override
+	public List<Task> getAllTasksForScheduler() {
+		return taskRepository.getTasks();
+	}
+
 	@Override
 	public List<Task> getTasks() {
 
