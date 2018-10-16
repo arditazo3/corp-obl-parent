@@ -1,15 +1,28 @@
 package com.tx.co.abstraction;
 
+import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.model.AuthenticationTokenUser;
 import com.tx.co.security.api.model.UserCredentials;
+import com.tx.co.security.authentication.AuthenticationTest;
+import com.tx.co.security.service.AuthenticationTokenService;
+import com.tx.co.user.domain.User;
+
 import org.junit.Before;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import java.net.URI;
+import java.util.Collection;
 
 import static com.tx.co.common.constants.ApiConstants.APP_PATH;
 import static com.tx.co.common.constants.ApiConstants.AUTH;
@@ -19,6 +32,7 @@ import static com.tx.co.common.constants.ApiConstants.AUTH;
  *
  * @author aazo
  */
+@Component
 public abstract class AbstractApiTest {
 
     @LocalServerPort
@@ -27,8 +41,15 @@ public abstract class AbstractApiTest {
     protected URI baseUri;
 
     protected Client client;
+    
+    private AuthenticationTokenService authenticationTokenService;
+    
+    @Autowired
+    public void setAuthenticationTokenService(AuthenticationTokenService authenticationTokenService) {
+		this.authenticationTokenService = authenticationTokenService;
+	}
 
-    @Before
+	@Before
     public void setUp() throws Exception {
         this.baseUri = new URI("http://localhost:" + port + "/" + APP_PATH);
         this.client = ClientBuilder.newClient();
@@ -58,5 +79,22 @@ public abstract class AbstractApiTest {
 
     protected String composeAuthorizationHeader(String authenticationToken) {
         return "Bearer" + " " + authenticationToken;
+    }
+    
+    protected void setAuthorizationUsername(String username) {
+
+        UserCredentials credentials = new UserCredentials();
+        credentials.setUsername(username);
+
+        AuthenticationTokenUser authenticationToken = client.target(baseUri).path(AUTH).request()
+                .post(Entity.entity(credentials, MediaType.APPLICATION_JSON), AuthenticationTokenUser.class);
+        
+        User userLogIn = authenticationToken.getUser();
+        
+        AuthenticationTokenUserDetails authenticationTokenUserDetails = new AuthenticationTokenUserDetails(null, userLogIn, null, null, 1, 1);
+        AuthenticationTest authenticationTest = new AuthenticationTest();
+        authenticationTest.setDetails(authenticationTokenUserDetails);
+        
+        SecurityContextHolder.getContext().setAuthentication(authenticationTest);
     }
 }
