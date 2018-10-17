@@ -109,19 +109,25 @@
                             <div class="col-sm-12 col-md-4">
                                 <div class="form-group">
                                     <label class="control-label col-form-label">Day</label>
-                                    <input type="number" class="form-control"
-                                           formControlName="day"
-                                           id="dayInput"
-                                           *ngIf="!isFixedDay || (isFixedDay && isMonthly)"
-                                           (keyup)="onKeyUpDay()"
-                                           [ngClass]="{'is-invalid': submitted && f.day.errors }">
+                                    <!--<input type="number" class="form-control"-->
+                                           <!--formControlName="day"-->
+                                           <!--id="dayInput"-->
+                                           <!--*ngIf="!isFixedDay || (isFixedDay && isMonthly)"-->
+                                           <!--(keyup)="onKeyUpDay()"-->
+                                           <!--[ngClass]="{'is-invalid': submitted && f.day.errors }">-->
+                                    <my-date-picker name="dateOfDay"
+                                                    *ngIf="!(isFixedDay && isWeekly)"
+                                                    [options]="myDatePickerOptionsTaskTempl"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    [disabled]="!isFixedDay"
+                                                    [(ngModel)]="dateOfDay"></my-date-picker>
                                     <ng-select [items]="periodWeeklyExpFixedDay | async"
                                                bindLabel="description"
                                                id="daySelect"
                                                [searchable]="true"
                                                [clearable]="false"
                                                [disabled]="!isFixedDay"
-                                               *ngIf="isFixedDay"
+                                               *ngIf="isFixedDay && isWeekly"
                                                [(ngModel)]="selectedPeriodWeeklyExpFixedDay"
                                                (change)="onChangeExpiration()"
                                                [ngModelOptions]="{standalone: true}"

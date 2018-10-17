@@ -20,6 +20,8 @@ import {TaskTemplateAttachment} from '../../../tasktemplateattachment/tasktempla
 import {TaskService} from '../../../task/service/task.service';
 import {AssociationOfficeComponent} from '../../../task/component/association-office/association-office.component';
 import {TaskTemplateOffice} from '../../../office-task/model/tasktemplate-office';
+import {IMyOptions} from 'mydatepicker';
+import {AppGlobals} from '../../../../shared/common/api/app-globals';
 
 @Component({
     selector: 'app-tasktemplate-create-update',
@@ -53,6 +55,13 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     isWeekly = false;
     isMonthly = false;
     isYearly = false;
+
+    dateOfDay: any;
+    myDatePickerOptionsTaskTempl: IMyOptions = {
+        // other options...
+        dateFormat: AppGlobals.dateFormat,
+        editableDateField: false
+    };
 
     uploader;
 
@@ -176,7 +185,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             this.createEditTaskTemplate = this.formBuilder.group({
                 description: new FormControl({value: this.taskTemplate.description, disabled: false}, Validators.required),
                 expirationRadio: new FormControl(this.taskTemplate.expirationClosableBy, Validators.required),
-                day: new FormControl({value: this.taskTemplate.day, disabled: false}, Validators.required),
+       //         day: new FormControl({value: this.taskTemplate.day, disabled: false}, Validators.required),
                 daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
                 frequenceOfNotice: new FormControl({value: this.taskTemplate.frequenceOfNotice, disabled: false}, Validators.required),
                 daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false},
@@ -185,7 +194,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         } else {
             this.createEditTaskTemplate = this.formBuilder.group({
                 description: new FormControl({value: this.task.taskTemplate.description, disabled: true}),
-                day: new FormControl({value: this.task.day, disabled: false}, Validators.required),
+        //        day: new FormControl({value: this.task.day, disabled: false}, Validators.required),
                 daysOfNotice: new FormControl({value: this.task.daysOfNotice, disabled: false}, Validators.required),
                 frequenceOfNotice: new FormControl({value: this.task.frequenceOfNotice, disabled: false}, Validators.required),
                 daysBeforeShowExpiration: new FormControl({value: this.task.daysBeforeShowExpiration, disabled: false}, Validators.required)
@@ -243,7 +252,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             this.taskTemplate.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
             this.taskTemplate.expirationType = this.selectedExpirationType.tablename.split('#')[2];
             this.taskTemplate.expirationClosableBy = this.createEditTaskTemplate.get('expirationRadio').value;
-            this.taskTemplate.day = this.createEditTaskTemplate.get('day').value;
+       //     this.taskTemplate.day = this.createEditTaskTemplate.get('day').value;
             this.taskTemplate.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
             this.taskTemplate.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
             this.taskTemplate.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
@@ -253,7 +262,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             }
             this.task.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
             this.task.expirationType = this.selectedExpirationType.tablename.split('#')[2];
-            this.task.day = this.createEditTaskTemplate.get('day').value;
+       //     this.task.day = this.createEditTaskTemplate.get('day').value;
             this.task.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
             this.task.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
             this.task.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
@@ -482,18 +491,18 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
 
     onChangeExpiration() {
 
-        if (!this.selectedExpirationType) {
-            this.createEditTaskTemplate.get('day').disable();
-        } else {
-            const expirationType = this.selectedExpirationType.tablename.split('#')[2];
-            if (expirationType === 'fix_day') {
-                this.createEditTaskTemplate.get('day').enable();
-            } else {
-                this.createEditTaskTemplate.get('day').enable();
-                this.createEditTaskTemplate.get('day').disable();
-                this.createEditTaskTemplate.get('day').setValue(0);
-            }
-        }
+        // if (!this.selectedExpirationType) {
+        //     this.createEditTaskTemplate.get('day').disable();
+        // } else {
+        //     const expirationType = this.selectedExpirationType.tablename.split('#')[2];
+        //     if (expirationType === 'fix_day') {
+        //         this.createEditTaskTemplate.get('day').enable();
+        //     } else {
+        //         this.createEditTaskTemplate.get('day').enable();
+        //         this.createEditTaskTemplate.get('day').disable();
+        //         this.createEditTaskTemplate.get('day').setValue(0);
+        //     }
+        // }
         this.onChangePeriodExpiration();
     }
 
@@ -517,8 +526,10 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                     this.isWeekly = true;
                 } else if (periodicityType === 'monthly') {
                     this.isMonthly = true;
+                    this.myDatePickerOptionsTaskTempl = { dateFormat: 'dd/mm' };
                 } else if (periodicityType === 'yearly') {
                     this.isYearly = true;
+                    this.myDatePickerOptionsTaskTempl = { dateFormat: 'dd/mm' };
                 }
             }
         }

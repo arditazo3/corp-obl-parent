@@ -11,6 +11,7 @@ import {CalendarModule} from 'angular-calendar';
 import {CompanyTableComponent} from './company/component/company-table/company-table.component';
 import {CompanyService} from './company/service/company.service';
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
+import { MyDatePickerModule } from 'mydatepicker';
 import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 import {CompanyCreateEditComponent} from './company/component/company-create-edit/company-create-edit.component';
 import {UserService} from '../user/service/user.service';
@@ -53,6 +54,7 @@ import { TaskTemplateTableComponent } from './office-task/component/tasktemplate
         NgbModalModule.forRoot(),
         CalendarModule.forRoot(),
         NgxDatatableModule,
+        MyDatePickerModule,
         DragulaModule,
         RouterModule.forChild(BackOfficeRoutes),
         PerfectScrollbarModule,

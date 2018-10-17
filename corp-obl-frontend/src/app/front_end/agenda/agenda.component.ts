@@ -4,7 +4,6 @@ import {AppGlobals} from '../../shared/common/api/app-globals';
 import * as moment from 'moment';
 import {Observable} from 'rxjs';
 import {OfficeService} from '../../back_office/office/service/office.service';
-import {TaskTemplateOffice} from '../../back_office/office-task/model/tasktemplate-office';
 import {DateExpirationOfficesHasArchived} from '../model/date-expiration-offices-hasarchived';
 import {ExpirationService} from '../service/expiration.service';
 import {TaskTemplateExpiration} from '../model/task-template-expiration';
