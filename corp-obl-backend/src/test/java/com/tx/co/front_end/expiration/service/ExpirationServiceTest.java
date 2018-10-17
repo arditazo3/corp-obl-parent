@@ -29,7 +29,7 @@ import com.tx.co.front_end.expiration.domain.Expiration;
 public class ExpirationServiceTest extends AbstractServiceTest {
 
 	@Test
-	public void getTasksAsAdmin() {
+	public void getExpirationsAsAdmin() {
 		
 		setAuthorizationUsername(ADMIN); 
 		
