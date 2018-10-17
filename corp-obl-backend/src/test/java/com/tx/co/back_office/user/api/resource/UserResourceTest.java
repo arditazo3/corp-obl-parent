@@ -1,4 +1,4 @@
-package com.tx.co.user.api.resource;
+package com.tx.co.back_office.user.api.resource;
 
 import com.tx.co.abstraction.AbstractApiTest;
 import com.tx.co.security.domain.Authority;

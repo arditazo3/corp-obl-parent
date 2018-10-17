@@ -1,5 +1,3 @@
-select * from co_translations;
-
 insert into co_translations(entity_id, tablename, lang, description) values (1, 'tasktemplate#period_weekly_exp_fix_day#2', 'EN', 'Monday');
 insert into co_translations(entity_id, tablename, lang, description) values (2, 'tasktemplate#period_weekly_exp_fix_day#3', 'EN', 'Tuesday');
 insert into co_translations(entity_id, tablename, lang, description) values (3, 'tasktemplate#period_weekly_exp_fix_day#4', 'EN', 'Wednesday');

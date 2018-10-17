@@ -9,6 +9,7 @@ import com.tx.co.back_office.tasktemplateattachment.resource.TaskTemplateAttachm
 import com.tx.co.back_office.topic.resource.TopicResource;
 import com.tx.co.common.api.provider.ObjectMapperProvider;
 import com.tx.co.common.translation.resource.TranslationResource;
+import com.tx.co.front_end.expiration.resource.ExpirationActivityAttachmentResource;
 import com.tx.co.front_end.expiration.resource.ExpirationResource;
 import com.tx.co.security.api.exceptionmapper.AccessDeniedExceptionMapper;
 import com.tx.co.security.api.exceptionmapper.AuthenticationExceptionMapper;
@@ -53,6 +54,7 @@ public class JerseyConfig extends ResourceConfig {
 		register(TaskResource.class);
 		
 		register(ExpirationResource.class);
+		register(ExpirationActivityAttachmentResource.class);
 
 		/**
 		 * General exception

@@ -355,7 +355,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 				
 				description = getTranslationByLangLikeTablename(new TranslationPairKey("configurationinterval", lang)).getDescription();
 
-				description += " " + String.valueOf(index) + ": ";
+				description += " " + index + ": ";
 
 				description += getTranslationByLangLikeTablename(new TranslationPairKey(task.getRecurrence(), lang)).getDescription() + " - ";
 

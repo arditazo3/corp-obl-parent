@@ -1,4 +1,4 @@
-package com.tx.co.task.service;
+package com.tx.co.back_office.task.service;
 
 import static org.junit.Assert.assertNotNull;
 import static com.tx.co.common.constants.AppConstants.*;

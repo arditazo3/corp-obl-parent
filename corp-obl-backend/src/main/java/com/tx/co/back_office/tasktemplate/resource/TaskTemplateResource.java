@@ -59,6 +59,8 @@ public class TaskTemplateResource extends ObjectResult {
 	@PreAuthorize("hasAuthority('"+ ADMIN_ROLE + "') or hasAuthority('" + FOREIGN_ROLE + "')")
 	public Response getTaskTemplatesForTable() {
 
+		logger.info("getTaskTemplatesForTable - Path: " + TASK_TEMPLATE_LIST_FOR_TABLE);
+		
 		Iterable<Task> taskForTableIterable = taskTemplateService.getTasksForTable();
         List<TaskResult> queryDetailsList =
                 StreamSupport.stream(taskForTableIterable.spliterator(), false)
@@ -74,6 +76,8 @@ public class TaskTemplateResource extends ObjectResult {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createUpdateTaskTemplate(TaskTemplateOfficeResult taskTemplateOfficeResult) {
 
+		logger.info("createUpdateTaskTemplate - Path: " + TASK_TEMPLATE_CREATE_UPDATE);
+		
 		TaskTemplateResult taskTemplateRequest = taskTemplateOfficeResult.getTaskTemplate();
 		OfficeResult officeRequest = taskTemplateOfficeResult.getOffice();
 		Office office = officeRequest == null ? null : toOffice(officeRequest);
@@ -90,6 +94,8 @@ public class TaskTemplateResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteTaskTemplate(TaskTemplateResult taskTemplateResult) {
 
+    	logger.info("deleteTaskTemplate - Path: " + TASK_TEMPLATE_DELETE);
+    	
     	taskTemplateService.deleteTaskTemplate(toTaskTemplate(taskTemplateResult));
 
         return Response.noContent().build();
@@ -102,6 +108,8 @@ public class TaskTemplateResource extends ObjectResult {
 	@PreAuthorize("hasAuthority('"+ ADMIN_ROLE + "') or hasAuthority('" + FOREIGN_ROLE + "')")
 	public Response searchTaskTemplateTable(ObjectSearchTaskTemplateResult objectSearchTaskTemplateResult) {
 
+		logger.info("searchTaskTemplateTable - Path: " + TASK_TEMPLATE_SEARCH);
+		
 		Iterable<Task> taskForTableIterable = taskTemplateService.searchTaskTemplate(toObjectSearchTaskTemplate(objectSearchTaskTemplateResult));
         List<TaskResult> queryDetailsList =
                 StreamSupport.stream(taskForTableIterable.spliterator(), false)
@@ -117,6 +125,8 @@ public class TaskTemplateResource extends ObjectResult {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response searchTaskTemplateTable(StringResult description) {
 
+		logger.info("searchTaskTemplateTable - Path: " + TASK_TEMPLATE_SEARCH_BY_DESCR);
+		
 		List<TaskTemplate> taskTemplateIterable = taskTemplateService.searchTaskTemplateByDescr(description.getResult());
         List<TaskTemplateResult> queryDetailsList =
                 StreamSupport.stream(taskTemplateIterable.spliterator(), false)

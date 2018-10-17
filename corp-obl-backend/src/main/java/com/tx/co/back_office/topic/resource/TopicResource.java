@@ -53,6 +53,8 @@ public class TopicResource extends ObjectResult {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTopics() {
 
+    	logger.info("getTopics - Path: " + TOPIC_LIST);
+    	
         Iterable<Topic> topicIterable = topicService.findAllTopic();
         List<TopicResult> queryTopicList =
                 StreamSupport.stream(topicIterable.spliterator(), false)
@@ -68,6 +70,8 @@ public class TopicResource extends ObjectResult {
     @PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
     public Response getTopicsByRole() {
 
+    	logger.info("getTopicsByRole - Path: " + TOPIC_LIST_ROLE);
+    	
         Iterable<Topic> topicIterable = topicService.getTopicsByRole();
         List<TopicResult> queryTopicList =
                 StreamSupport.stream(topicIterable.spliterator(), false)
@@ -85,6 +89,8 @@ public class TopicResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createUpdateTopic(TopicResult topicResult) {
 
+    	logger.info("createUpdateTopic - Path: " + TOPIC_CREATE_UPDATE);
+    	
         Topic topicStored = topicService.saveUpdateTopic(toTopicWithTranslation(topicResult));
 
         return Response.ok(toTopicResult(topicStored)).build();
@@ -96,6 +102,8 @@ public class TopicResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteTopic(TopicResult topic) {
 
+    	logger.info("deleteTopic - Path: " + TOPIC_DELETE);
+    	
     	topicService.deleteTopic(topic.getIdTopic());
 
         return Response.noContent().build();
@@ -107,6 +115,8 @@ public class TopicResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createUpdateTopicConsultant(TopicConsultantResult topicConsultantResult) {
 
+    	logger.info("createUpdateTopicConsultant - Path: " + TOPIC_CONSULTANT_CREATE_UPDATE);
+    	
     	TopicConsultant topicConsultantStored = topicService.saveUpdateTopicConsultant(toTopicConsultant(topicConsultantResult));
 
         return Response.ok(toTopicConsultantResult(topicConsultantStored)).build();
@@ -118,6 +128,8 @@ public class TopicResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteTopicConsultant(TopicConsultantResult topicConsultantResult) {
 
+    	logger.info("deleteTopicConsultant - Path: " + TOPIC_CONSULTANT_DELETE);
+    	
     	topicService.deleteTopicConsultant(toTopicConsultant(topicConsultantResult));
 
         return Response.noContent().build();
@@ -127,8 +139,10 @@ public class TopicResource extends ObjectResult {
     @Path(TOPIC_CONSULTANTS_DELETE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteTopicConsultant(CompanyTopicResult companyTopicResult) {
+    public Response deleteTopicConsultants(CompanyTopicResult companyTopicResult) {
 
+    	logger.info("deleteTopicConsultants - Path: " + TOPIC_CONSULTANTS_DELETE);
+    	
     	topicService.deleteTopicConsultants(toCompany(companyTopicResult.getCompany()), toTopicWithTranslation(companyTopicResult.getTopic()));
 
         return Response.noContent().build();

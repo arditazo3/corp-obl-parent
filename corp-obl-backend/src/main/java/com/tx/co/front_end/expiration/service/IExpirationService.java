@@ -10,6 +10,8 @@ public interface IExpirationService {
 
     List<TaskTemplateExpirations> searchDateExpirationOffices(DateExpirationOfficesHasArchived dateExpirationOfficesHasArchived);
 
+    Expiration saveUpdateExpiration(Expiration expiration);
+    
     /**
      * @param taskId
      * @return list of removable {@link Expiration}

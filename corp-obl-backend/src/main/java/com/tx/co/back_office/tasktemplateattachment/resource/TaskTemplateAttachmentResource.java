@@ -1,6 +1,7 @@
 package com.tx.co.back_office.tasktemplateattachment.resource;
 
 import static com.tx.co.common.constants.ApiConstants.*;
+import static com.tx.co.common.constants.AppConstants.*;
 
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -58,11 +59,13 @@ public class TaskTemplateAttachmentResource extends ObjectResult {
 			@FormDataParam("file") FormDataContentDisposition fileDetail,
 			@FormDataParam("idTaskTemplate") Long idTaskTemplate) {
 
+		logger.info("fileUpload - Path: " + UPLOAD_FILES);
+		
 		// Create the HttpFile:
 		HttpFile httpFile = new HttpFile(fileDetail.getName(), fileDetail.getFileName(), fileDetail.getParameters(), stream);
 
 		// Create the FileUploadRequest:
-		FileUploadRequest fileUploadRequest = new FileUploadRequest(idTaskTemplate, httpFile);
+		FileUploadRequest fileUploadRequest = new FileUploadRequest(idTaskTemplate, httpFile, TASK_FILE_ICOMING);
 
 		// Handle the File Upload:
 		FileUploadResponse result = fileUploadHandler.handle(fileUploadRequest);
@@ -76,8 +79,10 @@ public class TaskTemplateAttachmentResource extends ObjectResult {
 	@POST
 	@Path(DOWNLOAD_FILES)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response fileUpload(TaskTemplateAttachmentResult taskTemplateAttachmentResult) { 
+	public Response downloadFile(TaskTemplateAttachmentResult taskTemplateAttachmentResult) { 
 
+		logger.info("downloadFile - Path: " + DOWNLOAD_FILES);
+		
 		StreamingOutput fileStream =  new StreamingOutput()
 		{
 		    @Override
@@ -108,6 +113,8 @@ public class TaskTemplateAttachmentResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteFile(TaskTemplateAttachmentResult taskTemplateAttachmentResult) {
 
+    	logger.info("deleteFile - Path: " + REMOVE_FILES);
+    	
     	fileUploadHandler.deleteFile(taskTemplateAttachmentResult);
 
         return Response.noContent().build();

@@ -1,11 +1,11 @@
-package com.tx.co.cache.schedule;
+package com.tx.co.common.scheduler.service;
 
 import com.tx.co.cache.service.CacheDataLoader;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-public class DailyJobScheduled extends CacheDataLoader {
+@Service
+public class DailyJobScheduledService extends CacheDataLoader {
 
     // set this to false to disable this job; set it it true by
     @Value("${job.dailyScheduled.enable:false}")

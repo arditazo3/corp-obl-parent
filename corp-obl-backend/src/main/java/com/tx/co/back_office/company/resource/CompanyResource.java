@@ -65,6 +65,8 @@ public class CompanyResource extends ObjectResult {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCompanies() {
 
+		logger.info("getCompanies - Path: " + COMPANY_LIST);
+		
         Iterable<Company> companyIterable = companyService.findAllCompany();
         List<CompanyResult> queryCompanyList =
                 StreamSupport.stream(companyIterable.spliterator(), false)
@@ -79,6 +81,8 @@ public class CompanyResource extends ObjectResult {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCompaniesByRole() {
 
+		logger.info("getCompaniesByRole - Path: " + COMPANY_LIST_ROLE);
+		
         Iterable<Company> companyIterable = companyService.getCompaniesByRole();
         List<CompanyResult> queryCompanyList =
                 StreamSupport.stream(companyIterable.spliterator(), false)
@@ -95,6 +99,8 @@ public class CompanyResource extends ObjectResult {
     @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response getCompany(@PathParam("idCompany") Long idCompany) {
 
+    	logger.info("getCompany - Path: " + COMPANY_GET_BY_ID);
+    	
         try {
             Optional<Company> company = companyService.findByIdCompany(idCompany);
 
@@ -115,6 +121,8 @@ public class CompanyResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createUpdateCompany(CompanyResult companyResult) {
 
+    	logger.info("createUpdateCompany - Path: " + COMPANY_CREATE_UPDATE);
+    	
         Company companyStored = companyService.saveUpdateCompany(toCompany(companyResult));
 
         return Response.ok(toCompanyResult(companyStored)).build();
@@ -126,6 +134,8 @@ public class CompanyResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteCompany(CompanyResult company) {
 
+    	logger.info("deleteCompany - Path: " + COMPANY_DELETE);
+    	
         companyService.deleteCompany(company.getIdCompany());
 
         return Response.noContent().build();
@@ -137,6 +147,8 @@ public class CompanyResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response associateUserToCompany(CompanyResult companyUserListResult) {
 
+    	logger.info("associateUserToCompany - Path: " + ASSOC_USER_COMPANY);
+    	
         companyService.associateUserToCompany(toCompany(companyUserListResult));
 
         return Response.noContent().build();
@@ -148,6 +160,8 @@ public class CompanyResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getCompanyConsultant(@QueryParam("idCompany") String idCompany) {
 
+    	logger.info("getCompanyConsultant - Path: " + CONSULTANT_LIST);
+    	
         Iterable<CompanyConsultant> companyConsultantIterable = companyConsultantService.getCompanyConsultantByIdCompany(idCompany);
         List<CompanyConsultantResult> queryCompanyConsultantList =
                 StreamSupport.stream(companyConsultantIterable.spliterator(), false)
@@ -163,6 +177,8 @@ public class CompanyResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createUpdateCompany(CompanyConsultantResult companyConsultantResult) {
 
+    	logger.info("createUpdateCompany - Path: " + CONSULTANT_CREATE_UPDATE);
+    	
     	CompanyConsultant companyConsultantStored = companyConsultantService.saveUpdateCompanyConsultant(toCompanyConsultant(companyConsultantResult));
 
         return Response.ok(toCompanyConsultantResult(companyConsultantStored)).build();
@@ -174,6 +190,8 @@ public class CompanyResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteCompany(CompanyConsultantResult companyConsultant) {
 
+    	logger.info("deleteCompany - Path: " + CONSULTANT_DELETE);
+    	
     	companyConsultantService.deleteCompanyConsultant(companyConsultant.getIdCompanyConsultant());
 
         return Response.noContent().build();
@@ -185,6 +203,8 @@ public class CompanyResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getCompanyTopic(@QueryParam("idCompany") String idCompany) {
 
+    	logger.info("getCompanyTopic - Path: " + TOPIC_CONSULTANT_LIST);
+    	
         Iterable<CompanyTopic> companyTopicIterable = companyTopicService.getCompanyTopicByIdCompany(idCompany);
         List<CompanyTopicResult> queryCompanyTopicList =
                 StreamSupport.stream(companyTopicIterable.spliterator(), false)

@@ -125,6 +125,8 @@ public abstract class CacheDataLoader {
 	@PostConstruct
 	public void init() {
 
+		logger.info("CacheDataLoader - init");
+		
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
 		// Clear the cache

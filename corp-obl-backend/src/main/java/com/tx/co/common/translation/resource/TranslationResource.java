@@ -49,6 +49,8 @@ public class TranslationResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getTranslations(@QueryParam("tablename") String tablename, @QueryParam("lang") String lang) {
 
+		logger.info("getTranslations - Path: " + TRANSLATION_LIKE_TABLENAME);
+		
 		Iterable<Translation> translationIterable = translationService.getTranslationLikeTablename(tablename, lang);
         List<TranslationResult> queryDetailsList =
                 StreamSupport.stream(translationIterable.spliterator(), false)

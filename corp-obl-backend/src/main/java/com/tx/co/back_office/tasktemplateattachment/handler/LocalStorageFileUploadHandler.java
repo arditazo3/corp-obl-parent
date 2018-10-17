@@ -1,6 +1,7 @@
 package com.tx.co.back_office.tasktemplateattachment.handler;
 
-import static com.tx.co.common.constants.ApiConstants.FILE_MAX_SIZE;
+import static com.tx.co.common.constants.ApiConstants.*;
+import static com.tx.co.common.constants.AppConstants.*;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.io.File;
@@ -27,6 +28,8 @@ import com.tx.co.back_office.tasktemplateattachment.model.file.HttpFile;
 import com.tx.co.back_office.tasktemplateattachment.model.request.FileUploadRequest;
 import com.tx.co.back_office.tasktemplateattachment.model.response.FileUploadResponse;
 import com.tx.co.back_office.tasktemplateattachment.service.ITaskTemplateAttachmentService;
+import com.tx.co.front_end.expiration.domain.ExpirationActivityAttachment;
+import com.tx.co.front_end.expiration.service.IExpirationActivityAttachmentService;
 import com.tx.co.security.exception.GeneralException;
 
 @Component
@@ -39,10 +42,17 @@ public class LocalStorageFileUploadHandler implements IFileUploadHandler {
 	private String fileRootPath;
 
 	private ITaskTemplateAttachmentService taskTemplateAttachmentService;
+	private IExpirationActivityAttachmentService expirationActivityAttachmentService;
 
 	@Autowired    
 	public void setTaskTemplateAttachmentService(ITaskTemplateAttachmentService taskTemplateAttachmentService) {
 		this.taskTemplateAttachmentService = taskTemplateAttachmentService;
+	}
+	
+	@Autowired    
+	public void setExpirationActivityAttachmentService(
+			IExpirationActivityAttachmentService expirationActivityAttachmentService) {
+		this.expirationActivityAttachmentService = expirationActivityAttachmentService;
 	}
 
 	@Override
@@ -69,9 +79,15 @@ public class LocalStorageFileUploadHandler implements IFileUploadHandler {
 
 		setSizeFileTypeTaskTempAttach(request);
 
-		TaskTemplateAttachment taskTemplateAttachment = taskTemplateAttachmentService.saveUpdateTaskTemplateAttachment(request);
+		if(request.getIncoming().equals(TASK_FILE_ICOMING)) {
 
-		return new FileUploadResponse(taskTemplateAttachment);
+			TaskTemplateAttachment taskTemplateAttachment = taskTemplateAttachmentService.saveUpdateTaskTemplateAttachment(request);
+			return new FileUploadResponse(taskTemplateAttachment);
+		} else {
+			
+			ExpirationActivityAttachment expirationActivityAttachment = expirationActivityAttachmentService.saveUpdateExpirationActivityAttachment(request);
+			return new FileUploadResponse(expirationActivityAttachment);
+		}
 	}
 
 	private void setSizeFileTypeTaskTempAttach(FileUploadRequest request) {

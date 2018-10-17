@@ -6,10 +6,12 @@ public class FileUploadRequest {
 
     private final Long id;
     private final HttpFile httpFile;
+    private final String incoming;
 
-    public FileUploadRequest(Long id, HttpFile httpFile) {
+    public FileUploadRequest(Long id, HttpFile httpFile, String incoming) {
         this.id = id;
         this.httpFile = httpFile;
+        this.incoming = incoming;
     }
     public Long getId() {
 		return id;
@@ -17,4 +19,7 @@ public class FileUploadRequest {
     public HttpFile getHttpFile() {
         return httpFile;
     }
+	public String getIncoming() {
+		return incoming;
+	}
 }

@@ -57,18 +57,15 @@ public class Expiration implements Serializable {
     private String username;
 
     @Column(nullable = false, name = "expirationdate")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIME)
     private Date expirationDate;
 
-    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date completed;
 
-    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date approved;
 
-    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date registered;
 

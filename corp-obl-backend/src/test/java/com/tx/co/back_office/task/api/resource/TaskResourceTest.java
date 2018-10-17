@@ -1,4 +1,4 @@
-package com.tx.co.task.api.resource;
+package com.tx.co.back_office.task.api.resource;
 
 import static com.tx.co.common.constants.ApiConstants.*;
 import static org.junit.Assert.assertEquals;

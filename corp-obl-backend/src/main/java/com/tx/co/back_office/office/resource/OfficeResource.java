@@ -53,6 +53,8 @@ public class OfficeResource extends ObjectResult {
     @PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
     public Response getOffices() {
 
+    	logger.info("getOffices - Path: " + OFFICE_LIST);
+    	
         Iterable<Office> officeIterable = officeService.findAllOffice();
         List<OfficeResult> queryOfficeList =
                 StreamSupport.stream(officeIterable.spliterator(), false)
@@ -67,6 +69,8 @@ public class OfficeResource extends ObjectResult {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOfficesByRole() {
 
+		logger.info("getOfficesByRole - Path: " + OFFICE_LIST_ROLE);
+		
         Iterable<Office> officeIterable = officeService.getOfficesByRole();
         List<OfficeResult> queryOfficeList =
                 StreamSupport.stream(officeIterable.spliterator(), false)
@@ -83,6 +87,8 @@ public class OfficeResource extends ObjectResult {
     @PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
     public Response createUpdateOffice(OfficeResult officeResult) {
 
+    	logger.info("createUpdateOffice - Path: " + OFFICE_CREATE_UPDATE);
+    	
         Office officeStored = officeService.saveUpdateOffice(toOffice(officeResult));
 
         return Response.ok(toOfficeResult(officeStored)).build();
@@ -95,6 +101,8 @@ public class OfficeResource extends ObjectResult {
     @PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
     public Response deleteOffice(OfficeResult office) {
 
+    	logger.info("deleteOffice - Path: " + OFFICE_DELETE);
+    	
     	officeService.deleteOffice(office.getIdOffice());
 
         return Response.noContent().build();
@@ -107,6 +115,8 @@ public class OfficeResource extends ObjectResult {
     @PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
 	public Response searchOfficeTaskTemplates(TaskTempOfficesResult taskTempOffices) {
 
+    	logger.info("searchOfficeTaskTemplates - Path: " + SEARCH_OFFICE_TASKS);
+    	
 		Iterable<OfficeTaskTemplates> officeTasksIterable = officeService.searchOfficeTaskTemplates(toTaskTempOffices(taskTempOffices));
         List<OfficeTaskTemplatesResult> queryDetailsList =
                 StreamSupport.stream(officeTasksIterable.spliterator(), false)

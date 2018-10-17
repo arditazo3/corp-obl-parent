@@ -3,12 +3,7 @@ package com.tx.co.back_office.tasktemplateattachment.model.file;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class HttpFile {
-
-	private static final Logger logger = LogManager.getLogger(HttpFile.class);
 
 	private String name;
 	private String submittedFileName;

@@ -40,8 +40,6 @@ public class ExpirationResource extends ObjectResult {
 		this.expirationService = expirationService;
 	}
 
-
-
 	@POST
 	@Path(SEARCH_AGENDA_TASK)
 	@Produces(MediaType.APPLICATION_JSON)

@@ -104,18 +104,22 @@ public final class ApiConstants {
 	public static final String TASK_TEMPLATE_OFFICE = "tasktemplate-office";
 
 	/** End Back office Resources */
-	
+
 	/**
 	 * Front end Resources
 	 * */
 	public static final String FRONT_END = "front-end";
-	
+
 	public static final String AGENDA = "agenda";
 	public static final String SEARCH_AGENDA_TASK = AGENDA + "/search-task";
 
-	
+	// Upload files URL
+	public static final String UPLOAD_FILES_EXP = "upload-files-exp";
+	public static final String DOWNLOAD_FILES_EXP = "download-files-exp";
+	public static final String REMOVE_FILES_EXP = "remove-files-exp";
+
 	/** End Front end Resources */
-	
+
 	/**
 	 * List of authorization Role
 	 * */
@@ -123,7 +127,7 @@ public final class ApiConstants {
 	public static final String FOREIGN_ROLE = "CORPOBLIG_BACKOFFICE_FOREIGN";
 	public static final String INLAND_ROLE = "CORPOBLIG_BACKOFFICE_INLAND";
 	public static final String USER_ROLE = "CORPOBLIG_USER";
-	
+
 	public static final String AUTH_ADMIN_FOREIGN_INLAND = "hasAuthority('"+ ADMIN_ROLE + "') or hasAuthority('" + FOREIGN_ROLE + "') or hasAuthority('" + INLAND_ROLE + "')";
 	public static final String AUTH_ADMIN_USER = "hasAuthority('"+ ADMIN_ROLE + "') or hasAuthority('" + USER_ROLE + "')";
 	/* End of authorization Role list */

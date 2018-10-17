@@ -33,4 +33,7 @@ public class AppConstants {
 	 public static final String EXP_FIX_DAY = "fix_day";
 	 public static final String EXP_MONTH_START = "month_start";
 	 public static final String EXP_MONTH_END = "month_end";
+	 
+	 public static final String TASK_FILE_ICOMING = "TASK_FILE_ICOMING";
+	 public static final String EXP_FILE_ICOMING = "EXP_FILE_ICOMING";
 }
