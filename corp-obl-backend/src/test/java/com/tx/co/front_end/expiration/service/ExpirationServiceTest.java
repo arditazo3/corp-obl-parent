@@ -31,7 +31,7 @@ public class ExpirationServiceTest extends AbstractServiceTest {
 	@Test
 	public void getTasksAsAdmin() {
 		
-		setAuthorizationUsername(ADMIN);
+		setAuthorizationUsername(ADMIN); 
 		
 		Calendar calendar = Calendar.getInstance();
 		
