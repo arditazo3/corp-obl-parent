@@ -1,29 +1,17 @@
 package com.tx.co.front_end.expiration.domain;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
+import com.tx.co.back_office.office.domain.Office;
+import com.tx.co.back_office.task.model.Task;
+import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Where;
 
-import com.tx.co.back_office.office.domain.Office;
-import com.tx.co.back_office.task.model.Task;
-import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Domain model that represents a expiration.
@@ -34,200 +22,200 @@ import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 @Table(name = "co_expiration")
 public class Expiration implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	private Long idExpiration;
-	
-	@ManyToOne
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long idExpiration;
+
+    @ManyToOne
     @JoinColumn(name = "tasktemplate_id")
     private TaskTemplate taskTemplate;
-	
-	@ManyToOne
+
+    @ManyToOne
     @JoinColumn(name = "task_id")
     private Task task;
-	
-	@ManyToOne
+
+    @ManyToOne
     @JoinColumn(name = "office_id")
     private Office office;
-	
-	@OneToMany
-	@JoinColumn (name = "expiration_id", insertable = false, updatable = false)
-	@Fetch(value = FetchMode.JOIN)
-	@Where(clause = "deleted = 0")
+
+    @OneToMany
+    @JoinColumn(name = "expiration_id", insertable = false, updatable = false)
+    @Fetch(value = FetchMode.JOIN)
+    @Where(clause = "deleted = 0")
     private Set<ExpirationActivity> expirationActivities = new HashSet<>();
-	
-	@Column(nullable = false, name="expirationclosableby")
-    private String expirationClosableBy;
-	
-	@Column(nullable = false)
+
+    @Column(nullable = false, name = "expirationclosableby")
+    private Integer expirationClosableBy;
+
+    @Column(nullable = false)
     private String username;
-	
-	@Column(nullable = false, name = "expirationdate")
+
+    @Column(nullable = false, name = "expirationdate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
-	
-	@Column(nullable = false)
+
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date completed;
-	
-	@Column(nullable = false)
+
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date approved;
-	
-	@Column(nullable = false)
+
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date registered;
-	
-	@Column(nullable = false)
-	private Boolean enabled;
 
-	@Column(nullable = false, name = "creationdate")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date creationDate;
+    @Column(nullable = false)
+    private Boolean enabled;
 
-	@Column(nullable = false, name = "createdby")
-	private String createdBy;
+    @Column(nullable = false, name = "creationdate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate;
 
-	@Column(nullable = false, name = "modificationdate")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date modificationDate;
+    @Column(nullable = false, name = "createdby")
+    private String createdBy;
 
-	@Column(nullable = false, name = "modifiedby")
-	private String modifiedBy;
+    @Column(nullable = false, name = "modificationdate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date modificationDate;
 
-	public Long getIdExpiration() {
-		return idExpiration;
-	}
+    @Column(nullable = false, name = "modifiedby")
+    private String modifiedBy;
 
-	public void setIdExpiration(Long idExpiration) {
-		this.idExpiration = idExpiration;
-	}
+    public Long getIdExpiration() {
+        return idExpiration;
+    }
 
-	public TaskTemplate getTaskTemplate() {
-		return taskTemplate;
-	}
+    public void setIdExpiration(Long idExpiration) {
+        this.idExpiration = idExpiration;
+    }
 
-	public void setTaskTemplate(TaskTemplate taskTemplate) {
-		this.taskTemplate = taskTemplate;
-	}
+    public TaskTemplate getTaskTemplate() {
+        return taskTemplate;
+    }
 
-	public Task getTask() {
-		return task;
-	}
+    public void setTaskTemplate(TaskTemplate taskTemplate) {
+        this.taskTemplate = taskTemplate;
+    }
 
-	public void setTask(Task task) {
-		this.task = task;
-	}
+    public Task getTask() {
+        return task;
+    }
 
-	public Office getOffice() {
-		return office;
-	}
+    public void setTask(Task task) {
+        this.task = task;
+    }
 
-	public void setOffice(Office office) {
-		this.office = office;
-	}
+    public Office getOffice() {
+        return office;
+    }
 
-	public Set<ExpirationActivity> getExpirationActivities() {
-		return expirationActivities;
-	}
+    public void setOffice(Office office) {
+        this.office = office;
+    }
 
-	public void setExpirationActivities(Set<ExpirationActivity> expirationActivities) {
-		this.expirationActivities = expirationActivities;
-	}
+    public Set<ExpirationActivity> getExpirationActivities() {
+        return expirationActivities;
+    }
 
-	public String getExpirationClosableBy() {
-		return expirationClosableBy;
-	}
+    public void setExpirationActivities(Set<ExpirationActivity> expirationActivities) {
+        this.expirationActivities = expirationActivities;
+    }
 
-	public void setExpirationClosableBy(String expirationClosableBy) {
-		this.expirationClosableBy = expirationClosableBy;
-	}
+    public Integer getExpirationClosableBy() {
+        return expirationClosableBy;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public void setExpirationClosableBy(Integer expirationClosableBy) {
+        this.expirationClosableBy = expirationClosableBy;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public Date getExpirationDate() {
-		return expirationDate;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
 
-	public Date getApproved() {
-		return approved;
-	}
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 
-	public void setApproved(Date approved) {
-		this.approved = approved;
-	}
+    public Date getApproved() {
+        return approved;
+    }
 
-	public Date getCompleted() {
-		return completed;
-	}
+    public void setApproved(Date approved) {
+        this.approved = approved;
+    }
 
-	public void setCompleted(Date completed) {
-		this.completed = completed;
-	}
+    public Date getCompleted() {
+        return completed;
+    }
 
-	public Date getRegistered() {
-		return registered;
-	}
+    public void setCompleted(Date completed) {
+        this.completed = completed;
+    }
 
-	public void setRegistered(Date registered) {
-		this.registered = registered;
-	}
+    public Date getRegistered() {
+        return registered;
+    }
 
-	public Boolean getEnabled() {
-		return enabled;
-	}
+    public void setRegistered(Date registered) {
+        this.registered = registered;
+    }
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
-	}
+    public Boolean getEnabled() {
+        return enabled;
+    }
 
-	public Date getCreationDate() {
-		return creationDate;
-	}
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
+    public Date getCreationDate() {
+        return creationDate;
+    }
 
-	public String getCreatedBy() {
-		return createdBy;
-	}
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
+    public String getCreatedBy() {
+        return createdBy;
+    }
 
-	public Date getModificationDate() {
-		return modificationDate;
-	}
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
 
-	public void setModificationDate(Date modificationDate) {
-		this.modificationDate = modificationDate;
-	}
+    public Date getModificationDate() {
+        return modificationDate;
+    }
 
-	public String getModifiedBy() {
-		return modifiedBy;
-	}
+    public void setModificationDate(Date modificationDate) {
+        this.modificationDate = modificationDate;
+    }
 
-	public void setModifiedBy(String modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
-	
-	
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+
 }

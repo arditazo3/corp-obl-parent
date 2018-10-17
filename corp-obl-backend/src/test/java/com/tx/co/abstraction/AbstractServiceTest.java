@@ -1,5 +1,7 @@
 package com.tx.co.abstraction;
 
+import com.tx.co.front_end.expiration.repository.ExpirationRepository;
+import com.tx.co.front_end.expiration.service.ExpirationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tx.co.back_office.task.repository.TaskRepository;
@@ -16,6 +18,8 @@ public class AbstractServiceTest extends AbstractApiTest {
 	private ITaskService taskService;
 	private ITaskTemplateService taskTemplateService; 
 	private TaskRepository taskRepository;
+	private ExpirationService expirationService;
+	private ExpirationRepository expirationRepository;
 
 	public ITaskService getTaskService() {
 		return taskService;
@@ -41,5 +45,23 @@ public class AbstractServiceTest extends AbstractApiTest {
 	@Autowired
 	public void setTaskRepository(TaskRepository taskRepository) {
 		this.taskRepository = taskRepository;
+	}
+
+	@Autowired
+	public void setExpirationRepository(ExpirationRepository expirationRepository) {
+		this.expirationRepository = expirationRepository;
+	}
+
+	public ExpirationRepository getExpirationRepository() {
+		return expirationRepository;
+	}
+
+	@Autowired
+	public void setExpirationService(ExpirationService expirationService) {
+		this.expirationService = expirationService;
+	}
+
+	public ExpirationService getExpirationService() {
+		return expirationService;
 	}
 }

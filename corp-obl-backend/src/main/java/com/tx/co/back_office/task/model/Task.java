@@ -53,13 +53,13 @@ public class Task implements Serializable {
 	@OneToMany
 	@JoinColumn (name = "task_id", insertable = false, updatable = false)
 	@Fetch(value = FetchMode.JOIN)
-	@Where(clause = "enabled = 1")
+//	@Where(clause = "enabled = 1")
     private Set<TaskOffice> taskOffices = new HashSet<>();
 	
 	@OneToMany
 	@JoinColumn (name = "task_id", insertable = false, updatable = false)
 	@Fetch(value = FetchMode.JOIN)
-	@Where(clause = "enabled = 1")
+//	@Where(clause = "enabled = 1")
     private Set<Expiration> expirations = new HashSet<>();
 	
 	@Column(nullable = false)

@@ -954,7 +954,8 @@ public abstract class ObjectResult extends UpdateCacheData {
 		ExpirationResult expirationResult = new ExpirationResult();
 		
 		expirationResult.setIdExpiration(expiration.getIdExpiration());
-		expirationResult.setExpirationClosableBy(expiration.getExpirationClosableBy());
+		// rfratti edited after converting Expiration.expirationClosableBy into Integer (as DB)
+		expirationResult.setExpirationClosableBy(expiration.getExpirationClosableBy()+"");
 		expirationResult.setUsername(expiration.getUsername());
 		expirationResult.setExpirationDate(expiration.getExpirationDate());
 		expirationResult.setCompleted(expiration.getCompleted());
