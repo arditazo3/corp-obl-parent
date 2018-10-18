@@ -196,7 +196,9 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		// New Expiration
 		if(isEmpty(expiration.getIdExpiration())) {
 			expiration.setCreationDate(new Date());
+			expiration.setModificationDate(new Date());
 			expiration.setCreatedBy(username);
+			expiration.setModifiedBy(username);
 			expiration.setEnabled(true);
 			expirationStored = expiration;
 
@@ -254,7 +256,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 	public List<Expiration> getSchedulerRemovableExpirationList(long taskId) {
 
 		final List<Expiration> result = new LinkedList<>();
-		String querySql = " select e from Task t " +
+		String querySql = " select e.id from Task t " +
 				" inner join t.taskOffices tof " +
 				" inner join tof.taskOfficeRelations tor " +
 				" inner join t.expirations e " +
@@ -263,19 +265,21 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 				" and tor.enabled = 0 and tor.relationType = 2 " +
 				" and tor.username = e.username " +
 				" and e.expirationDate > DATE(CONCAT(CURDATE(), ' 23:59:59')) " +
+				" group by e.id " +
 				" having count(ea.id) = 0 "
 				;
 		Query query = em.createQuery(querySql);
 		result.addAll(query.getResultList());
 
-		querySql = " select e from corporate_obligations.co_task t " +
-				" inner join corporate_obligations.co_taskoffice tof on t.id = tof.task_id " +
-				" inner join corporate_obligations.co_taskofficerelations tor on tof.id = tor.taskoffice_id " +
-				" inner join corporate_obligations.co_expiration e on t.id = e.task_id " +
-				" left join corporate_obligations.co_expirationactivity ea on e.id = ea.expiration_id " +
-				" where t.id = " + taskId + " and e.expirationclosableby = 1  " +
-				" and tor.enabled = 1 and tor.relationtype = 2 " +
-				" and e.expirationdate > DATE(CONCAT(CURDATE(), ' 23:59:59')) " +
+		querySql = " select e.id from Task t " +
+				" inner join t.taskOffices tof " +
+				" inner join tof.taskOfficeRelations tor " +
+				" inner join t.expirations e " +
+				" left join e.expirationActivities ea " +
+				" where t.id = " + taskId + " and e.expirationClosableBy = 1  " +
+				" and tor.enabled = 1 and tor.relationType = 2 " +
+				" and e.expirationDate > DATE(CONCAT(CURDATE(), ' 23:59:59')) " +
+				" group by e.id " +
 				" having count(ea.id) = 0 and count(tor.id) = 0 ";
 
 		query = em.createQuery(querySql);
@@ -283,6 +287,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 		return result;
 	}
+
 
 	/**
 	 * @param expirationList
