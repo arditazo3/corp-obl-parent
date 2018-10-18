@@ -80,7 +80,7 @@
                                                [clearable]="false"
                                                [(ngModel)]="selectedPeriodicity"
                                                [ngModelOptions]="{standalone: true}"
-                                               (change)="onChangePeriodicity()"
+                                               (change)="onChangePeriodExpiration()"
                                                placeholder="Select Periodicity">
                                     </ng-select>
                                     <div *ngIf="submitted && !selectedPeriodicity" class="invalid-feedback-show">
@@ -97,7 +97,7 @@
                                                [searchable]="true"
                                                [clearable]="false"
                                                [(ngModel)]="selectedExpirationType"
-                                               (change)="onChangeExpiration()"
+                                               (change)="onChangePeriodExpiration()"
                                                [ngModelOptions]="{standalone: true}"
                                                placeholder="Select Expiration type">
                                     </ng-select>
@@ -107,35 +107,28 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-4">
-                                <div class="form-group">
+                                <div class="form-group" *ngIf="isFixedDay">
                                     <label class="control-label col-form-label">Day</label>
-                                    <!--<input type="number" class="form-control"-->
-                                           <!--formControlName="day"-->
-                                           <!--id="dayInput"-->
-                                           <!--*ngIf="!isFixedDay || (isFixedDay && isMonthly)"-->
-                                           <!--(keyup)="onKeyUpDay()"-->
-                                           <!--[ngClass]="{'is-invalid': submitted && f.day.errors }">-->
+                                    <input type="number" class="form-control"
+                                           id="dayInput"
+                                           [ngModelOptions]="{standalone: true}"
+                                           [(ngModel)]="dayNumberTI"
+                                           *ngIf="isMonthly">
                                     <my-date-picker name="dateOfDay"
-                                                    *ngIf="!(isFixedDay && isWeekly)"
+                                                    *ngIf="isYearly"
                                                     [options]="myDatePickerOptionsTaskTempl"
                                                     [ngModelOptions]="{standalone: true}"
-                                                    [disabled]="!isFixedDay"
-                                                    [(ngModel)]="dateOfDay"></my-date-picker>
+                                                    [(ngModel)]="dayDateDP"></my-date-picker>
                                     <ng-select [items]="periodWeeklyExpFixedDay | async"
                                                bindLabel="description"
                                                id="daySelect"
                                                [searchable]="true"
                                                [clearable]="false"
-                                               [disabled]="!isFixedDay"
-                                               *ngIf="isFixedDay && isWeekly"
+                                               *ngIf="isWeekly"
                                                [(ngModel)]="selectedPeriodWeeklyExpFixedDay"
-                                               (change)="onChangeExpiration()"
                                                [ngModelOptions]="{standalone: true}"
                                                placeholder="Select a day">
                                     </ng-select>
-                                    <div *ngIf="submitted && f.day.errors" class="invalid-feedback">
-                                        <div *ngIf="f.day.errors.required">Day is required</div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
