@@ -718,8 +718,13 @@ public abstract class ObjectResult extends UpdateCacheData {
 			ObjectSearchTaskTemplateResult objectSearchTaskTemplateResult) {
 		ObjectSearchTaskTemplate objectSearchTaskTemplate = new ObjectSearchTaskTemplate();
 
-		objectSearchTaskTemplate
-				.setDescriptionTaskTemplate(objectSearchTaskTemplateResult.getDescriptionTaskTemplate());
+		if(isEmpty(objectSearchTaskTemplateResult.getDescriptionTaskTemplate())) {
+			objectSearchTaskTemplate.setDescriptionTaskTemplate("");
+		} else {
+			objectSearchTaskTemplate
+			.setDescriptionTaskTemplate(objectSearchTaskTemplateResult.getDescriptionTaskTemplate());	
+		}
+
 		if (!isEmpty(objectSearchTaskTemplateResult.getCompanies())) {
 			List<Company> companies = new ArrayList<>();
 			for (CompanyResult companyResult : objectSearchTaskTemplateResult.getCompanies()) {
@@ -939,7 +944,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 
 		String colorDefined = buildColor(taskTemplateExpirationsResult);
 		taskTemplateExpirationsResult.setColorDefined(colorDefined);
-		
+
 		if (!isEmpty(taskTemplateExpirations.getTasks())) {
 			List<TaskExpirationsResult> taskExpirationsResults = new ArrayList<>();
 			for (Task task : taskTemplateExpirations.getTasks()) {
@@ -949,10 +954,10 @@ public abstract class ObjectResult extends UpdateCacheData {
 		}
 		return taskTemplateExpirationsResult;
 	}
-	
+
 	public ExpirationResult toExpirationResult(Expiration expiration) {
 		ExpirationResult expirationResult = new ExpirationResult();
-		
+
 		expirationResult.setIdExpiration(expiration.getIdExpiration());
 		// rfratti edited after converting Expiration.expirationClosableBy into Integer (as DB)
 		expirationResult.setExpirationClosableBy(expiration.getExpirationClosableBy()+"");
@@ -961,15 +966,15 @@ public abstract class ObjectResult extends UpdateCacheData {
 		expirationResult.setCompleted(expiration.getCompleted());
 		expirationResult.setApproved(expiration.getApproved());
 		expirationResult.setRegistered(expiration.getRegistered());
-		
+
 		return expirationResult;
 	}
-	
+
 	public String buildColor(TaskTemplateExpirationsResult taskTemplateExpiration) {
-		
+
 		Integer totalExpirations = taskTemplateExpiration.getTotalExpirations();
 		Integer totalCompleted = taskTemplateExpiration.getTotalCompleted();
-		
+
 		String colorDefined = "";
 		if(totalExpirations > 0) {
 			if(totalExpirations.compareTo(totalCompleted) == 0) {
@@ -982,7 +987,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		} else {
 			colorDefined = "";
 		}
-		
+
 		return colorDefined;
 	}
 }

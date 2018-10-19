@@ -36,7 +36,7 @@ export class AssociationOfficeComponent implements OnInit {
 
         const me = this;
 
-        me.officesObservable = me.officeService.getOfficesByRole()
+        me.officesObservable = me.officeService.getOfficesByRole();
         me.usersObservable = me.userService.getAllUsersExceptAdminRole();
 
         me.getTaskOfficesArray(null);

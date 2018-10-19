@@ -19,7 +19,7 @@ export class AppGlobals {
             date:
                 {
                     year: date.getFullYear(),
-                    month: date.getMonth() + 1,
+                    month: date.getMonth(),
                     day: date.getDate()
                 }
         };

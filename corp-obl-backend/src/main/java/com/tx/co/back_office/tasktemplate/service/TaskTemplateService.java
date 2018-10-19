@@ -311,16 +311,18 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 				List<Office> officeCounterList = new ArrayList<>();
 
-				Task singleTask = taskTemplate.getTasks().iterator().next();
+				if(!isEmpty(taskTemplate.getTasks())) {
+					Task singleTask = taskTemplate.getTasks().iterator().next();
 
-				for (TaskOffice taskOfficeLoop : singleTask.getTaskOffices()) {
-					officeCounterList.add(taskOfficeLoop.getOffice());
+					for (TaskOffice taskOfficeLoop : singleTask.getTaskOffices()) {
+						officeCounterList.add(taskOfficeLoop.getOffice());
+					}
+
+					List<Office> uniqueOffices = officeCounterList.stream()
+							.collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(Office::getIdOffice))), ArrayList::new));
+
+					taskTemplate.setCounterOffices(uniqueOffices.size());
 				}
-
-				List<Office> uniqueOffices = officeCounterList.stream()
-						.collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(Office::getIdOffice))), ArrayList::new));
-
-				taskTemplate.setCounterOffices(uniqueOffices.size());
 			}
 		}
 
@@ -361,11 +363,17 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 				description += getTranslationByLangLikeTablename(new TranslationPairKey(task.getExpirationType(), lang)).getDescription();
 			
-				if (task.getExpirationType().compareTo(EXP_FIX_DAY) == 0) {
+				if (task.getExpirationType().compareTo(EXP_FIX_DAY) == 0 && !isEmpty(task.getDay())) {
 					if(task.getRecurrence().compareTo(REC_YEARLY) == 0) {
-						description += " - 31/12";
+						String dayString = task.getDay().toString();
+						if(dayString.length() == 8) {
+							String[] splitYearMonthDay = {dayString.substring(0, 4), dayString.substring(4, 6), dayString.substring(6)};
+							description += " - " + splitYearMonthDay[2] + "/" + splitYearMonthDay[1];
+						}
+					} else if(task.getRecurrence().compareTo(REC_WEEKLY) == 0) {
+						description += " - " + getTranslationByLangLikeTablename(new TranslationPairKey("period_weekly_exp_fixed_day#".concat(task.getDay().toString()), lang)).getDescription();
 					} else {
-						description += " - " + task.getDay();	
+						description += " - " + task.getDay();
 					}
 				}
 			} else if(object instanceof TaskTemplate) {
