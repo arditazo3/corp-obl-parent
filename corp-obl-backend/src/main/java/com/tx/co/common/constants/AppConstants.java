@@ -34,6 +34,9 @@ public class AppConstants {
 	 public static final String EXP_MONTH_START = "month_start";
 	 public static final String EXP_MONTH_END = "month_end";
 	 
+	 public static final int EXP_CLOSABLEBY_ALL = 1;
+	 public static final int EXP_CLOSABLEBY_ONE = 2;
+	 
 	 public static final String TASK_FILE_ICOMING = "TASK_FILE_ICOMING";
 	 public static final String EXP_FILE_ICOMING = "EXP_FILE_ICOMING";
 }

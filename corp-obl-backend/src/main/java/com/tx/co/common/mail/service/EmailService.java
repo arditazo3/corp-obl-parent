@@ -23,10 +23,12 @@ public class EmailService implements IEmailService {
 	@Autowired
 	public JavaMailSender emailSender;
 
-	public void sendSimpleMessage(String to, String subject, String text) {
+	public void sendSimpleMessage(String to, String cc, String bcc, String subject, String text) {
 		try {
 			SimpleMailMessage message = new SimpleMailMessage();
 			message.setTo(to);
+			message.setCc(cc);
+			message.setBcc(bcc);
 			message.setSubject(subject);
 			message.setText(text);
 
@@ -37,19 +39,21 @@ public class EmailService implements IEmailService {
 	}
 
 	@Override
-	public void sendSimpleMessageUsingTemplate(String to, String subject, SimpleMailMessage template, String ...templateArgs) {
+	public void sendSimpleMessageUsingTemplate(String to, String cc, String bcc,  String subject, SimpleMailMessage template, String ...templateArgs) {
 		String text = template.getText() + templateArgs;  
-		sendSimpleMessage(to, subject, text);
+		sendSimpleMessage(to, cc, bcc, subject, text);
 	}
 
 	@Override
-	public void sendMessageWithAttachment(String to, String subject, String text, String pathToAttachment) {
+	public void sendMessageWithAttachment(String to, String cc, String bcc,  String subject, String text, String pathToAttachment) {
 		try {
 			MimeMessage message = emailSender.createMimeMessage();
 			// pass 'true' to the constructor to create a multipart message
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
 			helper.setTo(to);
+			helper.setCc(cc);
+			helper.setBcc(bcc);
 			helper.setSubject(subject);
 			helper.setText(text);
 

@@ -17,12 +17,12 @@ public interface IExpirationService {
      * @return list of removable {@link Expiration}
      * @author rfratti
      */
-    List<Expiration> getSchedulerRemovableExpirationList(long taskId);
+    Iterable<Expiration> getSchedulerRemovableExpirationList(long taskId);
 
     /**
      * @param expirationList
      * @return update list of {@link Expiration}
      * @author rfratti
      */
-    boolean updateExpirationList(final List<Expiration> expirationList);
+    boolean updateExpirationList(final Iterable<Expiration> expirationList);
 }

@@ -64,7 +64,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 	/**
 	 * @author rfratti
-	 * @return return list of task for scheduler
+	 * @return return list of enabled task for scheduler
 	 */
 	@Override
 	public List<Task> getAllTasksForScheduler() {

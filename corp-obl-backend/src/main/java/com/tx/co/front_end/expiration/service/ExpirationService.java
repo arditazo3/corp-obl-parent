@@ -1,7 +1,5 @@
 package com.tx.co.front_end.expiration.service;
 
-import static com.tx.co.common.constants.AppConstants.*;
-
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
@@ -26,6 +24,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.*;
 
+import static com.tx.co.common.constants.AppConstants.ADMIN;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 /**
@@ -36,274 +35,274 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @Service
 public class ExpirationService extends UpdateCacheData implements IExpirationService, IUserManagementDetails {
 
-	private static final Logger logger = LogManager.getLogger(ExpirationService.class);
-	
-	private ExpirationRepository expirationRepository;
-	private IExpirationActivityService expirationActivityService;
-	private EntityManager em;
+    private static final Logger logger = LogManager.getLogger(ExpirationService.class);
 
-	@Autowired
-	public void setExpirationRepository(ExpirationRepository expirationRepository) {
-		this.expirationRepository = expirationRepository;
-	}
+    private ExpirationRepository expirationRepository;
+    private IExpirationActivityService expirationActivityService;
+    private EntityManager em;
 
-	@Autowired
-	public void setExpirationActivityService(IExpirationActivityService expirationActivityService) {
-		this.expirationActivityService = expirationActivityService;
-	}
+    @Autowired
+    public void setExpirationRepository(ExpirationRepository expirationRepository) {
+        this.expirationRepository = expirationRepository;
+    }
 
-	@Autowired
-	public void setEm(EntityManager em) {
-		this.em = em;
-	}
+    @Autowired
+    public void setExpirationActivityService(IExpirationActivityService expirationActivityService) {
+        this.expirationActivityService = expirationActivityService;
+    }
 
-	@Override
-	public AuthenticationTokenUserDetails getTokenUserDetails() {
-		return (AuthenticationTokenUserDetails)
-				SecurityContextHolder.getContext().getAuthentication().getDetails();
-	}
+    @Autowired
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<TaskTemplateExpirations> searchDateExpirationOffices(
-			DateExpirationOfficesHasArchived dateExpirationOfficesHasArchived) {
+    @Override
+    public AuthenticationTokenUserDetails getTokenUserDetails() {
+        return (AuthenticationTokenUserDetails)
+                SecurityContextHolder.getContext().getAuthentication().getDetails();
+    }
 
-		logger.info("Searching Task Templates Expirations");
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<TaskTemplateExpirations> searchDateExpirationOffices(
+            DateExpirationOfficesHasArchived dateExpirationOfficesHasArchived) {
 
-		User userLoggedIn = getTokenUserDetails().getUser();
-		String username = userLoggedIn.getUsername();
+        logger.info("Searching Task Templates Expirations");
 
-		Date dateStart = dateExpirationOfficesHasArchived.getDateStart();
-		Date endDate = dateExpirationOfficesHasArchived.getDateEnd();
-		List<Office> offices = dateExpirationOfficesHasArchived.getOffices();
-		Boolean hasArchived = dateExpirationOfficesHasArchived.getHasArchived();
+        User userLoggedIn = getTokenUserDetails().getUser();
+        String username = userLoggedIn.getUsername();
 
-		String querySql = "select tt " +
-				"from Expiration e " +
-				"left join e.taskTemplate tt " +
-				"left join tt.tasks t " +
-				"left join t.taskOffices to " +
-				"left join to.office o ";
+        Date dateStart = dateExpirationOfficesHasArchived.getDateStart();
+        Date endDate = dateExpirationOfficesHasArchived.getDateEnd();
+        List<Office> offices = dateExpirationOfficesHasArchived.getOffices();
+        Boolean hasArchived = dateExpirationOfficesHasArchived.getHasArchived();
 
-		Query query;
+        String querySql = "select tt " +
+                "from Expiration e " +
+                "left join e.taskTemplate tt " +
+                "left join tt.tasks t " +
+                "left join t.taskOffices to " +
+                "left join to.office o ";
 
-		if ((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER) ||
-				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER)) &&
-				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+        Query query;
 
-			querySql += "left join to.office o " +
-					"left join o.company c " +
-					"left join c.companyUsers cu " +
-					"left join cu.user u on cu.username = u.username ";
-		}
+        if ((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER) ||
+                userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER)) &&
+                !userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 
-		querySql += " where e.enabled <> 0 ";
+            querySql += "left join to.office o " +
+                    "left join o.company c " +
+                    "left join c.companyUsers cu " +
+                    "left join cu.user u on cu.username = u.username ";
+        }
 
-		if (!isEmpty(dateStart) && !isEmpty(endDate)) {
+        querySql += " where e.enabled <> 0 ";
 
-			querySql += "and e.expirationDate between :dateStart and :endDate ";
-		}
-		if (!isEmpty(offices)) {
-			querySql += "and to.office in :officeList ";
-		}
-		if (hasArchived) {
-			querySql += "or e.registered < :dateNow ";
-		}
-		if ((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER) ||
-				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER)) &&
-				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
-			querySql += "and cu.username = :username ";
-		}
+        if (!isEmpty(dateStart) && !isEmpty(endDate)) {
 
-		querySql += "group by tt.idTaskTemplate, o.idOffice, e.expirationDate " +
-				"order by e.expirationDate desc ";
+            querySql += "and e.expirationDate between :dateStart and :endDate ";
+        }
+        if (!isEmpty(offices)) {
+            querySql += "and to.office in :officeList ";
+        }
+        if (hasArchived) {
+            querySql += "or e.registered < :dateNow ";
+        }
+        if ((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER) ||
+                userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER)) &&
+                !userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+            querySql += "and cu.username = :username ";
+        }
 
-		query = em.createQuery(querySql);
+        querySql += "group by tt.idTaskTemplate, o.idOffice, e.expirationDate " +
+                "order by e.expirationDate desc ";
 
-		if ((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER) ||
-				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER)) &&
-				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
-			query.setParameter("username", username);
-		}
-		if (!isEmpty(dateStart) && !isEmpty(endDate)) {
+        query = em.createQuery(querySql);
 
-			query.setParameter("dateStart", dateStart);
-			query.setParameter("endDate", endDate);
-		}
-		if (!isEmpty(offices)) {
-			query.setParameter("officeList", offices);
-		}
-		if (hasArchived) {
-			query.setParameter("dateNow", new Date());
-		}
+        if ((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER) ||
+                userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER)) &&
+                !userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+            query.setParameter("username", username);
+        }
+        if (!isEmpty(dateStart) && !isEmpty(endDate)) {
 
-		return convertToTaskTemplateExpirations(query.getResultList());
-	}
+            query.setParameter("dateStart", dateStart);
+            query.setParameter("endDate", endDate);
+        }
+        if (!isEmpty(offices)) {
+            query.setParameter("officeList", offices);
+        }
+        if (hasArchived) {
+            query.setParameter("dateNow", new Date());
+        }
 
-	public List<TaskTemplateExpirations> convertToTaskTemplateExpirations(List<TaskTemplate> taskTemplates) {
+        return convertToTaskTemplateExpirations(query.getResultList());
+    }
 
-		List<TaskTemplateExpirations> taskTemplateExpirations = new ArrayList<>();
+    public List<TaskTemplateExpirations> convertToTaskTemplateExpirations(List<TaskTemplate> taskTemplates) {
 
-		for (TaskTemplate taskTemplateLoop : taskTemplates) {
+        List<TaskTemplateExpirations> taskTemplateExpirations = new ArrayList<>();
 
-			TaskTemplateExpirations taskTemplateExpiration = new TaskTemplateExpirations();
-			taskTemplateExpiration.setIdTaskTemplate(taskTemplateLoop.getIdTaskTemplate());
-			taskTemplateExpiration.setDescription(taskTemplateLoop.getDescription());
+        for (TaskTemplate taskTemplateLoop : taskTemplates) {
 
-			if (!isEmpty(taskTemplateLoop.getTasks())) {
+            TaskTemplateExpirations taskTemplateExpiration = new TaskTemplateExpirations();
+            taskTemplateExpiration.setIdTaskTemplate(taskTemplateLoop.getIdTaskTemplate());
+            taskTemplateExpiration.setDescription(taskTemplateLoop.getDescription());
 
-				int countTaskExpiration = 0;
-				int countTaskExpirationCompleted = 0;
-				for (Task taskLoop : taskTemplateLoop.getTasks()) {
+            if (!isEmpty(taskTemplateLoop.getTasks())) {
 
-					if (!isEmpty(taskLoop.getExpirations())) {
-						for (Expiration expirationLoop : taskLoop.getExpirations()) {
+                int countTaskExpiration = 0;
+                int countTaskExpirationCompleted = 0;
+                for (Task taskLoop : taskTemplateLoop.getTasks()) {
 
-							if (expirationLoop.getCompleted().compareTo(new Date()) < 0) {
-								countTaskExpirationCompleted++;
-							}
+                    if (!isEmpty(taskLoop.getExpirations())) {
+                        for (Expiration expirationLoop : taskLoop.getExpirations()) {
 
-							countTaskExpiration++;
-						}
-					}
-				}
+                            if (expirationLoop.getCompleted().compareTo(new Date()) < 0) {
+                                countTaskExpirationCompleted++;
+                            }
 
-				// TODO To ask Roberto
-				taskTemplateExpiration.setTotalExpirations(countTaskExpiration);
-				taskTemplateExpiration.setTotalCompleted(countTaskExpirationCompleted);
+                            countTaskExpiration++;
+                        }
+                    }
+                }
 
-				taskTemplateExpiration.setTasks(taskTemplateLoop.getTasks());
-			}
-			taskTemplateExpirations.add(taskTemplateExpiration);
-		}
+                // TODO To ask Roberto
+                taskTemplateExpiration.setTotalExpirations(countTaskExpiration);
+                taskTemplateExpiration.setTotalCompleted(countTaskExpirationCompleted);
 
-		return taskTemplateExpirations;
-	}
+                taskTemplateExpiration.setTasks(taskTemplateLoop.getTasks());
+            }
+            taskTemplateExpirations.add(taskTemplateExpiration);
+        }
 
-	@Override
-	public Expiration saveUpdateExpiration(Expiration expiration) {
+        return taskTemplateExpirations;
+    }
 
-		// The modification of User
-		String username = ADMIN;
-		try {
-			username = getTokenUserDetails().getUser().getUsername();
-		} catch (Exception e) {
-			logger.info("Job process of the Expiration");
-		}
+    @Override
+    public Expiration saveUpdateExpiration(Expiration expiration) {
 
-		Expiration expirationStored = null;
+        // The modification of User
+        String username = ADMIN;
+        try {
+            username = getTokenUserDetails().getUser().getUsername();
+        } catch (Exception e) {
+            logger.info("Job process of the Expiration");
+        }
 
-		// New Expiration
-		if(isEmpty(expiration.getIdExpiration())) {
-			expiration.setCreationDate(new Date());
-			expiration.setModificationDate(new Date());
-			expiration.setCreatedBy(username);
-			expiration.setModifiedBy(username);
-			expiration.setEnabled(true);
-			expirationStored = expiration;
+        Expiration expirationStored = null;
 
-			logger.info("Creating the new expiration");
-		} else { // Existing Expiration
-			Optional<Expiration> expirationOptional = expirationRepository.findById(expiration.getIdExpiration());
+        // New Expiration
+        if (isEmpty(expiration.getIdExpiration())) {
+            expiration.setCreationDate(new Date());
+            expiration.setModificationDate(new Date());
+            expiration.setCreatedBy(username);
+            expiration.setModifiedBy(username);
+            expiration.setEnabled(true);
+            expirationStored = expiration;
 
-			if(expirationOptional.isPresent()) {
-				expirationStored = expirationOptional.get();
-			} else {
-				throw new GeneralException("Expiration not found, id: " + expiration.getIdExpiration());
-			}
+            logger.info("Creating the new expiration");
+        } else { // Existing Expiration
+            Optional<Expiration> expirationOptional = expirationRepository.findById(expiration.getIdExpiration());
 
-			logger.info("Updating the expiration with id: " + expiration.getIdExpiration());
-		}
+            if (expirationOptional.isPresent()) {
+                expirationStored = expirationOptional.get();
+            } else {
+                throw new GeneralException("Expiration not found, id: " + expiration.getIdExpiration());
+            }
 
-		expirationStored.setTaskTemplate(expiration.getTaskTemplate());
-		expirationStored.setTask(expiration.getTask());
-		expirationStored.setOffice(expiration.getOffice());
-		expirationStored.setExpirationClosableBy(expiration.getExpirationClosableBy());
-		expirationStored.setExpirationDate(expiration.getExpirationDate());
-		if(!isEmpty(expiration.getCompleted())) {
-			expirationStored.setCompleted(expiration.getCompleted());
-		}
-		if(!isEmpty(expiration.getApproved())) {
-			expirationStored.setApproved(expiration.getApproved());
-		}
-		if(!isEmpty(expiration.getRegistered())) {
-			expirationStored.setRegistered(expiration.getRegistered());
-		}
+            logger.info("Updating the expiration with id: " + expiration.getIdExpiration());
+        }
 
-		expirationStored = expirationRepository.save(expirationStored);
+        expirationStored.setTaskTemplate(expiration.getTaskTemplate());
+        expirationStored.setTask(expiration.getTask());
+        expirationStored.setOffice(expiration.getOffice());
+        expirationStored.setExpirationClosableBy(expiration.getExpirationClosableBy());
+        expirationStored.setExpirationDate(expiration.getExpirationDate());
+        if (!isEmpty(expiration.getCompleted())) {
+            expirationStored.setCompleted(expiration.getCompleted());
+        }
+        if (!isEmpty(expiration.getApproved())) {
+            expirationStored.setApproved(expiration.getApproved());
+        }
+        if (!isEmpty(expiration.getRegistered())) {
+            expirationStored.setRegistered(expiration.getRegistered());
+        }
 
-		if(!isEmpty(expiration.getExpirationActivities())) {
-			List<ExpirationActivity> expirationActivities = new ArrayList<>();
-			for (ExpirationActivity expirationActivityLoop : expiration.getExpirationActivities()) {
+        expirationStored = expirationRepository.save(expirationStored);
 
-				ExpirationActivity expirationActivity = expirationActivityService.
-						saveUpdateExpirationActivity(expirationStored, expirationActivityLoop);
-				
-				expirationActivities.add(expirationActivity);
-			}
-			expirationStored.setExpirationActivities(new HashSet<ExpirationActivity>(expirationActivities));
-		}
-		return expirationStored;
-	}
+        if (!isEmpty(expiration.getExpirationActivities())) {
+            List<ExpirationActivity> expirationActivities = new ArrayList<>();
+            for (ExpirationActivity expirationActivityLoop : expiration.getExpirationActivities()) {
 
-	/**
-	 * author rfratti
-	 *
-	 * @param taskId
-	 * @return list of removable expirations
-	 */
-	@Override
-	public List<Expiration> getSchedulerRemovableExpirationList(long taskId) {
+                ExpirationActivity expirationActivity = expirationActivityService.
+                        saveUpdateExpirationActivity(expirationStored, expirationActivityLoop);
 
-		final List<Expiration> result = new LinkedList<>();
-		String querySql = " select e.id from Task t " +
-				" inner join t.taskOffices tof " +
-				" inner join tof.taskOfficeRelations tor " +
-				" inner join t.expirations e " +
-				" left join e.expirationActivities ea " +
-				" where t.id = " + taskId + " and e.expirationClosableBy = 2  " +
-				" and tor.enabled = 0 and tor.relationType = 2 " +
-				" and tor.username = e.username " +
-				" and e.expirationDate > DATE(CONCAT(CURDATE(), ' 23:59:59')) " +
-				" group by e.id " +
-				" having count(ea.id) = 0 "
-				;
-		Query query = em.createQuery(querySql);
-		result.addAll(query.getResultList());
+                expirationActivities.add(expirationActivity);
+            }
+            expirationStored.setExpirationActivities(new HashSet<ExpirationActivity>(expirationActivities));
+        }
+        return expirationStored;
+    }
 
-		querySql = " select e.id from Task t " +
-				" inner join t.taskOffices tof " +
-				" inner join tof.taskOfficeRelations tor " +
-				" inner join t.expirations e " +
-				" left join e.expirationActivities ea " +
-				" where t.id = " + taskId + " and e.expirationClosableBy = 1  " +
-				" and tor.enabled = 1 and tor.relationType = 2 " +
-				" and e.expirationDate > DATE(CONCAT(CURDATE(), ' 23:59:59')) " +
-				" group by e.id " +
-				" having count(ea.id) = 0 and count(tor.id) = 0 ";
+    /**
+     * author rfratti
+     *
+     * @param taskId
+     * @return list of removable expirations
+     */
+    @Override
+    public Iterable<Expiration> getSchedulerRemovableExpirationList(long taskId) {
+        final List<Long> idList = new LinkedList<>();
+        String querySql = " select e.id from Task t " +
+                " inner join t.taskOffices tof " +
+                " inner join tof.taskOfficeRelations tor " +
+                " inner join t.expirations e " +
+                " left join e.expirationActivities ea " +
+                " where t.id = " + taskId + " and e.expirationClosableBy = 2  " +
+                " and tor.enabled = 0 and tor.relationType = 2 " +
+                " and tor.username = e.username " +
+                " and e.expirationDate > DATE(CONCAT(CURDATE(), ' 23:59:59')) " +
+                " group by e.id " +
+                " having count(ea.id) = 0 ";
+        Query query = em.createQuery(querySql);
+        idList.addAll(query.getResultList());
 
-		query = em.createQuery(querySql);
-		result.addAll(query.getResultList());
+        querySql = " select e.id from Task t " +
+                " inner join t.taskOffices tof " +
+                " inner join tof.taskOfficeRelations tor " +
+                " inner join t.expirations e " +
+                " left join e.expirationActivities ea " +
+                " where t.id = " + taskId + " and e.expirationClosableBy = 1  " +
+                " and tor.enabled = 1 and tor.relationType = 2 " +
+                " and e.expirationDate > DATE(CONCAT(CURDATE(), ' 23:59:59')) " +
+                " group by e.id " +
+                " having count(ea.id) = 0 and count(tor.id) = 0 ";
 
-		return result;
-	}
+        query = em.createQuery(querySql);
+        idList.addAll(query.getResultList());
+
+        final Iterable<Expiration> result = expirationRepository.findAllById(idList);
+
+        return result;
+    }
 
 
-	/**
-	 * @param expirationList
-	 * @return true if update is successfully
-	 * @author rfratti
-	 */
-	@Override
-	public boolean updateExpirationList(List<Expiration> expirationList) {
-		try {
-			final Iterable<Expiration> result = expirationRepository.saveAll(expirationList);
-			return ((Collection<?>) result).size() > 0;
-		} catch (Exception e) {
-			logger.error("Exception on updating list of expiration. Exception: " + e, e);
-		}
-		return false;
-	}
+    /**
+     * @param expirationList
+     * @return true if update is successfully
+     * @author rfratti
+     */
+    @Override
+    public boolean updateExpirationList(Iterable<Expiration> expirationList) {
+        try {
+            final Iterable<Expiration> result = expirationRepository.saveAll(expirationList);
+            return ((Collection<?>) result).size() > 0;
+        } catch (Exception e) {
+            logger.error("Exception on updating list of expiration. Exception: " + e, e);
+        }
+        return false;
+    }
 
 
 }
