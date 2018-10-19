@@ -80,7 +80,6 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     @ViewChild(AssociationOfficeComponent) associationOffice: AssociationOfficeComponent;
     createEditTaskTemplate: FormGroup;
 
-
     constructor(
         private router: Router,
         private transferService: TransferDataService,
@@ -206,7 +205,6 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             this.createEditTaskTemplate = this.formBuilder.group({
                 description: new FormControl({value: this.taskTemplate.description, disabled: false}, Validators.required),
                 expirationRadio: new FormControl(this.taskTemplate.expirationClosableBy, Validators.required),
-                //         day: new FormControl({value: this.taskTemplate.day, disabled: false}, Validators.required),
                 daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
                 frequenceOfNotice: new FormControl({value: this.taskTemplate.frequenceOfNotice, disabled: false}, Validators.required),
                 daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false},
@@ -217,7 +215,6 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         } else {
             this.createEditTaskTemplate = this.formBuilder.group({
                 description: new FormControl({value: this.task.taskTemplate.description, disabled: true}),
-                //        day: new FormControl({value: this.task.day, disabled: false}, Validators.required),
                 daysOfNotice: new FormControl({value: this.task.daysOfNotice, disabled: false}, Validators.required),
                 frequenceOfNotice: new FormControl({value: this.task.frequenceOfNotice, disabled: false}, Validators.required),
                 daysBeforeShowExpiration: new FormControl({value: this.task.daysBeforeShowExpiration, disabled: false}, Validators.required)
@@ -265,7 +262,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             return;
         }
 
-        this.dayValue = this.dayDateDP;
+   //     this.dayValue = this.dayDateDP;
 
         if (this.isTaskTemplateForm) {
             if ((this.selectedTopic === undefined ||

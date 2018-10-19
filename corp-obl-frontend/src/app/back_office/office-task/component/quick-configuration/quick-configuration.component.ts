@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/co
 import {TaskTemplate} from '../../../tasktemplate/model/tasktemplate';
 import {Task} from '../../../task/model/task';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Topic} from '../../../topic/model/topic';
 import {Translation} from '../../../../shared/common/translation/model/translation';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
@@ -22,6 +22,9 @@ import {saveAs as importedSaveAs} from 'file-saver';
 import {Office} from '../../../office/model/office';
 import {TaskOffice} from '../../../task/model/taskoffice';
 import {TaskTemplateOffice} from '../../model/tasktemplate-office';
+import {IMyOptions} from 'mydatepicker';
+import {AppGlobals} from '../../../../shared/common/api/app-globals';
+import {NgSelectComponent} from '@ng-select/ng-select';
 
 @Component({
     selector: 'app-quick-configuration',
@@ -31,6 +34,7 @@ import {TaskTemplateOffice} from '../../model/tasktemplate-office';
     providers: [UploadService]
 })
 export class QuickConfigurationComponent implements OnInit {
+
     isNewForm = true;
     isForeign = true;
     taskTemplate: TaskTemplate = new TaskTemplate();
@@ -44,20 +48,40 @@ export class QuickConfigurationComponent implements OnInit {
 
     topicsObservable: Observable<any[]>;
     periodicityObservable: Observable<any[]>;
+    expirationTypeOnlyFixedDayObservable: Observable<any[]>;
     expirationTypeObservable: Observable<any[]>;
+    periodWeeklyExpFixedDay: Observable<any[]>;
     selectedTopic: Topic;
     selectedPeriodicity: Translation;
+    selectedPeriodicityTypeChange: Subject<Translation> = new Subject<Translation>();
     selectedExpirationType: Translation;
+
+    dayNumberTI: any;
+    dayDateDP: any;
+    selectedPeriodWeeklyExpFixedDay: Translation;
+
+    dayValue: any;
+
+    isFixedDay = false;
+    isWeekly = false;
+    isMonthly = false;
+    isYearly = false;
+
+    myDatePickerOptionsTaskTempl: IMyOptions = {
+        // other options...
+        dateFormat: AppGlobals.dateFormat,
+        editableDateField: false
+    };
 
     uploader;
 
+    @ViewChild('selectExpiration') selectExpiration: NgSelectComponent;
     @ViewChild('cancelBtn') cancelBtn;
     @ViewChild('submitBtn') submitBtn;
     @ViewChild('confirmationTaskTemplateSwal') private confirmationTaskTemplateSwal: SwalComponent;
     @ViewChild('errorTaskTemplateSwal') private errorTaskTemplateSwal: SwalComponent;
     @ViewChild(AssociationOfficeComponent) associationOffice: AssociationOfficeComponent;
     createEditTaskTemplate: FormGroup;
-
 
     constructor(
         private router: Router,
@@ -70,6 +94,12 @@ export class QuickConfigurationComponent implements OnInit {
         private translationService: TranslationService,
         private uploadService: UploadService
     ) {
+        const me = this;
+        this.selectedPeriodicityTypeChange.subscribe(
+            value => {
+                me.swtichItemsExpirationSelect(value);
+            }
+        );
     }
 
     ngOnInit() {
@@ -100,7 +130,9 @@ export class QuickConfigurationComponent implements OnInit {
 
         this.getTopics();
         this.periodicityObservable = this.getTranslationLikeTablename('tasktemplate#periodicity');
+        this.expirationTypeOnlyFixedDayObservable = this.getTranslationLikeTablename('tasktemplate#expirationtype#fix_day');
         this.expirationTypeObservable = this.getTranslationLikeTablename('tasktemplate#expirationtype');
+        this.periodWeeklyExpFixedDay = this.getTranslationLikeTablename('tasktemplate#period_weekly_exp_fixed_day');
 
         if (!this.isNewForm) {
             this.submitBtn.nativeElement.innerText = 'Update Task Template';
@@ -111,7 +143,9 @@ export class QuickConfigurationComponent implements OnInit {
                 (data) => {
                     data.forEach((item) => {
                         if (item && item.tablename.indexOf(me.taskTemplate.recurrence) >= 0) {
+                            me.selectedPeriodicityTypeChange.next(item);
                             me.selectedPeriodicity = item;
+                            me.onChangePeriodExpiration(null);
                         }
                     });
                 }
@@ -121,7 +155,7 @@ export class QuickConfigurationComponent implements OnInit {
                     data.forEach((item) => {
                         if (item && item.tablename.indexOf(me.taskTemplate.expirationType) >= 0) {
                             me.selectedExpirationType = item;
-                            me.onChangeExpiration();
+                            me.onChangePeriodExpiration(null);
                         }
                     });
                 }
@@ -131,12 +165,14 @@ export class QuickConfigurationComponent implements OnInit {
         this.createEditTaskTemplate = this.formBuilder.group({
             description: new FormControl({value: this.taskTemplate.description, disabled: false}, Validators.required),
             expirationRadio: new FormControl(this.taskTemplate.expirationClosableBy, Validators.required),
-            day: new FormControl({value: this.taskTemplate.day, disabled: false}, Validators.required),
             daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
             frequenceOfNotice: new FormControl({value: this.taskTemplate.frequenceOfNotice, disabled: false}, Validators.required),
             daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false},
                 Validators.required)
         });
+
+        this.dayValue = this.task.day;
+        this.associationOffice.getTaskOfficesArray(this.task.taskOffices);
 
         this.uploader = this.uploadService.uploader;
         this.uploadService.uploadFileWithAuth();
@@ -176,15 +212,19 @@ export class QuickConfigurationComponent implements OnInit {
             return;
         }
 
-        if (this.selectedTopic === undefined || this.selectedPeriodicity === undefined || this.selectedExpirationType === undefined) {
+        if (this.selectedTopic === undefined ||
+            this.selectedPeriodicity === undefined ||
+            this.selectedExpirationType === undefined ||
+            !this.hasValueDayComp()) {
             return;
         }
+
         this.taskTemplate.description = this.createEditTaskTemplate.get('description').value;
         this.taskTemplate.topic = this.selectedTopic;
         this.taskTemplate.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
         this.taskTemplate.expirationType = this.selectedExpirationType.tablename.split('#')[2];
         this.taskTemplate.expirationClosableBy = this.createEditTaskTemplate.get('expirationRadio').value;
-        this.taskTemplate.day = this.createEditTaskTemplate.get('day').value;
+        this.taskTemplate.day = this.getDayValueOnDynamicComp();
         this.taskTemplate.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
         this.taskTemplate.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
         this.taskTemplate.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
@@ -351,19 +391,159 @@ export class QuickConfigurationComponent implements OnInit {
         }
     }
 
-    onChangeExpiration() {
+    swtichItemsExpirationSelect(fromComp) {
+        const me = this;
+        if (fromComp && fromComp.tablename && fromComp.tablename.indexOf('weekly') >= 0) {
 
-        if (!this.selectedExpirationType) {
-            this.createEditTaskTemplate.get('day').disable();
+            this.expirationTypeOnlyFixedDayObservable.subscribe(
+                data => {
+                    me.expirationTypeObservable = Observable.of(data);
+                    me.selectedExpirationType = data[0];
+                    me.isFixedDay = true;
+                    me.isWeekly = true;
+                }
+            );
         } else {
+            me.expirationTypeObservable = this.getTranslationLikeTablename('tasktemplate#expirationtype');
+        }
+    }
+
+    onChangePeriod(fromComp) {
+
+        this.swtichItemsExpirationSelect(fromComp);
+
+        this.onChangePeriodExpiration(fromComp);
+    }
+
+    onChangeExpiration(fromComp) {
+        this.onChangePeriodExpiration(fromComp);
+    }
+
+    onChangePeriodExpiration(fromComp) {
+
+        this.isFixedDay = false;
+        this.isWeekly = false;
+        this.isMonthly = false;
+        this.isYearly = false;
+
+        if (this.selectedPeriodicity && this.selectedExpirationType) {
+            // dont reset value on modify
+            if (!this.selectedExpirationType) {
+                this.dayValue = undefined;
+            }
+            const periodicityType = this.selectedPeriodicity.tablename.split('#')[2];
             const expirationType = this.selectedExpirationType.tablename.split('#')[2];
+
             if (expirationType === 'fix_day') {
-                this.createEditTaskTemplate.get('day').enable();
-            } else {
-                this.createEditTaskTemplate.get('day').enable();
-                this.createEditTaskTemplate.get('day').disable();
-                this.createEditTaskTemplate.get('day').setValue(0);
+                this.isFixedDay = true;
+                if (periodicityType === 'weekly') {
+                    this.isWeekly = true;
+                } else if (periodicityType === 'monthly') {
+                    this.isMonthly = true;
+                    if (this.dayValue < 0 || this.dayValue > 0) {
+                        this.dayValue = '';
+                    }
+                } else if (periodicityType === 'yearly') {
+                    this.isYearly = true;
+                    this.myDatePickerOptionsTaskTempl = {dateFormat: 'dd/mm'};
+                }
             }
         }
+
+        this.setDayValueOnDynamicComp(fromComp);
+    }
+
+    setDayValueOnDynamicComp(fromComp) {
+
+        if (!this.dayValue) {
+            return;
+        }
+
+        const day = this.dayValue;
+        if (this.isFixedDay) {
+            if (this.isWeekly) {
+                this.dayNumberTI = '';
+                this.dayDateDP = undefined;
+
+                this.setDayValueOnWeekly(day);
+            } else if (this.isMonthly) {
+                this.selectedPeriodWeeklyExpFixedDay = undefined;
+                this.dayDateDP = undefined;
+
+                this.dayNumberTI = day;
+            } else if (this.isYearly && day.toString().length === 8) {
+                this.selectedPeriodWeeklyExpFixedDay = undefined;
+                this.dayNumberTI = '';
+
+                const dateDay = new Date();
+                const dayString = day.toString();
+                const yearMonthDayArray = [dayString.substring(0, 4), dayString.substring(4, 6), dayString.substring(6)];
+
+                dateDay.setFullYear(yearMonthDayArray[0], yearMonthDayArray[1], yearMonthDayArray[2]);
+                this.dayDateDP = AppGlobals.convertDateToDatePicker(dateDay);
+            }
+        } else if (fromComp) {
+            this.dayNumberTI = '';
+            this.selectedPeriodWeeklyExpFixedDay = undefined;
+            this.dayDateDP = undefined;
+            this.dayValue = undefined;
+        }
+    }
+
+    setDayValueOnWeekly(day) {
+
+        const me = this;
+        this.periodWeeklyExpFixedDay.subscribe(
+            (data) => {
+                data.forEach((item) => {
+                    if (item && item.tablename.indexOf(day) >= 0) {
+                        me.selectedPeriodWeeklyExpFixedDay = item;
+                    }
+                });
+            }
+        );
+    }
+
+    getDayValueOnDynamicComp(): number {
+
+        let dayValueTemp;
+
+        if (this.isFixedDay) {
+            if (this.isWeekly) {
+                dayValueTemp = +this.selectedPeriodWeeklyExpFixedDay.tablename.split('#')[2];
+            } else if (this.isYearly) {
+                const getDateFromDatePicker = this.dayDateDP.date;
+
+                const yearString = getDateFromDatePicker.year.toString();
+                let monthString = getDateFromDatePicker.month.toString();
+                let dayString = getDateFromDatePicker.day.toString();
+                if (monthString && monthString.length === 1) {
+                    monthString = '0' + monthString;
+                }
+                if (dayString && dayString.length === 1) {
+                    dayString = '0' + dayString;
+                }
+
+                dayValueTemp = (yearString + monthString + dayString);
+            } else if (this.isMonthly) {
+                dayValueTemp = this.dayNumberTI;
+            }
+        }
+        this.dayValue = dayValueTemp;
+        return this.dayValue;
+    }
+
+    hasValueDayComp() {
+        let hasValue = true;
+        if (this.isFixedDay) {
+            if (this.isWeekly && !this.selectedPeriodWeeklyExpFixedDay) {
+                hasValue = false;
+            } else if (this.isMonthly && !this.dayNumberTI) {
+                hasValue = false;
+            } else if (this.isYearly && !this.dayDateDP) {
+                hasValue = false;
+            }
+        }
+        return hasValue;
     }
 }

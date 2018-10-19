@@ -76,6 +76,7 @@
                                                [clearable]="false"
                                                [(ngModel)]="selectedPeriodicity"
                                                [ngModelOptions]="{standalone: true}"
+                                               (change)="onChangePeriod($event)"
                                                placeholder="Select Periodicity">
                                     </ng-select>
                                     <div *ngIf="submitted && !selectedPeriodicity" class="invalid-feedback-show">
@@ -93,7 +94,7 @@
                                                [clearable]="false"
                                                [(ngModel)]="selectedExpirationType"
                                                [ngModelOptions]="{standalone: true}"
-                                               (change)="onChangeExpiration()"
+                                               (change)="onChangeExpiration($event)"
                                                placeholder="Select Expiration type">
                                     </ng-select>
                                     <div *ngIf="submitted && !selectedExpirationType" class="invalid-feedback-show">
@@ -103,13 +104,31 @@
                             </div>
                             <div class="col-sm-12 col-md-4">
                                 <div class="form-group">
-                                    <label for="day" class="control-label col-form-label">Day</label>
+                                    <div *ngIf="isFixedDay">
+                                        <label class="control-label col-form-label">Day</label>
+                                    </div>
                                     <input type="number" class="form-control"
-                                           formControlName="day"
-                                           id="day"
-                                           [ngClass]="{'is-invalid': submitted && f.day.errors }">
-                                    <div *ngIf="submitted && f.day.errors" class="invalid-feedback">
-                                        <div *ngIf="f.day.errors.required">Day is required</div>
+                                           id="dayInput"
+                                           [ngModelOptions]="{standalone: true}"
+                                           [(ngModel)]="dayNumberTI"
+                                           *ngIf="isFixedDay && isMonthly">
+                                    <my-date-picker name="dateOfDay"
+                                                    *ngIf="isFixedDay && isYearly"
+                                                    [options]="myDatePickerOptionsTaskTempl"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    [(ngModel)]="dayDateDP"></my-date-picker>
+                                    <ng-select [items]="periodWeeklyExpFixedDay | async"
+                                               bindLabel="description"
+                                               id="daySelect"
+                                               [searchable]="true"
+                                               [clearable]="false"
+                                               *ngIf="isFixedDay && isWeekly"
+                                               [(ngModel)]="selectedPeriodWeeklyExpFixedDay"
+                                               [ngModelOptions]="{standalone: true}"
+                                               placeholder="Select a day">
+                                    </ng-select>
+                                    <div *ngIf="submitted && !dayValue && isFixedDay" class="invalid-feedback-show">
+                                        Day is required
                                     </div>
                                 </div>
                             </div>

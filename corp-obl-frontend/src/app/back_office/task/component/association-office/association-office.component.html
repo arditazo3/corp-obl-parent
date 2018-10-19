@@ -17,11 +17,19 @@
                                (remove)="onRemoveOfficeRelation($event)"
                                (clear)="clearAll()"
                                placeholder="Select offices">
-                        <!--<ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">-->
-                            <!--<input [ngModelOptions]="{standalone: true}"-->
-                                   <!--id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/>-->
-                            <!--{{item.description}}-->
+                        <!--<ng-template ng-multi-label let-item="item" let-item$="item$" let-index="index"-->
+                                     <!--let-clear="clear">-->
+                            <!--<div class="ng-value" *ngFor="let item of items">-->
+                                <!--<span class="ng-value-label">{{item.description}}</span>-->
+                            <!--</div>-->
                         <!--</ng-template>-->
+
+                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                            <div class="ng-value" *ngFor="let item of items">
+                                <span class="ng-value-label">{{item.description}}</span>
+                            </div>
+                        </ng-template>
+
                     </ng-select>
                 </div>
             </div>
