@@ -25,3 +25,16 @@ INSERT INTO co_task (tasktemplate_id, recurrence, expirationtype, day, daysofnot
 INSERT INTO co_task (tasktemplate_id, recurrence, expirationtype, day, daysofnotice, daysbeforeshowexpiration, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (25, '20', '10', 10, 10, 10, 1, '2018-09-19 05:22:11', 'admin', '2018-09-19 05:22:19', '1');
 INSERT INTO co_task (tasktemplate_id, recurrence, expirationtype, day, daysofnotice, daysbeforeshowexpiration, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (27, '20', '10', 10, 10, 10, 1, '2018-09-19 05:22:11', 'admin', '2018-09-19 05:22:19', '1');
 INSERT INTO co_task (tasktemplate_id, recurrence, expirationtype, day, daysofnotice, daysbeforeshowexpiration, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (28, '20', '10', 10, 10, 10, 1, '2018-09-19 05:22:11', 'admin', '2018-09-19 05:22:19', '1');
+
+select * from co_taskofficerelations;
+
+select * from co_expiration;
+
+insert into co_expiration (tasktemplate_id, task_id, office_id, expirationclosableby, username, expirationdate, completed, approved, registered, enabled, creationdate, createdby, modificationdate, modifiedby)
+select tt.id, t.id, tasko.office_id, 1, tor.username, date_add(now(), INTERVAL 15 DAY), date_add(now(), INTERVAL 5 DAY), now(), now(), 1, now(), tor.username, now(), tor.username
+from co_tasktemplate tt
+       left join co_task t on tt.id = t.tasktemplate_id
+       left join co_expiration e on t.id = e.task_id
+       left outer join co_taskoffice tasko on t.id = tasko.task_id
+       left join co_taskofficerelations tor on tasko.id = tor.taskoffice_id
+where tor.username = 'user5';

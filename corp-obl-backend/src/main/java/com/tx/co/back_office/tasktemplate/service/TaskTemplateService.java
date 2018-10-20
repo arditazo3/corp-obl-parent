@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -220,7 +221,8 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 				for (Task taskLoop : taskTemplate.getTasks()) {
 
 					List<Company> coumpanyCounterList = new ArrayList<>();
-					for (TaskOffice taskOfficeLoop : taskLoop.getTaskOffices()) {
+					
+					for (TaskOffice taskOfficeLoop : taskLoop.getTaskOfficesFilterEnabled()) {
 						coumpanyCounterList.add(taskOfficeLoop.getOffice().getCompany());
 					}
 					List<Company> uniqueCompanies = coumpanyCounterList.stream()
@@ -301,20 +303,27 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		String lang = userLoggedIn.getLang();
 
 		if(!isEmpty(taskTemplates)) {
+			
+			/*
+			 * Remove task template that doesn't contain only one task
+			 * Relation one to one
+			 * */
+			taskTemplates = taskTemplates.stream()
+    				.filter(taskTemplate -> ( !isEmpty(taskTemplate.getTasks()) && taskTemplate.getTasks().size() == 1 )).collect(Collectors.toList());
+    				
 			for (TaskTemplate taskTemplate : taskTemplates) {
 
-				String descriptionTaskTemplate = taskTemplate.getDescription() + " - ";
-
-				descriptionTaskTemplate += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription() + " - " + taskTemplate.getDay();
+				String descriptionTaskTemplate = buildDescription(taskTemplate, lang, 0);
 
 				taskTemplate.setDescriptionTaskTemplate(descriptionTaskTemplate);
 
 				List<Office> officeCounterList = new ArrayList<>();
 
 				if(!isEmpty(taskTemplate.getTasks())) {
+					
 					Task singleTask = taskTemplate.getTasks().iterator().next();
 
-					for (TaskOffice taskOfficeLoop : singleTask.getTaskOffices()) {
+					for (TaskOffice taskOfficeLoop : singleTask.getTaskOfficesFilterEnabled()) {
 						officeCounterList.add(taskOfficeLoop.getOffice());
 					}
 
@@ -357,7 +366,9 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 				
 				description = getTranslationByLangLikeTablename(new TranslationPairKey("configurationinterval", lang)).getDescription();
 
-				description += " " + index + ": ";
+				if(index != 0) {
+					description += " " + index + ": ";
+				}
 
 				description += getTranslationByLangLikeTablename(new TranslationPairKey(task.getRecurrence(), lang)).getDescription() + " - ";
 
@@ -385,9 +396,15 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 				
 				if (taskTemplate.getExpirationType().compareTo(EXP_FIX_DAY) == 0) {
 					if(taskTemplate.getRecurrence().compareTo(REC_YEARLY) == 0) {
-						description += " - 31/12";
+						String dayString = taskTemplate.getDay().toString();
+						if(dayString.length() == 8) {
+							String[] splitYearMonthDay = {dayString.substring(0, 4), dayString.substring(4, 6), dayString.substring(6)};
+							description += " - " + splitYearMonthDay[2] + "/" + splitYearMonthDay[1];
+						}
+					} else if(taskTemplate.getRecurrence().compareTo(REC_WEEKLY) == 0) {
+						description += " - " + getTranslationByLangLikeTablename(new TranslationPairKey("period_weekly_exp_fixed_day#".concat(taskTemplate.getDay().toString()), lang)).getDescription();
 					} else {
-						description += " - " + taskTemplate.getDay();	
+						description += " - " + taskTemplate.getDay();
 					}
 				}
 			}

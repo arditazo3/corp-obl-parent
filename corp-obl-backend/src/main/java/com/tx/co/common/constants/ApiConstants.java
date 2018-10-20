@@ -128,8 +128,9 @@ public final class ApiConstants {
 	public static final String INLAND_ROLE = "CORPOBLIG_BACKOFFICE_INLAND";
 	public static final String USER_ROLE = "CORPOBLIG_USER";
 
-	public static final String AUTH_ADMIN_FOREIGN_INLAND = "hasAuthority('"+ ADMIN_ROLE + "') or hasAuthority('" + FOREIGN_ROLE + "') or hasAuthority('" + INLAND_ROLE + "')";
-	public static final String AUTH_ADMIN_USER = "hasAuthority('"+ ADMIN_ROLE + "') or hasAuthority('" + USER_ROLE + "')";
+	public static final String orHasAuthority = "or hasAuthority";
+	public static final String AUTH_ADMIN_FOREIGN_INLAND = "hasAuthority('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + FOREIGN_ROLE + "') " + orHasAuthority + "('" + INLAND_ROLE + "')";
+	public static final String AUTH_ADMIN_USER = "hasAuthority('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + USER_ROLE + "')";
 	/* End of authorization Role list */
 
 	/**
@@ -155,7 +156,4 @@ public final class ApiConstants {
 	/* File static values */
 	public static final String FILE_MAX_SIZE = "20";
 
-	/* Task Office Relations Type */
-	public static final Integer CONTROLLER = 1;
-	public static final Integer CONTROLLED = 2;
 }

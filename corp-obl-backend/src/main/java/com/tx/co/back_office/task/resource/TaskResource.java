@@ -100,7 +100,7 @@ public class TaskResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteTask(TaskResult taskResult) {
 
-    	taskService.deleteTask(toTask(taskResult));
+    	taskService.deleteTask(toTaskWithTaskOffices(taskResult));
 
         return Response.noContent().build();
     }

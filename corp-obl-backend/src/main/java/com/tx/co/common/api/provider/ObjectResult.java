@@ -1,7 +1,6 @@
 package com.tx.co.common.api.provider;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
-import static com.tx.co.common.constants.ApiConstants.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -944,6 +943,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 
 		String colorDefined = buildColor(taskTemplateExpirationsResult);
 		taskTemplateExpirationsResult.setColorDefined(colorDefined);
+		taskTemplateExpirationsResult.setExpirationDate(taskTemplateExpirations.getExpirationDate());
 
 		if (!isEmpty(taskTemplateExpirations.getTasks())) {
 			List<TaskExpirationsResult> taskExpirationsResults = new ArrayList<>();

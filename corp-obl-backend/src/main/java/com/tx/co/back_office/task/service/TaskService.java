@@ -132,10 +132,15 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 		taskStored = taskRepository.save(taskStored);
 
+		return taskTaskOfficeSaveUpdate(taskStored, task);
+	}
+	
+	public Task taskTaskOfficeSaveUpdate(Task taskStored, Task task) {
+		
 		taskStored.setOffice(task.getOffice());
 		taskStored.setExcludeOffice(task.getExcludeOffice());
 
-		taskStored.setTaskOffices(mergeTaskOffice(taskStored, task.getTaskOffices()));
+		taskStored.setTaskOffices(mergeTaskOffice(taskStored, task.getTaskOfficesFilterEnabled()));
 
 		if(!isEmpty(task.getTaskOffices())) {
 			List<TaskOffice> taskOffices = new ArrayList<>();
@@ -163,7 +168,11 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		// New Task office
 		if(isEmpty(taskOffice.getIdTaskOffice())) {
 
-			taskOfficeStored = taskOfficeRepository.getTaskOfficeByTaskTemplateAndOffice(task.getTaskTemplate(), taskOffice.getOffice());
+			if(!isEmpty(task.getTaskTemplate()) && !isEmpty(task.getTaskTemplate().getIdTaskTemplate()) &&
+					!isEmpty(taskOffice.getTask()) && !isEmpty(taskOffice.getTask().getIdTask()) &&
+					!isEmpty(taskOffice.getOffice()) && !isEmpty(taskOffice.getOffice().getIdOffice())) {
+				taskOfficeStored = taskOfficeRepository.getAllTaskOfficeByTaskTemplateAndTaskAndOffice(task.getTaskTemplate(), taskOffice.getTask(), taskOffice.getOffice());	
+			}
 
 			if(isEmpty(taskOfficeStored)) {
 				taskOffice.setCreationDate(new Date());
@@ -265,7 +274,8 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 		Set<TaskOffice> taskOfficesToSave = new HashSet<>();
 		for (TaskOffice taskOffice : taskOffices) {
-			for (TaskOffice taskOfficeStored : taskStored.getTaskOffices()) {
+			
+			for (TaskOffice taskOfficeStored : taskStored.getTaskOfficesFilterEnabled()) {
 				if(isEmpty(taskOffice.getIdTaskOffice()) || 
 						(!isEmpty(taskOffice.getIdTaskOffice()) && !isEmpty(taskOfficeStored.getIdTaskOffice()) && 
 								taskOffice.getIdTaskOffice().compareTo(taskOfficeStored.getIdTaskOffice()) == 0)) {
@@ -337,7 +347,9 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			taskStored.setModificationDate(new Date());
 			taskStored.setModifiedBy(username);
 
-			taskRepository.save(taskStored);
+			taskStored = taskRepository.save(taskStored);
+			
+			taskTaskOfficeSaveUpdate(taskStored, task);
 		}
 
 	}
@@ -354,5 +366,4 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		}
 		return null;
 	}
-
 }

@@ -26,7 +26,6 @@ import com.tx.co.back_office.office.repository.OfficeRepository;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.service.TaskTemplateService;
 import com.tx.co.cache.service.UpdateCacheData;
-import com.tx.co.common.translation.api.model.TranslationPairKey;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
 import com.tx.co.security.domain.Authority;
@@ -290,8 +289,6 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 				for (TaskTemplate taskTemplate : taskTemplates) {
 
 					String descriptionTaskTemplate = taskTemplateService.buildDescription(taskTemplate, lang, 0);
-
-					descriptionTaskTemplate += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription() + " - " + taskTemplate.getDay();
 
 					taskTemplate.setDescriptionTaskTemplate(descriptionTaskTemplate);
 				}

@@ -10,6 +10,9 @@ import com.tx.co.back_office.topic.domain.TopicConsultant;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class UtilStatic {
@@ -114,4 +117,14 @@ public class UtilStatic {
 		return -1;// not there is list
 	}
 
+	public static String formatDateToString(Date date) {
+		
+		// Create an instance of SimpleDateFormat used for formatting 
+		// the string representation of date (day/month/year)
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+		// representation of a date with the defined format.
+		return df.format(date);
+	}
+	
 }

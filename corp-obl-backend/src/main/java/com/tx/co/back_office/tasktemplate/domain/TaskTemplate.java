@@ -269,5 +269,29 @@ public class TaskTemplate implements Serializable {
 		this.counterOffices = counterOffices;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idTaskTemplate == null) ? 0 : idTaskTemplate.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TaskTemplate other = (TaskTemplate) obj;
+		if (idTaskTemplate == null) {
+			if (other.idTaskTemplate != null)
+				return false;
+		} else if (!idTaskTemplate.equals(other.idTaskTemplate))
+			return false;
+		return true;
+	}
 
 }

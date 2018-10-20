@@ -17,6 +17,7 @@ public class TaskTemplateExpirationsResult {
 	private Integer totalExpirations;
 	private Integer totalCompleted;
 	private String colorDefined;
+	private String expirationDate;
 	private List<TaskExpirationsResult> taskExpirations;
 	
 	public Long getIdTaskTemplate() {
@@ -52,6 +53,12 @@ public class TaskTemplateExpirationsResult {
 	}
 	public List<TaskExpirationsResult> getTaskExpirations() {
 		return taskExpirations;
+	}
+	public String getExpirationDate() {
+		return expirationDate;
+	}
+	public void setExpirationDate(String expirationDate) {
+		this.expirationDate = expirationDate;
 	}
 	public void setTaskExpirations(List<TaskExpirationsResult> taskExpirations) {
 		this.taskExpirations = taskExpirations;

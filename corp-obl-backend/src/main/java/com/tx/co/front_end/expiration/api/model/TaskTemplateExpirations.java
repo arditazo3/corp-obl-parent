@@ -13,6 +13,7 @@ public class TaskTemplateExpirations {
 	private String description;
 	private Integer totalExpirations;
 	private Integer totalCompleted;
+	private String expirationDate;
 	private Set<Task> tasks;
 	
 	public Long getIdTaskTemplate() {
@@ -38,6 +39,12 @@ public class TaskTemplateExpirations {
 	}
 	public void setTotalCompleted(Integer totalCompleted) {
 		this.totalCompleted = totalCompleted;
+	}
+	public String getExpirationDate() {
+		return expirationDate;
+	}
+	public void setExpirationDate(String expirationDate) {
+		this.expirationDate = expirationDate;
 	}
 	public Set<Task> getTasks() {
 		return tasks;

@@ -4,7 +4,6 @@ import static com.tx.co.common.constants.AppConstants.ADMIN;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -14,10 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.tx.co.abstraction.AbstractServiceTest;
 import com.tx.co.back_office.office.domain.Office;
-import com.tx.co.back_office.task.model.Task;
 import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchived;
 import com.tx.co.front_end.expiration.api.model.TaskTemplateExpirations;
-import com.tx.co.front_end.expiration.domain.Expiration;
 
 /**
  * Tests for the expiration service class.
