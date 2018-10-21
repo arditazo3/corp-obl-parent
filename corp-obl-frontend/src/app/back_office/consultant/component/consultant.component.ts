@@ -1,14 +1,12 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Company} from '../../company/model/company';
 import {TransferDataService} from '../../../shared/common/service/transfer-data.service';
 import {TopicService} from '../../topic/service/topic.service';
 import {CompanyService} from '../../company/service/company.service';
-import {UserInfoService} from '../../../user/service/user-info.service';
 import {Router} from '@angular/router';
 import {ConsultantTableComponent} from './consultant-table/consultant-table.component';
 import {TopicConsultantComponent} from './topic-consultant/topic-consultant.component';
-import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {DataFilter} from '../../../shared/common/api/model/data-filter';
 import {PageEnum} from '../../../shared/common/api/enum/page.enum';
 

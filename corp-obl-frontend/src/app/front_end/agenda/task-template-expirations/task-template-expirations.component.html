@@ -1,34 +1,28 @@
-<div *ngFor="let taskTemplateExpiration of taskTemplateExpirations">
+<div *ngFor="let taskExpiration of taskExpirations">
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" class="accordion nav-accordion">
-        <ngb-panel type="{{ taskTemplateExpiration.colorDefined }}">
+        <ngb-panel type="{{ taskExpiration.colorDefined }}">
             <ng-template ngbPanelTitle>
-                <div id="container-fluid"  >
+                <div id="container-fluid">
                     <div class="row">
                         <div class="col-4">
-                            <span class="float-left">{{ taskTemplateExpiration.description }}</span>
-                        </div>
-                        <div class="col-2 text-center">
+                            <span class="float-left">{{ taskExpiration.description }}</span>
                         </div>
                         <div class="col-4 text-center">
-                            <span class="float-left">Completed {{taskTemplateExpiration.totalCompleted}} / {{taskTemplateExpiration.totalExpirations}}</span>
+                            <span class="float-left">Completed {{taskExpiration.totalCompleted}} / {{taskExpiration.totalExpirations}}</span>
                         </div>
-                        <div class="col-2 text-center">
+                        <div class="col-4 text-right">
+                            <span class="float-left">Expiration date {{taskExpiration.expirationDate}}</span>
                         </div>
                     </div>
                 </div>
             </ng-template>
             <ng-template ngbPanelContent>
-                <table class="table table-borderless table-responsive">
-                    <tbody>
-                    <div *ngFor="let taskExpiration of taskTemplateExpiration.taskExpirations">
-                        <tr *ngFor="let expiration of taskExpiration.expirations">
-                            <td>
-                                ID: {{expiration.idExpiration}}
-                            </td>
-                        </tr>
-                    </div>
-                    </tbody>
-                </table>
+                <div *ngFor="let expiration of taskExpiration.expirations">
+                        <app-office-expiration-activity [expiration]="expiration"
+                                                        [taskExpiration]="taskExpiration"
+                                                        class="w-100">
+                        </app-office-expiration-activity>
+                </div>
             </ng-template>
         </ngb-panel>
     </ngb-accordion>

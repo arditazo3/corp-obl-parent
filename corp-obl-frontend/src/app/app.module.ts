@@ -30,6 +30,8 @@ import {TransferDataService} from './shared/common/service/transfer-data.service
 import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {OfficeService} from './back_office/office/service/office.service';
+import {UploadService} from './shared/common/service/upload.service';
+import {UserService} from './user/service/user.service';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true,
@@ -76,6 +78,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         AppConfig,
         AuthGuard,
         TransferDataService,
+        UploadService,
+        UserService,
         {
             provide: PERFECT_SCROLLBAR_CONFIG,
             useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG

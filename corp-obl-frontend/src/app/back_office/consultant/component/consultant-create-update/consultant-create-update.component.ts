@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';

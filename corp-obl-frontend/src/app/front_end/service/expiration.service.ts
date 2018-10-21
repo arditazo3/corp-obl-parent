@@ -9,7 +9,8 @@ export class ExpirationService {
     constructor(
         private apiRequest: ApiRequestService,
         private appConfig: AppConfig
-    ) {}
+    ) {
+    }
 
     searchDateExpirationOffices(dateExpirationOfficesArchived): Observable<any> {
         return this.apiRequest.post(this.appConfig.expirationSearchTaskTemplateOfficeArchived, dateExpirationOfficesArchived);

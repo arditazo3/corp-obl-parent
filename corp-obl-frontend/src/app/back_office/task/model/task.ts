@@ -1,6 +1,5 @@
 import {TaskTemplate} from '../../tasktemplate/model/tasktemplate';
 import {TaskOffice} from './taskoffice';
-import {OfficeComponent} from '../../office/component/office.component';
 import {Office} from '../../office/model/office';
 
 export class Task {

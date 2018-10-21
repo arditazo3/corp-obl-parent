@@ -61,7 +61,7 @@ export class OfficeTaskComponent implements OnInit {
     }
 
     searchOfficeTasks() {
-        console.log('OfficeTaskComponent - searchOffice');
+        console.log('OfficeTaskComponent - searchOfficeTasks');
 
         const me = this;
         const taskTempOffices = new TaskTempOffices();

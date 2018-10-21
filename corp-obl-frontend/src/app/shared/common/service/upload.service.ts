@@ -48,6 +48,12 @@ export class UploadService {
         return this.apiRequest.getDownloadFile(this.appConfig.downloadFile, taskTempAttach);
     }
 
+    downloadFileExp(expActAttach): Observable<any> {
+        console.log('UploadService - downloadFileExp');
+
+        return this.apiRequest.getDownloadFile(this.appConfig.downloadFileExp, expActAttach);
+    }
+
     removeFile(taskTempAttach): Observable<any> {
         console.log('UploadService - removeFile');
 

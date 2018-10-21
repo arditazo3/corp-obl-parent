@@ -14,7 +14,6 @@ import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import { MyDatePickerModule } from 'mydatepicker';
 import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 import {CompanyCreateEditComponent} from './company/component/company-create-edit/company-create-edit.component';
-import {UserService} from '../user/service/user.service';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {CompanyAssociateUsersComponent} from './company/component/company-associate-users/company-associate-users.component';
 import {OfficeComponent} from './office/component/office.component';
@@ -93,7 +92,6 @@ import { TaskTemplateTableComponent } from './office-task/component/tasktemplate
     ],
     providers: [
         CompanyService,
-        UserService,
         TopicService,
         ConsultantService,
         TaskTemplateService,

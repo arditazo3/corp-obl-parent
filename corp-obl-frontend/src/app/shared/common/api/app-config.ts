@@ -83,7 +83,9 @@ export class AppConfig {
 
     // Task URL's
     public taskPath = '/task';
-    public getSingleTaskByTaskTemplate = this.backOfficePath + this.taskPath + '/by-tasktemplate';                                      // GET
+    public getSingleTaskByTaskTemplate = this.backOfficePath +
+        this.taskPath + '/by-tasktemplate';                                      // GET
+
     public getTasks = this.backOfficePath + this.taskPath + this.list;                                      // GET
     public createUpdateTask = this.backOfficePath + this.taskPath + this.createupdate;                      // POST
     public deleteTask = this.backOfficePath + this.taskPath + this.delete;                                  // PUT
@@ -100,6 +102,9 @@ export class AppConfig {
      * Front end
      * */
     public frontEndPath = 'front-end';
+
+    // File upload Exp
+    public downloadFileExp = this.frontEndPath + '/download-files-exp';          // POST
 
     // Expiration
     public agenda = '/agenda';

@@ -3,7 +3,6 @@ import {Task} from '../../../task/model/task';
 import {Router} from '@angular/router';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {TaskService} from '../../../task/service/task.service';
-import {TaskTemplate} from '../../../tasktemplate/model/tasktemplate';
 
 @Component({
     selector: 'app-tasktemplate-table',

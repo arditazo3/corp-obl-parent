@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TaskTemplateExpiration} from '../../model/task-template-expiration';
+import {TaskExpirations} from '../../model/task-expirations';
 
 @Component({
   selector: 'app-task-template-expirations',
@@ -8,7 +8,7 @@ import {TaskTemplateExpiration} from '../../model/task-template-expiration';
 })
 export class TaskTemplateExpirationsComponent implements OnInit {
 
-  @Input() taskTemplateExpirations: TaskTemplateExpiration[];
+  @Input() taskExpirations: TaskExpirations[];
 
   constructor() { }
 

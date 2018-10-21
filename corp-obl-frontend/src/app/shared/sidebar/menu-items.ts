@@ -93,7 +93,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [
             {
                 path: '/front-end/agenda',
-                title: 'Agenda',
+                title: 'Agenda Controller',
                 icon: 'mdi mdi-view-agenda',
                 class: '',
                 ddclass: '',

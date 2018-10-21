@@ -238,7 +238,7 @@
                             </div>
                         </div>
 
-                        <app-association-office [isTaskTemplateForm]="isTaskTemplateForm"></app-association-office>
+                        <app-association-office [isTaskTemplateForm]="isTaskTemplateForm" (checkAssociationOffice)="checkAssociationOffice($event)"></app-association-office>
 
                     </div>
                     <hr>
@@ -257,7 +257,7 @@
                                         class="btn-tnx btn-danger waves-effect waves-light">Delete
                                 </button>
                                 <button type="button" (click)="deleteTask()"
-                                        *ngIf="!task?.taskOffices  && !isNewForm && !isTaskTemplateForm"
+                                        *ngIf="task && task.taskOffices && task.taskOffices.length === 0 && !isNewForm && !isTaskTemplateForm"
                                         class="btn-tnx btn-danger waves-effect waves-light">Delete
                                 </button>
                             </div>

@@ -440,7 +440,7 @@ export class QuickConfigurationComponent implements OnInit {
                     this.isWeekly = true;
                 } else if (periodicityType === 'monthly') {
                     this.isMonthly = true;
-                    if (this.dayValue < 0 || this.dayValue > 0) {
+                    if (this.dayValue < 1 || this.dayValue > 31) {
                         this.dayValue = '';
                     }
                 } else if (periodicityType === 'yearly') {

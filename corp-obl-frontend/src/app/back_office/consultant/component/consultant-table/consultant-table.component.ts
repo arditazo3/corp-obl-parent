@@ -6,7 +6,6 @@ import {Company} from '../../../company/model/company';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {Consultant} from '../../model/consultant';
 import {ConsultantService} from '../../service/consultant.service';
-import {TopicConsultantComponent} from '../topic-consultant/topic-consultant.component';
 
 @Component({
     selector: 'app-consultant-table',

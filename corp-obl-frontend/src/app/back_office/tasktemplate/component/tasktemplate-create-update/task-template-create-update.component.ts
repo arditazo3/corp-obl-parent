@@ -404,11 +404,20 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         const me = this;
 
         if (this.taskTemplate) {
-            this.confirmationTaskTemplateSwal.title = 'Do you want to delete: ' + this.taskTemplate.description + '?';
+            let msgSwal = 'Do you want to delete: ';
+            if (this.taskTemplate && this.taskTemplate.description) {
+                msgSwal += this.taskTemplate.description;
+            } else {
+                msgSwal += this.task.taskTemplate.description;
+            }
+            msgSwal += '?';
+            this.confirmationTaskTemplateSwal.title = msgSwal;
             this.confirmationTaskTemplateSwal.show()
                 .then(function (result) {
                     if (result.value === true) {
                         // handle confirm, result is needed for modals with input
+
+                        me.task.excludeOffice = true;
                         me.taskService.deleteTask(me.task).subscribe(
                             next => {
                                 me.router.navigate(['/back-office/task']);
@@ -564,7 +573,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                     this.isWeekly = true;
                 } else if (periodicityType === 'monthly') {
                     this.isMonthly = true;
-                    if (this.dayValue < 0 || this.dayValue > 0) {
+                    if (this.dayValue < 1 || this.dayValue > 31) {
                         this.dayValue = '';
                     }
                 } else if (periodicityType === 'yearly') {
@@ -669,5 +678,11 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             }
         }
         return hasValue;
+    }
+
+    checkAssociationOffice($event) {
+        if ($event && this.task && this.task.taskOffices) {
+            this.task.taskOffices = this.associationOffice.taskOfficesArray;
+        }
     }
 }

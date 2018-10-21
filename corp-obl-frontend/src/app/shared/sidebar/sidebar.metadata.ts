@@ -1,5 +1,4 @@
 // Sidebar route metadata
-import {AuthorityEnum} from '../common/api/enum/authority.enum';
 
 export interface RouteInfo {
   path: string;

@@ -1,11 +1,10 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Observable} from 'rxjs';
 import {OfficeService} from '../../../office/service/office.service';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {UserService} from '../../../../user/service/user.service';
 import {IHash} from '../../../../shared/common/interface/ihash';
 import {TaskOffice} from '../../model/taskoffice';
-import {NgSelectComponent} from '@ng-select/ng-select';
 
 @Component({
     selector: 'app-association-office',
@@ -21,6 +20,7 @@ export class AssociationOfficeComponent implements OnInit {
     officesObservable: Observable<any[]>;
     usersObservable: Observable<any[]>;
 
+    @Output() checkAssociationOffice = new EventEmitter<boolean>();
     @Input() isTaskTemplateForm = false;
 
     errorDetails: ApiErrorDetails = new ApiErrorDetails();
@@ -212,7 +212,8 @@ export class AssociationOfficeComponent implements OnInit {
                                 taskOffice.office.userProviders.forEach(
                                     (user) => {
 
-                                        const index = listUsersAvailable.findIndex(userAvailable => userAvailable.username === user.username);
+                                        const index = listUsersAvailable.
+                                            findIndex(userAvailable => userAvailable.username === user.username);
                                         if (index > -1) {
                                             listUsersAvailable.splice(index, 1);
                                         }
@@ -223,7 +224,8 @@ export class AssociationOfficeComponent implements OnInit {
                                 taskOffice.office.userBeneficiaries.forEach(
                                     (user) => {
 
-                                        const index = listUsersAvailable.findIndex(userAvailable => userAvailable.username === user.username);
+                                        const index = listUsersAvailable.
+                                            findIndex(userAvailable => userAvailable.username === user.username);
                                         if (index > -1) {
                                             listUsersAvailable.splice(index, 1);
                                         }
@@ -239,6 +241,6 @@ export class AssociationOfficeComponent implements OnInit {
                 console.error('AssociationOfficeComponent - populateAvailableUsersOnOffices - error \n', error);
             }
         );
-
+        this.checkAssociationOffice.next(true);
     }
 }

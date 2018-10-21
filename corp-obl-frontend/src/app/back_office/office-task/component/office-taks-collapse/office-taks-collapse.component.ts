@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {Task} from '../../../task/model/task';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {TaskService} from '../../../task/service/task.service';
 

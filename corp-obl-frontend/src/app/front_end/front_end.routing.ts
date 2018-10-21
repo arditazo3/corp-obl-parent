@@ -1,6 +1,4 @@
 import {Routes} from '@angular/router';
-import {CompanyComponent} from '../back_office/company/component/company.component';
-import {CompanyCreateEditComponent} from '../back_office/company/component/company-create-edit/company-create-edit.component';
 import {AgendaComponent} from './agenda/agenda.component';
 
 export const FrontEndRoutes: Routes = [

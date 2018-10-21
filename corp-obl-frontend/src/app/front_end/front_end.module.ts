@@ -11,11 +11,13 @@ import {FileUploadModule} from 'ng2-file-upload';
 import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {FrontEndRoutes} from './front_end.routing';
-import { AgendaComponent } from './agenda/agenda.component';
-import { MyDatePickerModule } from 'mydatepicker';
+import {AgendaComponent} from './agenda/agenda.component';
+import {MyDatePickerModule} from 'mydatepicker';
 import {MomentModule} from 'ngx-moment';
 import {ExpirationService} from './service/expiration.service';
-import { TaskTemplateExpirationsComponent } from './agenda/task-template-expirations/task-template-expirations.component';
+import {TaskTemplateExpirationsComponent} from './agenda/task-template-expirations/task-template-expirations.component';
+import { OfficeExpirationActivityComponent } from './agenda/office-expiration-activity/office-expiration-activity.component';
+import { ExpirationActivityDetailComponent } from './agenda/expiration-activity-detail/expiration-activity-detail.component';
 
 @NgModule({
     imports: [
@@ -42,8 +44,10 @@ import { TaskTemplateExpirationsComponent } from './agenda/task-template-expirat
         }),
     ],
     declarations: [
-    AgendaComponent,
-    TaskTemplateExpirationsComponent
+        AgendaComponent,
+        TaskTemplateExpirationsComponent,
+        OfficeExpirationActivityComponent,
+        ExpirationActivityDetailComponent
     ],
     providers: [
         ExpirationService

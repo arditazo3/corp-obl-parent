@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 import {OfficeService} from '../../back_office/office/service/office.service';
 import {DateExpirationOfficesHasArchived} from '../model/date-expiration-offices-hasarchived';
 import {ExpirationService} from '../service/expiration.service';
-import {TaskTemplateExpiration} from '../model/task-template-expiration';
+import {TaskExpirations} from '../model/task-expirations';
 
 @Component({
     selector: 'app-agenda',
@@ -18,7 +18,7 @@ export class AgendaComponent implements OnInit {
     officesObservable: Observable<any[]>;
     offices = [];
 
-    taskTemplateExpirations: TaskTemplateExpiration[] = [];
+    taskExpirations: TaskExpirations[] = [];
 
     myDatePickerOptions: IMyOptions = AppGlobals.myDatePickerOptions;
 
@@ -66,7 +66,7 @@ export class AgendaComponent implements OnInit {
             .searchDateExpirationOffices(dateExpirationOfficesArchived)
             .subscribe(
                 data => {
-                    me.taskTemplateExpirations = data;
+                    me.taskExpirations = data;
                     console.log('AgendaComponent - searchTaskTemplates - next');
                 },
                 error => {
