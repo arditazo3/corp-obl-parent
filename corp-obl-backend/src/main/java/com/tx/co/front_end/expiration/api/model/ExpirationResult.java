@@ -6,7 +6,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tx.co.back_office.office.api.model.OfficeResult;
 import com.tx.co.back_office.task.api.model.TaskResult;
-import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
+import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
 
 /**
  * API model for returning expiration details.
@@ -17,7 +17,7 @@ import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 public class ExpirationResult {
 
 	private Long idExpiration;
-	private TaskTemplate taskTemplate;
+	private TaskTemplateResult taskTemplate;
 	private TaskResult task;
 	private OfficeResult office;
 	private String expirationClosableBy;
@@ -26,6 +26,9 @@ public class ExpirationResult {
 	private Date completed;
 	private Date approved;
 	private Date registered;
+	private ExpirationActivityResult expirationActivity; 
+	private ExpirationDetailResult expirationDetail;
+	
 
 	public Long getIdExpiration() {
 		return idExpiration;
@@ -35,11 +38,11 @@ public class ExpirationResult {
 		this.idExpiration = idExpiration;
 	}
 
-	public TaskTemplate getTaskTemplate() {
+	public TaskTemplateResult getTaskTemplate() {
 		return taskTemplate;
 	}
 
-	public void setTaskTemplate(TaskTemplate taskTemplate) {
+	public void setTaskTemplate(TaskTemplateResult taskTemplate) {
 		this.taskTemplate = taskTemplate;
 	}
 
@@ -106,6 +109,21 @@ public class ExpirationResult {
 	public void setRegistered(Date registered) {
 		this.registered = registered;
 	}
-	
+
+	public ExpirationActivityResult getExpirationActivity() {
+		return expirationActivity;
+	}
+
+	public void setExpirationActivity(ExpirationActivityResult expirationActivity) {
+		this.expirationActivity = expirationActivity;
+	}
+
+	public ExpirationDetailResult getExpirationDetail() {
+		return expirationDetail;
+	}
+
+	public void setExpirationDetail(ExpirationDetailResult expirationDetail) {
+		this.expirationDetail = expirationDetail;
+	}
 	
 }

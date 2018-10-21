@@ -21,8 +21,8 @@ import org.springframework.stereotype.Component;
 
 import com.tx.co.common.api.provider.ObjectResult;
 import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchivedResult;
-import com.tx.co.front_end.expiration.api.model.TaskTemplateExpirations;
-import com.tx.co.front_end.expiration.api.model.TaskTemplateExpirationsResult;
+import com.tx.co.front_end.expiration.api.model.TaskExpirations;
+import com.tx.co.front_end.expiration.api.model.TaskExpirationsResult;
 import com.tx.co.front_end.expiration.service.IExpirationService;
 
 @Component
@@ -46,14 +46,16 @@ public class ExpirationResource extends ObjectResult {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response searchDateExpirationOffices(DateExpirationOfficesHasArchivedResult dateExpirationOfficesArchived) {
 
-		Iterable<TaskTemplateExpirations> taskTemplateExpirationsIterable = expirationService.
+		Iterable<TaskExpirations> taskTemplateExpirationsIterable = expirationService.
 				searchDateExpirationOffices(toDateExpirationOfficesHasArchived(dateExpirationOfficesArchived));
 
-		List<TaskTemplateExpirationsResult> queryDetailsList =
+		List<TaskExpirationsResult> queryDetailsList =
 				StreamSupport.stream(taskTemplateExpirationsIterable.spliterator(), false)
-				.map(this::toTaskTemplateExpirations)
+				.map(this::toTaskExpirationsResult)
 				.collect(Collectors.toList());
 
 		return Response.ok(queryDetailsList).build();
 	}
+	
+	
 }

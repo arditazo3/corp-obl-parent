@@ -38,3 +38,17 @@ from co_tasktemplate tt
        left outer join co_taskoffice tasko on t.id = tasko.task_id
        left join co_taskofficerelations tor on tasko.id = tor.taskoffice_id
 where tor.username = 'user5';
+
+INSERT INTO corporate_obligations.co_expiration (id, tasktemplate_id, task_id, office_id, expirationclosableby, username, expirationdate, completed, approved, registered, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES
+(3, 74, 156, 11, 1, 'USER5', '2018-11-05', '2018-10-25 09:56:00', '2018-10-20 09:56:00', '2018-10-20 09:56:00', 1, '2018-10-20 09:56:00', 'USER5', '2018-10-20 09:56:00', 'USER5');
+
+insert into co_expirationactivity(expiration_id, body, deleted, creationdate, createdby, modificationdate, modifiedby)
+select id, 'Test test', 0, now(), 'ADMIN', now(), 'ADMIN'
+from co_expiration;
+
+insert into co_expirationactivityattachment(expirationactivity_id, filename, filetype, filepath, filesize, createdby, modificationdate, modifiedby, creationdate)
+select 2, filename, filetype, filepath, filesize, 'user 5', now(), 'user 5', now()
+from co_tasktemplateattachment;
+
+select * from co_tasktemplateattachment;
+select * from co_expirationactivityattachment;

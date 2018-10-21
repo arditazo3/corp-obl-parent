@@ -81,7 +81,7 @@ public class TaskTemplateAttachmentResource extends ObjectResult {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response downloadFile(TaskTemplateAttachmentResult taskTemplateAttachmentResult) { 
 
-		logger.info("downloadFile - Path: " + DOWNLOAD_FILES);
+		logger.info("downloadFile task template - Path: " + DOWNLOAD_FILES);
 		
 		StreamingOutput fileStream =  new StreamingOutput()
 		{

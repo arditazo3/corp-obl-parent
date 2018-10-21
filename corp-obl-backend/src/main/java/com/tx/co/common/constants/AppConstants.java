@@ -1,6 +1,6 @@
 package com.tx.co.common.constants;
 
-public class AppConstants {
+public final class AppConstants  {
 
 	private AppConstants() {}
 

@@ -73,6 +73,7 @@ public class ExpirationActivityService implements IExpirationActivityService, IU
 		expirationActivityStored.setExpiration(expiration);
 		expirationActivityStored.setModificationDate(new Date());
 		expirationActivityStored.setModifiedBy(username);
+		expirationActivityStored.setExpirationActivityAttachments(expirationActivity.getExpirationActivityAttachments());
 		
 		expirationActivityStored = expirationActivityRepository.save(expirationActivityStored);
 		

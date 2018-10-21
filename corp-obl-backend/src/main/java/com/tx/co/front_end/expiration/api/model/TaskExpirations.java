@@ -3,18 +3,20 @@ package com.tx.co.front_end.expiration.api.model;
 import java.util.Set;
 
 import com.tx.co.back_office.task.model.Task;
+import com.tx.co.front_end.expiration.domain.Expiration;
 
 /**
  * POJO class to convert it as Result class
  * */
-public class TaskTemplateExpirations {
+public class TaskExpirations {
 
 	private Long idTaskTemplate;
 	private String description;
+	private Task task;
 	private Integer totalExpirations;
 	private Integer totalCompleted;
 	private String expirationDate;
-	private Set<Task> tasks;
+	private Set<Expiration> expirations;
 	
 	public Long getIdTaskTemplate() {
 		return idTaskTemplate;
@@ -46,12 +48,16 @@ public class TaskTemplateExpirations {
 	public void setExpirationDate(String expirationDate) {
 		this.expirationDate = expirationDate;
 	}
-	public Set<Task> getTasks() {
-		return tasks;
+	public Task getTask() {
+		return task;
 	}
-	public void setTasks(Set<Task> tasks) {
-		this.tasks = tasks;
+	public void setTask(Task task) {
+		this.task = task;
 	}
-	
-	
+	public Set<Expiration> getExpirations() {
+		return expirations;
+	}
+	public void setExpirations(Set<Expiration> expirations) {
+		this.expirations = expirations;
+	}
 }

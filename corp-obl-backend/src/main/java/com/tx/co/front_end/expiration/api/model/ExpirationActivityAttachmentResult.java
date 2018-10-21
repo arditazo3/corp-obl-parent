@@ -10,9 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ExpirationActivityAttachmentResult {
 
-private Long idExpirationActivityAttachment;
-	
-    private ExpirationActivityResult expirationActivity;
+	private Long idExpirationActivityAttachment;
 	private String fileName;
 	private String fileType;
 	private String filePath;
@@ -24,14 +22,6 @@ private Long idExpirationActivityAttachment;
 
 	public void setIdExpirationActivityAttachment(Long idExpirationActivityAttachment) {
 		this.idExpirationActivityAttachment = idExpirationActivityAttachment;
-	}
-
-	public ExpirationActivityResult getExpirationActivity() {
-		return expirationActivity;
-	}
-
-	public void setExpirationActivity(ExpirationActivityResult expirationActivity) {
-		this.expirationActivity = expirationActivity;
 	}
 
 	public String getFileName() {
@@ -65,6 +55,6 @@ private Long idExpirationActivityAttachment;
 	public void setFileSize(Long fileSize) {
 		this.fileSize = fileSize;
 	}
-	
-	
+
+
 }

@@ -43,3 +43,20 @@ from co_tasktemplate tt
        left join co_companyuser cu on c.id = cu.company_id
 where cu.username = 'user2'
 group by task.id;
+
+select o.*
+from co_tasktemplate tt
+       left join co_task task on tt.id = task.tasktemplate_id
+       left join co_taskoffice t on task.id = t.task_id
+       left join co_office o on t.office_id = o.id
+where o.id = 8
+group by task.id;
+
+select e.*
+from co_expiration e
+       left join co_task task on e.task_id = task.id
+left join co_tasktemplate tasktemplate on e.tasktemplate_id = tasktemplate.id
+left join co_taskoffice t on task.id = t.task_id
+left join co_office o on t.office_id = o.id
+where o.id = 8
+group by tasktemplate.id, task.id, o.id, e.expirationdate;

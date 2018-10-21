@@ -46,6 +46,9 @@ public class ExpirationActivity implements Serializable {
     private Set<ExpirationActivityAttachment> expirationActivityAttachments = new HashSet<>();
 	
 	@Column(nullable = false)
+	private String body;
+	
+	@Column(nullable = false)
 	private Boolean deleted;
 
 	@Column(nullable = false, name = "creationdate")
@@ -84,6 +87,14 @@ public class ExpirationActivity implements Serializable {
 
 	public void setExpirationActivityAttachments(Set<ExpirationActivityAttachment> expirationActivityAttachments) {
 		this.expirationActivityAttachments = expirationActivityAttachments;
+	}
+
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
 	}
 
 	public Boolean getDeleted() {

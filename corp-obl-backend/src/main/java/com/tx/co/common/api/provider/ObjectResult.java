@@ -42,13 +42,17 @@ import com.tx.co.cache.service.UpdateCacheData;
 import static com.tx.co.common.constants.AppConstants.*;
 import com.tx.co.common.translation.api.model.TranslationResult;
 import com.tx.co.common.translation.domain.Translation;
+import com.tx.co.common.utils.UtilStatic;
 import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchived;
 import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchivedResult;
+import com.tx.co.front_end.expiration.api.model.ExpirationActivityAttachmentResult;
+import com.tx.co.front_end.expiration.api.model.ExpirationActivityResult;
 import com.tx.co.front_end.expiration.api.model.ExpirationResult;
 import com.tx.co.front_end.expiration.api.model.TaskExpirationsResult;
-import com.tx.co.front_end.expiration.api.model.TaskTemplateExpirations;
-import com.tx.co.front_end.expiration.api.model.TaskTemplateExpirationsResult;
+import com.tx.co.front_end.expiration.api.model.TaskExpirations;
 import com.tx.co.front_end.expiration.domain.Expiration;
+import com.tx.co.front_end.expiration.domain.ExpirationActivity;
+import com.tx.co.front_end.expiration.domain.ExpirationActivityAttachment;
 import com.tx.co.security.exception.GeneralException;
 import com.tx.co.user.api.model.UserResult;
 import com.tx.co.user.domain.User;
@@ -717,11 +721,11 @@ public abstract class ObjectResult extends UpdateCacheData {
 			ObjectSearchTaskTemplateResult objectSearchTaskTemplateResult) {
 		ObjectSearchTaskTemplate objectSearchTaskTemplate = new ObjectSearchTaskTemplate();
 
-		if(isEmpty(objectSearchTaskTemplateResult.getDescriptionTaskTemplate())) {
+		if (isEmpty(objectSearchTaskTemplateResult.getDescriptionTaskTemplate())) {
 			objectSearchTaskTemplate.setDescriptionTaskTemplate("");
 		} else {
 			objectSearchTaskTemplate
-			.setDescriptionTaskTemplate(objectSearchTaskTemplateResult.getDescriptionTaskTemplate());	
+					.setDescriptionTaskTemplate(objectSearchTaskTemplateResult.getDescriptionTaskTemplate());
 		}
 
 		if (!isEmpty(objectSearchTaskTemplateResult.getCompanies())) {
@@ -889,22 +893,6 @@ public abstract class ObjectResult extends UpdateCacheData {
 		return taskOfficeRelationResult;
 	}
 
-	public TaskExpirationsResult toTaskExpirations(Task task) {
-
-		TaskExpirationsResult taskExpirationsResult = new TaskExpirationsResult();
-
-		taskExpirationsResult.setTask(toTaskResult(task));
-		if (!isEmpty(task.getExpirations())) {
-			List<ExpirationResult> expirationResults = new ArrayList<>();
-			for (Expiration expirationLoop : task.getExpirations()) {
-				expirationResults.add(toExpirationResult(expirationLoop));
-			}
-			taskExpirationsResult.setExpirations(expirationResults);
-		}
-
-		return taskExpirationsResult;
-	}
-
 	/**
 	 * @param dateExpirationOfficesHasArchivedResult
 	 * @return
@@ -929,65 +917,83 @@ public abstract class ObjectResult extends UpdateCacheData {
 	}
 
 	/**
-	 * @param taskTemplateExpirations
+	 * @param taskExpirations
 	 * @return
 	 */
-	public TaskTemplateExpirationsResult toTaskTemplateExpirations(TaskTemplateExpirations taskTemplateExpirations) {
+	public TaskExpirationsResult toTaskExpirationsResult(TaskExpirations taskExpirations) {
 
-		TaskTemplateExpirationsResult taskTemplateExpirationsResult = new TaskTemplateExpirationsResult();
+		TaskExpirationsResult taskExpirationsResult = new TaskExpirationsResult();
 
-		taskTemplateExpirationsResult.setDescription(taskTemplateExpirations.getDescription());
-		taskTemplateExpirationsResult.setIdTaskTemplate(taskTemplateExpirations.getIdTaskTemplate());
-		taskTemplateExpirationsResult.setTotalCompleted(taskTemplateExpirations.getTotalCompleted());
-		taskTemplateExpirationsResult.setTotalExpirations(taskTemplateExpirations.getTotalExpirations());
+		taskExpirationsResult.setDescription(taskExpirations.getDescription());
+		taskExpirationsResult.setIdTaskTemplate(taskExpirations.getIdTaskTemplate());
+		taskExpirationsResult.setTotalCompleted(taskExpirations.getTotalCompleted());
+		taskExpirationsResult.setTotalExpirations(taskExpirations.getTotalExpirations());
 
-		String colorDefined = buildColor(taskTemplateExpirationsResult);
-		taskTemplateExpirationsResult.setColorDefined(colorDefined);
-		taskTemplateExpirationsResult.setExpirationDate(taskTemplateExpirations.getExpirationDate());
+		String colorDefined = UtilStatic.buildColor(taskExpirationsResult);
+		taskExpirationsResult.setColorDefined(colorDefined);
+		taskExpirationsResult.setExpirationDate(taskExpirations.getExpirationDate());
+		taskExpirationsResult.setTask(toTaskResult(taskExpirations.getTask()));
 
-		if (!isEmpty(taskTemplateExpirations.getTasks())) {
-			List<TaskExpirationsResult> taskExpirationsResults = new ArrayList<>();
-			for (Task task : taskTemplateExpirations.getTasks()) {
-				taskExpirationsResults.add(toTaskExpirations(task));
+		if (!isEmpty(taskExpirations.getExpirations())) {
+			List<ExpirationResult> expirationResults = new ArrayList<>();
+			for (Expiration expiration : taskExpirations.getExpirations()) {
+				expirationResults.add(toExpirationResult(expiration));
 			}
-			taskTemplateExpirationsResult.setTaskExpirations(taskExpirationsResults);
+			taskExpirationsResult.setExpirations(expirationResults);
 		}
-		return taskTemplateExpirationsResult;
+		return taskExpirationsResult;
 	}
 
 	public ExpirationResult toExpirationResult(Expiration expiration) {
 		ExpirationResult expirationResult = new ExpirationResult();
 
 		expirationResult.setIdExpiration(expiration.getIdExpiration());
-		// rfratti edited after converting Expiration.expirationClosableBy into Integer (as DB)
-		expirationResult.setExpirationClosableBy(expiration.getExpirationClosableBy()+"");
+		// rfratti edited after converting Expiration.expirationClosableBy into Integer
+		// (as DB)
+		expirationResult.setExpirationClosableBy(expiration.getExpirationClosableBy() + "");
 		expirationResult.setUsername(expiration.getUsername());
 		expirationResult.setExpirationDate(expiration.getExpirationDate());
 		expirationResult.setCompleted(expiration.getCompleted());
 		expirationResult.setApproved(expiration.getApproved());
 		expirationResult.setRegistered(expiration.getRegistered());
-
+		expirationResult.setOffice(toOfficeResult(expiration.getOffice()));
+		expirationResult.setTask(toTaskResultOnly(expiration.getTask()));
+		expirationResult.setTaskTemplate(toTaskTemplateResult(expiration.getTaskTemplate()));
+		expirationResult.setExpirationDetail(UtilStatic.buildExpirationDetail(expiration));
+		expirationResult.setExpirationActivity(toExpirationActivityResult(expiration.getExpirationActivities()));
+		
 		return expirationResult;
 	}
-
-	public String buildColor(TaskTemplateExpirationsResult taskTemplateExpiration) {
-
-		Integer totalExpirations = taskTemplateExpiration.getTotalExpirations();
-		Integer totalCompleted = taskTemplateExpiration.getTotalCompleted();
-
-		String colorDefined = "";
-		if(totalExpirations > 0) {
-			if(totalExpirations.compareTo(totalCompleted) == 0) {
-				colorDefined = "success";
-			} else if(totalCompleted == 0) {
-				colorDefined = "";
-			} else if(totalExpirations.compareTo(totalCompleted) > 0) {
-				colorDefined = "warning";
+	
+	public ExpirationActivityResult toExpirationActivityResult(Set<ExpirationActivity> expirationActivities) {
+		ExpirationActivityResult expirationActivityResult = new ExpirationActivityResult();
+		
+		if(!isEmpty(expirationActivities)) {
+			ExpirationActivity expirationActivity = expirationActivities.iterator().next();
+			
+			expirationActivityResult.setIdExpirationActivity(expirationActivity.getIdExpirationActivity());
+			expirationActivityResult.setBody(expirationActivity.getBody());
+			expirationActivityResult.setDescriptionLastActivity(UtilStatic.buildDescriptionLastActivity(expirationActivity));
+			if (!isEmpty(expirationActivity.getExpirationActivityAttachments())) {
+				List<ExpirationActivityAttachmentResult> expirationActivityAttachmentResults = new ArrayList<>();
+				for (ExpirationActivityAttachment expirationActivityAttachment : expirationActivity.getExpirationActivityAttachments()) {
+					expirationActivityAttachmentResults.add(toExpirationActivityAttachmentResult(expirationActivityAttachment));
+				}
+				expirationActivityResult.setExpirationActivityAttachments(expirationActivityAttachmentResults);
 			}
-		} else {
-			colorDefined = "";
 		}
-
-		return colorDefined;
+		return expirationActivityResult;
 	}
+	
+	public ExpirationActivityAttachmentResult toExpirationActivityAttachmentResult(ExpirationActivityAttachment expirationActivityAttachment) {
+		ExpirationActivityAttachmentResult expirationActivityAttachmentResult = new ExpirationActivityAttachmentResult();
+		
+		expirationActivityAttachmentResult.setFileName(expirationActivityAttachment.getFileName());
+		expirationActivityAttachmentResult.setFilePath(expirationActivityAttachment.getFilePath());
+		expirationActivityAttachmentResult.setFileSize(expirationActivityAttachment.getFileSize());
+		expirationActivityAttachmentResult.setFileType(expirationActivityAttachment.getFileType());
+		
+		return expirationActivityAttachmentResult;
+	}
+
 }

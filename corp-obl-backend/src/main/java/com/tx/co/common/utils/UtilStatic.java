@@ -7,16 +7,27 @@ import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplateattachment.model.TaskTemplateAttachment;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.domain.TopicConsultant;
+import com.tx.co.front_end.expiration.api.model.ExpirationDetailResult;
+import com.tx.co.front_end.expiration.api.model.TaskExpirationsResult;
+import com.tx.co.front_end.expiration.domain.Expiration;
+import com.tx.co.front_end.expiration.domain.ExpirationActivity;
+import com.tx.co.front_end.expiration.enums.StatusExpirationEnum;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class UtilStatic {
 
+	private static final Logger logger = LogManager.getLogger(UtilStatic.class);
+	
 	private UtilStatic() {}
 
 	public static int getIndexByPropertyCompanyList(Long idCompany, List<Company> comparableList) {
@@ -60,7 +71,7 @@ public class UtilStatic {
 		}
 		return -1;// not there is list
 	}
-	
+
 	public static int getIndexByPropertyTopicLConsultantist(Long idTopicConsultant, List<TopicConsultant> comparableList) {
 
 		if(!isEmpty(comparableList)) {
@@ -74,7 +85,7 @@ public class UtilStatic {
 		}
 		return -1;// not there is list
 	}
-	
+
 	public static int getIndexByPropertyCompanyConsultantList(Long idCompanyConsultant, List<CompanyConsultant> comparableList) {
 
 		if(!isEmpty(comparableList)) {
@@ -88,7 +99,7 @@ public class UtilStatic {
 		}
 		return -1;// not there is list
 	}
-	
+
 	public static int getIndexByPropertyTaskTemplateList(Long idTaskTemplate, List<TaskTemplate> comparableList) {
 
 		if(!isEmpty(comparableList)) {
@@ -102,7 +113,7 @@ public class UtilStatic {
 		}
 		return -1;// not there is list
 	}
-	
+
 	public static int getIndexByPropertyTaskTemplateListAttachment(Long idTaskTemplateAttachment, List<TaskTemplateAttachment> comparableList) {
 
 		if(!isEmpty(comparableList)) {
@@ -118,13 +129,120 @@ public class UtilStatic {
 	}
 
 	public static String formatDateToString(Date date) {
-		
+
 		// Create an instance of SimpleDateFormat used for formatting 
 		// the string representation of date (day/month/year)
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
 		// representation of a date with the defined format.
 		return df.format(date);
+	}
+	
+	public static String formatHoursMinutesToString(Date date) {
+
+		// Create an instance of SimpleDateFormat used for formatting 
+		// the string representation of date (hour:nminute)
+		DateFormat df = new SimpleDateFormat("HH:mm");
+
+		// representation of a date with the defined format.
+		return df.format(date);
+	}
+
+	public static Date formatStringToDate(String dateString) {
+
+		if(isEmpty(dateString)) {
+			return null;
+		}
+		
+		SimpleDateFormat  simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+		try {
+			return simpleDateFormat.parse(dateString);
+		} catch (ParseException e) {
+			logger.error(e);
+			return null;
+		}
+	}
+	
+	public static String buildColor(TaskExpirationsResult taskExpiration) {
+
+		Integer totalExpirations = taskExpiration.getTotalExpirations();
+		Integer totalCompleted = taskExpiration.getTotalCompleted();
+
+		String colorDefined = "";
+		if(totalExpirations > 0) {
+			if(totalExpirations.compareTo(totalCompleted) == 0) {
+				colorDefined = "success";
+			} else if(totalCompleted == 0) {
+				colorDefined = "";
+			} else if(totalExpirations.compareTo(totalCompleted) > 0) {
+				colorDefined = "warning";
+			}
+		} else {
+			colorDefined = "";
+		}
+
+		return colorDefined;
+	}
+
+	public static ExpirationDetailResult buildExpirationDetail(Expiration expiration) {
+
+		ExpirationDetailResult expirationDetail = new ExpirationDetailResult();
+		String colorDefined = "";
+		String descriptionDate = "";
+		StatusExpirationEnum statusExpiration = StatusExpirationEnum.BASE;
+		
+		Date dateNow = new Date();
+		Date completed = expiration.getCompleted();
+		Date approved = expiration.getApproved();
+		Date registred = expiration.getRegistered();
+		Date expirationDate = expiration.getExpirationDate();
+		
+		// base
+		if(isEmpty(completed) && isEmpty(approved) && isEmpty(registred)) {
+			colorDefined = "";
+			statusExpiration = StatusExpirationEnum.BASE;
+			// archived	
+		} else if(!isEmpty(registred)) {
+			colorDefined = "alert alert-primary";
+			descriptionDate = "Archived at " + formatDateToString(registred);
+			statusExpiration = StatusExpirationEnum.ARCHIVED;
+			// completed	
+		} else if(!isEmpty(completed) && isEmpty(approved) && isEmpty(registred)) {
+			colorDefined = "success";
+			descriptionDate = "Completed at " + formatDateToString(completed);
+			statusExpiration = StatusExpirationEnum.COMPLETED;
+			// approved 	
+		} else if(!isEmpty(completed) && !isEmpty(approved) && isEmpty(registred)) {
+			colorDefined = "info";
+			descriptionDate = "Approved at " + formatDateToString(approved);
+			statusExpiration = StatusExpirationEnum.APPROVED;
+			// expired and non completed  	
+		} else if(!isEmpty(expirationDate) && expirationDate.before(dateNow) &&
+				isEmpty(completed)) {
+			colorDefined = "warning";
+			// not completed but not expired	
+		} else {
+			colorDefined = "";
+		}
+
+		expirationDetail.setColorDefined(colorDefined);
+		expirationDetail.setExpirationDescriptionDate(descriptionDate);
+		expirationDetail.setStatusExpiration(statusExpiration);
+		expirationDetail.setStatusExpiration(statusExpiration);
+		
+		return expirationDetail;
+	}
+	
+	public static String buildDescriptionLastActivity(ExpirationActivity expirationActivity) {
+		
+		String descriptionLastActivity = "";
+		String userModify = expirationActivity.getModifiedBy();
+		Date lastModify = expirationActivity.getModificationDate();
+		
+		descriptionLastActivity += userModify + ", " + formatDateToString(lastModify) + ", at " + formatHoursMinutesToString(lastModify) + " wrote";
+		
+		return descriptionLastActivity;
 	}
 	
 }

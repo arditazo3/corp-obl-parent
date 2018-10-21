@@ -289,8 +289,9 @@ public class TaskTemplate implements Serializable {
 		if (idTaskTemplate == null) {
 			if (other.idTaskTemplate != null)
 				return false;
-		} else if (!idTaskTemplate.equals(other.idTaskTemplate))
+		} else if (!idTaskTemplate.equals(other.idTaskTemplate)) {
 			return false;
+		}
 		return true;
 	}
 

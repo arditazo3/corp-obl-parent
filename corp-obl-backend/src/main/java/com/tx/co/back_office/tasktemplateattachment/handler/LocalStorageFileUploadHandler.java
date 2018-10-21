@@ -28,6 +28,7 @@ import com.tx.co.back_office.tasktemplateattachment.model.file.HttpFile;
 import com.tx.co.back_office.tasktemplateattachment.model.request.FileUploadRequest;
 import com.tx.co.back_office.tasktemplateattachment.model.response.FileUploadResponse;
 import com.tx.co.back_office.tasktemplateattachment.service.ITaskTemplateAttachmentService;
+import com.tx.co.front_end.expiration.api.model.ExpirationActivityAttachmentResult;
 import com.tx.co.front_end.expiration.domain.ExpirationActivityAttachment;
 import com.tx.co.front_end.expiration.service.IExpirationActivityAttachmentService;
 import com.tx.co.security.exception.GeneralException;
@@ -145,6 +146,21 @@ public class LocalStorageFileUploadHandler implements IFileUploadHandler {
 			File file = new File(taskTemplateAttachmentResult.getFilePath());
 			if(file.delete()){
 				taskTemplateAttachmentService.deleteTaskTemplateAttachment(taskTemplateAttachmentResult.getIdTaskTemplateAttachment());
+				logger.info(file.getName() + " is deleted!");
+			}else{
+				logger.info("Delete operation is failed.");
+			}
+		} catch(Exception e) {
+			logger.error("", e);
+		}
+	}
+
+	@Override
+	public void deleteFileExp(ExpirationActivityAttachmentResult expirationActivityAttachmentResult) {
+		try{
+			File file = new File(expirationActivityAttachmentResult.getFilePath());
+			if(file.delete()){
+				expirationActivityAttachmentService.deleteExpirationActivityAttachment(expirationActivityAttachmentResult.getIdExpirationActivityAttachment());
 				logger.info(file.getName() + " is deleted!");
 			}else{
 				logger.info("Delete operation is failed.");

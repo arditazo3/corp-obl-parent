@@ -104,6 +104,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		taskTemplateStored.setTopic(taskTemplate.getTopic());
 		taskTemplateStored.setModificationDate(new Date());
 		taskTemplateStored.setModifiedBy(username);
+		taskTemplateStored.setTaskTemplateAttachments(taskTemplate.getTaskTemplateAttachments());
 
 		taskTemplateStored = taskTemplateRepository.save(taskTemplateStored);
 

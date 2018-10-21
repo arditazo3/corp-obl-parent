@@ -6,7 +6,7 @@ import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.common.utils.UtilStatic;
 import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchived;
-import com.tx.co.front_end.expiration.api.model.TaskTemplateExpirations;
+import com.tx.co.front_end.expiration.api.model.TaskExpirations;
 import com.tx.co.front_end.expiration.domain.Expiration;
 import com.tx.co.front_end.expiration.domain.ExpirationActivity;
 import com.tx.co.front_end.expiration.repository.ExpirationRepository;
@@ -17,6 +17,7 @@ import com.tx.co.security.exception.GeneralException;
 import com.tx.co.user.domain.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -66,7 +67,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<TaskTemplateExpirations> searchDateExpirationOffices(
+	public List<TaskExpirations> searchDateExpirationOffices(
 			DateExpirationOfficesHasArchived dateExpirationOfficesHasArchived) {
 
 		logger.info("Searching Task Templates Expirations");
@@ -79,10 +80,10 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		List<Office> offices = dateExpirationOfficesHasArchived.getOffices();
 		Boolean hasArchived = dateExpirationOfficesHasArchived.getHasArchived();
 
-		String querySql = "select tt " +
+		String querySql = "select t " +
 				"from Expiration e " +
-				"left join e.taskTemplate tt " +
-				"left join tt.tasks t " +
+				"left join e.task t " +
+				"left join t.taskTemplate tt " +
 				"left join t.taskOffices to " +
 				"left join to.office o ";
 
@@ -105,7 +106,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 			querySql += "and e.expirationDate between :dateStart and :endDate ";
 		}
 		if (!isEmpty(offices)) {
-			querySql += "and to.office in :officeList ";
+			querySql += "and e.office in :officeList ";
 		}
 		if (hasArchived) {
 			querySql += "or e.registered < :dateNow ";
@@ -116,8 +117,8 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 			querySql += "and cu.username = :username ";
 		}
 
-		querySql += "group by tt.idTaskTemplate, o.idOffice, e.expirationDate " +
-				"order by e.expirationDate desc ";
+		querySql += "group by tt.idTaskTemplate, e.expirationDate " +
+				"order by e.expirationDate desc";
 
 		query = em.createQuery(querySql);
 
@@ -141,9 +142,9 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		return convertToTaskTemplateExpirations(query.getResultList());
 	}
 
-	public List<TaskTemplateExpirations> convertToTaskTemplateExpirations(List<TaskTemplate> taskTemplates) {
+	public List<TaskExpirations> convertToTaskTemplateExpirations(List<Task> tasks) {
 
-		List<TaskTemplateExpirations> taskTemplateExpirations = new ArrayList<>();
+		List<TaskExpirations> taskExpirations = new ArrayList<>();
 
 		/*
 		 * Split the list based on those fields 
@@ -151,52 +152,68 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		List<Date> expirationDates = new ArrayList<>();
 		Map<Date, List<Expiration>> dateExpirationMap = new HashMap<>();
 
-		for (TaskTemplate taskTemplateLoop : taskTemplates) {
-
-			TaskTemplateExpirations taskTemplateExpiration = new TaskTemplateExpirations();
-			taskTemplateExpiration.setIdTaskTemplate(taskTemplateLoop.getIdTaskTemplate());
-			taskTemplateExpiration.setDescription(taskTemplateLoop.getDescription());
-
-			if (!isEmpty(taskTemplateLoop.getTasks())) {
+		if (!isEmpty(tasks)) {
+			for (Task taskLoop : tasks) {
+				
+				Task taskClone = new Task();
+				BeanUtils.copyProperties(taskLoop, taskClone);
+				
+				TaskExpirations taskExpiration = new TaskExpirations();
+				TaskTemplate taskTemplate = taskClone.getTaskTemplate();
+				taskExpiration.setIdTaskTemplate(taskTemplate.getIdTaskTemplate());
+				taskExpiration.setDescription(taskTemplate.getDescription());
 
 				int countTaskExpiration = 0;
 				int countTaskExpirationCompleted = 0;
 				Date expirationDate = null;
-				for (Task taskLoop : taskTemplateLoop.getTasks()) {
 
-					Set<Expiration> expirations = taskLoop.getExpirationsFilterEnabled();
-					if (!isEmpty(expirations)) {
+				Set<Expiration> expirations = taskClone.getExpirationsFilterEnabled();
+				if (!isEmpty(expirations)) {
 
-						dateExpirationMap = expirations.stream()
-								.collect(Collectors.groupingBy( exp -> exp.getExpirationDate() ));
+					dateExpirationMap = expirations.stream()
+							.collect(Collectors.groupingBy( exp -> exp.getExpirationDate() ));
 
-						for (Expiration expirationLoop : expirations) {
-							expirationDate = expirationLoop.getExpirationDate();
-							if(isEmpty(expirationDates) || !expirationDates.contains(expirationDate)) {
-								
-								expirationDates.add(expirationDate);
-								for (Expiration expirationGrouped : dateExpirationMap.get(expirationDate)) {
-									if (expirationGrouped.getCompleted().compareTo(new Date()) < 0) {
-										countTaskExpirationCompleted++;
-									}
-									countTaskExpiration++;
+					for (Expiration expirationLoop : expirations) {
+						expirationDate = expirationLoop.getExpirationDate();
+						if(isEmpty(expirationDates) || !expirationDates.contains(expirationDate)) {
+
+							expirationDates.add(expirationDate);
+							for (Expiration expirationGrouped : dateExpirationMap.get(expirationDate)) {
+								if (expirationGrouped.getCompleted().compareTo(new Date()) < 0) {
+									countTaskExpirationCompleted++;
 								}
-								taskLoop.setExpirations(new HashSet<>(dateExpirationMap.get(expirationDate)));
-								break;
+								countTaskExpiration++;
 							}
+							taskExpiration.setExpirations(new HashSet<>(dateExpirationMap.get(expirationDate)));
+							taskClone.setExpirations(new HashSet<>());
+							break;
 						}
 					}
 				}
 				// TODO To ask Roberto
-				taskTemplateExpiration.setTotalExpirations(countTaskExpiration);
-				taskTemplateExpiration.setTotalCompleted(countTaskExpirationCompleted);
-				taskTemplateExpiration.setTasks(taskTemplateLoop.getTasks());
-				taskTemplateExpiration.setExpirationDate(UtilStatic.formatDateToString(expirationDate));
+				taskExpiration.setTotalExpirations(countTaskExpiration);
+				taskExpiration.setTotalCompleted(countTaskExpirationCompleted);
+				taskExpiration.setTask(taskClone);
+				taskExpiration.setExpirationDate(UtilStatic.formatDateToString(expirationDate));
+				
+				taskExpirations.add(taskExpiration);
 			}
-			taskTemplateExpirations.add(taskTemplateExpiration);
 		}
 
-		return taskTemplateExpirations;
+		// sort the list by expiration date desc
+		if(!isEmpty(taskExpirations)) {
+			Collections.sort(taskExpirations, new Comparator<TaskExpirations>() {
+				@Override
+				public int compare(final TaskExpirations object1, final TaskExpirations object2) {
+					if(isEmpty(object1.getExpirationDate())) return 1;
+					if(isEmpty(object2.getExpirationDate())) return -1;
+
+					return UtilStatic.formatStringToDate(object2.getExpirationDate()).compareTo(UtilStatic.formatStringToDate(object1.getExpirationDate()));
+				}
+			});
+		}
+
+		return taskExpirations;
 	}
 
 	@Override
