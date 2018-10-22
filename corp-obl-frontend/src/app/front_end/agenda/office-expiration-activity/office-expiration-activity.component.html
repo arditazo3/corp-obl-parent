@@ -1,0 +1,23 @@
+<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-1" class="accordion ">
+    <ngb-panel type="{{ expiration.expirationDetail.colorDefined }}">
+        <ng-template ngbPanelTitle>
+            <div id="container-fluid">
+                <div class="row">
+                    <div class="col-4">
+                        <span class="float-left">{{ expiration?.office?.description }}</span>
+                    </div>
+                    <div class="col-4 text-center">
+                    </div>
+                    <div class="col-4 text-right">
+                        <span class="float-left">{{expiration.expirationDetail.expirationDescriptionDate}}</span>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+
+            <app-expiration-activity-detail [expiration]="expiration"></app-expiration-activity-detail>
+
+        </ng-template>
+    </ngb-panel>
+</ngb-accordion>

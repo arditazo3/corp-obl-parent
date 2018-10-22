@@ -1,0 +1,42 @@
+<div class="d-md-flex align-items-center">
+    <div>
+        <div>
+            <h6 class="card-subtitle">{{ expiration?.expirationActivity?.descriptionLastActivity }}</h6>
+            <h4 class="card-title">{{ expiration?.expirationActivity?.body }}</h4>
+
+            <div class="col-md-10 table-responsive">
+                <table class="table table-borderless table-sm">
+                    <thead>
+                    <tr>
+                        <th width="50%"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let expirationActivityAttachment of expiration?.expirationActivity?.expirationActivityAttachments">
+                        <td>
+                            <strong><a (click)="downloadFileExp(expirationActivityAttachment)"
+                                       class="text-primary" style="cursor: pointer;">
+                                {{ expirationActivityAttachment?.fileName }}
+                            </a></strong>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="ml-auto d-flex align-items-center">
+        <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Toggle dropdown
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <button class="dropdown-item">Action - 1</button>
+                <button class="dropdown-item">Another Action</button>
+                <button class="dropdown-item">Something else is here</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
