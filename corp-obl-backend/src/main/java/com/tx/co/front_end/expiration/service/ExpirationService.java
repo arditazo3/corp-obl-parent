@@ -9,6 +9,7 @@ import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchived
 import com.tx.co.front_end.expiration.api.model.TaskExpirations;
 import com.tx.co.front_end.expiration.domain.Expiration;
 import com.tx.co.front_end.expiration.domain.ExpirationActivity;
+import com.tx.co.front_end.expiration.repository.ExpirationActivityRepository;
 import com.tx.co.front_end.expiration.repository.ExpirationRepository;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
@@ -41,12 +42,18 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 	private static final Logger logger = LogManager.getLogger(ExpirationService.class);
 
 	private ExpirationRepository expirationRepository;
+	private ExpirationActivityRepository expirationActivityRepository;
 	private IExpirationActivityService expirationActivityService;
 	private EntityManager em;
 
 	@Autowired
 	public void setExpirationRepository(ExpirationRepository expirationRepository) {
 		this.expirationRepository = expirationRepository;
+	}
+
+	@Autowired
+	public void setExpirationActivityRepository(ExpirationActivityRepository expirationActivityRepository) {
+		this.expirationActivityRepository = expirationActivityRepository;
 	}
 
 	@Autowired
@@ -154,10 +161,10 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 		if (!isEmpty(tasks)) {
 			for (Task taskLoop : tasks) {
-				
+
 				Task taskClone = new Task();
 				BeanUtils.copyProperties(taskLoop, taskClone);
-				
+
 				TaskExpirations taskExpiration = new TaskExpirations();
 				TaskTemplate taskTemplate = taskClone.getTaskTemplate();
 				taskExpiration.setIdTaskTemplate(taskTemplate.getIdTaskTemplate());
@@ -196,7 +203,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 				taskExpiration.setTotalCompleted(countTaskExpirationCompleted);
 				taskExpiration.setTask(taskClone);
 				taskExpiration.setExpirationDate(UtilStatic.formatDateToString(expirationDate));
-				
+
 				taskExpirations.add(taskExpiration);
 			}
 		}
@@ -283,6 +290,51 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		return expirationStored;
 	}
 
+	@Override
+	public ExpirationActivity saveUpdateExpirationActivity(ExpirationActivity expirationActivity) {
+
+		// The modification of User
+		String username = ADMIN;
+		try {
+			username = getTokenUserDetails().getUser().getUsername();
+		} catch (Exception e) {
+			logger.info("Job process of the Expiration Activity");
+		}
+
+		ExpirationActivity expirationActivityStored = null;
+
+		// New Expiration Activity 
+		if (isEmpty(expirationActivity.getIdExpirationActivity())) {
+			expirationActivity.setCreationDate(new Date());
+			expirationActivity.setCreatedBy(username);
+			expirationActivity.setDeleted(false);
+			expirationActivityStored = expirationActivity;
+
+			logger.info("Creating the new expiration activity");
+		} else { // Existing Expiration
+			Optional<ExpirationActivity> expirationActivityOptional = expirationActivityRepository.findById(expirationActivity.getIdExpirationActivity());
+
+			if (expirationActivityOptional.isPresent()) {
+				expirationActivityStored = expirationActivityOptional.get();
+			} else {
+				throw new GeneralException("Expiration activity not found, id: " + expirationActivity.getIdExpirationActivity());
+			}
+
+			logger.info("Updating the expiration activity with id: " + expirationActivity.getIdExpirationActivity());
+		}
+
+		expirationActivityStored.setExpiration(expirationActivity.getExpiration());
+		
+		expirationActivity.setModificationDate(new Date());
+		expirationActivity.setModifiedBy(username);
+
+		expirationActivityStored = expirationActivityRepository.save(expirationActivityStored);
+
+		return expirationActivityStored;
+
+	}
+
+
 	/**
 	 * author rfratti
 	 *
@@ -341,5 +393,4 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		}
 		return false;
 	}
-
 }

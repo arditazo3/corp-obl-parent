@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.tx.co.back_office.company.api.model.CompanyConsultantResult;
 import com.tx.co.back_office.company.api.model.CompanyResult;
 import com.tx.co.back_office.company.api.model.CompanyTopicResult;
@@ -937,16 +938,32 @@ public abstract class ObjectResult extends UpdateCacheData {
 		if (!isEmpty(taskExpirations.getExpirations())) {
 			List<ExpirationResult> expirationResults = new ArrayList<>();
 			for (Expiration expiration : taskExpirations.getExpirations()) {
-				expirationResults.add(toExpirationResult(expiration));
+				expirationResults.add(toExpirationWithActivitiesResult(expiration));
 			}
 			taskExpirationsResult.setExpirations(expirationResults);
 		}
 		return taskExpirationsResult;
 	}
 
+	public Expiration toExpiration(ExpirationResult expirationResult) {
+		Expiration expiration = new Expiration();
+		
+		expiration.setExpirationClosableBy(Integer.valueOf(expirationResult.getExpirationClosableBy()));
+		expiration.setUsername(expirationResult.getUsername());
+		expiration.setExpirationDate(expirationResult.getExpirationDate());
+		expiration.setCompleted(expirationResult.getCompleted());
+		expiration.setApproved(expirationResult.getApproved());
+		expiration.setRegistered(expirationResult.getRegistered());
+		expiration.setOffice(toOffice(expirationResult.getOffice()));
+		expiration.setTask(toTask(expirationResult.getTask()));
+		expiration.setTaskTemplate(toTaskTemplate(expirationResult.getTaskTemplate()));
+		
+		return expiration;
+	}
+	
 	public ExpirationResult toExpirationResult(Expiration expiration) {
+		
 		ExpirationResult expirationResult = new ExpirationResult();
-
 		expirationResult.setIdExpiration(expiration.getIdExpiration());
 		// rfratti edited after converting Expiration.expirationClosableBy into Integer
 		// (as DB)
@@ -960,9 +977,27 @@ public abstract class ObjectResult extends UpdateCacheData {
 		expirationResult.setTask(toTaskResultOnly(expiration.getTask()));
 		expirationResult.setTaskTemplate(toTaskTemplateResult(expiration.getTaskTemplate()));
 		expirationResult.setExpirationDetail(UtilStatic.buildExpirationDetail(expiration));
+		
+		return expirationResult;
+	}
+	
+	public ExpirationResult toExpirationWithActivitiesResult(Expiration expiration) {
+		
+		ExpirationResult expirationResult = toExpirationWithActivitiesResult(expiration);
+		
 		expirationResult.setExpirationActivity(toExpirationActivityResult(expiration.getExpirationActivities()));
 		
 		return expirationResult;
+	}
+	
+	public ExpirationActivityResult toExpirationActivitySingleResult(ExpirationActivity expirationActivity) {
+		ExpirationActivityResult expirationActivityResult = new ExpirationActivityResult();
+		
+		expirationActivityResult.setIdExpirationActivity(expirationActivity.getIdExpirationActivity());
+		expirationActivityResult.setBody(expirationActivity.getBody());
+		expirationActivityResult.setDescriptionLastActivity(UtilStatic.buildDescriptionLastActivity(expirationActivity));
+		
+		return expirationActivityResult;
 	}
 	
 	public ExpirationActivityResult toExpirationActivityResult(Set<ExpirationActivity> expirationActivities) {
@@ -985,6 +1020,22 @@ public abstract class ObjectResult extends UpdateCacheData {
 		return expirationActivityResult;
 	}
 	
+	public ExpirationActivity toExpirationActivity(ExpirationActivityResult expirationActivityResult) {
+		ExpirationActivity expirationActivity = new ExpirationActivity();
+		
+		expirationActivity.setIdExpirationActivity(expirationActivityResult.getIdExpirationActivity());
+		expirationActivity.setBody(expirationActivityResult.getBody());
+		expirationActivity.setExpiration(toExpiration(expirationActivityResult.getExpiration()));
+		if(!isEmpty(expirationActivityResult.getExpirationActivityAttachments())) {
+			List<ExpirationActivityAttachment> expirationActivityAttachments = new ArrayList<>();
+			for (ExpirationActivityAttachmentResult expirationActivityAttachmentResult : expirationActivityResult.getExpirationActivityAttachments()) {
+				expirationActivityAttachments.add(toExpirationActivityAttachment(expirationActivityAttachmentResult));
+			}
+			expirationActivity.setExpirationActivityAttachments(new HashSet<ExpirationActivityAttachment>(expirationActivityAttachments));
+		}
+		return expirationActivity;
+	}
+	
 	public ExpirationActivityAttachmentResult toExpirationActivityAttachmentResult(ExpirationActivityAttachment expirationActivityAttachment) {
 		ExpirationActivityAttachmentResult expirationActivityAttachmentResult = new ExpirationActivityAttachmentResult();
 		
@@ -995,5 +1046,15 @@ public abstract class ObjectResult extends UpdateCacheData {
 		
 		return expirationActivityAttachmentResult;
 	}
+	
+	public ExpirationActivityAttachment toExpirationActivityAttachment(ExpirationActivityAttachmentResult expirationActivityAttachmentResult) {
+		ExpirationActivityAttachment expirationActivityAttachment = new ExpirationActivityAttachment();
 
+		expirationActivityAttachment.setIdExpirationActivityAttachment(expirationActivityAttachmentResult.getIdExpirationActivityAttachment());
+		expirationActivityAttachment.setFileName(expirationActivityAttachmentResult.getFileName());
+		expirationActivityAttachment.setFilePath(expirationActivityAttachmentResult.getFilePath());
+		expirationActivityAttachment.setFileType(expirationActivityAttachmentResult.getFileType());
+		expirationActivityAttachment.setFileSize(expirationActivityAttachmentResult.getFileSize());
+		return expirationActivityAttachment;
+	}
 }

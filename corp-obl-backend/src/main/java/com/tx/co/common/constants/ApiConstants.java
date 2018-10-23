@@ -118,6 +118,7 @@ public final class ApiConstants {
 	public static final String DOWNLOAD_FILES_EXP = "download-files-exp";
 	public static final String REMOVE_FILES_EXP = "remove-files-exp";
 
+	public static final String EXP_ACT_SAVE_UPDATE = AGENDA + "/save-update-exp-activ";
 	/** End Front end Resources */
 
 	/**
