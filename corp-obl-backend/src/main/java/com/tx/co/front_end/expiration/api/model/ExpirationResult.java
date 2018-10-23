@@ -28,7 +28,6 @@ public class ExpirationResult {
 	private Date registered;
 	private ExpirationActivityResult expirationActivity; 
 	private ExpirationDetailResult expirationDetail;
-	
 
 	public Long getIdExpiration() {
 		return idExpiration;
@@ -125,5 +124,4 @@ public class ExpirationResult {
 	public void setExpirationDetail(ExpirationDetailResult expirationDetail) {
 		this.expirationDetail = expirationDetail;
 	}
-	
 }

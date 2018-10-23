@@ -14,6 +14,7 @@ public class ExpirationDetailResult {
 	private String colorDefined;
 	private String expirationDescriptionDate;
 	private StatusExpirationEnum statusExpiration;
+	private StatusExpirationEnum statusExpirationFromUser;
 	
 	public String getColorDefined() {
 		return colorDefined;
@@ -33,6 +34,10 @@ public class ExpirationDetailResult {
 	public void setStatusExpiration(StatusExpirationEnum statusExpiration) {
 		this.statusExpiration = statusExpiration;
 	}
-	
-	
+	public StatusExpirationEnum getStatusExpirationFromUser() {
+		return statusExpirationFromUser;
+	}
+	public void setStatusExpirationFromUser(StatusExpirationEnum statusExpirationFromUser) {
+		this.statusExpirationFromUser = statusExpirationFromUser;
+	}
 }

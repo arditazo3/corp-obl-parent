@@ -179,7 +179,8 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 							expirationDates.add(expirationDate);
 							for (Expiration expirationGrouped : dateExpirationMap.get(expirationDate)) {
-								if (expirationGrouped.getCompleted().compareTo(new Date()) < 0) {
+								Date completedDate = expirationGrouped.getCompleted();
+								if (!isEmpty(completedDate) && completedDate.compareTo(new Date()) < 0) {
 									countTaskExpirationCompleted++;
 								}
 								countTaskExpiration++;
