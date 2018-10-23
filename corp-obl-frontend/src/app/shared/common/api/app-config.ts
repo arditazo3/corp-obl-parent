@@ -105,6 +105,7 @@ export class AppConfig {
 
     // File upload Exp
     public downloadFileExp = this.frontEndPath + '/download-files-exp';          // POST
+    public removeFileExp = this.frontEndPath + '/remove-files-exp';          // POST
 
     // Expiration
     public agenda = '/agenda';

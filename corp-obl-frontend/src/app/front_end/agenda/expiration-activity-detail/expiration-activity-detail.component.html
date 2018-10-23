@@ -1,5 +1,7 @@
 <div class="d-md-flex align-items-center">
+
     <div>
+
         <div>
             <h6 class="card-subtitle">{{ expiration?.expirationActivity?.descriptionLastActivity }}</h6>
             <h4 class="card-title">{{ expiration?.expirationActivity?.body }}</h4>
@@ -24,19 +26,110 @@
                 </table>
             </div>
         </div>
+
+        <div>
+            <div class="card">
+                <div class="card-body">
+                    <form class="m-t-20">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Right Side"
+                                   aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <div class="col-md-2">
+                                    <button type="button" (click)="fileInput.click()" class="btn-tnx btn-default">Upload
+                                        Files
+                                    </button>
+                                    <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
+                                    <input #selectedFile type="file" #fileInput ng2FileSelect [uploader]="uploader"
+                                           multiple/>
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-10 table-responsive">
+                                <table class="table table-borderless table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th width="50%">Name</th>
+                                        <th width="10%">Size</th>
+                                        <th width="40%">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let item of uploader?.queue">
+                                        <td>
+                                            <strong>{{ item?.file?.name }}</strong>
+                                        </td>
+                                        <td nowrap>{{ item?.file?.size/1024/1024 | number:'.1' }} MB
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn-tnx btn-danger btn-xs"
+                                                    (click)="removeFile(item)">
+                                                <span class="fa fa-trash"></span> Remove
+                                            </button>
+                                            <button *ngIf="!isNewForm" type="button" class="btn-tnx btn-xs"
+                                                    (click)="downloadFile(item)">
+                                                <span class="fa fa-download"></span> Download
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="m-b-0 col text-left">
+                                    <button #cancelBtn type="button"
+                                            class="btn-tnx btn-outline-secondary waves-effect waves-light">
+                                        Cancel
+                                    </button>
+                                    <button #submitBtn class="btn-tnx btn-success waves-effect waves-light">Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div class="ml-auto d-flex align-items-center">
+    <div class="ml-auto d-flex float-left align-items-center">
         <div ngbDropdown class="d-inline-block">
-            <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Toggle dropdown
+            <button class="btn btn-outline-primary" id="dropdownDetails" ngbDropdownToggle>Details
             </button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <button class="dropdown-item">Action - 1</button>
-                <button class="dropdown-item">Another Action</button>
-                <button class="dropdown-item">Something else is here</button>
+                <button class="dropdown-item"
+                        *ngIf="restoreBtn"
+                        (click)="restoreExp()">Restore
+                </button>
+                <button class="dropdown-item"
+                        *ngIf="archivedBtn"
+                        (click)="archivedExp()">Archived
+                </button>
+                <button class="dropdown-item"
+                        *ngIf="approvedBtn"
+                        (click)="approvedExp()">Approved
+                </button>
+                <button class="dropdown-item"
+                        *ngIf="notApprovedBtn"
+                        (click)="notApprovedExp()">Not Approved
+                </button>
             </div>
         </div>
     </div>
 
+    <swal
+            #errorTaskTemplateSwal
+            title=""
+            text=""
+            type="error">
+    </swal>
 
 </div>

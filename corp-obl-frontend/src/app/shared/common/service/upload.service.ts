@@ -59,4 +59,10 @@ export class UploadService {
 
         return this.apiRequest.put(this.appConfig.removeFile, taskTempAttach);
     }
+
+    removeFileExp(expActAttach): Observable<any> {
+        console.log('UploadService - removeFileExp');
+
+        return this.apiRequest.put(this.appConfig.removeFileExp, expActAttach);
+    }
 }

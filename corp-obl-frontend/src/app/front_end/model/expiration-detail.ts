@@ -4,5 +4,6 @@ export class ExpirationDetail {
 
     colorDefined: string;
     expirationDescriptionDate: string;
-    statusExpiration: StatusExpirationEnum;
+    statusExpiration: string;
+    statusExpirationFromUser: StatusExpirationEnum;
 }
