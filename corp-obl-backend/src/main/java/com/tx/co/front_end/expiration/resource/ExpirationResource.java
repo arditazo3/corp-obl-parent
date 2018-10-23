@@ -19,10 +19,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
+import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.common.api.provider.ObjectResult;
 import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchivedResult;
+import com.tx.co.front_end.expiration.api.model.ExpirationActivityResult;
+import com.tx.co.front_end.expiration.api.model.ExpirationResult;
 import com.tx.co.front_end.expiration.api.model.TaskExpirations;
 import com.tx.co.front_end.expiration.api.model.TaskExpirationsResult;
+import com.tx.co.front_end.expiration.domain.ExpirationActivity;
 import com.tx.co.front_end.expiration.service.IExpirationService;
 
 @Component
@@ -55,6 +59,17 @@ public class ExpirationResource extends ObjectResult {
 				.collect(Collectors.toList());
 
 		return Response.ok(queryDetailsList).build();
+	}
+	
+	@POST
+	@Path(EXP_ACT_SAVE_UPDATE)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response saveUpdateExpirationActivity(ExpirationActivityResult expirationActivity) {
+
+		ExpirationActivity expirationActivityStored = expirationService.saveUpdateExpirationActivity(toExpirationActivity(expirationActivity));
+
+        return Response.ok(toExpirationActivitySingleResult(expirationActivityStored)).build();
 	}
 	
 	
