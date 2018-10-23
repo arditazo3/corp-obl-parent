@@ -15,6 +15,7 @@ import com.tx.co.abstraction.AbstractServiceTest;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchived;
 import com.tx.co.front_end.expiration.api.model.TaskExpirations;
+import com.tx.co.front_end.expiration.domain.Expiration;
 
 /**
  * Tests for the expiration service class.
@@ -49,4 +50,15 @@ public class ExpirationServiceTest extends AbstractServiceTest {
 		
 		assertNotNull(taskTemplateExpirations);
 	}
+	
+	/**
+	 * 
+	 * @author rfratti
+	 * */
+	@Test
+    public void getSchedulerRemovableExpirationList() {
+        long taskId = 1;
+        final Iterable<Expiration> expirationList = super.getExpirationService().getSchedulerRemovableExpirationList(taskId);
+        assertNotNull(expirationList);
+    }
 }

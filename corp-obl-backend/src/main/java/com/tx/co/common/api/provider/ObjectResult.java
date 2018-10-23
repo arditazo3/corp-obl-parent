@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.mysql.fabric.xmlrpc.base.Array;
 import com.tx.co.back_office.company.api.model.CompanyConsultantResult;
 import com.tx.co.back_office.company.api.model.CompanyResult;
 import com.tx.co.back_office.company.api.model.CompanyTopicResult;

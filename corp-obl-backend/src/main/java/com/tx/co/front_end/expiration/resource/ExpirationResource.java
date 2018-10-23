@@ -19,11 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
-import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.common.api.provider.ObjectResult;
 import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchivedResult;
 import com.tx.co.front_end.expiration.api.model.ExpirationActivityResult;
-import com.tx.co.front_end.expiration.api.model.ExpirationResult;
 import com.tx.co.front_end.expiration.api.model.TaskExpirations;
 import com.tx.co.front_end.expiration.api.model.TaskExpirationsResult;
 import com.tx.co.front_end.expiration.domain.ExpirationActivity;
