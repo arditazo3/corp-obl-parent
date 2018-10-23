@@ -8,6 +8,8 @@ import {StatusExpirationEnum} from '../../../shared/common/api/enum/status.expir
 import {ExpirationActivityAttachment} from '../../model/expiration-activity-attachment';
 import {FileItem, FileLikeObject} from 'ng2-file-upload';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
+import {ExpirationService} from '../../service/expiration.service';
+import {ExpirationActivity} from '../../model/expiration-activity';
 
 @Component({
     selector: 'app-expiration-activity-detail',
@@ -27,10 +29,14 @@ export class ExpirationActivityDetailComponent implements OnInit {
     approvedBtn = false;
     notApprovedBtn = false;
 
+    expActivityMsg;
+    submitted = false;
+
     uploader;
 
     constructor(
-        private uploadService: UploadService
+        private uploadService: UploadService,
+        private expirationService: ExpirationService
     ) {
     }
 
@@ -133,11 +139,35 @@ export class ExpirationActivityDetailComponent implements OnInit {
         console.log('ExpirationActivityDetailComponent - archivedExp');
     }
 
+    saveExpActivDetail() {
+        console.log('ExpirationActivityDetailComponent - saveExpActivDetail');
+
+        const me = this;
+        this.submitted = true;
+
+        if (!this.expActivityMsg) {
+            return;
+        }
+
+        const expActivity: ExpirationActivity = new ExpirationActivity();
+        expActivity.body = this.expActivityMsg;
+        this.expiration.expirationActivity = expActivity;
+
+        this.expirationService.saveUpdateExpirationActivity(this.expiration).subscribe(
+            data => {
+
+            },
+            error => {
+
+            }
+        );
+    }
+
     downloadFile(item) {
         console.log('ExpirationActivityDetailComponent - downloadFile');
 
         const me = this;
-        if (item.formData) {
+        if (item.formData && item.formData.length === undefined) {
             const expirationActivityAttachment: ExpirationActivityAttachment = item.formData;
             this.uploadService.downloadFileExp(item.formData).subscribe(
                 (data) => {

@@ -15,4 +15,8 @@ export class ExpirationService {
     searchDateExpirationOffices(dateExpirationOfficesArchived): Observable<any> {
         return this.apiRequest.post(this.appConfig.expirationSearchTaskTemplateOfficeArchived, dateExpirationOfficesArchived);
     }
+
+    saveUpdateExpirationActivity(expiration): Observable<any> {
+        return this.apiRequest.post(this.appConfig.expirationSearchTaskTemplateOfficeArchived, expiration);
+    }
 }

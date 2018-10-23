@@ -110,6 +110,7 @@ export class AppConfig {
     // Expiration
     public agenda = '/agenda';
     public expirationSearchTaskTemplateOfficeArchived = this.frontEndPath + this.agenda + '/search-task';
+    public saveUpdateExpirationActivity = this.frontEndPath + this.agenda + '/save-update-exp-activ';
 
 
     constructor() {
