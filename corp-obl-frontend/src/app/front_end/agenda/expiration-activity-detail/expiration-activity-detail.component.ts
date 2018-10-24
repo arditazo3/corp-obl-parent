@@ -149,11 +149,19 @@ export class ExpirationActivityDetailComponent implements OnInit {
             return;
         }
 
-        const expActivity: ExpirationActivity = new ExpirationActivity();
-        expActivity.body = this.expActivityMsg;
-        this.expiration.expirationActivity = expActivity;
+        const cloneExpiration = { ...this.expiration };
+        const expirationActivity: ExpirationActivity = cloneExpiration.expirationActivity;
+        expirationActivity.idExpirationActivity = undefined;
+        expirationActivity.expirationActivityAttachments = undefined;
 
-        this.expirationService.saveUpdateExpirationActivity(this.expiration).subscribe(
+        expirationActivity.body = this.expActivityMsg;
+
+        expirationActivity.expiration = cloneExpiration;
+
+        // avoid infinite JSON cicle parent-child
+        expirationActivity.expiration.expirationActivity = undefined;
+
+        this.expirationService.saveUpdateExpirationActivity(expirationActivity).subscribe(
             data => {
 
             },
