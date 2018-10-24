@@ -70,7 +70,26 @@ public class Scheduler {
 
     }
 
-    public void init() {
+    /**
+     * Execute scheduler
+     */
+    public void execute() {
+        this.init();
+        this.elaborateTasksAndSendNotification();
+    }
+
+    /**
+     * Elaborate task
+     * @param task
+     */
+    public void elaborateTask(final Task task) {
+        this.init();
+        this.createTaskExpirations(task);
+        this.removeTaskExpirations(task);
+    }
+
+
+    private void init() {
         if (null == userMap) {
             userMap = new LinkedHashMap<>();
             final List<User> userList = userService.findAllUsers();
@@ -81,26 +100,16 @@ public class Scheduler {
         }
     }
 
-    public void execute() {
-        this.init();
-        this.elaborateTasksAndSendNotification();
-    }
-
     private void elaborateTasksAndSendNotification() {
         // List of task to check
         final List<Task> taskList = taskService.getAllTasksForScheduler();
         //
         for (final Task task : taskList) {
             // Create expiration
-            //        this.createTaskExpirations(task);
+            this.createTaskExpirations(task);
             // Send notification
             this.sendTaskNotifications(task);
         }
-    }
-
-    public void elaborateTask(final Task task) {
-        this.createTaskExpirations(task);
-        this.removeTaskExpirations(task);
     }
 
     private void sendTaskNotifications(final Task task) {
