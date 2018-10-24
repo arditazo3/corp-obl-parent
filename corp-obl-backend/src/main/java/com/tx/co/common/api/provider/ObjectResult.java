@@ -666,9 +666,9 @@ public abstract class ObjectResult extends UpdateCacheData {
 		task.setDaysOfNotice(taskResult.getDaysOfNotice());
 		task.setFrequenceOfNotice(taskResult.getFrequenceOfNotice());
 		task.setDaysBeforeShowExpiration(taskResult.getDaysBeforeShowExpiration());
-		task.setTaskTemplate(toTaskTemplate(taskResult.getTaskTemplate()));
-		task.setTaskTemplate(toTaskTemplate(taskResult.getTaskTemplate()));
-
+		if(!isEmpty(taskResult.getTaskTemplate())) {
+			task.setTaskTemplate(toTaskTemplate(taskResult.getTaskTemplate()));	
+		}
 		return task;
 	}
 
@@ -947,16 +947,22 @@ public abstract class ObjectResult extends UpdateCacheData {
 	public Expiration toExpiration(ExpirationResult expirationResult) {
 		Expiration expiration = new Expiration();
 		
+		expiration.setIdExpiration(expirationResult.getIdExpiration());
 		expiration.setExpirationClosableBy(Integer.valueOf(expirationResult.getExpirationClosableBy()));
 		expiration.setUsername(expirationResult.getUsername());
 		expiration.setExpirationDate(expirationResult.getExpirationDate());
 		expiration.setCompleted(expirationResult.getCompleted());
 		expiration.setApproved(expirationResult.getApproved());
 		expiration.setRegistered(expirationResult.getRegistered());
-		expiration.setOffice(toOffice(expirationResult.getOffice()));
-		expiration.setTask(toTask(expirationResult.getTask()));
-		expiration.setTaskTemplate(toTaskTemplate(expirationResult.getTaskTemplate()));
-		
+		if(!isEmpty(expirationResult.getOffice())) {
+			expiration.setOffice(toOffice(expirationResult.getOffice()));	
+		}
+		if(!isEmpty(expirationResult.getTask())) {
+			expiration.setTask(toTask(expirationResult.getTask()));	
+		}
+		if(!isEmpty(expirationResult.getTaskTemplate())) {
+			expiration.setTaskTemplate(toTaskTemplate(expirationResult.getTaskTemplate()));	
+		}
 		return expiration;
 	}
 	
@@ -982,7 +988,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 	
 	public ExpirationResult toExpirationWithActivitiesResult(Expiration expiration) {
 		
-		ExpirationResult expirationResult = toExpirationWithActivitiesResult(expiration);
+		ExpirationResult expirationResult = toExpirationResult(expiration);
 		
 		expirationResult.setExpirationActivity(toExpirationActivityResult(expiration.getExpirationActivities()));
 		

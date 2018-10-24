@@ -323,10 +323,11 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 			logger.info("Updating the expiration activity with id: " + expirationActivity.getIdExpirationActivity());
 		}
 
-		expirationActivityStored.setExpiration(expirationActivity.getExpiration());
+		expirationActivityStored.setBody(expirationActivity.getBody());
 		
-		expirationActivity.setModificationDate(new Date());
-		expirationActivity.setModifiedBy(username);
+		expirationActivityStored.setExpiration(expirationActivity.getExpiration());
+		expirationActivityStored.setModificationDate(new Date());
+		expirationActivityStored.setModifiedBy(username);
 
 		expirationActivityStored = expirationActivityRepository.save(expirationActivityStored);
 
