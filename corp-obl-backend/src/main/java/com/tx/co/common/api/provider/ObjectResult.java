@@ -1017,6 +1017,9 @@ public abstract class ObjectResult extends UpdateCacheData {
 			Collections.sort(expirationActivitiesToSort, new Comparator<ExpirationActivity>() {
 				@Override
 				public int compare(ExpirationActivity ea1, ExpirationActivity ea2) {
+					if(isEmpty(ea1.getModifiedBy())) return -1;
+					if(isEmpty(ea2.getModifiedBy())) return 1;
+					
 					return ea2.getModificationDate().before(ea1.getModificationDate()) ? -1 : 1;
 				}
 			});	

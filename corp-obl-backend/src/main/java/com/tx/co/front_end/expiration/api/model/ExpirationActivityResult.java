@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  *
  * @author aazo
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.ALWAYS)
 public class ExpirationActivityResult {
 
 	private Long idExpirationActivity;

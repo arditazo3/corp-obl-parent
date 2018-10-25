@@ -176,8 +176,12 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 					dateExpirationMap = expirations.stream()
 							.collect(Collectors.groupingBy( exp -> exp.getExpirationDate() ));
-
+					
 					for (Expiration expirationLoop : expirations) {
+						
+						if(isProvider()) {
+							expirationLoop.getExpirationActivities().add(new ExpirationActivity());
+						}
 						
 						expirationDate = expirationLoop.getExpirationDate();
 						if(isEmpty(expirationDates) || !expirationDates.contains(expirationDate)) {
@@ -391,5 +395,15 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 			logger.error("Exception on updating list of expiration. Exception: " + e, e);
 		}
 		return false;
+	}
+	
+	public Boolean isProvider() {
+		Boolean isProvider = false;
+		User userLoggedIn = getTokenUserDetails().getUser();
+		
+		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER)) {
+			isProvider = true;
+		}
+		return isProvider;
 	}
 }

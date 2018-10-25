@@ -240,7 +240,9 @@ public class UtilStatic {
 		String userModify = expirationActivity.getModifiedBy();
 		Date lastModify = expirationActivity.getModificationDate();
 		
-		descriptionLastActivity += userModify + ", " + formatDateToString(lastModify) + ", at " + formatHoursMinutesToString(lastModify) + " wrote";
+		if(!isEmpty(userModify) && !isEmpty(lastModify)) {
+			descriptionLastActivity += userModify + ", " + formatDateToString(lastModify) + ", at " + formatHoursMinutesToString(lastModify) + " wrote";	
+		}
 		
 		return descriptionLastActivity;
 	}
