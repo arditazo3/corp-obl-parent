@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
  *
  * @author rfratti
  */
+@Service
 public class Scheduler {
 
     private static final String PATTERN_INT_DATE = AppConstants.PATTERN_INT_DATE;

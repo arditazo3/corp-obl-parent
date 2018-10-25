@@ -1,6 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Expiration} from '../../model/expiration';
-import {TaskTemplateAttachment} from '../../../back_office/tasktemplateattachment/tasktemplateattachment';
 import {saveAs as importedSaveAs} from 'file-saver';
 import {UploadService} from '../../../shared/common/service/upload.service';
 import {ApiErrorDetails} from '../../../shared/common/api/model/api-error-details';

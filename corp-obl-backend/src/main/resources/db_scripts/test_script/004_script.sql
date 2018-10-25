@@ -10,4 +10,6 @@ select * from co_translations;
 
 select * from co_office;
 
+select * from co_expiration;
+
 select * from co_expirationactivity;

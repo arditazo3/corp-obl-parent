@@ -1,5 +1,8 @@
 package com.tx.co.user.service;
 
+import static com.tx.co.common.constants.AppConstants.*;
+
+import com.tx.co.back_office.task.repository.TaskOfficeRelationRepository;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.security.domain.Authority;
 import com.tx.co.user.domain.User;
@@ -26,10 +29,12 @@ public class UserService extends UpdateCacheData implements IUserService {
     private static final Logger logger = LogManager.getLogger(UserService.class);
 
     private final UserRepository userRepository;
+    private final TaskOfficeRelationRepository taskOfficeRelationRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, TaskOfficeRelationRepository taskOfficeRelationRepository) {
         this.userRepository = userRepository;
+        this.taskOfficeRelationRepository = taskOfficeRelationRepository;
     }
 
     /**
@@ -85,6 +90,25 @@ public class UserService extends UpdateCacheData implements IUserService {
 	@Override
 	public List<String> getLangNotAvailable() {
 		return getLanguagesNotAvailableFromCache();
+	}
+
+	@Override
+	public void setUserRelationType(User user) {
+		if(!isEmpty(user) &&
+				!isEmpty(user.getAuthorities()) && 
+				user.getAuthorities().contains(Authority.CORPOBLIG_USER)) {
+
+			String username = user.getUsername();
+			
+			if(!isEmpty(taskOfficeRelationRepository.
+					getTaskOfficeRelationsByUsernameAndRelationType(username, CONTROLLER))) {
+				user.getAuthorities().add(Authority.CORPOBLIG_CONTROLLER);
+			}
+			if(!isEmpty(taskOfficeRelationRepository.
+					getTaskOfficeRelationsByUsernameAndRelationType(username, CONTROLLED))) {
+				user.getAuthorities().add(Authority.CORPOBLIG_CONTROLLED);
+			}
+		}
 	}
 }
 

@@ -15,4 +15,6 @@ public interface IUserService {
     List<String> getLang();
     
     List<String> getLangNotAvailable();
+    
+    void setUserRelationType(User user);
 }

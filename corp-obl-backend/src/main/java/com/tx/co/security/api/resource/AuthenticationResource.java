@@ -76,6 +76,8 @@ public class AuthenticationResource implements IUserManagementDetails {
             throw new GeneralException("Empty field");
         }
 
+        userService.setUserRelationType(userLogIn);
+        
         String token = authenticationTokenService.issueToken(userLogIn);
         AuthenticationTokenUser authenticationTokenUser = new AuthenticationTokenUser();
         authenticationTokenUser.setToken(token);

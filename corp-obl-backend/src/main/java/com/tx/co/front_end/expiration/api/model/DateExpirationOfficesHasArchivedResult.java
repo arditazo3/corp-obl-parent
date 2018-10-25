@@ -13,7 +13,6 @@ import com.tx.co.back_office.office.api.model.OfficeResult;
  * @author aazo
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-// @JsonDeserialize(using=CustomerDateAndTimeDeserialize.class)
 public class DateExpirationOfficesHasArchivedResult {
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
@@ -21,7 +20,7 @@ public class DateExpirationOfficesHasArchivedResult {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private Date dateEnd;
 	private List<OfficeResult> offices;
-	private Boolean hasArchived;
+	private Boolean hideArchived;
 	
 	public Date getDateStart() {
 		return dateStart;
@@ -41,12 +40,10 @@ public class DateExpirationOfficesHasArchivedResult {
 	public void setOffices(List<OfficeResult> offices) {
 		this.offices = offices;
 	}
-	public Boolean getHasArchived() {
-		return hasArchived;
+	public Boolean getHideArchived() {
+		return hideArchived;
 	}
-	public void setHasArchived(Boolean hasArchived) {
-		this.hasArchived = hasArchived;
+	public void setHideArchived(Boolean hideArchived) {
+		this.hideArchived = hideArchived;
 	}
-	
-	
 }

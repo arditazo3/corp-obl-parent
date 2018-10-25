@@ -85,7 +85,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		Date dateStart = dateExpirationOfficesHasArchived.getDateStart();
 		Date endDate = dateExpirationOfficesHasArchived.getDateEnd();
 		List<Office> offices = dateExpirationOfficesHasArchived.getOffices();
-		Boolean hasArchived = dateExpirationOfficesHasArchived.getHasArchived();
+		Boolean hideArchived = dateExpirationOfficesHasArchived.getHideArchived();
 
 		String querySql = "select t " +
 				"from Expiration e " +
@@ -115,8 +115,8 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		if (!isEmpty(offices)) {
 			querySql += "and e.office in :officeList ";
 		}
-		if (hasArchived) {
-			querySql += "or e.registered < :dateNow ";
+		if (hideArchived) {
+			querySql += "and e.registered is null ";
 		}
 		if ((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER) ||
 				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER)) &&
@@ -125,7 +125,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		}
 
 		querySql += "group by tt.idTaskTemplate, e.expirationDate " +
-				"order by e.expirationDate desc";
+				"order by e.expirationDate desc ";
 
 		query = em.createQuery(querySql);
 
@@ -141,9 +141,6 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		}
 		if (!isEmpty(offices)) {
 			query.setParameter("officeList", offices);
-		}
-		if (hasArchived) {
-			query.setParameter("dateNow", new Date());
 		}
 
 		return convertToTaskTemplateExpirations(query.getResultList());
@@ -181,6 +178,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 							.collect(Collectors.groupingBy( exp -> exp.getExpirationDate() ));
 
 					for (Expiration expirationLoop : expirations) {
+						
 						expirationDate = expirationLoop.getExpirationDate();
 						if(isEmpty(expirationDates) || !expirationDates.contains(expirationDate)) {
 

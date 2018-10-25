@@ -10,7 +10,7 @@ public class DateExpirationOfficesHasArchived {
 	private Date dateStart;
 	private Date dateEnd;
 	private List<Office> offices;
-	private Boolean hasArchived;
+	private Boolean hideArchived;
 	public Date getDateStart() {
 		return dateStart;
 	}
@@ -29,12 +29,10 @@ public class DateExpirationOfficesHasArchived {
 	public void setOffices(List<Office> offices) {
 		this.offices = offices;
 	}
-	public Boolean getHasArchived() {
-		return hasArchived;
+	public Boolean getHideArchived() {
+		return hideArchived;
 	}
-	public void setHasArchived(Boolean hasArchived) {
-		this.hasArchived = hasArchived;
+	public void setHideArchived(Boolean hideArchived) {
+		this.hideArchived = hideArchived;
 	}
-	
-	
 }

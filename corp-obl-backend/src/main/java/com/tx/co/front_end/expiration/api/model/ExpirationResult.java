@@ -1,7 +1,7 @@
 package com.tx.co.front_end.expiration.api.model;
 
 import java.util.Date;
-
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tx.co.back_office.office.api.model.OfficeResult;
@@ -26,7 +26,7 @@ public class ExpirationResult {
 	private Date completed;
 	private Date approved;
 	private Date registered;
-	private ExpirationActivityResult expirationActivity; 
+	private List<ExpirationActivityResult> expirationActivities; 
 	private ExpirationDetailResult expirationDetail;
 
 	public Long getIdExpiration() {
@@ -109,12 +109,12 @@ public class ExpirationResult {
 		this.registered = registered;
 	}
 
-	public ExpirationActivityResult getExpirationActivity() {
-		return expirationActivity;
+	public List<ExpirationActivityResult> getExpirationActivities() {
+		return expirationActivities;
 	}
 
-	public void setExpirationActivity(ExpirationActivityResult expirationActivity) {
-		this.expirationActivity = expirationActivity;
+	public void setExpirationActivities(List<ExpirationActivityResult> expirationActivities) {
+		this.expirationActivities = expirationActivities;
 	}
 
 	public ExpirationDetailResult getExpirationDetail() {
