@@ -27,6 +27,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.tx.co.common.constants.AppConstants.ADMIN;
 import static org.springframework.util.ObjectUtils.isEmpty;
@@ -179,15 +180,17 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 					
 					for (Expiration expirationLoop : expirations) {
 						
-						if(isProvider()) {
-							expirationLoop.getExpirationActivities().add(new ExpirationActivity());
-						}
-						
 						expirationDate = expirationLoop.getExpirationDate();
 						if(isEmpty(expirationDates) || !expirationDates.contains(expirationDate)) {
 
 							expirationDates.add(expirationDate);
 							for (Expiration expirationGrouped : dateExpirationMap.get(expirationDate)) {
+								
+								if(isProvider() && 
+										expirationGrouped.getExpirationActivities().stream().allMatch(ea -> ea.getIdExpirationActivity() != null)) {
+									expirationGrouped.getExpirationActivities().add(new ExpirationActivity());
+								}
+								
 								Date completedDate = expirationGrouped.getCompleted();
 								if (!isEmpty(completedDate) && completedDate.compareTo(new Date()) < 0) {
 									countTaskExpirationCompleted++;

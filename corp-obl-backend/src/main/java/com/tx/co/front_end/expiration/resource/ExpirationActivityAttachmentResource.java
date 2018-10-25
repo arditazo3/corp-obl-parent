@@ -23,6 +23,7 @@ import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import com.tx.co.back_office.tasktemplateattachment.handler.IFileUploadHandler;
@@ -34,6 +35,7 @@ import com.tx.co.security.exception.GeneralException;
 
 @Component
 @Path(FRONT_END)
+@PreAuthorize(AUTH_ADMIN_USER)
 public class ExpirationActivityAttachmentResource {
 
 	private static final Logger logger = LogManager.getLogger(ExpirationActivityAttachmentResource.class);
