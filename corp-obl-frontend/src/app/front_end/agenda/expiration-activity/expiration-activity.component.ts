@@ -5,10 +5,11 @@ import {UploadService} from '../../../shared/common/service/upload.service';
 import {ApiErrorDetails} from '../../../shared/common/api/model/api-error-details';
 import {StatusExpirationEnum} from '../../../shared/common/api/enum/status.expiration.enum';
 import {ExpirationActivityAttachment} from '../../model/expiration-activity-attachment';
-import {FileItem, FileLikeObject} from 'ng2-file-upload';
+import {FileItem, FileLikeObject, ParsedResponseHeaders} from 'ng2-file-upload';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {ExpirationService} from '../../service/expiration.service';
 import {ExpirationActivity} from '../../model/expiration-activity';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-expiration-activity',
@@ -27,9 +28,12 @@ export class ExpirationActivityComponent implements OnInit {
     expActivityMsg;
     submitted = false;
 
+    counterUpload = 0;
+    counterCallback = 0;
     uploader;
 
     constructor(
+        private router: Router,
         private uploadService: UploadService,
         private expirationService: ExpirationService
     ) {
@@ -37,8 +41,8 @@ export class ExpirationActivityComponent implements OnInit {
 
     ngOnInit() {
 
-        this.uploader = this.uploadService.uploader;
-        this.uploadService.uploadFileWithAuth();
+        this.uploader = this.uploadService.uploaderExp;
+        this.uploadService.uploadFileExpWithAuth();
         this.uploader.onBeforeUploadItem = (item) => {
             item.withCredentials = false;
         };
@@ -111,6 +115,8 @@ export class ExpirationActivityComponent implements OnInit {
         }
 
         const cloneExpiration = { ...this.expiration };
+        cloneExpiration.expirationActivities = undefined;
+
         this.expirationActivity.idExpirationActivity = undefined;
         this.expirationActivity.expirationActivityAttachments = undefined;
 
@@ -121,12 +127,45 @@ export class ExpirationActivityComponent implements OnInit {
 
         this.expirationService.saveUpdateExpirationActivity(this.expirationActivity).subscribe(
             data => {
+                const expActivity: ExpirationActivity = data;
 
+                me.uploader.onBuildItemForm = (fileItem: any, form: any) => {
+                    form.append('idExpirationActivityAttachment', expActivity.idExpirationActivity);
+                };
+
+                let noFileUpload = true;
+                me.uploader.queue.forEach((item) => {
+                    if (!item.formData || item.formData.length === 0) {
+                        item.upload();
+                        noFileUpload = false;
+                        me.counterUpload++;
+                    }
+                });
+                me.uploader.onErrorItem = (item, response, status, headers) =>
+                    me.onErrorItem(item, response, status, headers);
+                me.uploader.onSuccessItem = (item, response, status, headers) =>
+                    me.onSuccessItem(item, response, status, headers);
+
+                this.counterCallback = 0;
             },
             error => {
 
             }
         );
+    }
+
+    onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
+        this.counterCallback++;
+        if (this.counterUpload === this.counterCallback) {
+            this.router.navigate(['/front-end/agenda']);
+        }
+    }
+
+    onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
+        this.counterCallback++;
+        if (this.counterUpload === this.counterCallback) {
+            this.router.navigate(['/front-end/agenda']);
+        }
     }
 
     downloadFile(item) {
