@@ -24,8 +24,6 @@ export class ExpirationActivityComponent implements OnInit {
 
     errorDetails: ApiErrorDetails = new ApiErrorDetails();
 
-
-
     expActivityMsg;
     submitted = false;
 
@@ -101,8 +99,6 @@ export class ExpirationActivityComponent implements OnInit {
                 });
         }
     }
-
-
 
     saveExpActivDetail() {
         console.log('ExpirationActivityDetailComponent - saveExpActivDetail');
