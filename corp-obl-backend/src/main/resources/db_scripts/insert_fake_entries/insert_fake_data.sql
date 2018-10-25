@@ -29,6 +29,8 @@ INSERT INTO co_task (tasktemplate_id, recurrence, expirationtype, day, daysofnot
 select * from co_taskofficerelations;
 
 select * from co_expiration;
+select * from co_expirationactivity;
+select * from co_expirationactivityattachment;
 
 insert into co_expiration (tasktemplate_id, task_id, office_id, expirationclosableby, username, expirationdate, completed, approved, registered, enabled, creationdate, createdby, modificationdate, modifiedby)
 select tt.id, t.id, tasko.office_id, 1, tor.username, date_add(now(), INTERVAL 15 DAY), date_add(now(), INTERVAL 5 DAY), now(), now(), 1, now(), tor.username, now(), tor.username
@@ -43,11 +45,11 @@ INSERT INTO corporate_obligations.co_expiration (id, tasktemplate_id, task_id, o
 (3, 74, 156, 11, 1, 'USER5', '2018-11-05', '2018-10-25 09:56:00', '2018-10-20 09:56:00', '2018-10-20 09:56:00', 1, '2018-10-20 09:56:00', 'USER5', '2018-10-20 09:56:00', 'USER5');
 
 insert into co_expirationactivity(expiration_id, body, deleted, creationdate, createdby, modificationdate, modifiedby)
-select id, 'Test test', 0, now(), 'ADMIN', now(), 'ADMIN'
+select 5, 'Test test', 0, now(), modifiedby, now(), modifiedby
 from co_expiration;
 
 insert into co_expirationactivityattachment(expirationactivity_id, filename, filetype, filepath, filesize, createdby, modificationdate, modifiedby, creationdate)
-select 2, filename, filetype, filepath, filesize, 'user 5', now(), 'user 5', now()
+select 15, filename, filetype, filepath, filesize, 'user 5', now(), 'user 5', now()
 from co_tasktemplateattachment;
 
 select * from co_tasktemplateattachment;

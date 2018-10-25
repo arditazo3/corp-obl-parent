@@ -18,10 +18,10 @@
             </ng-template>
             <ng-template ngbPanelContent>
                 <div *ngFor="let expiration of taskExpiration.expirations">
-                        <app-office-expiration-activity [expiration]="expiration"
+                        <app-office-expiration [expiration]="expiration"
                                                         [taskExpiration]="taskExpiration"
                                                         class="w-100">
-                        </app-office-expiration-activity>
+                        </app-office-expiration>
                 </div>
             </ng-template>
         </ngb-panel>

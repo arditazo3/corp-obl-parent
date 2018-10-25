@@ -15,8 +15,37 @@
             </div>
         </ng-template>
         <ng-template ngbPanelContent>
+            <div class="d-md-flex align-items-center">
+                <div class="ml-auto d-flex float-left align-items-center">
+                    <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-outline-primary" id="dropdownDetails" ngbDropdownToggle>Details
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                            <button class="dropdown-item"
+                                    *ngIf="restoreBtn"
+                                    (click)="restoreExp()">Restore
+                            </button>
+                            <button class="dropdown-item"
+                                    *ngIf="archivedBtn"
+                                    (click)="archivedExp()">Archived
+                            </button>
+                            <button class="dropdown-item"
+                                    *ngIf="approvedBtn"
+                                    (click)="approvedExp()">Approved
+                            </button>
+                            <button class="dropdown-item"
+                                    *ngIf="notApprovedBtn"
+                                    (click)="notApprovedExp()">Not Approved
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <app-expiration-activity-detail [expiration]="expiration"></app-expiration-activity-detail>
+            <div *ngFor="let expirationActivity of expiration.expirationActivities">
+                <app-expiration-activity [expiration]="expiration" [expirationActivity]="expirationActivity"
+                                         class="w-100"></app-expiration-activity>
+            </div>
 
         </ng-template>
     </ngb-panel>

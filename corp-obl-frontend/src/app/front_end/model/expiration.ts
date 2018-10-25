@@ -18,5 +18,5 @@ export class Expiration {
     approved: Date;
     registered: Date;
     expirationDetail: ExpirationDetail;
-    expirationActivity: ExpirationActivity;
+    expirationActivities: ExpirationActivity[];
 }

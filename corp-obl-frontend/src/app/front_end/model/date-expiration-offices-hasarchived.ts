@@ -5,5 +5,5 @@ export class DateExpirationOfficesHasArchived {
     dateStart: string;
     dateEnd: string;
     offices: Office[];
-    hasArchived: Boolean;
+    hideArchived: Boolean;
 }

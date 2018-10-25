@@ -16,8 +16,8 @@ import {MyDatePickerModule} from 'mydatepicker';
 import {MomentModule} from 'ngx-moment';
 import {ExpirationService} from './service/expiration.service';
 import {TaskTemplateExpirationsComponent} from './agenda/task-template-expirations/task-template-expirations.component';
-import { OfficeExpirationActivityComponent } from './agenda/office-expiration-activity/office-expiration-activity.component';
-import { ExpirationActivityDetailComponent } from './agenda/expiration-activity-detail/expiration-activity-detail.component';
+import {OfficeExpirationComponent} from './agenda/office-expiration/office-expiration.component';
+import {ExpirationActivityComponent} from './agenda/expiration-activity/expiration-activity.component';
 
 @NgModule({
     imports: [
@@ -46,8 +46,8 @@ import { ExpirationActivityDetailComponent } from './agenda/expiration-activity-
     declarations: [
         AgendaComponent,
         TaskTemplateExpirationsComponent,
-        OfficeExpirationActivityComponent,
-        ExpirationActivityDetailComponent
+        OfficeExpirationComponent,
+        ExpirationActivityComponent
     ],
     providers: [
         ExpirationService

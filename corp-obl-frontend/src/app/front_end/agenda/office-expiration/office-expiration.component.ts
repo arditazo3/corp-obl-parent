@@ -1,20 +1,60 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TaskExpirations} from '../../model/task-expirations';
 import {Expiration} from '../../model/expiration';
+import {StatusExpirationEnum} from '../../../shared/common/api/enum/status.expiration.enum';
 
 @Component({
-  selector: 'app-office-expiration-activity',
-  templateUrl: './office-expiration-activity.component.html',
-  styleUrls: ['./office-expiration-activity.component.css']
+  selector: 'app-office-expiration',
+  templateUrl: './office-expiration.component.html',
+  styleUrls: ['./office-expiration.component.css']
 })
-export class OfficeExpirationActivityComponent implements OnInit {
+export class OfficeExpirationComponent implements OnInit {
 
   @Input() taskExpiration: TaskExpirations;
   @Input() expiration: Expiration;
 
+    restoreBtn = false;
+    archivedBtn = false;
+    approvedBtn = false;
+    notApprovedBtn = false;
+
   constructor() { }
 
   ngOnInit() {
+
+      const statusExp = this.expiration.expirationDetail.statusExpiration;
+
+      if (statusExp === StatusExpirationEnum[StatusExpirationEnum.COMPLETED] ||
+          statusExp === StatusExpirationEnum[StatusExpirationEnum.ARCHIVED]) {
+          this.restoreBtn = true;
+      }
+      if (statusExp === StatusExpirationEnum[StatusExpirationEnum.BASE] ||
+          statusExp === StatusExpirationEnum[StatusExpirationEnum.COMPLETED] ||
+          statusExp === StatusExpirationEnum[StatusExpirationEnum.APPROVED]) {
+          this.archivedBtn = true;
+      }
+      if (statusExp === StatusExpirationEnum[StatusExpirationEnum.COMPLETED]) {
+          this.approvedBtn = true;
+      }
+      if (statusExp === StatusExpirationEnum[StatusExpirationEnum.APPROVED]) {
+          this.notApprovedBtn = true;
+      }
   }
+
+    restoreExp() {
+        console.log('OfficeExpirationComponent - restoreExp');
+    }
+
+    archivedExp() {
+        console.log('OfficeExpirationComponent - archivedExp');
+    }
+
+    approvedExp() {
+        console.log('OfficeExpirationComponent - approvedExp');
+    }
+
+    notApprovedExp() {
+        console.log('OfficeExpirationComponent - archivedExp');
+    }
 
 }

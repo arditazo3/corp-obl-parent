@@ -99,7 +99,7 @@ export const ROUTES: RouteInfo[] = [
                 ddclass: '',
                 extralink: false,
                 submenu: [],
-                authorities: [AuthorityEnum[AuthorityEnum.CORPOBLIG_ADMIN], AuthorityEnum[AuthorityEnum.CORPOBLIG_CONTROLLER], AuthorityEnum[AuthorityEnum.CORPOBLIG_USER]]
+                authorities: [AuthorityEnum[AuthorityEnum.CORPOBLIG_ADMIN], AuthorityEnum[AuthorityEnum.CORPOBLIG_CONTROLLER]]
             }
         ]
     }

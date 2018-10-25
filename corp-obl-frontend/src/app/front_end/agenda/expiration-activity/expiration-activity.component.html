@@ -3,18 +3,18 @@
     <div>
 
         <div>
-            <h6 class="card-subtitle">{{ expiration?.expirationActivity?.descriptionLastActivity }}</h6>
-            <h4 class="card-title">{{ expiration?.expirationActivity?.body }}</h4>
+            <h6 class="card-subtitle">{{ expirationActivity?.descriptionLastActivity }}</h6>
+            <h4 class="card-title">{{ expirationActivity?.body }}</h4>
 
-            <div class="col-md-10 table-responsive">
+            <div class="col-md-12 table-responsive">
                 <table class="table table-borderless table-sm">
                     <thead>
                     <tr>
-                        <th width="50%"></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let expirationActivityAttachment of expiration?.expirationActivity?.expirationActivityAttachments">
+                    <tr *ngFor="let expirationActivityAttachment of expirationActivity?.expirationActivityAttachments">
                         <td>
                             <strong><a (click)="downloadFileExp(expirationActivityAttachment)"
                                        class="text-primary" style="cursor: pointer;">
@@ -27,107 +27,82 @@
             </div>
         </div>
 
-        <div>
-            <div class="card">
-                <div class="card-body">
-                    <form class="m-t-20">
-                        <div class="input-group">
-                            <input type="text" [(ngModel)]="expActivityMsg"
-                                   [ngModelOptions]="{standalone: true}"
-                                   class="form-control" placeholder="Type something...">
-                            <div class="input-group-append">
-                                <div class="col-md-2">
-                                    <button type="button" (click)="fileInput.click()" class="btn-tnx btn-default">Upload
-                                        Files
-                                    </button>
-                                    <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
-                                    <input #selectedFile type="file" #fileInput ng2FileSelect [uploader]="uploader"
-                                           multiple/>
-                                </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div *ngIf="submitted && !expActivityMsg" class="invalid-feedback-show">
-                            Message is required
-                        </div>
+        <!--<div>-->
+            <!--<div class="card">-->
+                <!--<div class="card-body">-->
+                    <!--<form class="m-t-20">-->
+                        <!--<div class="input-group">-->
+                            <!--<input type="text" [(ngModel)]="expActivityMsg"-->
+                                   <!--[ngModelOptions]="{standalone: true}"-->
+                                   <!--class="form-control" placeholder="Type something...">-->
+                            <!--<div class="input-group-append">-->
+                                <!--<div class="col-md-2">-->
+                                    <!--<button type="button" (click)="fileInput.click()" class="btn-tnx btn-default">Upload-->
+                                        <!--Files-->
+                                    <!--</button>-->
+                                    <!--<span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">-->
+                                    <!--<input #selectedFile type="file" #fileInput ng2FileSelect [uploader]="uploader"-->
+                                           <!--multiple/>-->
+                                <!--</span>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div *ngIf="submitted && !expActivityMsg" class="invalid-feedback-show">-->
+                            <!--Message is required-->
+                        <!--</div>-->
 
-                        <div class="row">
-                            <div class="col-md-10 table-responsive">
-                                <table class="table table-borderless table-sm">
-                                    <thead>
-                                    <tr>
-                                        <th width="50%"></th>
-                                        <th width="10%"></th>
-                                        <th width="40%"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr *ngFor="let item of uploader?.queue">
-                                        <td>
-                                            <strong>{{ item?.file?.name }}</strong>
-                                        </td>
-                                        <td nowrap>{{ item?.file?.size/1024/1024 | number:'.1' }} MB
-                                        </td>
-                                        <td nowrap>
-                                            <button type="button" class="btn-tnx btn-danger btn-xs"
-                                                    (click)="removeFile(item)">
-                                                <span class="fa fa-trash"></span> Remove
-                                            </button>
-                                            <button *ngIf="!isNewForm" type="button" class="btn-tnx btn-xs"
-                                                    (click)="downloadFile(item)">
-                                                <span class="fa fa-download"></span> Download
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <!--<div class="row">-->
+                            <!--<div class="col-md-10 table-responsive">-->
+                                <!--<table class="table table-borderless table-sm">-->
+                                    <!--<thead>-->
+                                    <!--<tr>-->
+                                        <!--<th width="50%"></th>-->
+                                        <!--<th width="10%"></th>-->
+                                        <!--<th width="40%"></th>-->
+                                    <!--</tr>-->
+                                    <!--</thead>-->
+                                    <!--<tbody>-->
+                                    <!--<tr *ngFor="let item of uploader?.queue">-->
+                                        <!--<td>-->
+                                            <!--<strong>{{ item?.file?.name }}</strong>-->
+                                        <!--</td>-->
+                                        <!--<td nowrap>{{ item?.file?.size/1024/1024 | number:'.1' }} MB-->
+                                        <!--</td>-->
+                                        <!--<td nowrap>-->
+                                            <!--<button type="button" class="btn-tnx btn-danger btn-xs"-->
+                                                    <!--(click)="removeFile(item)">-->
+                                                <!--<span class="fa fa-trash"></span> Remove-->
+                                            <!--</button>-->
+                                            <!--<button *ngIf="!isNewForm" type="button" class="btn-tnx btn-xs"-->
+                                                    <!--(click)="downloadFile(item)">-->
+                                                <!--<span class="fa fa-download"></span> Download-->
+                                            <!--</button>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--</tbody>-->
+                                <!--</table>-->
+                            <!--</div>-->
+                        <!--</div>-->
 
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="m-b-0 col text-left">
-                                    <button #cancelBtn type="button"
-                                            class="btn-tnx btn-outline-secondary waves-effect waves-light">
-                                        Cancel
-                                    </button>
-                                    <button #submitBtn type="button" (click)="saveExpActivDetail()"
-                                            class="btn-tnx btn-success waves-effect waves-light">Save
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        <!--<div class="card-body">-->
+                            <!--<div class="row">-->
+                                <!--<div class="m-b-0 col text-left">-->
+                                    <!--<button #cancelBtn type="button"-->
+                                            <!--class="btn-tnx btn-outline-secondary waves-effect waves-light">-->
+                                        <!--Cancel-->
+                                    <!--</button>-->
+                                    <!--<button #submitBtn type="button" (click)="saveExpActivDetail()"-->
+                                            <!--class="btn-tnx btn-success waves-effect waves-light">Save-->
+                                    <!--</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
 
-                    </form>
-                </div>
-            </div>
-        </div>
+                    <!--</form>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
-    </div>
-
-    <div class="ml-auto d-flex float-left align-items-center">
-        <div ngbDropdown class="d-inline-block">
-            <button class="btn btn-outline-primary" id="dropdownDetails" ngbDropdownToggle>Details
-            </button>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <button class="dropdown-item"
-                        *ngIf="restoreBtn"
-                        (click)="restoreExp()">Restore
-                </button>
-                <button class="dropdown-item"
-                        *ngIf="archivedBtn"
-                        (click)="archivedExp()">Archived
-                </button>
-                <button class="dropdown-item"
-                        *ngIf="approvedBtn"
-                        (click)="approvedExp()">Approved
-                </button>
-                <button class="dropdown-item"
-                        *ngIf="notApprovedBtn"
-                        (click)="notApprovedExp()">Not Approved
-                </button>
-            </div>
-        </div>
     </div>
 
     <swal

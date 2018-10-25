@@ -11,22 +11,20 @@ import {ExpirationService} from '../../service/expiration.service';
 import {ExpirationActivity} from '../../model/expiration-activity';
 
 @Component({
-    selector: 'app-expiration-activity-detail',
-    templateUrl: './expiration-activity-detail.component.html',
-    styleUrls: ['./expiration-activity-detail.component.css'],
+    selector: 'app-expiration-activity',
+    templateUrl: './expiration-activity.component.html',
+    styleUrls: ['./expiration-activity.component.css'],
     providers: [UploadService]
 })
-export class ExpirationActivityDetailComponent implements OnInit {
+export class ExpirationActivityComponent implements OnInit {
 
     @Input() expiration: Expiration;
+    @Input() expirationActivity: ExpirationActivity;
     @ViewChild('errorTaskTemplateSwal') private errorTaskTemplateSwal: SwalComponent;
 
     errorDetails: ApiErrorDetails = new ApiErrorDetails();
 
-    restoreBtn = false;
-    archivedBtn = false;
-    approvedBtn = false;
-    notApprovedBtn = false;
+
 
     expActivityMsg;
     submitted = false;
@@ -41,24 +39,6 @@ export class ExpirationActivityDetailComponent implements OnInit {
 
     ngOnInit() {
 
-        const statusExp = this.expiration.expirationDetail.statusExpiration;
-
-        if (statusExp === StatusExpirationEnum[StatusExpirationEnum.COMPLETED] ||
-            statusExp === StatusExpirationEnum[StatusExpirationEnum.ARCHIVED]) {
-            this.restoreBtn = true;
-        }
-        if (statusExp === StatusExpirationEnum[StatusExpirationEnum.BASE] ||
-            statusExp === StatusExpirationEnum[StatusExpirationEnum.COMPLETED] ||
-            statusExp === StatusExpirationEnum[StatusExpirationEnum.APPROVED]) {
-            this.archivedBtn = true;
-        }
-        if (statusExp === StatusExpirationEnum[StatusExpirationEnum.COMPLETED]) {
-            this.approvedBtn = true;
-        }
-        if (statusExp === StatusExpirationEnum[StatusExpirationEnum.APPROVED]) {
-            this.notApprovedBtn = true;
-        }
-
         this.uploader = this.uploadService.uploader;
         this.uploadService.uploadFileWithAuth();
         this.uploader.onBeforeUploadItem = (item) => {
@@ -72,7 +52,7 @@ export class ExpirationActivityDetailComponent implements OnInit {
         console.log('ExpirationActivityDetailComponent - onLoadFilesUploaded');
 
         const me = this;
-        const expirationActivity = this.expiration.expirationActivity;
+        const expirationActivity = this.expirationActivity;
         if (expirationActivity.expirationActivityAttachments && expirationActivity.expirationActivityAttachments.length > 0) {
             expirationActivity.expirationActivityAttachments.forEach((attachment) => {
                 const file: File = new File(['#'.repeat(attachment.fileSize)], attachment.fileName);
@@ -122,21 +102,7 @@ export class ExpirationActivityDetailComponent implements OnInit {
         }
     }
 
-    restoreExp() {
-        console.log('ExpirationActivityDetailComponent - restoreExp');
-    }
 
-    archivedExp() {
-        console.log('ExpirationActivityDetailComponent - archivedExp');
-    }
-
-    approvedExp() {
-        console.log('ExpirationActivityDetailComponent - approvedExp');
-    }
-
-    notApprovedExp() {
-        console.log('ExpirationActivityDetailComponent - archivedExp');
-    }
 
     saveExpActivDetail() {
         console.log('ExpirationActivityDetailComponent - saveExpActivDetail');
@@ -149,18 +115,15 @@ export class ExpirationActivityDetailComponent implements OnInit {
         }
 
         const cloneExpiration = { ...this.expiration };
-        const expirationActivity: ExpirationActivity = cloneExpiration.expirationActivity;
-        expirationActivity.idExpirationActivity = undefined;
-        expirationActivity.expirationActivityAttachments = undefined;
+        this.expirationActivity.idExpirationActivity = undefined;
+        this.expirationActivity.expirationActivityAttachments = undefined;
 
-        expirationActivity.body = this.expActivityMsg;
+        this.expirationActivity.body = this.expActivityMsg;
 
-        expirationActivity.expiration = cloneExpiration;
+        this.expirationActivity.expiration = cloneExpiration;
 
-        // avoid infinite JSON cicle parent-child
-        expirationActivity.expiration.expirationActivity = undefined;
 
-        this.expirationService.saveUpdateExpirationActivity(expirationActivity).subscribe(
+        this.expirationService.saveUpdateExpirationActivity(this.expirationActivity).subscribe(
             data => {
 
             },
