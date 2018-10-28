@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 import {OfficeService} from '../../back_office/office/service/office.service';
 import {DateExpirationOfficesHasArchived} from '../model/date-expiration-offices-hasarchived';
 import {ExpirationService} from '../service/expiration.service';
-import {TaskExpirations} from '../model/task-expirations';
+import {TaskOfficeExpirations} from '../model/task-office-expirations';
 
 @Component({
     selector: 'app-agenda',
@@ -18,7 +18,7 @@ export class AgendaComponent implements OnInit {
     officesObservable: Observable<any[]>;
     offices = [];
 
-    taskExpirations: TaskExpirations[] = [];
+    taskExpirations: TaskOfficeExpirations[] = [];
 
     myDatePickerOptions: IMyOptions = AppGlobals.myDatePickerOptions;
 

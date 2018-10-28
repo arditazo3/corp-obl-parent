@@ -3,7 +3,6 @@ import {Expiration} from '../../model/expiration';
 import {saveAs as importedSaveAs} from 'file-saver';
 import {UploadService} from '../../../shared/common/service/upload.service';
 import {ApiErrorDetails} from '../../../shared/common/api/model/api-error-details';
-import {StatusExpirationEnum} from '../../../shared/common/api/enum/status.expiration.enum';
 import {ExpirationActivityAttachment} from '../../model/expiration-activity-attachment';
 import {FileItem, FileLikeObject, ParsedResponseHeaders} from 'ng2-file-upload';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
@@ -27,6 +26,7 @@ export class ExpirationActivityComponent implements OnInit {
 
     expActivityMsg;
     submitted = false;
+    expirationActivityStored: ExpirationActivity;
 
     counterUpload = 0;
     counterCallback = 0;
@@ -87,23 +87,6 @@ export class ExpirationActivityComponent implements OnInit {
         this.errorTaskTemplateSwal.show();
     }
 
-    downloadFileExp(expirationActivityAttachment) {
-        console.log('ExpirationActivityDetailComponent - downloadFileExp');
-
-        const me = this;
-        if (expirationActivityAttachment) {
-            this.uploadService.downloadFileExp(expirationActivityAttachment).subscribe(
-                (data) => {
-                    importedSaveAs(data, expirationActivityAttachment.fileName);
-                    console.log('ExpirationActivityDetailComponent - downloadFileExp - next');
-                },
-                error => {
-                    me.errorDetails = error.error;
-                    console.error('ExpirationActivityDetailComponent - downloadFileExp - error \n', error);
-                });
-        }
-    }
-
     saveExpActivDetail() {
         console.log('ExpirationActivityDetailComponent - saveExpActivDetail');
 
@@ -114,7 +97,7 @@ export class ExpirationActivityComponent implements OnInit {
             return;
         }
 
-        const cloneExpiration = { ...this.expiration };
+        const cloneExpiration = {...this.expiration};
         cloneExpiration.expirationActivities = undefined;
 
         this.expirationActivity.idExpirationActivity = undefined;
@@ -127,10 +110,10 @@ export class ExpirationActivityComponent implements OnInit {
 
         this.expirationService.saveUpdateExpirationActivity(this.expirationActivity).subscribe(
             data => {
-                const expActivity: ExpirationActivity = data;
+                me.expirationActivityStored = data;
 
                 me.uploader.onBuildItemForm = (fileItem: any, form: any) => {
-                    form.append('idExpirationActivityAttachment', expActivity.idExpirationActivity);
+                    form.append('idExpirationActivityAttachment', me.expirationActivityStored.idExpirationActivity);
                 };
 
                 let noFileUpload = true;
@@ -146,7 +129,12 @@ export class ExpirationActivityComponent implements OnInit {
                 me.uploader.onSuccessItem = (item, response, status, headers) =>
                     me.onSuccessItem(item, response, status, headers);
 
-                this.counterCallback = 0;
+                me.counterCallback = 0;
+
+                if (me.counterUpload === 0) {
+                    me.expiration.expirationActivities.splice(1, 0, me.expirationActivityStored);
+                    this.cleanFormAfterInsert();
+                }
             },
             error => {
 
@@ -156,8 +144,24 @@ export class ExpirationActivityComponent implements OnInit {
 
     onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
         this.counterCallback++;
+        // storing the attachments after storing the activity
+        if (this.expirationActivityStored && item.file) {
+            const file: FileLikeObject = item.file;
+            const expActAttachment: ExpirationActivityAttachment = new ExpirationActivityAttachment();
+            expActAttachment.fileName = file.name;
+            expActAttachment.fileSize = file.size;
+            expActAttachment.fileType = file.type;
+            expActAttachment.fileData = file.rawFile;
+
+            if (!this.expirationActivityStored.expirationActivityAttachments) {
+                this.expirationActivityStored.expirationActivityAttachments = [];
+            }
+            this.expirationActivityStored.expirationActivityAttachments.push(expActAttachment);
+        }
         if (this.counterUpload === this.counterCallback) {
-            this.router.navigate(['/front-end/agenda']);
+            this.expiration.expirationActivities.splice(1, 0, this.expirationActivityStored);
+
+            this.cleanFormAfterInsert();
         }
     }
 
@@ -168,24 +172,30 @@ export class ExpirationActivityComponent implements OnInit {
         }
     }
 
-    downloadFile(item) {
-        console.log('ExpirationActivityDetailComponent - downloadFile');
+    downloadFileExp(expirationActivityAttachment) {
+        console.log('ExpirationActivityDetailComponent - downloadFileExp');
 
         const me = this;
-        if (item.formData && item.formData.length === undefined) {
-            const expirationActivityAttachment: ExpirationActivityAttachment = item.formData;
-            this.uploadService.downloadFileExp(item.formData).subscribe(
-                (data) => {
-                    importedSaveAs(data, expirationActivityAttachment.fileName);
-                    console.log('ExpirationActivityDetailComponent - downloadFile - next');
-                },
-                error => {
-                    me.errorDetails = error.error;
-                    console.error('ExpirationActivityDetailComponent - downloadFile - error \n', error);
-                });
-        } else {
-            importedSaveAs(item.file.rawFile);
+        if (expirationActivityAttachment) {
+            if (expirationActivityAttachment.fileData) {
+                importedSaveAs(expirationActivityAttachment.fileData);
+            } else {
+                this.uploadService.downloadFileExp(expirationActivityAttachment).subscribe(
+                    (data) => {
+                        importedSaveAs(data, expirationActivityAttachment.fileName);
+                        console.log('ExpirationActivityDetailComponent - downloadFileExp - next');
+                    },
+                    error => {
+                        me.errorDetails = error.error;
+                        console.error('ExpirationActivityDetailComponent - downloadFileExp - error \n', error);
+                    });
+            }
         }
+    }
+
+    downloadFile(item) {
+        console.log('ExpirationActivityDetailComponent - downloadFile');
+       importedSaveAs(item.file.rawFile);
     }
 
     removeFile(item) {
@@ -207,4 +217,17 @@ export class ExpirationActivityComponent implements OnInit {
         }
         item.remove();
     }
+
+    cleanFormAfterInsert() {
+
+        this.expActivityMsg = '';
+        this.submitted = false;
+        this.expirationActivityStored = new ExpirationActivity();
+
+        this.counterUpload = 0;
+        this.counterCallback = 0;
+        this.uploader.queue = [];
+
+    }
+
 }

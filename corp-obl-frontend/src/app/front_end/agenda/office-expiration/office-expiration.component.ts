@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TaskExpirations} from '../../model/task-expirations';
+import {TaskOfficeExpirations} from '../../model/task-office-expirations';
 import {Expiration} from '../../model/expiration';
 import {StatusExpirationEnum} from '../../../shared/common/api/enum/status.expiration.enum';
 
@@ -10,7 +10,7 @@ import {StatusExpirationEnum} from '../../../shared/common/api/enum/status.expir
 })
 export class OfficeExpirationComponent implements OnInit {
 
-  @Input() taskExpiration: TaskExpirations;
+  @Input() taskExpiration: TaskOfficeExpirations;
   @Input() expiration: Expiration;
 
     restoreBtn = false;
