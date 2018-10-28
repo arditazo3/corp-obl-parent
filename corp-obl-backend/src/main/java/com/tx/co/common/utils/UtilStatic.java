@@ -8,7 +8,7 @@ import com.tx.co.back_office.tasktemplateattachment.model.TaskTemplateAttachment
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.back_office.topic.domain.TopicConsultant;
 import com.tx.co.front_end.expiration.api.model.ExpirationDetailResult;
-import com.tx.co.front_end.expiration.api.model.TaskExpirationsResult;
+import com.tx.co.front_end.expiration.api.model.TaskOfficeExpirationsResult;
 import com.tx.co.front_end.expiration.domain.Expiration;
 import com.tx.co.front_end.expiration.domain.ExpirationActivity;
 import com.tx.co.front_end.expiration.enums.StatusExpirationEnum;
@@ -164,7 +164,7 @@ public class UtilStatic {
 		}
 	}
 	
-	public static String buildColor(TaskExpirationsResult taskExpiration) {
+	public static String buildColor(TaskOfficeExpirationsResult taskExpiration) {
 
 		Integer totalExpirations = taskExpiration.getTotalExpirations();
 		Integer totalCompleted = taskExpiration.getTotalCompleted();

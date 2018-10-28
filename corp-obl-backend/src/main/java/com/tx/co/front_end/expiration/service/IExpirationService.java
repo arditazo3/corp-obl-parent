@@ -1,7 +1,7 @@
 package com.tx.co.front_end.expiration.service;
 
 import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchived;
-import com.tx.co.front_end.expiration.api.model.TaskExpirations;
+import com.tx.co.front_end.expiration.api.model.TaskOfficeExpirations;
 import com.tx.co.front_end.expiration.domain.Expiration;
 import com.tx.co.front_end.expiration.domain.ExpirationActivity;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IExpirationService {
 
-    List<TaskExpirations> searchDateExpirationOffices(DateExpirationOfficesHasArchived dateExpirationOfficesHasArchived);
+    List<TaskOfficeExpirations> searchDateExpirationOffices(DateExpirationOfficesHasArchived dateExpirationOfficesHasArchived);
 
     Expiration saveUpdateExpiration(Expiration expiration);
     

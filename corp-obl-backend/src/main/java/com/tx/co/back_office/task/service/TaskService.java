@@ -134,9 +134,9 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 		return taskTaskOfficeSaveUpdate(taskStored, task);
 	}
-	
+
 	public Task taskTaskOfficeSaveUpdate(Task taskStored, Task task) {
-		
+
 		taskStored.setOffice(task.getOffice());
 		taskStored.setExcludeOffice(task.getExcludeOffice());
 
@@ -274,7 +274,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 		Set<TaskOffice> taskOfficesToSave = new HashSet<>();
 		for (TaskOffice taskOffice : taskOffices) {
-			
+
 			for (TaskOffice taskOfficeStored : taskStored.getTaskOfficesFilterEnabled()) {
 				if(isEmpty(taskOffice.getIdTaskOffice()) || 
 						(!isEmpty(taskOffice.getIdTaskOffice()) && !isEmpty(taskOfficeStored.getIdTaskOffice()) && 
@@ -310,7 +310,10 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 					taskOffice.setEnabled(false);
 					taskOffice.setEndDate(new Date());
-					taskOfficeRepository.save(taskOffice);
+
+					if(taskOfficeRepository.findById(taskOffice.getIdTaskOffice()).isPresent()) {
+						taskOfficeRepository.save(taskOffice);	
+					}
 				}
 			}
 			taskStored.setTaskOffices(new HashSet<>());
@@ -348,7 +351,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			taskStored.setModifiedBy(username);
 
 			taskStored = taskRepository.save(taskStored);
-			
+
 			taskTaskOfficeSaveUpdate(taskStored, task);
 		}
 
