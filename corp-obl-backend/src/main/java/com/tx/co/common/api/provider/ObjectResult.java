@@ -50,8 +50,8 @@ import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchived
 import com.tx.co.front_end.expiration.api.model.ExpirationActivityAttachmentResult;
 import com.tx.co.front_end.expiration.api.model.ExpirationActivityResult;
 import com.tx.co.front_end.expiration.api.model.ExpirationResult;
-import com.tx.co.front_end.expiration.api.model.TaskExpirationsResult;
-import com.tx.co.front_end.expiration.api.model.TaskExpirations;
+import com.tx.co.front_end.expiration.api.model.TaskOfficeExpirationsResult;
+import com.tx.co.front_end.expiration.api.model.TaskOfficeExpirations;
 import com.tx.co.front_end.expiration.domain.Expiration;
 import com.tx.co.front_end.expiration.domain.ExpirationActivity;
 import com.tx.co.front_end.expiration.domain.ExpirationActivityAttachment;
@@ -919,31 +919,32 @@ public abstract class ObjectResult extends UpdateCacheData {
 	}
 
 	/**
-	 * @param taskExpirations
+	 * @param taskOfficeExpirations
 	 * @return
 	 */
-	public TaskExpirationsResult toTaskExpirationsResult(TaskExpirations taskExpirations) {
+	public TaskOfficeExpirationsResult toTaskOfficeExpirationsResult(TaskOfficeExpirations taskOfficeExpirations) {
 
-		TaskExpirationsResult taskExpirationsResult = new TaskExpirationsResult();
+		TaskOfficeExpirationsResult taskOfficeExpirationsResult = new TaskOfficeExpirationsResult();
 
-		taskExpirationsResult.setDescription(taskExpirations.getDescription());
-		taskExpirationsResult.setIdTaskTemplate(taskExpirations.getIdTaskTemplate());
-		taskExpirationsResult.setTotalCompleted(taskExpirations.getTotalCompleted());
-		taskExpirationsResult.setTotalExpirations(taskExpirations.getTotalExpirations());
+		taskOfficeExpirationsResult.setDescription(taskOfficeExpirations.getDescription());
+		taskOfficeExpirationsResult.setIdTaskTemplate(taskOfficeExpirations.getIdTaskTemplate());
+		taskOfficeExpirationsResult.setTotalCompleted(taskOfficeExpirations.getTotalCompleted());
+		taskOfficeExpirationsResult.setTotalExpirations(taskOfficeExpirations.getTotalExpirations());
 
-		String colorDefined = UtilStatic.buildColor(taskExpirationsResult);
-		taskExpirationsResult.setColorDefined(colorDefined);
-		taskExpirationsResult.setExpirationDate(taskExpirations.getExpirationDate());
-		taskExpirationsResult.setTask(toTaskResult(taskExpirations.getTask()));
-
-		if (!isEmpty(taskExpirations.getExpirations())) {
+		String colorDefined = UtilStatic.buildColor(taskOfficeExpirationsResult);
+		taskOfficeExpirationsResult.setColorDefined(colorDefined);
+		taskOfficeExpirationsResult.setExpirationDate(taskOfficeExpirations.getExpirationDate());
+		taskOfficeExpirationsResult.setTask(toTaskResult(taskOfficeExpirations.getTask()));
+		taskOfficeExpirationsResult.setOffice(toOfficeResult(taskOfficeExpirations.getOffice()));
+		
+		if (!isEmpty(taskOfficeExpirations.getExpirations())) {
 			List<ExpirationResult> expirationResults = new ArrayList<>();
-			for (Expiration expiration : taskExpirations.getExpirations()) {
+			for (Expiration expiration : taskOfficeExpirations.getExpirations()) {
 				expirationResults.add(toExpirationWithActivitiesResult(expiration));
 			}
-			taskExpirationsResult.setExpirations(expirationResults);
+			taskOfficeExpirationsResult.setExpirations(expirationResults);
 		}
-		return taskExpirationsResult;
+		return taskOfficeExpirationsResult;
 	}
 
 	public Expiration toExpiration(ExpirationResult expirationResult) {

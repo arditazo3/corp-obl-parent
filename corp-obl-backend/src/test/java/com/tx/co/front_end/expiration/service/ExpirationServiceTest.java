@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.tx.co.abstraction.AbstractServiceTest;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchived;
-import com.tx.co.front_end.expiration.api.model.TaskExpirations;
+import com.tx.co.front_end.expiration.api.model.TaskOfficeExpirations;
 import com.tx.co.front_end.expiration.domain.Expiration;
 
 /**
@@ -46,7 +46,7 @@ public class ExpirationServiceTest extends AbstractServiceTest {
 		
 		dateExpirationOfficesHasArchived.setHideArchived(true);
 		
-		List<TaskExpirations> taskTemplateExpirations = getExpirationService().searchDateExpirationOffices(dateExpirationOfficesHasArchived);
+		List<TaskOfficeExpirations> taskTemplateExpirations = getExpirationService().searchDateExpirationOffices(dateExpirationOfficesHasArchived);
 		
 		assertNotNull(taskTemplateExpirations);
 	}

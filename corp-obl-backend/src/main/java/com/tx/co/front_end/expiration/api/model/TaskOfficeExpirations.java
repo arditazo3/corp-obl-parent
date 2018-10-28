@@ -1,26 +1,25 @@
 package com.tx.co.front_end.expiration.api.model;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.tx.co.back_office.task.api.model.TaskResult;
+import com.tx.co.back_office.office.domain.Office;
+import com.tx.co.back_office.task.model.Task;
+import com.tx.co.front_end.expiration.domain.Expiration;
 
 /**
- * API model for returning task template expirations details.
- *
- * @author aazo
- */
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class TaskExpirationsResult {
+ * POJO class to convert it as Result class
+ * */
+public class TaskOfficeExpirations {
 
 	private Long idTaskTemplate;
 	private String description;
+	private Task task;
+	private Office office;
 	private Integer totalExpirations;
 	private Integer totalCompleted;
-	private String colorDefined;
 	private String expirationDate;
-	private TaskResult task;
-	private List<ExpirationResult> expirations;
+	private Set<Expiration> expirations = new HashSet<>();
 	
 	public Long getIdTaskTemplate() {
 		return idTaskTemplate;
@@ -46,30 +45,28 @@ public class TaskExpirationsResult {
 	public void setTotalCompleted(Integer totalCompleted) {
 		this.totalCompleted = totalCompleted;
 	}
-	public String getColorDefined() {
-		return colorDefined;
-	}
-	public void setColorDefined(String colorDefined) {
-		this.colorDefined = colorDefined;
-	}
 	public String getExpirationDate() {
 		return expirationDate;
 	}
 	public void setExpirationDate(String expirationDate) {
 		this.expirationDate = expirationDate;
 	}
-	public TaskResult getTask() {
+	public Task getTask() {
 		return task;
 	}
-	public void setTask(TaskResult task) {
+	public void setTask(Task task) {
 		this.task = task;
 	}
-	public List<ExpirationResult> getExpirations() {
+	public Office getOffice() {
+		return office;
+	}
+	public void setOffice(Office office) {
+		this.office = office;
+	}
+	public Set<Expiration> getExpirations() {
 		return expirations;
 	}
-	public void setExpirations(List<ExpirationResult> expirations) {
+	public void setExpirations(Set<Expiration> expirations) {
 		this.expirations = expirations;
 	}
-	
-	
 }

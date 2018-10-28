@@ -1,22 +1,28 @@
 package com.tx.co.front_end.expiration.api.model;
 
-import java.util.Set;
+import java.util.List;
 
-import com.tx.co.back_office.task.model.Task;
-import com.tx.co.front_end.expiration.domain.Expiration;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.tx.co.back_office.office.api.model.OfficeResult;
+import com.tx.co.back_office.task.api.model.TaskResult;
 
 /**
- * POJO class to convert it as Result class
- * */
-public class TaskExpirations {
+ * API model for returning task template expirations details.
+ *
+ * @author aazo
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class TaskOfficeExpirationsResult {
 
 	private Long idTaskTemplate;
 	private String description;
-	private Task task;
 	private Integer totalExpirations;
 	private Integer totalCompleted;
+	private String colorDefined;
 	private String expirationDate;
-	private Set<Expiration> expirations;
+	private TaskResult task;
+	private OfficeResult office;
+	private List<ExpirationResult> expirations;
 	
 	public Long getIdTaskTemplate() {
 		return idTaskTemplate;
@@ -42,22 +48,36 @@ public class TaskExpirations {
 	public void setTotalCompleted(Integer totalCompleted) {
 		this.totalCompleted = totalCompleted;
 	}
+	public String getColorDefined() {
+		return colorDefined;
+	}
+	public void setColorDefined(String colorDefined) {
+		this.colorDefined = colorDefined;
+	}
 	public String getExpirationDate() {
 		return expirationDate;
 	}
 	public void setExpirationDate(String expirationDate) {
 		this.expirationDate = expirationDate;
 	}
-	public Task getTask() {
+	public TaskResult getTask() {
 		return task;
 	}
-	public void setTask(Task task) {
+	public void setTask(TaskResult task) {
 		this.task = task;
 	}
-	public Set<Expiration> getExpirations() {
+	public OfficeResult getOffice() {
+		return office;
+	}
+	public void setOffice(OfficeResult office) {
+		this.office = office;
+	}
+	public List<ExpirationResult> getExpirations() {
 		return expirations;
 	}
-	public void setExpirations(Set<Expiration> expirations) {
+	public void setExpirations(List<ExpirationResult> expirations) {
 		this.expirations = expirations;
 	}
+	
+	
 }
