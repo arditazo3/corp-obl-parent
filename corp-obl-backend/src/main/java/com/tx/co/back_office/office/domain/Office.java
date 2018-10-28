@@ -69,10 +69,10 @@ public class Office implements Serializable {
 	@JoinColumn(name = "company_id")
 	private Company company;
 
-	@OneToMany(mappedBy="task", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="office", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<TaskOffice> taskOffices = new HashSet<>();
 
-	@OneToMany(mappedBy="task", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="office", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Expiration> expirations = new HashSet<>();
 
 	@Transient

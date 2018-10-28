@@ -12,4 +12,5 @@ public interface ICompanyTopicService {
 	 */
 	List<CompanyTopic> getCompanyTopicByIdCompany(String idCompany);
 	
+	void deleteCompanyTopic(Long idCompanyTopic);
 }

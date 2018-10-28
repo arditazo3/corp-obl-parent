@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.ws.rs.NotFoundException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +28,7 @@ import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.task.model.TaskOffice;
 import com.tx.co.back_office.task.repository.TaskOfficeRepository;
+import com.tx.co.back_office.task.service.ITaskService;
 import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplate;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.repository.TaskTemplateRepository;
@@ -51,6 +53,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	private TaskTemplateRepository taskTemplateRepository;
 	private TaskOfficeRepository taskOfficeRepository;
 	private EntityManager em;
+	private ITaskService taskService;
 
 	@Autowired
 	public void setTaskTemplateRepository(TaskTemplateRepository taskTemplateRepository) {
@@ -65,6 +68,11 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	@Autowired
 	public void setEm(EntityManager em) {
 		this.em = em;
+	}
+
+	@Autowired
+	public void setTaskService(ITaskService taskService) {
+		this.taskService = taskService;
 	}
 
 	@Override
@@ -344,11 +352,39 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	@Override
 	public void deleteTaskTemplate(TaskTemplate taskTemplate) {
 
-		taskTemplate.setEnabled(false);
+		try {
+			Long idTaskTemplate = taskTemplate.getIdTaskTemplate();
+			
+    		logger.info("Deleting the TaskTemplate with id: " + idTaskTemplate);
+    		
+    		
+    		Optional<TaskTemplate> taskTemplateOptional = findByIdTaskTemplate(idTaskTemplate);
 
-		logger.info("Deleted the TaskTemplate with id: " + taskTemplate.getIdTaskTemplate());
+    		if(!taskTemplateOptional.isPresent()) {
+    			throw new NotFoundException();
+    		}
 
-		saveUpdateTaskTemplate(taskTemplate, null);
+    		// The modification of User
+    		String username = getTokenUserDetails().getUser().getUsername();
+
+    		TaskTemplate taskTemplateStored = taskTemplateOptional.get();
+    		// disable the taskTemplateStored
+    		taskTemplateStored.setEnabled(false);
+    		taskTemplateStored.setModificationDate(new Date());
+    		taskTemplateStored.setModifiedBy(username);
+
+    		taskTemplateRepository.save(taskTemplateStored);
+
+    		if(!isEmpty(taskTemplateStored.getTasks())) {
+    			for (Task task : taskTemplateStored.getTasks()) {
+    				taskService.deleteTask(task);
+				}
+    		}
+    		
+    		logger.info("Delete the Task Template with id: " + idTaskTemplate);
+    	} catch (Exception e) {
+    		throw new GeneralException("Task Template not found");
+    	}
 	}
 	
 	/**

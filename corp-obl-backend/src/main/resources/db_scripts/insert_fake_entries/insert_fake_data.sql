@@ -53,4 +53,6 @@ select * from co_expirationactivityattachment;
 select * from co_taskoffice;
 select * from co_taskofficerelations;
 
+select * from co_topic;
+
 INSERT INTO co_expiration (tasktemplate_id, task_id, office_id, expirationclosableby, username, expirationdate, completed, approved, registered, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (73, 131, 8, 1, 'USER2', '2018-11-06', '2018-10-27 19:20:00', '2018-10-27 19:18:59', '2018-10-27 19:19:31', 1, '2018-10-27 20:46:32', 'USER2', '2018-10-27 20:46:32', 'USER2');

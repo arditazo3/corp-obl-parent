@@ -13,6 +13,8 @@ public interface IExpirationService {
 
     Expiration saveUpdateExpiration(Expiration expiration);
     
+    void deleteExpiration(Long idExpiration);
+    
     ExpirationActivity saveUpdateExpirationActivity(ExpirationActivity expirationActivity);
     
     /**

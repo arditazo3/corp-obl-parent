@@ -27,6 +27,8 @@ import com.tx.co.back_office.task.repository.TaskOfficeRepository;
 import com.tx.co.back_office.task.repository.TaskRepository;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.cache.service.UpdateCacheData;
+import com.tx.co.front_end.expiration.domain.Expiration;
+import com.tx.co.front_end.expiration.service.IExpirationService;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
 import com.tx.co.security.domain.Authority;
@@ -46,6 +48,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	private TaskRepository taskRepository;
 	private TaskOfficeRepository taskOfficeRepository;
 	private TaskOfficeRelationRepository taskOfficeRelationRepository;
+	private IExpirationService expirationService; 
 
 	@Autowired
 	public void setTaskRepository(TaskRepository taskRepository) {
@@ -60,6 +63,11 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	@Autowired
 	public void setTaskOfficeRelationRepository(TaskOfficeRelationRepository taskOfficeRelationRepository) {
 		this.taskOfficeRelationRepository = taskOfficeRelationRepository;
+	}
+
+	@Autowired
+	public void setExpirationService(IExpirationService expirationService) {
+		this.expirationService = expirationService;
 	}
 
 	/**
@@ -353,6 +361,12 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			taskStored = taskRepository.save(taskStored);
 
 			taskTaskOfficeSaveUpdate(taskStored, task);
+			
+			if(!isEmpty(taskStored.getExpirationsFilterEnabled())) {
+				for (Expiration expiration : taskStored.getExpirationsFilterEnabled()) {
+					expirationService.deleteExpiration(expiration.getIdExpiration());
+				}
+			}
 		}
 
 	}

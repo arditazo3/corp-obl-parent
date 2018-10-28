@@ -269,7 +269,9 @@ public abstract class UpdateCacheData {
 			}
 		}
 
-		if(indexToUpdateOrInsert == -1) {
+		if(!company.getEnabled() && indexToUpdateOrInsert != -1) {
+			companyList.remove(indexToUpdateOrInsert);
+		} else if(indexToUpdateOrInsert == -1) {
 			companyList.add(company);
 		} else if(!company.getEnabled()) {
 			companyList.remove(indexToUpdateOrInsert);
@@ -300,7 +302,9 @@ public abstract class UpdateCacheData {
 			}
 		}
 
-		if(indexToUpdateOrInsert == -1) {
+		if(!office.getEnabled() && indexToUpdateOrInsert != -1) {
+			officeList.remove(indexToUpdateOrInsert);
+		} else if(indexToUpdateOrInsert == -1) {
 			officeList.add(office);
 		} else if(!office.getEnabled()) {
 			officeList.remove(indexToUpdateOrInsert);
@@ -335,7 +339,9 @@ public abstract class UpdateCacheData {
 			}
 		}
 
-		if(indexToUpdateOrInsert == -1) {
+		if(!topic.getEnabled() && indexToUpdateOrInsert != -1) {
+			topicList.remove(indexToUpdateOrInsert);
+		} else if(indexToUpdateOrInsert == -1) {
 			topicList.add(topic);
 		} else if(!topic.getEnabled()) {
 			topicList.remove(indexToUpdateOrInsert);
@@ -385,7 +391,9 @@ public abstract class UpdateCacheData {
 			}
 		}
 
-		if(indexToUpdateOrInsert == -1) {
+		if(!companyConsultant.getEnabled() && indexToUpdateOrInsert != -1) {
+			companyConsultantList.remove(indexToUpdateOrInsert);
+		} else if(indexToUpdateOrInsert == -1) {
 			companyConsultantList = new ArrayList<>();
 			companyConsultantList.add(companyConsultant);
 		} else if(!companyConsultant.getEnabled()) {
@@ -419,7 +427,9 @@ public abstract class UpdateCacheData {
 			}
 		}
 
-		if(indexToUpdateOrInsert == -1) {
+		if(!topicConsultant.getEnabled() && indexToUpdateOrInsert != -1) {
+			topicConsultantList.remove(indexToUpdateOrInsert);
+		} else if(indexToUpdateOrInsert == -1) {
 			topicConsultantList.add(topicConsultant);
 		} else if(!topicConsultant.getEnabled()) {
 			topicConsultantList.remove(indexToUpdateOrInsert);
@@ -452,7 +462,9 @@ public abstract class UpdateCacheData {
 			}
 		}
 
-		if(indexToUpdateOrInsert == -1) {
+		if(!taskTemplate.getEnabled() && indexToUpdateOrInsert != -1) {
+			taskTemplateList.remove(indexToUpdateOrInsert);
+		} else if(indexToUpdateOrInsert == -1) {
 			taskTemplateList.add(taskTemplate);
 		} else if(!taskTemplate.getEnabled()) {
 			taskTemplateList.remove(indexToUpdateOrInsert);

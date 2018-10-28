@@ -23,6 +23,10 @@ import com.tx.co.back_office.office.api.model.OfficeTaskTemplates;
 import com.tx.co.back_office.office.api.model.TaskTempOffices;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.repository.OfficeRepository;
+import com.tx.co.back_office.task.model.TaskOffice;
+import com.tx.co.back_office.task.model.TaskOfficeRelations;
+import com.tx.co.back_office.task.repository.TaskOfficeRelationRepository;
+import com.tx.co.back_office.task.repository.TaskOfficeRepository;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.service.TaskTemplateService;
 import com.tx.co.cache.service.UpdateCacheData;
@@ -45,6 +49,8 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 	private OfficeRepository officeRepository;
 	private EntityManager em;
 	private TaskTemplateService taskTemplateService;
+	private TaskOfficeRepository taskOfficeRepository;
+	private TaskOfficeRelationRepository taskOfficeRelationRepository;
 
 	@Autowired
 	public void setOfficeRepository(OfficeRepository officeRepository) {
@@ -57,8 +63,19 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 	}
 
 	@Autowired
+	@Override
 	public void setTaskTemplateService(TaskTemplateService taskTemplateService) {
 		this.taskTemplateService = taskTemplateService;
+	}
+
+	@Autowired
+	public void setTaskOfficeRepository(TaskOfficeRepository taskOfficeRepository) {
+		this.taskOfficeRepository = taskOfficeRepository;
+	}
+
+	@Autowired
+	public void setTaskOfficeRelationRepository(TaskOfficeRelationRepository taskOfficeRelationRepository) {
+		this.taskOfficeRelationRepository = taskOfficeRelationRepository;
 	}
 
 	/**
@@ -180,11 +197,64 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 
 			updateOfficesCache(office, false);
 
+			deleteTaskOffice(office);
+
 			logger.info("Deleted the Office with id: " + idOffice);
 		} catch (Exception e) {
+			logger.error("Error deleting office " + e);
 			throw new GeneralException("Office not found");
 		}
 
+	}
+
+	public void deleteTaskOffice(Office office) {
+
+		if(!isEmpty(office.getTaskOffices())) {
+
+			// The modification of User
+			String username = getTokenUserDetails().getUser().getUsername();
+
+			for (TaskOffice taskOffice : office.getTaskOffices()) {
+				taskOffice.setEnabled(false);
+				taskOffice.setModifiedBy(username);
+				taskOffice.setModificationDate(new Date());
+
+				taskOfficeRepository.save(taskOffice);
+
+				logger.info("Delete Task office with id: " + taskOffice.getIdTaskOffice());
+
+				if(!isEmpty(taskOffice.getTaskOfficeRelations())) {
+					for (TaskOfficeRelations taskOfficeRelations : taskOffice.getTaskOfficeRelations()) {
+						deleteTaskOfficeRelations(taskOfficeRelations);
+					}
+				}
+
+				if(!isEmpty(taskOffice.getTaskTemplate())) {
+					taskTemplateService.deleteTaskTemplate(taskOffice.getTaskTemplate());
+				}
+			}
+		}
+	}
+
+	public void deleteTaskOfficeRelations(TaskOfficeRelations taskOfficeRelations) {
+
+		try {
+			logger.info("Deleting the TaskOfficeRelations with id: " + taskOfficeRelations.getIdTaskOfficeRelation() );
+
+			// The modification of User
+			String username = getTokenUserDetails().getUser().getUsername();
+
+			taskOfficeRelations.setEnabled(false);
+			taskOfficeRelations.setModifiedBy(username);
+			taskOfficeRelations.setModificationDate(new Date());
+
+			taskOfficeRelationRepository.save(taskOfficeRelations);
+
+			logger.info("Delete Task office Relations with id: " + taskOfficeRelations.getIdTaskOfficeRelation());
+
+		} catch (Exception e) {
+			logger.error(e);
+		}
 	}
 
 	@Override
@@ -210,7 +280,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		} else {
 			offices = taskTempOffices.getOffices();
 		}
-		
+
 		query.setParameter("description", "%" + taskTempOffices.getDescriptionTaskTemplate() + "%");
 		query.setParameter("officeList", offices);
 
@@ -321,5 +391,5 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		return new ArrayList<>();
 	}
 
-	
+
 }

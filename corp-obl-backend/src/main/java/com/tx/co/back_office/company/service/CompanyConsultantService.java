@@ -133,7 +133,7 @@ public class CompanyConsultantService extends UpdateCacheData implements ICompan
     		String username = getTokenUserDetails().getUser().getUsername();
 
     		CompanyConsultant companyConsultant = companyConsultantOptional.get();
-    		// disable the company
+    		// disable the Company Consultant
     		companyConsultant.setEnabled(false);
     		companyConsultant.setModificationDate(new Date());
     		companyConsultant.setModifiedBy(username);
@@ -146,9 +146,9 @@ public class CompanyConsultantService extends UpdateCacheData implements ICompan
 
     		updateCompanyConsultantCache(companyConsultant, false);
     		
-    		logger.info("Deleting the companyConsultant with id: " + idCompanyConsultant );
+    		logger.info("Delete the Company Consultant with id: " + idCompanyConsultant );
     	} catch (Exception e) {
-    		throw new GeneralException("companyConsultant not found with id: " + idCompanyConsultant);
+    		throw new GeneralException("Company Consultant not found with id: " + idCompanyConsultant);
     	}
 	}
 

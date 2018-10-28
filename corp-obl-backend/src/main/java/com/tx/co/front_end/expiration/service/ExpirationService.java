@@ -18,16 +18,15 @@ import com.tx.co.security.exception.GeneralException;
 import com.tx.co.user.domain.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.ws.rs.NotFoundException;
+
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.tx.co.common.constants.AppConstants.ADMIN;
 import static org.springframework.util.ObjectUtils.isEmpty;
@@ -285,6 +284,35 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		}
 		return expirationStored;
 	}
+	
+	@Override
+	public void deleteExpiration(Long idExpiration) {
+		
+		try {
+    		logger.info("Deleting the Expiration with id: " + idExpiration);
+    		
+    		Optional<Expiration> expirationOptional = expirationRepository.findById(idExpiration);
+
+    		if(!expirationOptional.isPresent()) {
+    			throw new NotFoundException();
+    		}
+
+    		// The modification of User
+    		String username = getTokenUserDetails().getUser().getUsername();
+
+    		Expiration expiration = expirationOptional.get();
+    		// disable the expiration
+    		expiration.setEnabled(false);
+    		expiration.setModificationDate(new Date());
+    		expiration.setModifiedBy(username);
+
+    		expirationRepository.save(expiration);
+
+    		logger.info("Deleting the Expiration with id: " + idExpiration );
+    	} catch (Exception e) {
+    		throw new GeneralException("Expiration not found");
+    	}
+	}
 
 	@Override
 	public ExpirationActivity saveUpdateExpirationActivity(ExpirationActivity expirationActivity) {
@@ -400,6 +428,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		}
 		return isProvider;
 	}
+	
 }
 class TaskOfficeExpirationDateKey {
 	

@@ -182,8 +182,10 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 			topicRepository.save(topic);
 
 			updateTopicsCache(topic, false);
+			
+			logger.info("Delete the Topic with id: " + idTopic);
 		} catch (Exception e) {
-			throw new GeneralException("Company not found");
+			throw new GeneralException("Topic not found");
 		}
 
 	}

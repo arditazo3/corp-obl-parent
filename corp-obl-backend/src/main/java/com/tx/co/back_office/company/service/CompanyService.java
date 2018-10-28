@@ -1,9 +1,13 @@
 package com.tx.co.back_office.company.service;
 
 import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.back_office.company.domain.CompanyConsultant;
+import com.tx.co.back_office.company.domain.CompanyTopic;
 import com.tx.co.back_office.company.domain.CompanyUser;
 import com.tx.co.back_office.company.repository.CompanyRepository;
 import com.tx.co.back_office.company.repository.CompanyUserRespository;
+import com.tx.co.back_office.office.domain.Office;
+import com.tx.co.back_office.office.service.IOfficeService;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
@@ -37,6 +41,9 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 
     private CompanyRepository companyRepository;
     private CompanyUserRespository companyUserRespository;
+    private IOfficeService officeService;
+    private ICompanyTopicService companyTopicService; 
+    private ICompanyConsultantService companyConsultantService;
 
     @Autowired
     public void setCompanyRepository(CompanyRepository companyRepository) {
@@ -46,6 +53,21 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
     @Autowired
 	public void setCompanyUserRespository(CompanyUserRespository companyUserRespository) {
 		this.companyUserRespository = companyUserRespository;
+	}
+
+    @Autowired
+	public void setOfficeService(IOfficeService officeService) {
+		this.officeService = officeService;
+	}
+
+    @Autowired
+	public void setCompanyTopicService(ICompanyTopicService companyTopicService) {
+		this.companyTopicService = companyTopicService;
+	}
+
+    @Autowired
+	public void setCompanyConsultantService(ICompanyConsultantService companyConsultantService) {
+		this.companyConsultantService = companyConsultantService;
 	}
 
 	/**
@@ -171,12 +193,57 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 
     		updateCompaniesCache(company, false);
     		
-    		logger.info("Deleting the Company with id: " + idCompany );
+    		if(!isEmpty(company.getOffice())) {
+    			for (Office office : company.getOffice()) {
+					officeService.deleteOffice(office.getIdOffice());
+				}
+    		}
+    		
+    		if(!isEmpty(company.getCompanyConsultant())) {
+    			for (CompanyConsultant companyConsultant : company.getCompanyConsultant()) {
+    				companyConsultantService.deleteCompanyConsultant(companyConsultant.getIdCompanyConsultant());
+				}
+    		}
+    		
+    		if(!isEmpty(company.getCompanyUsers())) {
+    			for (CompanyUser companyUser : company.getCompanyUsers()) {
+    				deleteCompanyUser(companyUser);
+				}
+    		}
+    		
+    		if(!isEmpty(company.getCompanyTopic())) {
+    			for (CompanyTopic companyTopic : company.getCompanyTopic()) {
+    				companyTopicService.deleteCompanyTopic(companyTopic.getIdCompanyTopic());
+				}
+    		}
+    		
+    		logger.info("Delete the Company with id: " + idCompany );
     	} catch (Exception e) {
+    		logger.error(e);
     		throw new GeneralException("Company not found");
     	}
     }
+    
+    public void deleteCompanyUser(CompanyUser companyUser) {
+    	
+    	try {
+    		logger.info("Deleting the Company User with id: " + companyUser.getIdCompanyUser());
+    		
+    		// The modification of User
+    		String username = getTokenUserDetails().getUser().getUsername();
 
+    		// disable the company
+    		companyUser.setEnabled(false);
+    		companyUser.setModificationDate(new Date());
+    		companyUser.setModifiedBy(username);
+
+    		companyUserRespository.save(companyUser);
+
+    		logger.info("Deleting the Company User with id: " + companyUser.getIdCompanyUser() );
+    	} catch (Exception e) {
+    		throw new GeneralException("Company User not found");
+    	}
+    }
 
     @Override
     public AuthenticationTokenUserDetails getTokenUserDetails() {
