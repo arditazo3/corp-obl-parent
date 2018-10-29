@@ -11,6 +11,8 @@ public class DateExpirationOfficesHasArchived {
 	private Date dateEnd;
 	private List<Office> offices;
 	private Boolean hideArchived;
+	private Integer userRelationType;
+	
 	public Date getDateStart() {
 		return dateStart;
 	}
@@ -34,5 +36,11 @@ public class DateExpirationOfficesHasArchived {
 	}
 	public void setHideArchived(Boolean hideArchived) {
 		this.hideArchived = hideArchived;
+	}
+	public Integer getUserRelationType() {
+		return userRelationType;
+	}
+	public void setUserRelationType(Integer userRelationType) {
+		this.userRelationType = userRelationType;
 	}
 }

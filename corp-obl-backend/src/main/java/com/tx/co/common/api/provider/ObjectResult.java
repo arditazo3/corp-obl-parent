@@ -914,6 +914,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 			dateExpirationOfficesHasArchived.setOffices(offices);
 		}
 		dateExpirationOfficesHasArchived.setHideArchived(dateExpirationOfficesHasArchivedResult.getHideArchived());
+		dateExpirationOfficesHasArchived.setUserRelationType(dateExpirationOfficesHasArchivedResult.getUserRelationType());
 
 		return dateExpirationOfficesHasArchived;
 	}
@@ -957,6 +958,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		expiration.setCompleted(expirationResult.getCompleted());
 		expiration.setApproved(expirationResult.getApproved());
 		expiration.setRegistered(expirationResult.getRegistered());
+		expiration.setStatusExpirationOnChange(expirationResult.getStatusExpirationOnChange());
 		if(!isEmpty(expirationResult.getOffice())) {
 			expiration.setOffice(toOffice(expirationResult.getOffice()));	
 		}

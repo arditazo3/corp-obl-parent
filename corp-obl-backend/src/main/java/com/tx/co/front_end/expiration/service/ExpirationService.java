@@ -1,5 +1,6 @@
 package com.tx.co.front_end.expiration.service;
 
+import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
@@ -9,6 +10,7 @@ import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchived
 import com.tx.co.front_end.expiration.api.model.TaskOfficeExpirations;
 import com.tx.co.front_end.expiration.domain.Expiration;
 import com.tx.co.front_end.expiration.domain.ExpirationActivity;
+import com.tx.co.front_end.expiration.enums.StatusExpirationEnum;
 import com.tx.co.front_end.expiration.repository.ExpirationActivityRepository;
 import com.tx.co.front_end.expiration.repository.ExpirationRepository;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
@@ -28,7 +30,7 @@ import javax.ws.rs.NotFoundException;
 
 import java.util.*;
 
-import static com.tx.co.common.constants.AppConstants.ADMIN;
+import static com.tx.co.common.constants.AppConstants.*;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 /**
@@ -81,6 +83,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 		User userLoggedIn = getTokenUserDetails().getUser();
 		String username = userLoggedIn.getUsername();
+		Integer userRelationType = dateExpirationOfficesHasArchived.getUserRelationType();
 
 		Date dateStart = dateExpirationOfficesHasArchived.getDateStart();
 		Date endDate = dateExpirationOfficesHasArchived.getDateEnd();
@@ -96,8 +99,8 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 		Query query;
 
-		if ((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER) ||
-				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER)) &&
+		if ((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER) || 
+				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLED)) &&
 				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 
 			querySql += "left join to.taskOfficeRelations tof ";
@@ -115,10 +118,12 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		if (hideArchived) {
 			querySql += "and e.registered is null ";
 		}
-		if ((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER) ||
-				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER)) &&
+		if ((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER) || 
+				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLED)) &&
 				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
-			querySql += "and tof.username = :username ";
+			querySql += "and tof.username = :username " + 
+						"and tof.relationType = :relationType " ;
+			
 		}
 
 		querySql += "group by e.idExpiration " + 
@@ -126,10 +131,11 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 		query = em.createQuery(querySql);
 
-		if ((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER) ||
-				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER)) &&
+		if ((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER) || 
+				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLED)) &&
 				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			query.setParameter("username", username);
+			query.setParameter("relationType", userRelationType);
 		}
 		if (!isEmpty(dateStart) && !isEmpty(endDate)) {
 
@@ -286,26 +292,61 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 	}
 
 	@Override
-	public Expiration archiveExpiration(Expiration expiration) {
+	public Expiration statusExpirationOnChange(Expiration expiration) {
 
 		try {
-			logger.info("Archiving the expiration with id: " + expiration.getIdExpiration() );
-
-			// The modification of User
-    		String username = getTokenUserDetails().getUser().getUsername();
-    		expiration.setModificationDate(new Date());
-    		expiration.setModifiedBy(username);
+			String statusExpirationOnChange = expiration.getStatusExpirationOnChange(); 
+			if(isEmpty(statusExpirationOnChange)) {
+				return expiration;
+			}
 			
-			expiration.setRegistered(new Date());
-			
-			expiration = expirationRepository.save(expiration);
+			Long idExpiration = expiration.getIdExpiration();
+			logger.info("Archiving the expiration with id: " + idExpiration);
 
+			Optional<Expiration> expirationOptional = expirationRepository.findById(idExpiration);
+			
+			if(!expirationOptional.isPresent()) {
+    			throw new NotFoundException();
+    		}
+			
+			Expiration expirationStored = expirationOptional.get();
+			expirationStored.setStatusExpirationOnChange(statusExpirationOnChange);
+			
+			changeStatusExpiration(expirationStored);
+			
+    		expiration = expirationRepository.save(expirationStored);
+
+    		if(isProvider() && 
+    				expiration.getExpirationActivities().stream().allMatch(ea -> ea.getIdExpirationActivity() != null)) {
+    			expiration.getExpirationActivities().add(new ExpirationActivity());
+			}
 		} catch (Exception e) {
 			logger.error(e);
 			throw new GeneralException("Expiration not found");
 		}
 
 		return expiration;
+	}
+
+	private void changeStatusExpiration(Expiration expiration) {
+
+		String statusExpirationOnChange = expiration.getStatusExpirationOnChange(); 
+		
+		if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.ARCHIVED.name())) {
+			expiration.setRegistered(new Date());
+		} else if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.RESTORE.name())) {
+			expiration.setCompleted(null);
+			expiration.setRegistered(null);
+		} else if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.APPROVED.name())) {
+			expiration.setApproved(new Date());
+		} else if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.NOT_APPROVED.name())) {
+			expiration.setApproved(null);
+		}
+		
+		// The modification of User
+		String username = getTokenUserDetails().getUser().getUsername();
+		expiration.setModificationDate(new Date());
+		expiration.setModifiedBy(username);
 	}
 
 	@Override
