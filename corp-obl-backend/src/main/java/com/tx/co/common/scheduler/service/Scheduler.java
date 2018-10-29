@@ -237,24 +237,36 @@ public class Scheduler {
                 for (final Office office : officeList) {
                     final String searchingKey = iExpirationDate + "_" + office.getIdOffice();
                     if (expirationClosableBy == EXPIRATION_CLOSABLEBY_ALL) {
+                        Expiration expiration = expirationMap.get(searchingKey);
                         // If expiration not exist: create
-                        if (!expirationMap.containsKey(searchingKey)) {
+                        if (null == expiration) {
                             // create expiration generic
-                            final Expiration expiration = this.createExpiration(task, office, iExpirationDate, expirationClosableBy, "");
+                            expiration = this.createExpiration(task, office, iExpirationDate, expirationClosableBy, "");
                             if (null != expiration) {
                                 expirationService.saveUpdateExpiration(expiration);
                             }
+                        } else if(!expiration.getEnabled()) {
+                            expiration.setEnabled(true);
+                            expiration.setModificationDate(new Date());
+                            //expiration.setModifiedBy();
+                            expirationService.saveUpdateExpiration(expiration);
                         }
                     } else if (expirationClosableBy == EXPIRATION_CLOSABLEBY_ONE) {
                         // Check each user
                         for (final User beneficiary : office.getUserBeneficiaries()) {
                             // For each user if expiration not exist: create
-                            if (!expirationMap.containsKey(searchingKey + "_" + beneficiary.getUsername())) {
+                            Expiration expiration = expirationMap.get(searchingKey + "_" + beneficiary.getUsername());
+                            if (null == expiration) {
                                 // create expiration for each user
-                                final Expiration expiration = this.createExpiration(task, office, iExpirationDate, expirationClosableBy, beneficiary.getUsername());
+                                expiration = this.createExpiration(task, office, iExpirationDate, expirationClosableBy, beneficiary.getUsername());
                                 if (null != expiration) {
                                     expirationService.saveUpdateExpiration(expiration);
                                 }
+                            } else if(!expiration.getEnabled()) {
+                                expiration.setEnabled(true);
+                                expiration.setModificationDate(new Date());
+                                //expiration.setModifiedBy();
+                                expirationService.saveUpdateExpiration(expiration);
                             }
                         }
                     }

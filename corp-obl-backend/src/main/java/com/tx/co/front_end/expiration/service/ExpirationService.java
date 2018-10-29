@@ -264,6 +264,9 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		expirationStored.setTask(expiration.getTask());
 		expirationStored.setOffice(expiration.getOffice());
 		expirationStored.setExpirationClosableBy(expiration.getExpirationClosableBy());
+		expirationStored.setEnabled(expiration.getEnabled());
+		expirationStored.setModifiedBy(expiration.getModifiedBy());
+		expirationStored.setModificationDate(expiration.getModificationDate());
 		expirationStored.setExpirationDate(expiration.getExpirationDate());
 		if (!isEmpty(expiration.getCompleted())) {
 			expirationStored.setCompleted(expiration.getCompleted());
