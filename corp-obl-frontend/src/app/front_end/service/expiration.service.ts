@@ -19,4 +19,8 @@ export class ExpirationService {
     saveUpdateExpirationActivity(expiration): Observable<any> {
         return this.apiRequest.post(this.appConfig.saveUpdateExpirationActivity, expiration);
     }
+
+    archiveExpiration(expiration): Observable<any> {
+        return this.apiRequest.post(this.appConfig.archiveExpiration, expiration);
+    }
 }
