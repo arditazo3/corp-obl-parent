@@ -100,6 +100,16 @@ export const ROUTES: RouteInfo[] = [
                 extralink: false,
                 submenu: [],
                 authorities: [AuthorityEnum[AuthorityEnum.CORPOBLIG_ADMIN], AuthorityEnum[AuthorityEnum.CORPOBLIG_CONTROLLER]]
+            },
+            {
+                path: '/front-end/agenda-controlled',
+                title: 'Agenda Controlled',
+                icon: 'mdi mdi-view-column',
+                class: '',
+                ddclass: '',
+                extralink: false,
+                submenu: [],
+                authorities: [AuthorityEnum[AuthorityEnum.CORPOBLIG_ADMIN], AuthorityEnum[AuthorityEnum.CORPOBLIG_CONTROLLED]]
             }
         ]
     }

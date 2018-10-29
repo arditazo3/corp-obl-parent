@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {IMyOptions} from 'mydatepicker';
 import {AppGlobals} from '../../shared/common/api/app-globals';
 import * as moment from 'moment';
@@ -67,6 +67,7 @@ export class AgendaComponent implements OnInit {
         dateExpirationOfficesArchived.dateEnd = AppGlobals.convertDatePickerToDate(dateEnd.date);
         dateExpirationOfficesArchived.offices = this.offices;
         dateExpirationOfficesArchived.hideArchived = this.hideArchivedTasks;
+        dateExpirationOfficesArchived.userRelationType = AppGlobals.CONTROLLER;
 
         this.expirationService
             .searchDateExpirationOffices(dateExpirationOfficesArchived)
@@ -90,6 +91,7 @@ export class AgendaComponent implements OnInit {
         dateExpirationOfficesArchived.dateEnd = AppGlobals.convertDatePickerToDate(this.dateEnd.date);
         dateExpirationOfficesArchived.offices = this.offices;
         dateExpirationOfficesArchived.hideArchived = this.hideArchivedTasks;
+        dateExpirationOfficesArchived.userRelationType = AppGlobals.CONTROLLER;
 
         this.expirationService
             .searchDateExpirationOffices(dateExpirationOfficesArchived)

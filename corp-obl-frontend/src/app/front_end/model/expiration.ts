@@ -19,4 +19,5 @@ export class Expiration {
     registered: Date;
     expirationDetail: ExpirationDetail;
     expirationActivities: ExpirationActivity[];
+    statusExpirationOnChange;
 }

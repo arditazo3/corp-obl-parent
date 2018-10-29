@@ -18,6 +18,7 @@ import {ExpirationService} from './service/expiration.service';
 import {TaskTemplateExpirationsComponent} from './agenda/task-template-expirations/task-template-expirations.component';
 import {OfficeExpirationComponent} from './agenda/office-expiration/office-expiration.component';
 import {ExpirationActivityComponent} from './agenda/expiration-activity/expiration-activity.component';
+import { AgendaControlledComponent } from './agenda-controlled/agenda-controlled.component';
 
 @NgModule({
     imports: [
@@ -47,7 +48,8 @@ import {ExpirationActivityComponent} from './agenda/expiration-activity/expirati
         AgendaComponent,
         TaskTemplateExpirationsComponent,
         OfficeExpirationComponent,
-        ExpirationActivityComponent
+        ExpirationActivityComponent,
+        AgendaControlledComponent
     ],
     providers: [
         ExpirationService
