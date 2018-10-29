@@ -38,7 +38,7 @@ export class CompanyTableComponent implements OnInit {
         console.log('CompanyTableComponent - ngOnInit');
 
         const me = this;
-        me.getCompanies();
+        me.getCompaniesByRole();
 
         me.columns = [
             {prop: 'description', name: 'Description'}
@@ -53,11 +53,11 @@ export class CompanyTableComponent implements OnInit {
         }
     }
 
-    getCompanies() {
+    getCompaniesByRole() {
         console.log('CompanyTableComponent - getCompanies');
 
         const me = this;
-        this.companyService.getCompanies().subscribe(
+        this.companyService.getCompaniesByRole().subscribe(
             (data) => {
                 me.rows = data;
                 me.temp = [...data];
@@ -128,11 +128,12 @@ export class CompanyTableComponent implements OnInit {
         console.log('CompanyTableComponent - deleteCompanySwal' + this.rowSelected.idCompany);
 
         const companySelected = this.rowSelected;
+        const me = this;
 
         this.companyService.deleteCompany(companySelected).subscribe(
             (data) => {
-                this.errorDetails = undefined;
-                this.getCompanies();
+                me.errorDetails = undefined;
+                me.getCompaniesByRole();
                 console.log('CompanyTableComponent - deleteCompanyCofirm - next');
             }, error => {
                 this.errorDetails = error.error;

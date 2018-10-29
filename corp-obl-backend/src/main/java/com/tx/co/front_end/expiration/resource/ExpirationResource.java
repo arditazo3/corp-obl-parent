@@ -22,8 +22,10 @@ import org.springframework.stereotype.Component;
 import com.tx.co.common.api.provider.ObjectResult;
 import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchivedResult;
 import com.tx.co.front_end.expiration.api.model.ExpirationActivityResult;
+import com.tx.co.front_end.expiration.api.model.ExpirationResult;
 import com.tx.co.front_end.expiration.api.model.TaskOfficeExpirations;
 import com.tx.co.front_end.expiration.api.model.TaskOfficeExpirationsResult;
+import com.tx.co.front_end.expiration.domain.Expiration;
 import com.tx.co.front_end.expiration.domain.ExpirationActivity;
 import com.tx.co.front_end.expiration.service.IExpirationService;
 
@@ -70,5 +72,15 @@ public class ExpirationResource extends ObjectResult {
         return Response.ok(toExpirationActivitySingleResult(expirationActivityStored)).build();
 	}
 	
+	@POST
+	@Path(ARCHIVE_EXPIRATION)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response saveUpdateExpirationActivity(ExpirationResult expiration) {
+
+		Expiration expirationStored = expirationService.archiveExpiration(toExpiration(expiration));
+
+        return Response.ok(toExpirationResult(expirationStored)).build();
+	}
 	
 }

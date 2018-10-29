@@ -27,6 +27,7 @@ import com.tx.co.back_office.task.repository.TaskOfficeRepository;
 import com.tx.co.back_office.task.repository.TaskRepository;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.cache.service.UpdateCacheData;
+import com.tx.co.common.scheduler.service.Scheduler;
 import com.tx.co.front_end.expiration.domain.Expiration;
 import com.tx.co.front_end.expiration.service.IExpirationService;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
@@ -49,6 +50,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	private TaskOfficeRepository taskOfficeRepository;
 	private TaskOfficeRelationRepository taskOfficeRelationRepository;
 	private IExpirationService expirationService; 
+	private Scheduler scheduler;
 
 	@Autowired
 	public void setTaskRepository(TaskRepository taskRepository) {
@@ -68,6 +70,11 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	@Autowired
 	public void setExpirationService(IExpirationService expirationService) {
 		this.expirationService = expirationService;
+	}
+
+	@Autowired
+	public void setScheduler(Scheduler scheduler) {
+		this.scheduler = scheduler;
 	}
 
 	/**
@@ -140,6 +147,8 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 		taskStored = taskRepository.save(taskStored);
 
+		scheduler.elaborateTask(taskStored);
+		
 		return taskTaskOfficeSaveUpdate(taskStored, task);
 	}
 

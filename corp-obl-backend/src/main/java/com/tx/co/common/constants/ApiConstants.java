@@ -119,6 +119,8 @@ public final class ApiConstants {
 	public static final String REMOVE_FILES_EXP = "remove-files-exp";
 
 	public static final String EXP_ACT_SAVE_UPDATE = AGENDA + "/save-update-exp-activ";
+	public static final String ARCHIVE_EXPIRATION = AGENDA + "/archive-expiration";
+	
 	/** End Front end Resources */
 
 	/**

@@ -154,22 +154,22 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 			for (Expiration expiration : expirationsResult) {
 
 				TaskOfficeExpirations taskOfficeExpiration = new TaskOfficeExpirations();
-				
+
 				TaskTemplate taskTemplate = expiration.getTaskTemplate();
 				taskOfficeExpiration.setIdTaskTemplate(taskTemplate.getIdTaskTemplate());
 				taskOfficeExpiration.setDescription(taskTemplate.getDescription());
-				
+
 				Office office = expiration.getOffice();
 				taskOfficeExpiration.setOffice(office);
-				
+
 				Task task = expiration.getTask();
 				taskOfficeExpiration.setTask(task);
-				
+
 				TaskOfficeExpirationDateKey taskOfficeExpirationDateKey = new TaskOfficeExpirationDateKey();
 				taskOfficeExpirationDateKey.idTask = task.getIdTask();
-		//		taskOfficeExpirationDateKey.idOffice = office.getIdOffice();
+				//		taskOfficeExpirationDateKey.idOffice = office.getIdOffice();
 				taskOfficeExpirationDateKey.expirationDate = expiration.getExpirationDate();
-				
+
 				addTaskOfficeExpMap(taskOfficeExpirationDateKey, taskOfficeExpDateMap, taskOfficeExpiration, expiration);
 
 			}
@@ -177,9 +177,9 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 		buildCounterExpirations(taskOfficeExpDateMap);
 
-		return new ArrayList<TaskOfficeExpirations>(taskOfficeExpDateMap.values());
+		return new ArrayList<>(taskOfficeExpDateMap.values());
 	}
-	
+
 	public synchronized void addTaskOfficeExpMap(TaskOfficeExpirationDateKey key, 
 			Map<TaskOfficeExpirationDateKey, TaskOfficeExpirations> taskOfficeExpDateMap,
 			TaskOfficeExpirations taskOfficeExpiration, Expiration expiration) {
@@ -193,10 +193,10 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 	}
 
 	public void buildCounterExpirations(Map<TaskOfficeExpirationDateKey, TaskOfficeExpirations> taskOfficeExpDateMap) {
-		
+
 		for (Map.Entry<TaskOfficeExpirationDateKey, TaskOfficeExpirations> entry : 
-							taskOfficeExpDateMap.entrySet()) {
-	
+			taskOfficeExpDateMap.entrySet()) {
+
 			int countTaskExpiration = 0;
 			int countTaskExpirationCompleted = 0;
 			TaskOfficeExpirations taskOfficeExpirations = entry.getValue();
@@ -205,20 +205,20 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 						expirationLoop.getExpirationActivities().stream().allMatch(ea -> ea.getIdExpirationActivity() != null)) {
 					expirationLoop.getExpirationActivities().add(new ExpirationActivity());
 				}
-				
+
 				Date completedDate = expirationLoop.getCompleted();
 				if (!isEmpty(completedDate) && completedDate.compareTo(new Date()) < 0) {
 					countTaskExpirationCompleted++;
 				}
 				countTaskExpiration++;
 			}
-			
+
 			taskOfficeExpirations.setTotalExpirations(countTaskExpiration);
 			taskOfficeExpirations.setTotalCompleted(countTaskExpirationCompleted);
 			taskOfficeExpirations.setExpirationDate(UtilStatic.formatDateToString(taskOfficeExpirations.getExpirations().iterator().next().getExpirationDate()));
 		}
 	}
-	
+
 	@Override
 	public Expiration saveUpdateExpiration(Expiration expiration) {
 
@@ -284,34 +284,57 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		}
 		return expirationStored;
 	}
-	
+
 	@Override
-	public void deleteExpiration(Long idExpiration) {
-		
+	public Expiration archiveExpiration(Expiration expiration) {
+
 		try {
-    		logger.info("Deleting the Expiration with id: " + idExpiration);
-    		
-    		Optional<Expiration> expirationOptional = expirationRepository.findById(idExpiration);
+			logger.info("Archiving the expiration with id: " + expiration.getIdExpiration() );
 
-    		if(!expirationOptional.isPresent()) {
-    			throw new NotFoundException();
-    		}
-
-    		// The modification of User
+			// The modification of User
     		String username = getTokenUserDetails().getUser().getUsername();
-
-    		Expiration expiration = expirationOptional.get();
-    		// disable the expiration
-    		expiration.setEnabled(false);
     		expiration.setModificationDate(new Date());
     		expiration.setModifiedBy(username);
+			
+			expiration.setRegistered(new Date());
+			
+			expiration = expirationRepository.save(expiration);
 
-    		expirationRepository.save(expiration);
+		} catch (Exception e) {
+			logger.error(e);
+			throw new GeneralException("Expiration not found");
+		}
 
-    		logger.info("Deleting the Expiration with id: " + idExpiration );
-    	} catch (Exception e) {
-    		throw new GeneralException("Expiration not found");
-    	}
+		return expiration;
+	}
+
+	@Override
+	public void deleteExpiration(Long idExpiration) {
+
+		try {
+			logger.info("Deleting the Expiration with id: " + idExpiration);
+
+			Optional<Expiration> expirationOptional = expirationRepository.findById(idExpiration);
+
+			if(!expirationOptional.isPresent()) {
+				throw new NotFoundException();
+			}
+
+			// The modification of User
+			String username = getTokenUserDetails().getUser().getUsername();
+
+			Expiration expiration = expirationOptional.get();
+			// disable the expiration
+			expiration.setEnabled(false);
+			expiration.setModificationDate(new Date());
+			expiration.setModifiedBy(username);
+
+			expirationRepository.save(expiration);
+
+			logger.info("Deleting the Expiration with id: " + idExpiration );
+		} catch (Exception e) {
+			throw new GeneralException("Expiration not found");
+		}
 	}
 
 	@Override
@@ -428,14 +451,14 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		}
 		return isProvider;
 	}
-	
+
 }
 class TaskOfficeExpirationDateKey {
-	
+
 	Long idTask;
 	Long idOffice;
 	Date expirationDate;
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

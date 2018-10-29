@@ -479,7 +479,7 @@ export class QuickConfigurationComponent implements OnInit {
                 const dayString = day.toString();
                 const yearMonthDayArray = [dayString.substring(0, 4), dayString.substring(4, 6), dayString.substring(6)];
 
-                dateDay.setFullYear(yearMonthDayArray[0], yearMonthDayArray[1], yearMonthDayArray[2]);
+                dateDay.setFullYear(yearMonthDayArray[0], yearMonthDayArray[1] - 1, yearMonthDayArray[2]);
                 this.dayDateDP = AppGlobals.convertDateToDatePicker(dateDay);
             }
         } else if (fromComp) {
