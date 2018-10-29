@@ -1,0 +1,50 @@
+<div class="row">
+  <!-- column -->
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-subtitle">Agenda Controller</h5>
+        <div class="row">
+
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="control-label col-form-label">Show expiration from</label>
+              <my-date-picker name="dateStart" [options]="myDatePickerOptions"
+                              [(ngModel)]="dateStart"></my-date-picker>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="control-label col-form-label">To</label>
+              <my-date-picker name="dateEnd" [options]="myDatePickerOptions"
+                              [(ngModel)]="dateEnd"></my-date-picker>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <label class="control-label col-form-label">Hide archived tasks</label>
+            <div class="form-check form-check-inline">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="hideArchivedTask"
+                       [checked]="hideArchivedTasks" (change)="hideArchivedTasks = !hideArchivedTasks">
+                <label class="custom-control-label" for="hideArchivedTask"></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <label class="control-label col-form-label"></label>
+            <button class="btn-tnx btn-info btn-block" type="button" (click)="searchTaskTemplates()">Filter
+            </button>
+          </div>
+
+        </div>
+        <hr>
+
+        <app-task-template-expirations [taskExpirations]="taskExpirations"></app-task-template-expirations>
+
+      </div>
+    </div>
+  </div>
+</div>
