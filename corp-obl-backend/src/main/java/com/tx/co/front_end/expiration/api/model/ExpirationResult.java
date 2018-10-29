@@ -28,6 +28,7 @@ public class ExpirationResult {
 	private Date registered;
 	private List<ExpirationActivityResult> expirationActivities; 
 	private ExpirationDetailResult expirationDetail;
+	private String statusExpirationOnChange;
 
 	public Long getIdExpiration() {
 		return idExpiration;
@@ -123,5 +124,13 @@ public class ExpirationResult {
 
 	public void setExpirationDetail(ExpirationDetailResult expirationDetail) {
 		this.expirationDetail = expirationDetail;
+	}
+
+	public String getStatusExpirationOnChange() {
+		return statusExpirationOnChange;
+	}
+
+	public void setStatusExpirationOnChange(String statusExpirationOnChange) {
+		this.statusExpirationOnChange = statusExpirationOnChange;
 	}
 }

@@ -86,6 +86,9 @@ public class Expiration implements Serializable {
     @Column(nullable = false, name = "modifiedby")
     private String modifiedBy;
 
+    @Transient
+    private String statusExpirationOnChange;
+    
     public Long getIdExpiration() {
         return idExpiration;
     }
@@ -213,6 +216,14 @@ public class Expiration implements Serializable {
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
+
+	public String getStatusExpirationOnChange() {
+		return statusExpirationOnChange;
+	}
+
+	public void setStatusExpirationOnChange(String statusExpirationOnChange) {
+		this.statusExpirationOnChange = statusExpirationOnChange;
+	}
 
 
 }

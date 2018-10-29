@@ -73,14 +73,14 @@ public class ExpirationResource extends ObjectResult {
 	}
 	
 	@POST
-	@Path(ARCHIVE_EXPIRATION)
+	@Path(STATUS_EXPIRATION_ON_CHANGE)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response saveUpdateExpirationActivity(ExpirationResult expiration) {
+	public Response statusExpirationOnChange(ExpirationResult expiration) {
 
-		Expiration expirationStored = expirationService.archiveExpiration(toExpiration(expiration));
+		Expiration expirationStored = expirationService.statusExpirationOnChange(toExpiration(expiration));
 
-        return Response.ok(toExpirationResult(expirationStored)).build();
+        return Response.ok(toExpirationWithActivitiesResult(expirationStored)).build();
 	}
 	
 }
