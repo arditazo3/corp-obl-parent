@@ -168,15 +168,18 @@ public class UtilStatic {
 
 		Integer totalExpirations = taskExpiration.getTotalExpirations();
 		Integer totalCompleted = taskExpiration.getTotalCompleted();
+		Integer totalArchived = taskExpiration.getTotalArchived();
 
 		String colorDefined = "";
 		if(totalExpirations > 0) {
-			if(totalExpirations.compareTo(totalCompleted) == 0) {
-				colorDefined = "success";
+			if(totalExpirations.compareTo(totalArchived) == 0) {
+				colorDefined = "alert alert-primary";
+			} else if(totalExpirations.compareTo(totalCompleted) == 0) {
+				colorDefined = "alert alert-success";
 			} else if(totalCompleted == 0) {
 				colorDefined = "";
 			} else if(totalExpirations.compareTo(totalCompleted) > 0) {
-				colorDefined = "warning";
+				colorDefined = "alert alert-warning";
 			}
 		} else {
 			colorDefined = "";

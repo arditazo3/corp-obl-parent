@@ -18,11 +18,13 @@ public class TaskOfficeExpirationsResult {
 	private String description;
 	private Integer totalExpirations;
 	private Integer totalCompleted;
+	private Integer totalArchived;
 	private String colorDefined;
 	private String expirationDate;
 	private TaskResult task;
 	private OfficeResult office;
 	private List<ExpirationResult> expirations;
+	private String statusExpirationOnChange;
 	
 	public Long getIdTaskTemplate() {
 		return idTaskTemplate;
@@ -47,6 +49,12 @@ public class TaskOfficeExpirationsResult {
 	}
 	public void setTotalCompleted(Integer totalCompleted) {
 		this.totalCompleted = totalCompleted;
+	}
+	public Integer getTotalArchived() {
+		return totalArchived;
+	}
+	public void setTotalArchived(Integer totalArchived) {
+		this.totalArchived = totalArchived;
 	}
 	public String getColorDefined() {
 		return colorDefined;
@@ -77,6 +85,12 @@ public class TaskOfficeExpirationsResult {
 	}
 	public void setExpirations(List<ExpirationResult> expirations) {
 		this.expirations = expirations;
+	}
+	public String getStatusExpirationOnChange() {
+		return statusExpirationOnChange;
+	}
+	public void setStatusExpirationOnChange(String statusExpirationOnChange) {
+		this.statusExpirationOnChange = statusExpirationOnChange;
 	}
 	
 	

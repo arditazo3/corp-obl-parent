@@ -15,6 +15,10 @@ public interface IExpirationService {
     
     Expiration statusExpirationOnChange(Expiration expiration);
     
+    TaskOfficeExpirations statusAllExpirationOnChange(TaskOfficeExpirations taskOfficeExpirations);
+    
+    TaskOfficeExpirations updateTaskExpiration(Expiration expiration);
+    
     void deleteExpiration(Long idExpiration);
     
     ExpirationActivity saveUpdateExpirationActivity(ExpirationActivity expirationActivity);
