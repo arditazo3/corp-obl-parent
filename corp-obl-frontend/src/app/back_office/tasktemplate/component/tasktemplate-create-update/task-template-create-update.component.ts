@@ -526,7 +526,8 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
 
     swtichItemsExpirationSelect(fromComp) {
         const me = this;
-        if (fromComp && fromComp.tablename && fromComp.tablename.indexOf('weekly') >= 0) {
+        if (fromComp && fromComp.tablename &&
+            (fromComp.tablename.indexOf('weekly') >= 0 || fromComp.tablename.indexOf('yearly') >= 0)) {
 
             this.expirationTypeOnlyFixedDayObservable.subscribe(
                 data => {

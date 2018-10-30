@@ -20,4 +20,5 @@ export class Expiration {
     expirationDetail: ExpirationDetail;
     expirationActivities: ExpirationActivity[];
     statusExpirationOnChange;
+    userRelationType: number;
 }

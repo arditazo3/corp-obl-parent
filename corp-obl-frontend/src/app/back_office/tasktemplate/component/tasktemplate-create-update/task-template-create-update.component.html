@@ -127,7 +127,7 @@
                                                id="daySelect"
                                                [searchable]="true"
                                                [clearable]="false"
-                                               *ngIf="isFixedDay && isWeekly"
+                                               *ngIf="isFixedDay && isWeekly && !isYearly"
                                                [(ngModel)]="selectedPeriodWeeklyExpFixedDay"
                                                [ngModelOptions]="{standalone: true}"
                                                placeholder="Select a day">

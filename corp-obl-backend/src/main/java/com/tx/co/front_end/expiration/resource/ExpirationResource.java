@@ -83,4 +83,15 @@ public class ExpirationResource extends ObjectResult {
         return Response.ok(toExpirationWithActivitiesResult(expirationStored)).build();
 	}
 	
+	@POST
+	@Path(UPDATE_TASK_EXPIRATION)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateTaskExpiration(TaskOfficeExpirationsResult taskOfficeExpirationsResult) {
+
+		Expiration expirationStored = expirationService.statusExpirationOnChange(toTaskOfficeExpirations(taskOfficeExpirationsResult));
+
+        return Response.ok(toExpirationWithActivitiesResult(expirationStored)).build();
+	}
+	
 }

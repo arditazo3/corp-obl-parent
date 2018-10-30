@@ -195,18 +195,28 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 			query = em.createQuery(querySql);
 
 			query.setParameter(DESCRIPTION_QUERY_PARAM, "%" + objectSearchTaskTemplate.getDescriptionTaskTemplate() + "%");
-		} else if(isEmpty(objectSearchTaskTemplate.getCompanies()) || isEmpty(objectSearchTaskTemplate.getTopics())) {
-			throw new GeneralException("Fill in all the fields");
 		} else {
-			querySql += "and tt.description like :description and "
-					+ "(t in :topicsList and c in :companiesList) "
+			if(!isEmpty(objectSearchTaskTemplate.getCompanies())) {
+				querySql += "and c in :companiesList ";
+			}
+			if(!isEmpty(objectSearchTaskTemplate.getTopics())) {
+				querySql += "and t in :topicsList ";
+			}
+			
+			querySql += "and tt.description like :description  "
 					+ "group by tt.idTaskTemplate order by tt.description asc";
-			query = em.createQuery(querySql, TaskTemplate.class);
+		}
+		
+		query = em.createQuery(querySql, TaskTemplate.class);
 
-			query.setParameter(DESCRIPTION_QUERY_PARAM, "%" + objectSearchTaskTemplate.getDescriptionTaskTemplate() + "%");
+		query.setParameter(DESCRIPTION_QUERY_PARAM, "%" + objectSearchTaskTemplate.getDescriptionTaskTemplate() + "%");
+		
+		if(!isEmpty(objectSearchTaskTemplate.getTopics())) {
 			query.setParameter("topicsList",   objectSearchTaskTemplate.getTopics());
+		}
 
-			query.setParameter("companiesList", objectSearchTaskTemplate.getCompanies());
+		if(!isEmpty(objectSearchTaskTemplate.getCompanies())) {
+			query.setParameter("companiesList", objectSearchTaskTemplate.getCompanies());	
 		}
 
 		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) &&

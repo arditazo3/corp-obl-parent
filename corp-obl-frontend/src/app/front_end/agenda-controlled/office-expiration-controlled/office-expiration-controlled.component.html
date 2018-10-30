@@ -1,0 +1,23 @@
+<div class="d-md-flex align-items-center">
+    <div class="ml-auto d-flex float-left align-items-center">
+        <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-outline-primary" id="dropdownDetails" ngbDropdownToggle>Details
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <button class="dropdown-item"
+                        *ngIf="completedActivityBtn"
+                        (click)="completedExp()">Completed
+                </button>
+                <button class="dropdown-item"
+                        *ngIf="notCompletedActivityBtn"
+                        (click)="notCompletedExp()">Not Completed
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngFor="let expirationActivity of expiration.expirationActivities">
+    <app-expiration-activity-controlled (updateTaskExpirationOnChange)="updateTaskExpirationOnChange($event)" [expiration]="expiration" [expirationActivity]="expirationActivity"
+                                        class="w-100"></app-expiration-activity-controlled>
+</div>

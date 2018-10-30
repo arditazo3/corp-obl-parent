@@ -1,0 +1,116 @@
+<div class="d-md-flex align-items-center">
+
+  <div *ngIf="expirationActivity && expirationActivity.descriptionLastActivity === ''"
+       class="w-100">
+    <div class="card">
+      <br/>
+      <div>
+        <form>
+          <div class="input-group">
+            <input type="text" [(ngModel)]="expActivityMsg"
+                   [ngModelOptions]="{standalone: true}"
+                   class="form-control col-md-9"
+                   placeholder="Type something...">
+            <div class="input-group-append">
+              <div class="col-md-2">
+                <button type="button" (click)="fileInput.click()" class="btn-tnx btn-default">Upload
+                  Files
+                </button>
+                <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
+                                    <input #selectedFile type="file" #fileInput ng2FileSelect [uploader]="uploader"
+                                           multiple/>
+                                </span>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="submitted && !expActivityMsg" class="invalid-feedback-show">
+            Message is required
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 table-responsive">
+              <table class="table table-borderless table-sm">
+                <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of uploader?.queue">
+                  <td>
+                    <strong>{{ item?.file?.name }}</strong>
+                  </td>
+                  <td nowrap>{{ item?.file?.size/1024/1024 | number:'.1' }} MB
+                  </td>
+                  <td nowrap>
+                    <button type="button" class="btn-tnx btn-danger btn-xs"
+                            (click)="removeFile(item)">
+                      <span class="fa fa-trash"></span> Remove
+                    </button>
+                    <button *ngIf="!isNewForm" type="button" class="btn-tnx btn-xs"
+                            (click)="downloadFile(item)">
+                      <span class="fa fa-download"></span> Download
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="m-b-0 col text-left">
+              <button #cancelBtn type="button"
+                      class="btn-tnx btn-outline-secondary waves-effect waves-light">
+                Cancel
+              </button>
+              <button #submitBtn type="button" (click)="saveExpActivDetail()"
+                      class="btn-tnx btn-success waves-effect waves-light">Save
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+    <br/>
+  </div>
+
+  <div *ngIf="expirationActivity && expirationActivity.idExpirationActivity">
+    <div>
+      <h6 class="card-subtitle">{{ expirationActivity?.descriptionLastActivity }}</h6>
+      <h4 class="card-title">{{ expirationActivity?.body }}</h4>
+
+      <div class="col-md-12 table-responsive">
+        <table class="table table-borderless table-sm">
+          <thead>
+          <tr>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let expirationActivityAttachment of expirationActivity?.expirationActivityAttachments">
+            <td>
+              <strong><a (click)="downloadFileExp(expirationActivityAttachment)"
+                         class="text-primary" style="cursor: pointer;">
+                {{ expirationActivityAttachment?.fileName }}
+              </a></strong>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <swal
+          #errorTaskTemplateSwal
+          title=""
+          text=""
+          type="error">
+  </swal>
+
+</div>

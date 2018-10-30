@@ -120,6 +120,7 @@ public final class ApiConstants {
 
 	public static final String EXP_ACT_SAVE_UPDATE = AGENDA + "/save-update-exp-activ";
 	public static final String STATUS_EXPIRATION_ON_CHANGE = AGENDA + "/status-expiration-on-change";
+	public static final String UPDATE_TASK_EXPIRATION = AGENDA + "/update-task-expiration";
 	
 	/** End Front end Resources */
 

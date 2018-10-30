@@ -947,6 +947,33 @@ public abstract class ObjectResult extends UpdateCacheData {
 		}
 		return taskOfficeExpirationsResult;
 	}
+	
+	/**
+	 * @param taskOfficeExpirationsResult
+	 * @return
+	 */
+	public TaskOfficeExpirations toTaskOfficeExpirations(TaskOfficeExpirationsResult taskOfficeExpirationsResult) {
+
+		TaskOfficeExpirations taskOfficeExpirations = new TaskOfficeExpirations();
+
+		taskOfficeExpirations.setDescription(taskOfficeExpirationsResult.getDescription());
+		taskOfficeExpirations.setIdTaskTemplate(taskOfficeExpirationsResult.getIdTaskTemplate());
+		taskOfficeExpirations.setTotalCompleted(taskOfficeExpirationsResult.getTotalCompleted());
+		taskOfficeExpirations.setTotalExpirations(taskOfficeExpirationsResult.getTotalExpirations());
+
+		taskOfficeExpirations.setExpirationDate(taskOfficeExpirationsResult.getExpirationDate());
+		taskOfficeExpirations.setTask(toTask(taskOfficeExpirationsResult.getTask()));
+		taskOfficeExpirations.setOffice(toOffice(taskOfficeExpirationsResult.getOffice()));
+		
+		if (!isEmpty(taskOfficeExpirationsResult.getExpirations())) {
+			List<Expiration> expirations = new ArrayList<>();
+			for (ExpirationResult expirationResult : taskOfficeExpirationsResult.getExpirations()) {
+				expirations.add(toExpiration(expirationResult));
+			}
+			taskOfficeExpirations.setExpirations(new HashSet<>(expirations));
+		}
+		return taskOfficeExpirations;
+	}
 
 	public Expiration toExpiration(ExpirationResult expirationResult) {
 		Expiration expiration = new Expiration();
@@ -959,6 +986,8 @@ public abstract class ObjectResult extends UpdateCacheData {
 		expiration.setApproved(expirationResult.getApproved());
 		expiration.setRegistered(expirationResult.getRegistered());
 		expiration.setStatusExpirationOnChange(expirationResult.getStatusExpirationOnChange());
+		expiration.setUserRelationType(expirationResult.getUserRelationType());
+		
 		if(!isEmpty(expirationResult.getOffice())) {
 			expiration.setOffice(toOffice(expirationResult.getOffice()));	
 		}
@@ -987,6 +1016,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		expirationResult.setTask(toTaskResultOnly(expiration.getTask()));
 		expirationResult.setTaskTemplate(toTaskTemplateResult(expiration.getTaskTemplate()));
 		expirationResult.setExpirationDetail(UtilStatic.buildExpirationDetail(expiration));
+		expirationResult.setUserRelationType(expiration.getUserRelationType());
 
 		return expirationResult;
 	}

@@ -89,6 +89,9 @@ public class Expiration implements Serializable {
     @Transient
     private String statusExpirationOnChange;
     
+    @Transient
+    private Integer userRelationType;
+    
     public Long getIdExpiration() {
         return idExpiration;
     }
@@ -223,6 +226,14 @@ public class Expiration implements Serializable {
 
 	public void setStatusExpirationOnChange(String statusExpirationOnChange) {
 		this.statusExpirationOnChange = statusExpirationOnChange;
+	}
+
+	public Integer getUserRelationType() {
+		return userRelationType;
+	}
+
+	public void setUserRelationType(Integer userRelationType) {
+		this.userRelationType = userRelationType;
 	}
 
 

@@ -29,6 +29,7 @@ public class ExpirationResult {
 	private List<ExpirationActivityResult> expirationActivities; 
 	private ExpirationDetailResult expirationDetail;
 	private String statusExpirationOnChange;
+	private Integer userRelationType;
 
 	public Long getIdExpiration() {
 		return idExpiration;
@@ -132,5 +133,13 @@ public class ExpirationResult {
 
 	public void setStatusExpirationOnChange(String statusExpirationOnChange) {
 		this.statusExpirationOnChange = statusExpirationOnChange;
+	}
+
+	public Integer getUserRelationType() {
+		return userRelationType;
+	}
+
+	public void setUserRelationType(Integer userRelationType) {
+		this.userRelationType = userRelationType;
 	}
 }

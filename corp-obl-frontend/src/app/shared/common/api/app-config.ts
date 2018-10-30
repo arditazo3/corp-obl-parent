@@ -112,6 +112,7 @@ export class AppConfig {
     public agenda = '/agenda';
     public expirationSearchTaskTemplateOfficeArchived = this.frontEndPath + this.agenda + '/search-task';
     public saveUpdateExpirationActivity = this.frontEndPath + this.agenda + '/save-update-exp-activ';
+    public updateTaskExpiration = this.frontEndPath + this.agenda + '/update-task-expiration';
     public statusExpirationOnChange = this.frontEndPath + this.agenda + '/status-expiration-on-change';
 
 
