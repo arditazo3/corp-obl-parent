@@ -10,7 +10,9 @@ export class TaskOfficeExpirations {
     office: Office;
     totalExpirations: number;
     totalCompleted: number;
+    totalArchived: number;
     colorDefined: string;
     expirationDate: string;
     expirations: Expiration[];
+    statusExpirationOnChange;
 }

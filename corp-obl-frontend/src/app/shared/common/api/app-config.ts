@@ -114,6 +114,7 @@ export class AppConfig {
     public saveUpdateExpirationActivity = this.frontEndPath + this.agenda + '/save-update-exp-activ';
     public updateTaskExpiration = this.frontEndPath + this.agenda + '/update-task-expiration';
     public statusExpirationOnChange = this.frontEndPath + this.agenda + '/status-expiration-on-change';
+    public statusAllExpirationsOnChange = this.frontEndPath + this.agenda + '/status-all-expiration-on-change';
 
 
     constructor() {

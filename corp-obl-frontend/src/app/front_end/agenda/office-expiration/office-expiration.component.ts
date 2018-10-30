@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TaskOfficeExpirations} from '../../model/task-office-expirations';
 import {Expiration} from '../../model/expiration';
 import {StatusExpirationEnum} from '../../../shared/common/api/enum/status.expiration.enum';

@@ -20,11 +20,15 @@ export class ExpirationService {
         return this.apiRequest.post(this.appConfig.saveUpdateExpirationActivity, expiration);
     }
 
-    updateTaskExpiration(taskExpiration): Observable<any> {
-        return this.apiRequest.post(this.appConfig.updateTaskExpiration, taskExpiration);
+    updateTaskExpiration(idExpiration): Observable<any> {
+        return this.apiRequest.post(this.appConfig.updateTaskExpiration, idExpiration);
     }
 
     statusExpirationOnChange(expiration): Observable<any> {
         return this.apiRequest.post(this.appConfig.statusExpirationOnChange, expiration);
+    }
+
+    saveStatusAllExpirationsOnChange(taskExpiration): Observable<any> {
+        return this.apiRequest.post(this.appConfig.statusAllExpirationsOnChange, taskExpiration);
     }
 }

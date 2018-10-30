@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TaskOfficeExpirations} from '../../model/task-office-expirations';
 import {Expiration} from '../../model/expiration';
 import {ApiErrorDetails} from '../../../shared/common/api/model/api-error-details';
@@ -12,6 +12,7 @@ import {StatusExpirationEnum} from '../../../shared/common/api/enum/status.expir
 })
 export class OfficeExpirationControlledComponent implements OnInit {
 
+    @Output() updateTaskExpirationOnChange = new EventEmitter<boolean>();
     @Input() taskExpiration: TaskOfficeExpirations;
     @Input() expiration: Expiration;
 
@@ -72,27 +73,12 @@ export class OfficeExpirationControlledComponent implements OnInit {
                 me.errorDetails = undefined;
                 me.expiration = data;
                 me.setStatusExpiration();
+                me.updateTaskExpirationOnChange.next(true);
                 console.log('OfficeExpirationControlledComponent - saveStatusExpirationOnChange - next');
             },
             error => {
                 console.error('OfficeExpirationControlledComponent - saveStatusExpirationOnChange - error \n', error);
             }
         );
-    }
-
-    updateTaskExpirationOnChange($event) {
-        if ($event) {
-
-            const me = this;
-            this.expirationService.updateTaskExpiration(this.taskExpiration).subscribe(
-                data => {
-                    me.taskExpiration = data;
-                    console.log('OfficeExpirationControlledComponent - updateTaskExpirationOnChange - next');
-                },
-                error => {
-                    console.error('OfficeExpirationControlledComponent - updateTaskExpirationOnChange - error \n', error);
-                }
-            );
-        }
     }
 }

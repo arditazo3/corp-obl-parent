@@ -18,6 +18,6 @@
 </div>
 
 <div *ngFor="let expirationActivity of expiration.expirationActivities">
-    <app-expiration-activity-controlled (updateTaskExpirationOnChange)="updateTaskExpirationOnChange($event)" [expiration]="expiration" [expirationActivity]="expirationActivity"
+    <app-expiration-activity-controlled [expiration]="expiration" [expirationActivity]="expirationActivity"
                                         class="w-100"></app-expiration-activity-controlled>
 </div>

@@ -18,7 +18,7 @@ import {saveAs as importedSaveAs} from 'file-saver';
 })
 export class ExpirationActivityControlledComponent implements OnInit {
 
-    @Output() updateTaskExpirationOnChange = new EventEmitter<boolean>();
+
     @Input() expiration: Expiration;
     @Input() expirationActivity: ExpirationActivity;
     @ViewChild('errorTaskTemplateSwal') private errorTaskTemplateSwal: SwalComponent;
@@ -134,7 +134,6 @@ export class ExpirationActivityControlledComponent implements OnInit {
 
                 if (me.counterUpload === 0) {
                     me.expiration.expirationActivities.splice(1, 0, me.expirationActivityStored);
-                    this.updateTaskExpirationOnChange.next(true);
                     this.cleanFormAfterInsert();
                 }
             },
@@ -159,7 +158,6 @@ export class ExpirationActivityControlledComponent implements OnInit {
                 this.expirationActivityStored.expirationActivityAttachments = [];
             }
             this.expirationActivityStored.expirationActivityAttachments.push(expActAttachment);
-            this.updateTaskExpirationOnChange.next(true);
         }
         if (this.counterUpload === this.counterCallback) {
             this.expiration.expirationActivities.splice(1, 0, this.expirationActivityStored);
