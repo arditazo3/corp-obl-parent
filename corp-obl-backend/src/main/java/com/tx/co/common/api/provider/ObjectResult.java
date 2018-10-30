@@ -930,6 +930,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		taskOfficeExpirationsResult.setDescription(taskOfficeExpirations.getDescription());
 		taskOfficeExpirationsResult.setIdTaskTemplate(taskOfficeExpirations.getIdTaskTemplate());
 		taskOfficeExpirationsResult.setTotalCompleted(taskOfficeExpirations.getTotalCompleted());
+		taskOfficeExpirationsResult.setTotalArchived(taskOfficeExpirations.getTotalArchived());
 		taskOfficeExpirationsResult.setTotalExpirations(taskOfficeExpirations.getTotalExpirations());
 
 		String colorDefined = UtilStatic.buildColor(taskOfficeExpirationsResult);
@@ -937,6 +938,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		taskOfficeExpirationsResult.setExpirationDate(taskOfficeExpirations.getExpirationDate());
 		taskOfficeExpirationsResult.setTask(toTaskResult(taskOfficeExpirations.getTask()));
 		taskOfficeExpirationsResult.setOffice(toOfficeResult(taskOfficeExpirations.getOffice()));
+		taskOfficeExpirationsResult.setStatusExpirationOnChange(taskOfficeExpirations.getStatusExpirationOnChange());
 		
 		if (!isEmpty(taskOfficeExpirations.getExpirations())) {
 			List<ExpirationResult> expirationResults = new ArrayList<>();
@@ -964,6 +966,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		taskOfficeExpirations.setExpirationDate(taskOfficeExpirationsResult.getExpirationDate());
 		taskOfficeExpirations.setTask(toTask(taskOfficeExpirationsResult.getTask()));
 		taskOfficeExpirations.setOffice(toOffice(taskOfficeExpirationsResult.getOffice()));
+		taskOfficeExpirations.setStatusExpirationOnChange(taskOfficeExpirationsResult.getStatusExpirationOnChange());
 		
 		if (!isEmpty(taskOfficeExpirationsResult.getExpirations())) {
 			List<Expiration> expirations = new ArrayList<>();
