@@ -4,6 +4,7 @@ import {Expiration} from '../../model/expiration';
 import {ApiErrorDetails} from '../../../shared/common/api/model/api-error-details';
 import {ExpirationService} from '../../service/expiration.service';
 import {StatusExpirationEnum} from '../../../shared/common/api/enum/status.expiration.enum';
+import {ExpirationActivity} from '../../model/expiration-activity';
 
 @Component({
   selector: 'app-office-expiration-controlled',
@@ -15,6 +16,9 @@ export class OfficeExpirationControlledComponent implements OnInit {
     @Output() updateTaskExpirationOnChange = new EventEmitter<boolean>();
     @Input() taskExpiration: TaskOfficeExpirations;
     @Input() expiration: Expiration;
+
+    hideDetailsBtn = true;
+    expirationActivitiesTemp: ExpirationActivity[];
 
     completedActivityBtn = false;
     notCompletedActivityBtn = false;
@@ -30,6 +34,10 @@ export class OfficeExpirationControlledComponent implements OnInit {
         console.log('OfficeExpirationControlledComponent - ngOnInit');
 
         this.setStatusExpiration();
+
+        this.expirationActivitiesTemp = this.expiration.expirationActivities;
+
+        this.showHideActivitiesOnChange();
     }
 
     setStatusExpiration() {
@@ -48,6 +56,8 @@ export class OfficeExpirationControlledComponent implements OnInit {
         }
         if (statusExp === StatusExpirationEnum[StatusExpirationEnum.ARCHIVED]) {
         }
+
+        this.showHideActivitiesOnChange();
     }
 
     completedExp() {
@@ -80,5 +90,51 @@ export class OfficeExpirationControlledComponent implements OnInit {
                 console.error('OfficeExpirationControlledComponent - saveStatusExpirationOnChange - error \n', error);
             }
         );
+    }
+
+    showHideDetailsMsg() {
+        this.hideDetailsBtn = !this.hideDetailsBtn;
+
+        this.showHideActivitiesOnChange();
+    }
+
+    showHideActivitiesOnChange() {
+
+        if (this.expirationActivitiesTemp) {
+            this.expiration.expirationActivities = this.includeExcludeEmptyActivity();
+        }
+    }
+
+    includeExcludeEmptyActivity(): any {
+
+        const expirationActivitiesLocal = this.expirationActivitiesTemp.slice(0);
+
+        let index = 0;
+        const showSingleActivity: ExpirationActivity[] = [];
+
+        expirationActivitiesLocal.forEach((expirationActivityLoop) => {
+
+            if (!expirationActivityLoop.idExpirationActivity &&
+                this.completedActivityBtn) {
+                showSingleActivity.push(expirationActivityLoop);
+            } else if (expirationActivityLoop.idExpirationActivity && index === 0) {
+                showSingleActivity.push(expirationActivityLoop);
+
+                if (!this.hideDetailsBtn) {
+                    index++;
+                }
+
+            }
+        });
+
+        return showSingleActivity;
+    }
+
+    updateExpirationActivities($event) {
+        if ($event && this.expiration.expirationActivities && this.expiration.expirationActivities.length > 1) {
+
+            this.expirationActivitiesTemp.splice(1, 0, this.expiration.expirationActivities[1]);
+            this.showHideActivitiesOnChange();
+        }
     }
 }

@@ -4,6 +4,7 @@ import {Expiration} from '../../model/expiration';
 import {StatusExpirationEnum} from '../../../shared/common/api/enum/status.expiration.enum';
 import {ExpirationService} from '../../service/expiration.service';
 import {ApiErrorDetails} from '../../../shared/common/api/model/api-error-details';
+import {ExpirationActivity} from '../../model/expiration-activity';
 
 @Component({
     selector: 'app-office-expiration',
@@ -20,6 +21,9 @@ export class OfficeExpirationComponent implements OnInit {
     approvedBtn = false;
     notApprovedBtn = false;
 
+    hideDetailsBtn = true;
+    expirationActivitiesTemp: ExpirationActivity[];
+
     errorDetails: ApiErrorDetails;
 
     constructor(
@@ -31,6 +35,10 @@ export class OfficeExpirationComponent implements OnInit {
         console.log('OfficeExpirationComponent - ngOnInit');
 
         this.setStatusExpiration();
+
+        this.expirationActivitiesTemp = this.expiration.expirationActivities;
+
+        this.showHideActivitiesOnChange();
     }
 
     setStatusExpiration() {
@@ -56,6 +64,8 @@ export class OfficeExpirationComponent implements OnInit {
         if (statusExp === StatusExpirationEnum[StatusExpirationEnum.APPROVED]) {
             this.notApprovedBtn = true;
         }
+
+        this.showHideActivitiesOnChange();
     }
 
     restoreExp() {
@@ -95,11 +105,58 @@ export class OfficeExpirationComponent implements OnInit {
                 me.errorDetails = undefined;
                 me.expiration = data;
                 me.setStatusExpiration();
+
                 console.log('OfficeExpirationComponent - saveStatusExpirationOnChange - next');
             },
             error => {
                 console.error('OfficeExpirationComponent - saveStatusExpirationOnChange - error \n', error);
             }
         );
+    }
+
+    showHideDetailsMsg() {
+        this.hideDetailsBtn = !this.hideDetailsBtn;
+
+        this.showHideActivitiesOnChange();
+    }
+
+    showHideActivitiesOnChange() {
+
+        if (this.expirationActivitiesTemp) {
+            this.expiration.expirationActivities = this.includeExcludeEmptyActivity();
+        }
+    }
+
+    includeExcludeEmptyActivity(): any {
+
+        const expirationActivitiesLocal = this.expirationActivitiesTemp.slice(0);
+
+        let index = 0;
+        const showSingleActivity: ExpirationActivity[] = [];
+
+        expirationActivitiesLocal.forEach((expirationActivityLoop) => {
+
+            if (!expirationActivityLoop.idExpirationActivity &&
+                !this.restoreBtn) {
+                showSingleActivity.push(expirationActivityLoop);
+            } else if (expirationActivityLoop.idExpirationActivity && index === 0) {
+                showSingleActivity.push(expirationActivityLoop);
+
+                if (!this.hideDetailsBtn) {
+                    index++;
+                }
+
+            }
+        });
+
+        return showSingleActivity;
+    }
+
+    updateExpirationActivities($event) {
+        if ($event && this.expiration.expirationActivities && this.expiration.expirationActivities.length > 1) {
+
+            this.expirationActivitiesTemp.splice(1, 0, this.expiration.expirationActivities[1]);
+            this.showHideActivitiesOnChange();
+        }
     }
 }

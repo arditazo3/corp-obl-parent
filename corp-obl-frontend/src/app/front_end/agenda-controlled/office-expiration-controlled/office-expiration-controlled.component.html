@@ -1,9 +1,10 @@
-<div class="d-md-flex align-items-center">
-    <div class="ml-auto d-flex float-left align-items-center">
-        <div ngbDropdown class="d-inline-block">
-            <button class="btn btn-outline-primary" id="dropdownDetails" ngbDropdownToggle>Details
-            </button>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+<div class="ml-auto d-flex float-right align-items-center">
+    <div ngbDropdown class="d-inline-block btn-group mr-3">
+        <button type="button" (click)="showHideDetailsMsg()" class="btn-tnx btn-primary">{{ hideDetailsBtn ?
+            'Details' : 'Hide' }}</button>
+        <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+            <button class="btn-tnx btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
+            <div class="dropdown-menu" ngbDropdownMenu>
                 <button class="dropdown-item"
                         *ngIf="completedActivityBtn"
                         (click)="completedExp()">Completed
@@ -17,7 +18,9 @@
     </div>
 </div>
 
+<br>
 <div *ngFor="let expirationActivity of expiration.expirationActivities">
     <app-expiration-activity-controlled [expiration]="expiration" [expirationActivity]="expirationActivity"
+                                        (updateExpirationActivities)="updateExpirationActivities($event)"
                                         class="w-100"></app-expiration-activity-controlled>
 </div>

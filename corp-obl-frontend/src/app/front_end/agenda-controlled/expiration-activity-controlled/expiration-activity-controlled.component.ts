@@ -18,7 +18,7 @@ import {saveAs as importedSaveAs} from 'file-saver';
 })
 export class ExpirationActivityControlledComponent implements OnInit {
 
-
+    @Output() updateExpirationActivities = new EventEmitter<boolean>();
     @Input() expiration: Expiration;
     @Input() expirationActivity: ExpirationActivity;
     @ViewChild('errorTaskTemplateSwal') private errorTaskTemplateSwal: SwalComponent;
@@ -229,6 +229,6 @@ export class ExpirationActivityControlledComponent implements OnInit {
         this.counterCallback = 0;
         this.uploader.queue = [];
 
+        this.updateExpirationActivities.emit(true);
     }
-
 }

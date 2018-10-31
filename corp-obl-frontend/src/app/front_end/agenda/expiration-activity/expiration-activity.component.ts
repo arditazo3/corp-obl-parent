@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Expiration} from '../../model/expiration';
 import {saveAs as importedSaveAs} from 'file-saver';
 import {UploadService} from '../../../shared/common/service/upload.service';
@@ -18,6 +18,7 @@ import {Router} from '@angular/router';
 })
 export class ExpirationActivityComponent implements OnInit {
 
+    @Output() updateExpirationActivities = new EventEmitter<boolean>();
     @Input() expiration: Expiration;
     @Input() expirationActivity: ExpirationActivity;
     @ViewChild('errorTaskTemplateSwal') private errorTaskTemplateSwal: SwalComponent;
@@ -228,6 +229,7 @@ export class ExpirationActivityComponent implements OnInit {
         this.counterCallback = 0;
         this.uploader.queue = [];
 
+        this.updateExpirationActivities.emit(true);
     }
 
 }
