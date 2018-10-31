@@ -81,6 +81,9 @@ export class OfficeExpirationComponent implements OnInit {
 
     notApprovedExp() {
         console.log('OfficeExpirationComponent - archivedExp');
+
+        this.expiration.statusExpirationOnChange = StatusExpirationEnum[StatusExpirationEnum.NOT_APPROVED];
+        this.saveStatusExpirationOnChange();
     }
 
     saveStatusExpirationOnChange() {

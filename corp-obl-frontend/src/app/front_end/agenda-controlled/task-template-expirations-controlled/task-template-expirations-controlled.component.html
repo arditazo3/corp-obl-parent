@@ -5,7 +5,7 @@
                 <div id="container-fluid">
                     <div class="row">
                         <div class="col-8">
-                            <span class="float-left">{{ taskExpiration.description }} - {{ taskExpiration.office.description }} - {{ taskExpiration?.expirations[0].username }}</span>
+                            <span class="float-left">{{ taskExpiration.description }} - {{ taskExpiration.office.description }} <i *ngIf="taskExpiration?.expirations[0].username !== ''">-</i> {{ taskExpiration?.expirations[0].username }}</span>
                         </div>
                         <div class="col-4 text-right">
                             <span class="float-left">Expiration date {{taskExpiration.expirationDate}}</span>

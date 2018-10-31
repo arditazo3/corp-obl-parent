@@ -4,7 +4,7 @@
             <div id="container-fluid">
                 <div class="row">
                     <div class="col-4">
-                        <span class="float-left">{{ expiration?.office?.description }}</span>
+                        <span class="float-left">{{ expiration?.office?.description }} <i *ngIf="expiration.username !== ''">-</i> {{ expiration.username }}</span>
                     </div>
                     <div class="col-4 text-center">
                     </div>
