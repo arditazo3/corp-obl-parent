@@ -17,8 +17,11 @@ import com.tx.co.security.api.usermanagement.IUserManagementDetails;
 import com.tx.co.security.domain.Authority;
 import com.tx.co.security.exception.GeneralException;
 import com.tx.co.user.domain.User;
+
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -126,7 +129,8 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 		}
 		// Filter only its own expiration / grouped expiration
-		if(userLoggedIn.getAuthorities().contains(userRelationType)) {
+		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLED) &&
+				userRelationType.compareTo(CONTROLLED) == 0) {
 			querySql += "and e.username = :username " + 
 					"or e.username = '' " ;
 		}
@@ -404,7 +408,9 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 			changeStatusExpiration(expirationStored);
 
-			expiration = expirationRepository.save(expirationStored);
+			expirationStored = expirationRepository.save(expirationStored);
+			
+			BeanUtils.copyProperties(expirationStored, expiration);
 			expiration.setUserRelationType(userRelationType);
 
 			/**
