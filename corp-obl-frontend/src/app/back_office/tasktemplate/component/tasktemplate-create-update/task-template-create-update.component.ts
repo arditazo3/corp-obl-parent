@@ -526,17 +526,27 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
 
     swtichItemsExpirationSelect(fromComp) {
         const me = this;
-        if (fromComp && fromComp.tablename &&
-            (fromComp.tablename.indexOf('weekly') >= 0 || fromComp.tablename.indexOf('yearly') >= 0)) {
+        if (fromComp && fromComp.tablename) {
 
-            this.expirationTypeOnlyFixedDayObservable.subscribe(
-                data => {
-                    me.expirationTypeObservable = Observable.of(data);
-                    me.selectedExpirationType = data[0];
-                    me.isFixedDay = true;
-                    me.isWeekly = true;
-                }
-            );
+            if (fromComp.tablename.indexOf('weekly') >= 0) {
+                this.expirationTypeOnlyFixedDayObservable.subscribe(
+                    data => {
+                        me.expirationTypeObservable = Observable.of(data);
+                        me.selectedExpirationType = data[0];
+                        me.isFixedDay = true;
+                        me.isWeekly = true;
+                    }
+                );
+            } else if (fromComp.tablename.indexOf('yearly') >= 0) {
+                this.expirationTypeOnlyFixedDayObservable.subscribe(
+                    data => {
+                        me.expirationTypeObservable = Observable.of(data);
+                        me.selectedExpirationType = data[0];
+                        me.isFixedDay = true;
+                        me.isYearly = true;
+                    }
+                );
+            }
         } else {
             me.expirationTypeObservable = this.getTranslationLikeTablename('tasktemplate#expirationtype');
         }

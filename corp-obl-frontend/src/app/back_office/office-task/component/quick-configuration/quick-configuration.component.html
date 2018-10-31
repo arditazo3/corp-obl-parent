@@ -113,7 +113,7 @@
                                            [(ngModel)]="dayNumberTI"
                                            *ngIf="isFixedDay && isMonthly">
                                     <my-date-picker name="dateOfDay"
-                                                    *ngIf="isFixedDay && isYearly"
+                                                    *ngIf="isFixedDay && isYearly && !isWeekly"
                                                     [options]="myDatePickerOptionsTaskTempl"
                                                     [ngModelOptions]="{standalone: true}"
                                                     [(ngModel)]="dayDateDP"></my-date-picker>
