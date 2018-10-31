@@ -205,7 +205,7 @@ public class UtilStatic {
 		if(isEmpty(completed) && isEmpty(approved) && isEmpty(registred)) {
 			colorDefined = "";
 			statusExpiration = StatusExpirationEnum.BASE;
-			// archived	
+		// archived	
 		} else if(!isEmpty(registred)) {
 			colorDefined = "alert alert-primary";
 			descriptionDate = "Archived at " + formatDateToString(registred);
@@ -217,7 +217,7 @@ public class UtilStatic {
 			statusExpiration = StatusExpirationEnum.COMPLETED;
 			// approved 	
 		} else if(!isEmpty(completed) && !isEmpty(approved) && isEmpty(registred)) {
-			colorDefined = "info";
+			colorDefined = "alert alert-primary";
 			descriptionDate = "Approved at " + formatDateToString(approved);
 			statusExpiration = StatusExpirationEnum.APPROVED;
 			// expired and non completed  	

@@ -1,6 +1,5 @@
 package com.tx.co.front_end.expiration.service;
 
-import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
@@ -118,12 +117,18 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		if (hideArchived) {
 			querySql += "and e.registered is null ";
 		}
+		// Filter by user and authority
 		if ((userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER) || 
 				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLED)) &&
 				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			querySql += "and tof.username = :username " + 
 					"and tof.relationType = :relationType " ;
 
+		}
+		// Filter only its own expiration / grouped expiration
+		if(userLoggedIn.getAuthorities().contains(userRelationType)) {
+			querySql += "and e.username = :username " + 
+					"or e.username = '' " ;
 		}
 
 		querySql += "group by e.idExpiration " + 
@@ -190,7 +195,20 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 		buildCounterExpirations(taskOfficeExpDateMap);
 
-		return new ArrayList<>(taskOfficeExpDateMap.values());
+
+		// sort expirations
+		List<TaskOfficeExpirations> taskOfficeExpirationsToSort = new ArrayList<>(taskOfficeExpDateMap.values());
+		Collections.sort(taskOfficeExpirationsToSort, new Comparator<TaskOfficeExpirations>() {
+			@Override
+			public int compare(TaskOfficeExpirations toe1, TaskOfficeExpirations tof2) {
+				if(isEmpty(toe1.getExpirationDate())) return -1;
+				if(isEmpty(tof2.getExpirationDate())) return 1;
+
+				return tof2.getExpirationDate().compareTo(toe1.getExpirationDate());
+			}
+		});	
+
+		return taskOfficeExpirationsToSort;
 	}
 
 	public synchronized void addTaskOfficeExpMap(TaskOfficeExpirationUsernameDateKey key, 
@@ -242,7 +260,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 			Date completedDate = expirationLoop.getCompleted();
 			Date archivedDate = expirationLoop.getRegistered();
-			
+
 			if (!isEmpty(completedDate)) {
 				countTaskExpirationCompleted++;
 			}

@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+
 import com.tx.co.back_office.company.api.model.CompanyConsultantResult;
 import com.tx.co.back_office.company.api.model.CompanyResult;
 import com.tx.co.back_office.company.api.model.CompanyTopicResult;
@@ -939,17 +941,31 @@ public abstract class ObjectResult extends UpdateCacheData {
 		taskOfficeExpirationsResult.setTask(toTaskResult(taskOfficeExpirations.getTask()));
 		taskOfficeExpirationsResult.setOffice(toOfficeResult(taskOfficeExpirations.getOffice()));
 		taskOfficeExpirationsResult.setStatusExpirationOnChange(taskOfficeExpirations.getStatusExpirationOnChange());
-		
+
 		if (!isEmpty(taskOfficeExpirations.getExpirations())) {
 			List<ExpirationResult> expirationResults = new ArrayList<>();
-			for (Expiration expiration : taskOfficeExpirations.getExpirations()) {
+
+			// sort expirations
+			List<Expiration> expirationsToSort = new ArrayList<>(taskOfficeExpirations.getExpirations());
+			Collections.sort(expirationsToSort, new Comparator<Expiration>() {
+				@Override
+				public int compare(Expiration e1, Expiration e2) {
+
+					return new CompareToBuilder()
+							.append(e1.getOffice().getIdOffice(), e2.getOffice().getIdOffice()) // sort by office
+							.append(e1.getUsername(), e2.getUsername()) // sort by username
+							.toComparison();
+				}
+			});	
+
+			for (Expiration expiration : expirationsToSort) {
 				expirationResults.add(toExpirationWithActivitiesResult(expiration));
 			}
 			taskOfficeExpirationsResult.setExpirations(expirationResults);
 		}
 		return taskOfficeExpirationsResult;
 	}
-	
+
 	/**
 	 * @param taskOfficeExpirationsResult
 	 * @return
@@ -967,7 +983,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		taskOfficeExpirations.setTask(toTask(taskOfficeExpirationsResult.getTask()));
 		taskOfficeExpirations.setOffice(toOffice(taskOfficeExpirationsResult.getOffice()));
 		taskOfficeExpirations.setStatusExpirationOnChange(taskOfficeExpirationsResult.getStatusExpirationOnChange());
-		
+
 		if (!isEmpty(taskOfficeExpirationsResult.getExpirations())) {
 			List<Expiration> expirations = new ArrayList<>();
 			for (ExpirationResult expirationResult : taskOfficeExpirationsResult.getExpirations()) {
@@ -990,7 +1006,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		expiration.setRegistered(expirationResult.getRegistered());
 		expiration.setStatusExpirationOnChange(expirationResult.getStatusExpirationOnChange());
 		expiration.setUserRelationType(expirationResult.getUserRelationType());
-		
+
 		if(!isEmpty(expirationResult.getOffice())) {
 			expiration.setOffice(toOffice(expirationResult.getOffice()));	
 		}
@@ -1055,7 +1071,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 				public int compare(ExpirationActivity ea1, ExpirationActivity ea2) {
 					if(isEmpty(ea1.getModifiedBy())) return -1;
 					if(isEmpty(ea2.getModifiedBy())) return 1;
-					
+
 					return ea2.getModificationDate().before(ea1.getModificationDate()) ? -1 : 1;
 				}
 			});	
