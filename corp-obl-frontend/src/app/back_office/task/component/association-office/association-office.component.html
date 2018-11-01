@@ -17,12 +17,6 @@
                                (remove)="onRemoveOfficeRelation($event)"
                                (clear)="clearAll()"
                                placeholder="Select offices">
-                        <!--<ng-template ng-multi-label let-item="item" let-item$="item$" let-index="index"-->
-                                     <!--let-clear="clear">-->
-                            <!--<div class="ng-value" *ngFor="let item of items">-->
-                                <!--<span class="ng-value-label">{{item.description}}</span>-->
-                            <!--</div>-->
-                        <!--</ng-template>-->
 
                         <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
                             <div class="ng-value" *ngFor="let item of items">
@@ -37,79 +31,8 @@
     </div>
 
     <div *ngFor="let taskOffice of taskOfficesArray">
-        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" class="accordion nav-accordion">
-            <ngb-panel id="ngb-panel-{{taskOffice.office.idOffice}}">
-                <ng-template ngbPanelTitle>
-                    <div id="container-fluid">
-                        <div class="row">
-                            <div class="col-2">
-                                <span class="float-left">{{ taskOffice.office.description }}</span>
-                            </div>
-                            <div class="col-8 text-center">
-                            </div>
-                            <div class="col-2 float-right">
-                                <button class="btn-tnx btn-danger btn-block" type="button"
-                                        (click)="removeOfficeBtn(taskOffice.office)">Remove
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                    <div class="row">
-                        <div class="col-sm-12 col-sm-5">
-                            <label for="periodicity" class="control-label col-form-label">Providers</label>
-                            <div class="col-sm-9">
-                                <ng-select
-                                        [items]="taskOffice.office.userAvailable | async"
-                                        [multiple]="true"
-                                        [closeOnSelect]="false"
-                                        [hideSelected]="true"
-                                        [searchable]="true"
-                                        bindLabel="fullName"
-                                        (add)="onAddProvidersOffice($event, taskOffice.office)"
-                                        (remove)="onRemoveProvidersOffice($event, taskOffice.office)"
-                                        (clear)="clearAllUsers(taskOffice.office)"
-                                        [(ngModel)]="taskOffice.office.userProviders"
-                                        placeholder="Select providers">
-
-                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-                                        <input [ngModelOptions]="{standalone: true}"
-                                               id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/>
-                                        {{item.fullName}}
-                                    </ng-template>
-                                </ng-select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12 col-sm-5">
-                            <label for="periodicity" class="control-label col-form-label">Beneficiaries</label>
-                            <div class="col-sm-9">
-                                <ng-select
-                                        [items]="taskOffice.office.userAvailable | async"
-                                        [multiple]="true"
-                                        [closeOnSelect]="false"
-                                        [hideSelected]="true"
-                                        [searchable]="true"
-                                        bindLabel="fullName"
-                                        (add)="onAddBeneficiariesOffice($event, taskOffice.office)"
-                                        (remove)="onRemoveBeneficiariesOffice($event, taskOffice.office)"
-                                        [(ngModel)]="taskOffice.office.userBeneficiaries"
-                                        placeholder="Select beneficiaries">
-
-                                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-                                        <input [ngModelOptions]="{standalone: true}"
-                                               id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/>
-                                        {{item.fullName}}
-                                    </ng-template>
-                                </ng-select>
-                            </div>
-                        </div>
-                    </div>
-                </ng-template>
-            </ngb-panel>
-        </ngb-accordion>
+        <app-association-office-users [taskOffice]="taskOffice"
+                                      (removeOfficeEvent)="removeOffice($event)">
+        </app-association-office-users>
     </div>
 </div>
