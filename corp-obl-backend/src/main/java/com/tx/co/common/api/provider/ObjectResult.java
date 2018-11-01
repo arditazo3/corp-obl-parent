@@ -131,7 +131,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 	public CompanyUserResult toCompanyUserResult(CompanyUser companyUser) {
 		CompanyUserResult result = new CompanyUserResult();
 		result.setIdCompanyUser(companyUser.getIdCompanyUser());
-		result.setUsername(companyUser.getUsername());
+		result.setUser(companyUser.getUser());
 		result.setCompanyAdmin(companyUser.getCompanyAdmin());
 		return result;
 	}
@@ -144,7 +144,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 	public CompanyUser toCompanyUser(Company company, CompanyUserResult companyUserResult) {
 		CompanyUser companyUser = new CompanyUser();
 		companyUser.setIdCompanyUser(companyUserResult.getIdCompanyUser());
-		companyUser.setUsername(companyUserResult.getUsername());
+		companyUser.setUser(companyUserResult.getUser());
 		companyUser.setCompany(company);
 		if (isEmpty(companyUserResult.getCompanyAdmin())) {
 			companyUser.setCompanyAdmin(false);

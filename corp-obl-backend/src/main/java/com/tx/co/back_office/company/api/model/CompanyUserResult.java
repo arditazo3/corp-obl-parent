@@ -1,6 +1,7 @@
 package com.tx.co.back_office.company.api.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.tx.co.user.domain.User;
 
 /**
  * API model for returning company user details.
@@ -11,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class CompanyUserResult {
 
 	private Long idCompanyUser;
-	private String username;
+	private User user;
 	private Boolean companyAdmin;
 	private CompanyResult company;
 	
@@ -21,11 +22,11 @@ public class CompanyUserResult {
 	public void setIdCompanyUser(Long idCompanyUser) {
 		this.idCompanyUser = idCompanyUser;
 	}
-	public String getUsername() {
-		return username;
+	public User getUser() {
+		return user;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public Boolean getCompanyAdmin() {
 		return companyAdmin;
