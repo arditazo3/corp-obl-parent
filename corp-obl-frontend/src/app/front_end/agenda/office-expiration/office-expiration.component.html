@@ -27,6 +27,10 @@
                                     (click)="restoreExp()">Restore
                             </button>
                             <button class="dropdown-item"
+                                    *ngIf="rejectBtn"
+                                    (click)="rejectExp()">Reject
+                            </button>
+                            <button class="dropdown-item"
                                     *ngIf="archivedBtn"
                                     (click)="archivedExp()">Archived
                             </button>

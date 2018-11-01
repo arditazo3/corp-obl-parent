@@ -17,6 +17,7 @@ export class OfficeExpirationComponent implements OnInit {
     @Input() expiration: Expiration;
 
     restoreBtn = false;
+    rejectBtn = false;
     archivedBtn = false;
     approvedBtn = false;
     notApprovedBtn = false;
@@ -45,12 +46,12 @@ export class OfficeExpirationComponent implements OnInit {
         const statusExp = this.expiration.expirationDetail.statusExpiration;
 
         this.restoreBtn = false;
+        this.rejectBtn = false;
         this.archivedBtn = false;
         this.approvedBtn = false;
         this.notApprovedBtn = false;
 
-        if (statusExp === StatusExpirationEnum[StatusExpirationEnum.COMPLETED] ||
-            statusExp === StatusExpirationEnum[StatusExpirationEnum.ARCHIVED]) {
+        if (statusExp === StatusExpirationEnum[StatusExpirationEnum.ARCHIVED]) {
             this.restoreBtn = true;
         }
         if (statusExp === StatusExpirationEnum[StatusExpirationEnum.BASE] ||
@@ -60,6 +61,7 @@ export class OfficeExpirationComponent implements OnInit {
         }
         if (statusExp === StatusExpirationEnum[StatusExpirationEnum.COMPLETED]) {
             this.approvedBtn = true;
+            this.rejectBtn = true;
         }
         if (statusExp === StatusExpirationEnum[StatusExpirationEnum.APPROVED]) {
             this.notApprovedBtn = true;
@@ -72,6 +74,13 @@ export class OfficeExpirationComponent implements OnInit {
         console.log('OfficeExpirationComponent - restoreExp');
 
         this.expiration.statusExpirationOnChange = StatusExpirationEnum[StatusExpirationEnum.RESTORE];
+        this.saveStatusExpirationOnChange();
+    }
+
+    rejectExp() {
+        console.log('OfficeExpirationComponent - rejectExp');
+
+        this.expiration.statusExpirationOnChange = StatusExpirationEnum[StatusExpirationEnum.REJECT];
         this.saveStatusExpirationOnChange();
     }
 
