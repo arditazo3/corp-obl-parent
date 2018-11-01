@@ -56,3 +56,15 @@ select * from co_taskofficerelations;
 select * from co_topic;
 
 INSERT INTO co_expiration (tasktemplate_id, task_id, office_id, expirationclosableby, username, expirationdate, completed, approved, registered, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (73, 131, 8, 1, 'USER2', '2018-11-06', '2018-10-27 19:20:00', '2018-10-27 19:18:59', '2018-10-27 19:19:31', 1, '2018-10-27 20:46:32', 'USER2', '2018-10-27 20:46:32', 'USER2');
+
+
+------------------
+
+
+
+INSERT INTO corporate_obligations.co_expiration (tasktemplate_id, task_id, office_id, expirationclosableby, username, expirationdate, completed, approved, registered, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (76, 134, 8, 2, 'USER5', '2018-11-10', '2018-11-01 09:57:56', null, null, 1, '2018-10-31 15:21:05', 'ADMIN', '2018-11-01 09:57:56', 'USER5');
+INSERT INTO corporate_obligations.co_expiration (tasktemplate_id, task_id, office_id, expirationclosableby, username, expirationdate, completed, approved, registered, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (76, 134, 8, 2, 'USER4', '2018-11-10', '2018-11-01 09:58:42', null, null, 1, '2018-10-31 15:21:05', 'ADMIN', '2018-11-01 09:58:42', 'USER4');
+INSERT INTO corporate_obligations.co_expiration (tasktemplate_id, task_id, office_id, expirationclosableby, username, expirationdate, completed, approved, registered, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (76, 134, 8, 2, 'USER3', '2018-11-10', '2018-11-01 09:59:16', null, null, 1, '2018-10-31 15:21:05', 'ADMIN', '2018-11-01 09:59:16', 'USER3');
+INSERT INTO corporate_obligations.co_expiration (tasktemplate_id, task_id, office_id, expirationclosableby, username, expirationdate, completed, approved, registered, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (76, 134, 9, 2, 'USER4', '2018-11-10', '2018-11-01 09:58:30', null, null, 1, '2018-10-31 15:21:05', 'ADMIN', '2018-11-01 09:58:30', 'USER4');
+INSERT INTO corporate_obligations.co_expiration (tasktemplate_id, task_id, office_id, expirationclosableby, username, expirationdate, completed, approved, registered, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (76, 134, 9, 2, 'USER5', '2018-11-10', '2018-11-01 09:58:08', null, null, 1, '2018-10-31 15:21:05', 'ADMIN', '2018-11-01 09:58:08', 'USER5');
+INSERT INTO corporate_obligations.co_expiration (tasktemplate_id, task_id, office_id, expirationclosableby, username, expirationdate, completed, approved, registered, enabled, creationdate, createdby, modificationdate, modifiedby) VALUES (77, 135, 10, 1, '', '2018-11-15', '2018-11-01 09:57:45', null, null, 1, '2018-10-31 16:10:02', 'ADMIN', '2018-11-01 09:57:45', 'USER5');
