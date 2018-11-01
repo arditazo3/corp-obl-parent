@@ -4,6 +4,7 @@ import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.cache.service.UpdateCacheData;
+import com.tx.co.common.mail.service.IEmailService;
 import com.tx.co.common.utils.UtilStatic;
 import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchived;
 import com.tx.co.front_end.expiration.api.model.TaskOfficeExpirations;
@@ -48,6 +49,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 	private ExpirationRepository expirationRepository;
 	private ExpirationActivityRepository expirationActivityRepository;
 	private IExpirationActivityService expirationActivityService;
+	private IEmailService emailService; 
 	private EntityManager em;
 
 	@Autowired
@@ -409,7 +411,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 			changeStatusExpiration(expirationStored);
 
 			expirationStored = expirationRepository.save(expirationStored);
-			
+
 			BeanUtils.copyProperties(expirationStored, expiration);
 			expiration.setUserRelationType(userRelationType);
 
@@ -457,8 +459,13 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.ARCHIVED.name())) {
 			expiration.setRegistered(new Date());
 		} else if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.RESTORE.name())) {
-			expiration.setCompleted(null);
 			expiration.setRegistered(null);
+		} else if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.REJECT.name())) {
+			expiration.setCompleted(null);
+
+			// sent the notifying email to Beneficiary
+			String username = expiration.getUsername();
+			sendEmailToBeneficiary(statusExpirationOnChange, username);
 		} else if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.APPROVED.name())) {
 			expiration.setApproved(new Date());
 		} else if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.NOT_APPROVED.name())) {
@@ -549,6 +556,21 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 	}
 
+	private void sendEmailToBeneficiary(String statusExpirationOnChange, String username) {
+
+		User beneficiary = getUserFromUsername(username);
+		String beneficiaryEmail = beneficiary.getEmail();
+		String subject = "";
+		String text = "";
+
+		if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.REJECT.name())) {
+			subject = "Rejected task";
+
+			text = "The task has been rejected";
+		}
+
+		emailService.sendSimpleMessage(beneficiaryEmail, null, null, subject, text);
+	}
 
 	/**
 	 * author rfratti
