@@ -5,6 +5,7 @@ import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-det
 import {UserService} from '../../../../user/service/user.service';
 import {IHash} from '../../../../shared/common/interface/ihash';
 import {TaskOffice} from '../../model/taskoffice';
+import {Task} from '../../model/task';
 
 @Component({
     selector: 'app-association-office',
@@ -22,6 +23,7 @@ export class AssociationOfficeComponent implements OnInit {
 
     @Output() checkAssociationOffice = new EventEmitter<boolean>();
     @Input() isTaskTemplateForm = false;
+    @Input() task: Task;
 
     errorDetails: ApiErrorDetails = new ApiErrorDetails();
 
@@ -36,7 +38,8 @@ export class AssociationOfficeComponent implements OnInit {
 
         const me = this;
 
-        me.officesObservable = me.officeService.getOfficesByRole();
+        const officesFiltredByTask = me.task.taskOffices.map(taskOffice => taskOffice.office);
+        me.officesObservable = Observable.of(officesFiltredByTask);
         me.usersObservable = me.userService.getAllUsersExceptAdminRole();
 
         me.getTaskOfficesArray(null);
