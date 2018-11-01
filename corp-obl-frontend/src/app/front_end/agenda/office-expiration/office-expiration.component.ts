@@ -22,7 +22,7 @@ export class OfficeExpirationComponent implements OnInit {
     approvedBtn = false;
     notApprovedBtn = false;
 
-    hideDetailsBtn = true;
+    hideDetailsBtn = false;
     expirationActivitiesTemp: ExpirationActivity[];
 
     errorDetails: ApiErrorDetails;

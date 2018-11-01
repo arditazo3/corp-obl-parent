@@ -17,7 +17,7 @@ export class OfficeExpirationControlledComponent implements OnInit {
     @Input() taskExpiration: TaskOfficeExpirations;
     @Input() expiration: Expiration;
 
-    hideDetailsBtn = true;
+    hideDetailsBtn = false;
     expirationActivitiesTemp: ExpirationActivity[];
 
     completedActivityBtn = false;
