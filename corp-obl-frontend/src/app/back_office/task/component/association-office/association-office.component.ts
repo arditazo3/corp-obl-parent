@@ -6,6 +6,7 @@ import {UserService} from '../../../../user/service/user.service';
 import {IHash} from '../../../../shared/common/interface/ihash';
 import {TaskOffice} from '../../model/taskoffice';
 import {Task} from '../../model/task';
+import {Company} from '../../../company/model/company';
 
 @Component({
     selector: 'app-association-office',
@@ -16,6 +17,7 @@ export class AssociationOfficeComponent implements OnInit {
 
     taskOfficesArray = [];
     selectedOffices = [];
+    companyTemp: Company;
 
     officesObservable: Observable<any[]>;
     usersObservable: Observable<any[]>;
@@ -36,7 +38,9 @@ export class AssociationOfficeComponent implements OnInit {
         console.log('AssociationOfficeComponent - ngOnInit');
         const me = this;
 
-        //     officesFiltredByTask = me.task.taskOffices.map(taskOffice => taskOffice.office);
+        if (!me.task) {
+            return;
+        }
 
         const officesFiltredByTask = me.task.taskTemplate.topic.companyList[0].offices;
 
@@ -65,6 +69,9 @@ export class AssociationOfficeComponent implements OnInit {
                 taskOffice.task = undefined;
 
                 me.selectedOffices.push(taskOffice.office);
+
+                me.companyTemp = taskOffice.office.company;
+                me.officesObservable = Observable.of(taskOffice.office.company.offices);
             });
         } else {
             me.taskOfficesArray = [];
@@ -76,7 +83,12 @@ export class AssociationOfficeComponent implements OnInit {
 
         const taskOffice: TaskOffice = new TaskOffice();
         taskOffice.office = $event;
-        taskOffice.office.company = this.task.taskTemplate.topic.companyList[0];
+
+        if (this.task) {
+            taskOffice.office.company = this.task.taskTemplate.topic.companyList[0];
+        } else {
+            taskOffice.office.company = this.companyTemp;
+        }
 
         this.taskOfficesArray.push(taskOffice);
 

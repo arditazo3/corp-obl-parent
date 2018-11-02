@@ -159,7 +159,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 		taskStored.setTaskOffices(mergeTaskOffice(taskStored, task.getTaskOfficesFilterEnabled()));
 
-		if(!isEmpty(task.getTaskOffices())) {
+		if(!isEmpty(task.getTaskOfficesFilterEnabled())) {
 			List<TaskOffice> taskOffices = new ArrayList<>();
 			for (TaskOffice taskOfficeLoop : task.getTaskOffices()) {
 
@@ -314,7 +314,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 		taskOfficesToSave.addAll(taskOffices);
 
-		Set<TaskOffice> taskOfficesToRemove = taskStored.getTaskOffices();
+		Set<TaskOffice> taskOfficesToRemove = taskStored.getTaskOfficesFilterEnabled();
 		taskOfficesToRemove.removeAll(taskOfficesToSave);
 		if(!isEmpty(taskOfficesToRemove)) {
 			logger.info("Number of task offices to remove: " + taskOfficesToRemove.size());

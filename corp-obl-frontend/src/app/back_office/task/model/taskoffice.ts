@@ -8,7 +8,6 @@ export class TaskOffice {
     taskTemplate: TaskTemplate;
     task: Task;
     office: Office;
- //   taskOfficeRelations: TaskOfficeRelation[];
     startDate: Date;
     endDate: Date;
 }

@@ -84,6 +84,5 @@ public class TaskOfficeResult {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	
-	
+
 }

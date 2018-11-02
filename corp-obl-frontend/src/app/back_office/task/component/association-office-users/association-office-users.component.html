@@ -22,16 +22,16 @@
           <label for="periodicity" class="control-label col-form-label">Providers</label>
           <div class="col-sm-9">
             <ng-select
-                    [items]="taskOffice.office.userAvailable"
+                    [items]="userAvailableArray"
                     [multiple]="true"
                     [closeOnSelect]="false"
                     [hideSelected]="true"
                     [searchable]="true"
+                    [clearable]="false"
                     bindLabel="fullName"
-                    (add)="onAddProvidersOffice($event, taskOffice.office)"
-                    (remove)="onRemoveProvidersOffice($event, taskOffice.office)"
-                    (clear)="clearAllUsers(taskOffice.office)"
-                    [(ngModel)]="taskOffice.office.userProviders"
+                    (add)="onAddProvidersOffice($event)"
+                    (remove)="onRemoveProvidersOffice($event)"
+                    [(ngModel)]="userProvidersArray"
                     placeholder="Select providers">
 
               <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
@@ -49,15 +49,16 @@
           <label for="periodicity" class="control-label col-form-label">Beneficiaries</label>
           <div class="col-sm-9">
             <ng-select
-                    [items]="taskOffice.office.userAvailable"
+                    [items]="userAvailableArray"
                     [multiple]="true"
                     [closeOnSelect]="false"
                     [hideSelected]="true"
                     [searchable]="true"
+                    [clearable]="false"
                     bindLabel="fullName"
-                    (add)="onAddBeneficiariesOffice($event, taskOffice.office)"
-                    (remove)="onRemoveBeneficiariesOffice($event, taskOffice.office)"
-                    [(ngModel)]="taskOffice.office.userBeneficiaries"
+                    (add)="onAddBeneficiariesOffice($event)"
+                    (remove)="onRemoveBeneficiariesOffice($event)"
+                    [(ngModel)]="userBeneficiariesArray"
                     placeholder="Select beneficiaries">
 
               <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">

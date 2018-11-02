@@ -219,8 +219,7 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
     		
     		logger.info("Delete the Company with id: " + idCompany );
     	} catch (Exception e) {
-    		logger.error(e);
-    		throw new GeneralException("Company not found");
+    		logger.error("Company not found", e);
     	}
     }
     
