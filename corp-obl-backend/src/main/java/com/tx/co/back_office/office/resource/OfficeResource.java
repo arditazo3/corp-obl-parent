@@ -58,7 +58,7 @@ public class OfficeResource extends ObjectResult {
         Iterable<Office> officeIterable = officeService.findAllOffice();
         List<OfficeResult> queryOfficeList =
                 StreamSupport.stream(officeIterable.spliterator(), false)
-                        .map(this::toOfficeResult)
+                        .map(this::toOfficeWithCompanyResult)
                         .collect(Collectors.toList());
 
         return Response.ok(queryOfficeList).build();
@@ -74,7 +74,7 @@ public class OfficeResource extends ObjectResult {
         Iterable<Office> officeIterable = officeService.getOfficesByRole();
         List<OfficeResult> queryOfficeList =
                 StreamSupport.stream(officeIterable.spliterator(), false)
-                        .map(this::toOfficeResult)
+                        .map(this::toOfficeWithCompanyResult)
                         .collect(Collectors.toList());
 
         return Response.ok(queryOfficeList).build();
@@ -91,7 +91,7 @@ public class OfficeResource extends ObjectResult {
     	
         Office officeStored = officeService.saveUpdateOffice(toOffice(officeResult));
 
-        return Response.ok(toOfficeResult(officeStored)).build();
+        return Response.ok(toOfficeWithCompanyResult(officeStored)).build();
     }
     
     @PUT

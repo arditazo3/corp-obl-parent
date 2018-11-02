@@ -97,6 +97,12 @@ public abstract class ObjectResult extends UpdateCacheData {
 				result.getUsersAssociated().add(toCompanyUserResult(companyUser));
 			}
 		}
+		if (!isEmpty(company.getOffice())) {
+			result.setOffices(new ArrayList<>());
+			for (Office office : company.getOffice()) {
+				result.getOffices().add(toOfficeResult(office));
+			}
+		}
 		return result;
 	}
 
@@ -146,6 +152,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		companyUser.setIdCompanyUser(companyUserResult.getIdCompanyUser());
 		companyUser.setUser(companyUserResult.getUser());
 		companyUser.setCompany(company);
+		companyUser.setUsername(companyUserResult.getUser().getUsername());
 		if (isEmpty(companyUserResult.getCompanyAdmin())) {
 			companyUser.setCompanyAdmin(false);
 		} else {
@@ -169,13 +176,20 @@ public abstract class ObjectResult extends UpdateCacheData {
 		return companyUserList;
 	}
 
+	public OfficeResult toOfficeResult(Office office) {
+		OfficeResult result = new OfficeResult();
+		result.setIdOffice(office.getIdOffice());
+		result.setDescription(office.getDescription());
+		return result;
+	}
+	
 	/**
 	 * Map a {@link Office} instance to a {@link OfficeResult} instance.
 	 *
 	 * @param office
 	 * @return OfficeResult
 	 */
-	public OfficeResult toOfficeResult(Office office) {
+	public OfficeResult toOfficeWithCompanyResult(Office office) {
 		OfficeResult result = new OfficeResult();
 		result.setIdOffice(office.getIdOffice());
 		result.setDescription(office.getDescription());
@@ -194,7 +208,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 	public OfficeResult toOfficeWithTaskOfficeRelationsResult(Office office,
 			Set<TaskOfficeRelations> taskOfficeRelations) {
 
-		OfficeResult result = toOfficeResult(office);
+		OfficeResult result = toOfficeWithCompanyResult(office);
 
 		if (!isEmpty(taskOfficeRelations)) {
 			List<User> userProviders = new ArrayList<>();
@@ -628,9 +642,9 @@ public abstract class ObjectResult extends UpdateCacheData {
 			taskResult.setTaskTemplate(toTaskTemplateResult(task.getTaskTemplate()));
 			taskResult.setIdTaskTemplate(task.getTaskTemplate().getIdTaskTemplate());
 		}
-		if (!isEmpty(task.getTaskOffices())) {
+		if (!isEmpty(task.getTaskOfficesFilterEnabled())) {
 			List<TaskOfficeResult> taskOfficeResults = new ArrayList<>();
-			for (TaskOffice taskOffice : task.getTaskOffices()) {
+			for (TaskOffice taskOffice : task.getTaskOfficesFilterEnabled()) {
 				taskOfficeResults.add(toTaskOfficeWithTaskOfficeRelationResult(taskOffice));
 			}
 			taskResult.setTaskOffices(taskOfficeResults);
@@ -939,7 +953,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		taskOfficeExpirationsResult.setColorDefined(colorDefined);
 		taskOfficeExpirationsResult.setExpirationDate(taskOfficeExpirations.getExpirationDate());
 		taskOfficeExpirationsResult.setTask(toTaskResult(taskOfficeExpirations.getTask()));
-		taskOfficeExpirationsResult.setOffice(toOfficeResult(taskOfficeExpirations.getOffice()));
+		taskOfficeExpirationsResult.setOffice(toOfficeWithCompanyResult(taskOfficeExpirations.getOffice()));
 		taskOfficeExpirationsResult.setStatusExpirationOnChange(taskOfficeExpirations.getStatusExpirationOnChange());
 
 		if (!isEmpty(taskOfficeExpirations.getExpirations())) {
@@ -1031,7 +1045,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		expirationResult.setCompleted(expiration.getCompleted());
 		expirationResult.setApproved(expiration.getApproved());
 		expirationResult.setRegistered(expiration.getRegistered());
-		expirationResult.setOffice(toOfficeResult(expiration.getOffice()));
+		expirationResult.setOffice(toOfficeWithCompanyResult(expiration.getOffice()));
 		expirationResult.setTask(toTaskResultOnly(expiration.getTask()));
 		expirationResult.setTaskTemplate(toTaskTemplateResult(expiration.getTaskTemplate()));
 		expirationResult.setExpirationDetail(UtilStatic.buildExpirationDetail(expiration));

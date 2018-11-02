@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.tx.co.back_office.company.domain.OfficeTaskTemplate;
 import com.tx.co.back_office.office.api.model.OfficeTaskTemplates;
 import com.tx.co.back_office.office.api.model.TaskTempOffices;
@@ -285,8 +286,14 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		query.setParameter("officeList", offices);
 
 		List<OfficeTaskTemplates> officeTaskTemplatesList = new ArrayList<>();
-		@SuppressWarnings("unchecked")
-		List<Object[]> officeTaskTemplateList = query.getResultList();
+		
+		List<Object[]> officeTaskTemplateList = new ArrayList<>();
+		try {
+			officeTaskTemplateList = query.getResultList();
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		
 		if (!isEmpty(officeTaskTemplateList)) {
 			List<OfficeTaskTemplate> officeTaskTemplates = new ArrayList<>();
 

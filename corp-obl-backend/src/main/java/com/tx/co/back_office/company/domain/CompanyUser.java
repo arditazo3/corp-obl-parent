@@ -46,7 +46,7 @@ public class CompanyUser implements Serializable {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "username", insertable = false, updatable = false)
     @Where(clause = "enabled = 1")
     private User user;
