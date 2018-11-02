@@ -287,6 +287,7 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 				companyUserStored.setModificationDate(new Date());
 				companyUserStored.setModifiedBy(username);
 				companyUserStored.setCompanyAdmin(companyUser.getCompanyAdmin());
+				companyUserStored.setUsername(companyUser.getUsername());
 				
 				User userLoopFromCache = getUserFromUsername(companyUserStored.getUsername());
 				if(!isEmpty(userLoopFromCache) &&
