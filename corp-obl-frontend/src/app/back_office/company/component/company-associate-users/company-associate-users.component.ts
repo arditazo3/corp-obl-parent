@@ -82,7 +82,7 @@ export class CompanyAssociateUsersComponent implements OnInit {
                     if (inside.company.usersAssociated !== undefined) {
                         const userAssociated = inside.company.usersAssociated;
                         for (const usersAssociatedLoop of userAssociated) {
-                            if (user.username === usersAssociatedLoop.username && usersAssociatedLoop.companyAdmin) {
+                            if (user.username === usersAssociatedLoop.user.username && usersAssociatedLoop.companyAdmin) {
                                 isIncluded = true;
                                 break;
                             }
@@ -101,7 +101,7 @@ export class CompanyAssociateUsersComponent implements OnInit {
                     let isIncluded = false;
                     if (inside.company.usersAssociated !== undefined) {
                         for (const usersAssociatedLoop of inside.company.usersAssociated) {
-                            if (user.username === usersAssociatedLoop.username) {
+                            if (user.username === usersAssociatedLoop.user.username) {
                                 isIncluded = true;
                                 break;
                             }
@@ -127,7 +127,7 @@ export class CompanyAssociateUsersComponent implements OnInit {
             const companyUser: CompanyUser = new CompanyUser();
 
             companyUser.idCompanyUser = user.idCompanyUser;
-            companyUser.username = user.username;
+            companyUser.user = user;
             me.selectedUsersAsAdmin.forEach( (userAdmin) => {
 
 
@@ -191,7 +191,7 @@ export class CompanyAssociateUsersComponent implements OnInit {
 
             if (me.company.usersAssociated !== undefined) {
                 for (const userAssociated of me.company.usersAssociated) {
-                    if (companyUser.username === userAssociated.username) {
+                    if (companyUser.username === userAssociated.user.username) {
                         companyUser.idCompanyUser = userAssociated.idCompanyUser;
                     }
                 }

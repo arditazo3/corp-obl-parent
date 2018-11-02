@@ -34,11 +34,14 @@ export class AssociationOfficeComponent implements OnInit {
 
     ngOnInit() {
         console.log('AssociationOfficeComponent - ngOnInit');
-
         const me = this;
 
-        const officesFiltredByTask = me.task.taskOffices.map(taskOffice => taskOffice.office);
+        //     officesFiltredByTask = me.task.taskOffices.map(taskOffice => taskOffice.office);
+
+        const officesFiltredByTask = me.task.taskTemplate.topic.companyList[0].offices;
+
         me.officesObservable = Observable.of(officesFiltredByTask);
+
         me.usersObservable = me.userService.getAllUsersExceptAdminRole();
 
         me.getTaskOfficesArray(null);
@@ -73,6 +76,7 @@ export class AssociationOfficeComponent implements OnInit {
 
         const taskOffice: TaskOffice = new TaskOffice();
         taskOffice.office = $event;
+        taskOffice.office.company = this.task.taskTemplate.topic.companyList[0];
 
         this.taskOfficesArray.push(taskOffice);
 

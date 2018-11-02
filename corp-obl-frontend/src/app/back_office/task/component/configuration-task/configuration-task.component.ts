@@ -137,7 +137,9 @@ export class ConfigurationTaskComponent implements OnInit {
         console.log('modifyTaskTemplate - createTask');
 
         const taskTemp = group.value[0];
+        const taskOfficesArray = taskTemp.taskOffices;
         const newTaskTemp = new Task();
+        newTaskTemp.taskOffices = taskOfficesArray;
         newTaskTemp.taskTemplate = taskTemp.taskTemplate;
 
         this.collectDataFilterAndTransfer();
