@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-12 col-sm-5">
             <div class="form-group">
-                <label for="periodicity" class="control-label col-form-label">Add association</label>
+                <label for="periodicity" class="control-label col-form-label">{{ 'BACK_OFFICE.TASK.ADD_ASSOCIATION' | translate }}</label>
                 <div class="col-sm-9">
                     <ng-select [items]="officesObservable | async"
                                bindLabel="description"
@@ -17,7 +17,7 @@
                                (add)="onAddOfficeRealation($event)"
                                (remove)="onRemoveOfficeRelation($event)"
                                (clear)="clearAll()"
-                               placeholder="Select offices">
+                               placeholder="{{ 'BACK_OFFICE.TASK.SELECT_OFFICES' | translate }}">
 
                         <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
                             <div class="ng-value" *ngFor="let item of items">

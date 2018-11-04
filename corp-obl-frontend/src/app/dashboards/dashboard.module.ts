@@ -6,7 +6,6 @@ import {RouterModule} from '@angular/router';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {CalendarModule} from 'angular-calendar';
 
@@ -22,7 +21,6 @@ import {DashboardHomeComponent} from './dashboard_home/dashboard-home.component'
     RouterModule.forChild(DashboardRoutes),
     PerfectScrollbarModule,
     CalendarModule.forRoot(),
-    NgxChartsModule,
     NgxDatatableModule
   ],
   declarations: [

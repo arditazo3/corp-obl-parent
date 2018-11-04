@@ -3,7 +3,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Quick configuration</h4>
+                <h4 class="card-title">{{ 'BACK_OFFICE.OFFICE_TASK.QUICK_CONFIGURATION' | translate }}</h4>
                 <hr>
                 <form [formGroup]="createEditTaskTemplate"
                       (ngSubmit)="createEditTaskTemplateSubmit()">
@@ -12,19 +12,19 @@
                         <div class="row">
                             <div class="col-sm-12 col-md-4">
                                 <div class="form-group">
-                                    <label for="description" class="control-label col-form-label">Description</label>
+                                    <label for="description" class="control-label col-form-label">{{ 'BACK_OFFICE.OFFICE_TASK.DESCRIPTION' | translate }}</label>
                                     <input type="text" class="form-control"
                                            formControlName="description"
                                            id="description"
                                            [attr.disabled]="!isNewForm ? '' : null"
                                            [ngClass]="{'is-invalid': submitted && f.description.errors }">
                                     <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                                        <div *ngIf="f.description.errors.required">Description is required</div>
+                                        <div *ngIf="f.description.errors.required">{{ 'BACK_OFFICE.OFFICE_TASK.DESCRIPTION_REQUIRED' | translate }}</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-4">
-                                <label for="topic" class="control-label col-form-label">Topic</label>
+                                <label for="topic" class="control-label col-form-label">{{ 'BACK_OFFICE.OFFICE_TASK.TOPIC' | translate }}</label>
                                 <ng-select [items]="topicsObservable | async"
                                            bindLabel="description"
                                            id="topic"
@@ -32,21 +32,21 @@
                                            [searchable]="true"
                                            [clearable]="false"
                                            [(ngModel)]="selectedTopic"
-                                           placeholder="Select a topic">
+                                           placeholder="{{ 'BACK_OFFICE.OFFICE_TASK.SELECT_TOPIC' | translate }}">
                                 </ng-select>
                                 <div *ngIf="submitted && !selectedTopic" class="invalid-feedback-show">
-                                    Topic is required
+                                    {{ 'BACK_OFFICE.OFFICE_TASK.TOPIC_REQUIRED' | translate }}
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-4">
-                                <label class="control-label col-form-label">Who manages the task</label>
+                                <label class="control-label col-form-label">{{ 'BACK_OFFICE.OFFICE_TASK.WHO_MANAGES_TASK' | translate }}</label>
                                 <div class="form-check">
                                     <div class="custom-control custom-radio">
                                         <input type="radio" formControlName="expirationRadio"
                                                class="custom-control-input" [value]=1
                                                id="customControlValidation2">
                                         <label class="custom-control-label"
-                                               for="customControlValidation2">Anyone can close the task</label>
+                                               for="customControlValidation2">{{ 'BACK_OFFICE.OFFICE_TASK.ANYONE_CAN_CLOSE_TASK' | translate }}</label>
                                     </div>
                                 </div>
                                 <div class="form-check">
@@ -55,12 +55,11 @@
                                                class="custom-control-input" [value]=2
                                                id="customControlValidation3">
                                         <label class="custom-control-label"
-                                               for="customControlValidation3">Every user has his task</label>
+                                               for="customControlValidation3">{{ 'BACK_OFFICE.OFFICE_TASK.EVERY_USER_HAS_TASK' | translate }}</label>
                                     </div>
                                 </div>
                                 <span *ngIf="submitted && f.expirationRadio.errors" class="invalid-feedback-show">
-                                    <div *ngIf="f.expirationRadio.errors.required">Expiration closed by is
-                                        required</div>
+                                    <div *ngIf="f.expirationRadio.errors.required">{{ 'BACK_OFFICE.OFFICE_TASK.EXPIRATION_CLOSED_BY_REQUIRED' | translate }}</div>
                                 </span>
                             </div>
                         </div>
@@ -68,7 +67,7 @@
                         <div class="row">
                             <div class="col-sm-12 col-md-4">
                                 <div class="form-group">
-                                    <label for="periodicity" class="control-label col-form-label">Periodicity</label>
+                                    <label for="periodicity" class="control-label col-form-label">{{ 'BACK_OFFICE.OFFICE_TASK.PERIODICITY' | translate }}</label>
                                     <ng-select [items]="periodicityObservable | async"
                                                bindLabel="description"
                                                id="periodicity"
@@ -77,16 +76,16 @@
                                                [(ngModel)]="selectedPeriodicity"
                                                [ngModelOptions]="{standalone: true}"
                                                (change)="onChangePeriod($event)"
-                                               placeholder="Select Periodicity">
+                                               placeholder="{{ 'BACK_OFFICE.OFFICE_TASK.SELECT_PERIODICITY' | translate }}">
                                     </ng-select>
                                     <div *ngIf="submitted && !selectedPeriodicity" class="invalid-feedback-show">
-                                        Periodicity is required
+                                        {{ 'BACK_OFFICE.OFFICE_TASK.PERIODICITY_REQUIRED' | translate }}
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-4">
                                 <div class="form-group">
-                                    <label for="expirationtype" class="control-label col-form-label">Expiration</label>
+                                    <label for="expirationtype" class="control-label col-form-label">{{ 'BACK_OFFICE.OFFICE_TASK.EXPIRATION' | translate }}</label>
                                     <ng-select [items]="expirationTypeObservable | async"
                                                bindLabel="description"
                                                id="expirationtype"
@@ -95,17 +94,17 @@
                                                [(ngModel)]="selectedExpirationType"
                                                [ngModelOptions]="{standalone: true}"
                                                (change)="onChangeExpiration($event)"
-                                               placeholder="Select Expiration type">
+                                               placeholder="{{ 'BACK_OFFICE.OFFICE_TASK.SELECT_EXPIRATION_TYPE' | translate }}">
                                     </ng-select>
                                     <div *ngIf="submitted && !selectedExpirationType" class="invalid-feedback-show">
-                                        Expiration is required
+                                        {{ 'BACK_OFFICE.OFFICE_TASK.EXPIRATION_REQUIRED' | translate }}
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-4">
                                 <div class="form-group">
                                     <div *ngIf="isFixedDay">
-                                        <label class="control-label col-form-label">Day</label>
+                                        <label class="control-label col-form-label">{{ 'BACK_OFFICE.OFFICE_TASK.DAY' | translate }}</label>
                                     </div>
                                     <input type="number" class="form-control"
                                            id="dayInput"
@@ -125,10 +124,10 @@
                                                *ngIf="isFixedDay && isWeekly"
                                                [(ngModel)]="selectedPeriodWeeklyExpFixedDay"
                                                [ngModelOptions]="{standalone: true}"
-                                               placeholder="Select a day">
+                                               placeholder="{{ 'BACK_OFFICE.OFFICE_TASK.SELECT_DAY' | translate }}">
                                     </ng-select>
                                     <div *ngIf="submitted && !dayValue && isFixedDay" class="invalid-feedback-show">
-                                        Day is required
+                                        {{ 'BACK_OFFICE.OFFICE_TASK.DAY_REQUIRED' | translate }}
                                     </div>
                                 </div>
                             </div>
@@ -137,44 +136,40 @@
                         <div class="row">
                             <div class="col-sm-12 col-md-4">
                                 <div class="form-group">
-                                    <label for="daysOfNotice" class="control-label col-form-label">Days of
-                                        notice</label>
+                                    <label for="daysOfNotice" class="control-label col-form-label">{{ 'BACK_OFFICE.OFFICE_TASK.DAYS_NOTICE' | translate }}</label>
                                     <input type="number" class="form-control"
                                            formControlName="daysOfNotice"
                                            id="daysOfNotice"
                                            [ngClass]="{'is-invalid': submitted && f.daysOfNotice.errors }">
                                     <div *ngIf="submitted && f.daysOfNotice.errors" class="invalid-feedback">
-                                        <div *ngIf="f.daysOfNotice.errors.required">Days of notice is required</div>
+                                        <div *ngIf="f.daysOfNotice.errors.required">{{ 'BACK_OFFICE.OFFICE_TASK.DAYS_NOTICE_REQUIRED' | translate }}</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-4">
                                 <div class="form-group">
-                                    <label for="frequenceOfNotice" class="control-label col-form-label">Frequence of
-                                        notice</label>
+                                    <label for="frequenceOfNotice" class="control-label col-form-label">{{ 'BACK_OFFICE.OFFICE_TASK.FREQUENCE_NOTICE' | translate }}</label>
                                     <input type="number" class="form-control"
                                            formControlName="frequenceOfNotice"
                                            id="frequenceOfNotice"
                                            [ngClass]="{'is-invalid': submitted && f.frequenceOfNotice.errors }">
                                     <div *ngIf="submitted && f.frequenceOfNotice.errors"
                                          class="invalid-feedback">
-                                        <div *ngIf="f.frequenceOfNotice.errors.required">Frequence of Notice is required
+                                        <div *ngIf="f.frequenceOfNotice.errors.required">{{ 'BACK_OFFICE.OFFICE_TASK.FREQUENCE_NOTICE_REQUIRED' | translate }}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-4">
                                 <div class="form-group">
-                                    <label for="daysBeforeShowExpiration" class="control-label col-form-label">Expiration
-                                        closable</label>
+                                    <label for="daysBeforeShowExpiration" class="control-label col-form-label">{{ 'BACK_OFFICE.OFFICE_TASK.EXPIRATION_CLOSABLE' | translate }}</label>
                                     <input type="number" class="form-control"
                                            formControlName="daysBeforeShowExpiration"
                                            id="daysBeforeShowExpiration"
                                            [ngClass]="{'is-invalid': submitted && f.daysBeforeShowExpiration.errors }">
                                     <div *ngIf="submitted && f.daysBeforeShowExpiration.errors"
                                          class="invalid-feedback">
-                                        <div *ngIf="f.daysBeforeShowExpiration.errors.required">Expiration closable is
-                                            required
+                                        <div *ngIf="f.daysBeforeShowExpiration.errors.required">{{ 'BACK_OFFICE.OFFICE_TASK.EXPIRATION_CLOSABLE_REQUIRED' | translate }}
                                         </div>
                                     </div>
                                 </div>
@@ -185,8 +180,7 @@
 
                         <div class="row">
                             <div class="col-md-2">
-                                <button type="button" (click)="fileInput.click()" class="btn-tnx btn-default">Upload
-                                    Files
+                                <button type="button" (click)="fileInput.click()" class="btn-tnx btn-default">{{ 'GENERAL.UPLOAD_FILES' | translate }}
                                 </button>
                                 <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
                                     <input #selectedFile type="file" #fileInput ng2FileSelect [uploader]="uploader"
@@ -200,9 +194,9 @@
                                 <table class="table table-borderless table-sm">
                                     <thead>
                                     <tr>
-                                        <th width="50%">Name</th>
-                                        <th width="10%">Size</th>
-                                        <th width="40%">Actions</th>
+                                        <th width="50%">{{ 'GENERAL.NAME' | translate }}</th>
+                                        <th width="10%">{{ 'GENERAL.SIZE' | translate }}</th>
+                                        <th width="40%">{{ 'GENERAL.ACTIONS' | translate }}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -215,11 +209,11 @@
                                         <td nowrap>
                                             <button type="button" class="btn-tnx btn-danger btn-xs"
                                                     (click)="removeFile(item)">
-                                                <span class="fa fa-trash"></span> Remove
+                                                <span class="fa fa-trash"></span> {{ 'GENERAL.REMOVE' | translate }}
                                             </button>
                                             <button *ngIf="!isNewForm" type="button" class="btn-tnx btn-xs"
                                                     (click)="downloadFile(item)">
-                                                <span class="fa fa-download"></span> Download
+                                                <span class="fa fa-download"></span> {{ 'GENERAL.DOWNLOAD' | translate }}
                                             </button>
                                         </td>
                                     </tr>
@@ -239,8 +233,7 @@
                                         class="btn-tnx btn-outline-secondary waves-effect waves-light">
                                     Cancel
                                 </button>
-                                <button #submitBtn class="btn-tnx btn-success waves-effect waves-light">Save Task
-                                    Template
+                                <button #submitBtn class="btn-tnx btn-success waves-effect waves-light">{{ 'BACK_OFFICE.OFFICE_TASK.SAVE_TASK_TEMPLATE' | translate }}
                                 </button>
                             </div>
                         </div>
@@ -252,8 +245,8 @@
                         title=""
                         text=""
                         [showCancelButton]="true"
-                        confirmButtonText="Yes, save it!"
-                        cancelButtonText="No, cancel!"
+                        confirmButtonText="{{ 'GENERAL.YES_SAVE_IT' | translate }}"
+                        cancelButtonText="{{ 'GENERAL.NO_CANCEL' | translate }}"
                         type="warning">
                 </swal>
                 <swal

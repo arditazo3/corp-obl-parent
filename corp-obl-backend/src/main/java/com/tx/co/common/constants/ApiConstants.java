@@ -26,6 +26,7 @@ public final class ApiConstants {
 	public static final String USER = "user";
 	public static final String USER_LIST = "list";
 	public static final String USER_LIST_EXCEPT = "user-except";
+	public static final String USER_LANGUAGE_ON_CHANGE = "user-language-change";
 	public static final String USER_BY_USERNAME = "{username}";
 	public static final String ME = "me";
 

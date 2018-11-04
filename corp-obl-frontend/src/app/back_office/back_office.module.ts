@@ -43,6 +43,7 @@ import {AssociationOfficeComponent} from './task/component/association-office/as
 import {QuickConfigurationComponent} from './office-task/component/quick-configuration/quick-configuration.component';
 import { TaskTemplateTableComponent } from './office-task/component/tasktemplate-table/tasktemplate-table.component';
 import { AssociationOfficeUsersComponent } from './task/component/association-office-users/association-office-users.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -51,7 +52,7 @@ import { AssociationOfficeUsersComponent } from './task/component/association-of
         NgSelectModule,
         CommonModule,
         NgbModule,
-        NgbModalModule.forRoot(),
+        NgbModalModule,
         CalendarModule.forRoot(),
         NgxDatatableModule,
         MyDatePickerModule,
@@ -65,6 +66,7 @@ import { AssociationOfficeUsersComponent } from './task/component/association-of
             confirmButtonClass: 'btn btn-primary',
             cancelButtonClass: 'btn'
         }),
+        TranslateModule
     ],
     declarations: [
         CompanyComponent,

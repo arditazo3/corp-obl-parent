@@ -3,7 +3,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -32,6 +32,8 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {OfficeService} from './back_office/office/service/office.service';
 import {UploadService} from './shared/common/service/upload.service';
 import {UserService} from './user/service/user.service';
+import {TranslateCompiler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true,
@@ -59,7 +61,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
-        NgbModule.forRoot(),
+        NgbModule,
         RouterModule.forRoot(Approutes, {useHash: false}),
         PerfectScrollbarModule,
         AgmCoreModule.forRoot({apiKey: 'AIzaSyBUb3jDWJQ28vDJhuQZxkC0NXr_zycm8D0'}),
@@ -69,7 +71,13 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
             confirmButtonClass: 'btn btn-primary',
             cancelButtonClass: 'btn'
         }),
-
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     providers: [
         UserInfoService,
@@ -93,4 +101,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     bootstrap: [AppComponent]
 })
 export class AppModule {
+}
+
+// required for AOT compilation
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http);
 }

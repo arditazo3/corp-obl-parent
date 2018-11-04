@@ -3,13 +3,13 @@
   <div class="col-lg-12">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-subtitle">Office Task Management</h5>
+        <h5 class="card-subtitle">{{ 'BACK_OFFICE.OFFICE_TASK.OFFICE_TASK_MANAGEMENT' | translate }}</h5>
         <div class="row">
 
           <div class="col-md-3">
             <input type='text' class="form-control"
                    [(ngModel)]="descriptionTaskTemplate" (keyup)="changeTextDescription()"
-                   placeholder='Search the description'/>
+                   placeholder="{{ 'BACK_OFFICE.OFFICE_TASK.SEARCH_DESCRIPTION' | translate }}"/>
           </div>
 
           <div class="col-md-3">
@@ -19,7 +19,7 @@
                     [closeOnSelect]="false"
                     [searchable]="true"
                     bindLabel="description"
-                    placeholder="Select offices"
+                    placeholder="{{ 'BACK_OFFICE.OFFICE_TASK.SELECT_OFFICES' | translate }}"
                     [ngModelOptions]="{standalone: true}"
                     (change)="onChangeCompanies()"
                     [(ngModel)]="offices">
@@ -32,7 +32,7 @@
           </div>
 
           <div class="col-md-2">
-            <button class="btn-tnx btn-info btn-block" type="button" (click)="searchOfficeTasks(); searchTaskTemplates()">Search
+            <button class="btn-tnx btn-info btn-block" type="button" (click)="searchOfficeTasks(); searchTaskTemplates()">{{ 'GENERAL.SEARCH' | translate }}
             </button>
           </div>
         </div>

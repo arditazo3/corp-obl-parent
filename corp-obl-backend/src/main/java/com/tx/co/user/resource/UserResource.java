@@ -72,6 +72,17 @@ public class UserResource extends ObjectResult {
 
         return Response.ok(queryDetailsList).build();
     }
+    
+    @POST
+    @Path(USER_LANGUAGE_ON_CHANGE)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response userLanguangeOnChange(User user) {
+
+    	userService.userLanguangeChange(user);
+
+    	return Response.noContent().build();
+    }
 
     /**
      * @param username

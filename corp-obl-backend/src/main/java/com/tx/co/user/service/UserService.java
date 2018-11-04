@@ -4,13 +4,17 @@ import static com.tx.co.common.constants.AppConstants.*;
 
 import com.tx.co.back_office.task.repository.TaskOfficeRelationRepository;
 import com.tx.co.cache.service.UpdateCacheData;
+import com.tx.co.security.api.AuthenticationTokenUserDetails;
+import com.tx.co.security.api.usermanagement.IUserManagementDetails;
 import com.tx.co.security.domain.Authority;
+import com.tx.co.security.service.AuthenticationTokenService;
 import com.tx.co.user.domain.User;
 import com.tx.co.user.repository.UserRepository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,17 +28,19 @@ import static org.springframework.util.ObjectUtils.isEmpty;
  * @author aazo
  */
 @Service
-public class UserService extends UpdateCacheData implements IUserService {
+public class UserService extends UpdateCacheData implements IUserService, IUserManagementDetails {
 
     private static final Logger logger = LogManager.getLogger(UserService.class);
 
     private final UserRepository userRepository;
     private final TaskOfficeRelationRepository taskOfficeRelationRepository;
+    private final AuthenticationTokenService authenticationTokenService;
 
     @Autowired
-    public UserService(UserRepository userRepository, TaskOfficeRelationRepository taskOfficeRelationRepository) {
+    public UserService(UserRepository userRepository, TaskOfficeRelationRepository taskOfficeRelationRepository, AuthenticationTokenService authenticationTokenService) {
         this.userRepository = userRepository;
         this.taskOfficeRelationRepository = taskOfficeRelationRepository;
+        this.authenticationTokenService = authenticationTokenService;
     }
 
     /**
@@ -109,6 +115,27 @@ public class UserService extends UpdateCacheData implements IUserService {
 				user.getAuthorities().add(Authority.CORPOBLIG_CONTROLLED);
 			}
 		}
+	}
+
+	@Override
+	public void userLanguangeChange(User user) {
+
+		String username = user.getUsername();
+		String lang = user.getLang().toUpperCase();
+		
+		User userChangeLangulage = findByUsername(username);
+		userChangeLangulage.setLang(lang);
+		
+		userRepository.save(userChangeLangulage);
+		
+		getTokenUserDetails().getUser().setLang(lang);
+		
+		authenticationTokenService.refreshToken(getTokenUserDetails());
+	}
+
+	@Override
+	public AuthenticationTokenUserDetails getTokenUserDetails() {
+		return (AuthenticationTokenUserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
 	}
 }
 

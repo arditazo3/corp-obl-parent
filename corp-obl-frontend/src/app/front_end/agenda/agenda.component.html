@@ -3,12 +3,12 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-subtitle">Agenda Controller</h5>
+                <h5 class="card-subtitle">{{ 'FRONT_END.AGENDA.AGENDA_CONTROLLER' | translate }}</h5>
                 <div class="row">
 
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label class="control-label col-form-label">Show expiration from</label>
+                            <label class="control-label col-form-label">{{ 'FRONT_END.AGENDA.SHOW_EXPIRATION_FROM' | translate }}</label>
                             <my-date-picker name="dateStart" [options]="myDatePickerOptions"
                                             [(ngModel)]="dateStart"></my-date-picker>
                         </div>
@@ -16,21 +16,21 @@
 
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label class="control-label col-form-label">To</label>
+                            <label class="control-label col-form-label">{{ 'FRONT_END.AGENDA.TO' | translate }}</label>
                             <my-date-picker name="dateEnd" [options]="myDatePickerOptions"
                                             [(ngModel)]="dateEnd"></my-date-picker>
                         </div>
                     </div>
 
                     <div class="col-md-4">
-                        <label class="control-label col-form-label">Associations</label>
+                        <label class="control-label col-form-label">{{ 'FRONT_END.AGENDA.ASSOCIATIONS' | translate }}</label>
                         <ng-select
                                 [items]="officesObservable | async"
                                 [multiple]="true"
                                 [closeOnSelect]="false"
                                 [searchable]="true"
                                 bindLabel="description"
-                                placeholder="Select offices"
+                                placeholder="{{ 'FRONT_END.AGENDA.SELECT_OFFICES' | translate }}"
                                 [ngModelOptions]="{standalone: true}"
                                 [(ngModel)]="offices">
                             <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
@@ -42,7 +42,7 @@
                     </div>
 
                     <div class="col-md-2">
-                        <label class="control-label col-form-label">Hide archived tasks</label>
+                        <label class="control-label col-form-label">{{ 'FRONT_END.AGENDA.HIDE_ARCHIVED_TASKS' | translate }}</label>
                         <div class="form-check form-check-inline">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="hideArchivedTask"
@@ -54,7 +54,7 @@
 
                     <div class="col-md-2">
                         <label class="control-label col-form-label"></label>
-                        <button class="btn-tnx btn-info btn-block" type="button" (click)="searchTaskTemplates()">Filter
+                        <button class="btn-tnx btn-info btn-block" type="button" (click)="searchTaskTemplates()">{{ 'FRONT_END.AGENDA.FILTER' | translate }}
                         </button>
                     </div>
 

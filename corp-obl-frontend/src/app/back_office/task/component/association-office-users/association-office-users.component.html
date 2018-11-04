@@ -10,7 +10,7 @@
           </div>
           <div class="col-2 float-right">
             <button class="btn-tnx btn-danger btn-block" type="button"
-                    (click)="removeOfficeBtn(taskOffice.office)">Remove
+                    (click)="removeOfficeBtn(taskOffice.office)">{{ 'GENERAL.REMOVE' | translate }}
             </button>
           </div>
         </div>
@@ -19,7 +19,7 @@
     <ng-template ngbPanelContent>
       <div class="row">
         <div class="col-sm-12 col-sm-5">
-          <label for="periodicity" class="control-label col-form-label">Providers</label>
+          <label for="periodicity" class="control-label col-form-label">{{ 'BACK_OFFICE.TASK.PROVIDERS' | translate }}</label>
           <div class="col-sm-9">
             <ng-select
                     [items]="userAvailableArray"
@@ -32,7 +32,7 @@
                     (add)="onAddProvidersOffice($event)"
                     (remove)="onRemoveProvidersOffice($event)"
                     [(ngModel)]="userProvidersArray"
-                    placeholder="Select providers">
+                    placeholder="{{ 'BACK_OFFICE.TASK.SELECT_PROVIDERS' | translate }}">
 
               <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
                 <input [ngModelOptions]="{standalone: true}"
@@ -46,7 +46,7 @@
 
       <div class="row">
         <div class="col-sm-12 col-sm-5">
-          <label for="periodicity" class="control-label col-form-label">Beneficiaries</label>
+          <label for="periodicity" class="control-label col-form-label">{{ 'BACK_OFFICE.TASK.BENEFICIARIES' | translate }}</label>
           <div class="col-sm-9">
             <ng-select
                     [items]="userAvailableArray"
@@ -59,7 +59,7 @@
                     (add)="onAddBeneficiariesOffice($event)"
                     (remove)="onRemoveBeneficiariesOffice($event)"
                     [(ngModel)]="userBeneficiariesArray"
-                    placeholder="Select beneficiaries">
+                    placeholder="{{ 'BACK_OFFICE.TASK.SELECT_BENEFICIARIES' | translate }}">
 
               <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
                 <input [ngModelOptions]="{standalone: true}"

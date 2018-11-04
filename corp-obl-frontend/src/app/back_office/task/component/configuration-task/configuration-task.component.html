@@ -3,12 +3,12 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-subtitle">Task Management</h5>
+                <h5 class="card-subtitle">{{ 'BACK_OFFICE.TASK.TASK_MANAGEMENT' | translate }}</h5>
                 <div class="row">
 
                     <div class="col-md-3">
                         <input #descriptionTask type='text' class="form-control" [(ngModel)]="descriptionTaskTemplate"
-                               placeholder='Search the description'/>
+                               placeholder="{{ 'BACK_OFFICE.TASK.SEARCH_DESCRIPTION' | translate }}"/>
                     </div>
 
                     <div class="col-md-3">
@@ -18,7 +18,7 @@
                                 [closeOnSelect]="false"
                                 [searchable]="true"
                                 bindLabel="description"
-                                placeholder="Select companies"
+                                placeholder="{{ 'BACK_OFFICE.TASK.SELECT_COMPANIES' | translate }}"
                                 [ngModelOptions]="{standalone: true}"
                                 [(ngModel)]="selectedCompanies">
                             <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
@@ -36,7 +36,7 @@
                                 [closeOnSelect]="false"
                                 [searchable]="true"
                                 bindLabel="description"
-                                placeholder="Select topics"
+                                placeholder="{{ 'BACK_OFFICE.TASK.SELECT_TOPICS' | translate }}"
                                 [ngModelOptions]="{standalone: true}"
                                 [(ngModel)]="selectedTopics">
                             <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
@@ -48,13 +48,13 @@
                     </div>
 
                     <div class="col-md-1">
-                        <button class="btn-tnx btn-info btn-block" type="button" (click)="searchTaskTemplate()">Search
+                        <button class="btn-tnx btn-info btn-block" type="button" (click)="searchTaskTemplate()">{{ 'GENERAL.SEARCH' | translate }}
                         </button>
                     </div>
 
                     <div class="col-md-1 text-right">
                         <button class="btn-tnx btn-info btn-block" type="button" (click)="createNewTaskTemplate()">
-                            Create
+                            {{ 'GENERAL.CREATE' | translate }}
                         </button>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                                             [class.datatable-icon-down]="expanded"
                                             title="Expand/Collapse Group"
                                             (click)="toggleExpandGroup(group)">
-                                        {{ !expanded ? 'Expand' : 'Collapse' }}
+                                        {{ !expanded ? ('GENERAL.EXPAND' | translate) : ('GENERAL.COLLAPSE' | translate) }}
                                     </button>
 
                                     <button type="button" class="btn-tnx btn-xs btn-primary"
@@ -93,7 +93,7 @@
                                     <button type="button" class="btn-tnx btn-xs btn-primary"
                                             title="Expand/Collapse Group"
                                             (click)="createTask(group)">
-                                        New Config.
+                                        {{ 'BACK_OFFICE.TASK.NEW_CONFIG' | translate }}
                                     </button>
                                 </div>
 
@@ -111,12 +111,12 @@
                     <ngx-datatable-column name="" prop="">
                         <ng-template let-column="column" ngx-datatable-header-template>
                             <button type="button" class="btn-tnx btn-xs btn-primary"
-                                    title="Expand"
-                                    (click)="toggleExpandCollapse(true)">Expand
+                                    title="{{ 'GENERAL.EXPAND' | translate }}"
+                                    (click)="toggleExpandCollapse(true)">{{ 'GENERAL.EXPAND' | translate }}
                             </button>
                             <button type="button" class="btn-tnx btn-xs btn-primary"
-                                    title="Collapse"
-                                    (click)="toggleExpandCollapse(false)">Collapse
+                                    title="{{ 'GENERAL.COLLAPSE' | translate }}"
+                                    (click)="toggleExpandCollapse(false)">{{ 'GENERAL.COLLAPSE' | translate }}
                             </button>
                         </ng-template>
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
@@ -124,22 +124,22 @@
                             <button *ngIf="row.idTask" type="button" class="btn-tnx btn-xs btn-primary"
                                     title="Expand/Collapse Group"
                                     (click)="modifyTask(row)">
-                                Modify config.
+                                {{ 'BACK_OFFICE.TASK.MODIFY_CONFIG' | translate }}
                             </button>
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="Description" prop="descriptionTask">
+                    <ngx-datatable-column name="{{ 'BACK_OFFICE.TASK.DESCRIPTION' | translate }}" prop="descriptionTask">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
                                      let-group="group" let-rowHeight="rowHeight">
                            {{ row.descriptionTask }}
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="Topic" prop="counterCompany">
+                    <ngx-datatable-column name="{{ 'BACK_OFFICE.TASK.TOPIC' | translate }}" prop="counterCompany">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
                                      let-group="group" let-rowHeight="rowHeight">
-                            Companies: {{ row.counterCompany }}
+                            {{ 'BACK_OFFICE.TASK.COMPANIES_SPACE' | translate }} {{ row.counterCompany }}
                         </ng-template>
                     </ngx-datatable-column>
 
@@ -149,7 +149,7 @@
                 <swal
                         #deleteOfficeSwal
                         title=""
-                        text="This cannot be undone."
+                        text="{{ 'GENERAL.CANNOT_BE_UNDONE' | translate }}"
                         type="question"
                         [showCancelButton]="true"
                         [focusCancel]="true"

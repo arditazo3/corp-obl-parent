@@ -7,11 +7,11 @@
             <div class="dropdown-menu" ngbDropdownMenu>
                 <button class="dropdown-item"
                         *ngIf="completedActivityBtn"
-                        (click)="completedExp()">Completed
+                        (click)="completedExp()">{{ 'FRONT_END.AGENDA.COMPLETED' | translate }}
                 </button>
                 <button class="dropdown-item"
                         *ngIf="notCompletedActivityBtn"
-                        (click)="notCompletedExp()">Not Completed
+                        (click)="notCompletedExp()">{{ 'FRONT_END.AGENDA.NOT_COMPLETED' | translate }}
                 </button>
             </div>
         </div>

@@ -18,7 +18,7 @@
                         [closeOnSelect]="false"
                         [searchable]="true"
                         bindLabel="name"
-                        placeholder="Select consultant"
+                        placeholder="{{ 'BACK_OFFICE.CONSULTANT.SELECT_CONSULTANT' | translate }}"
                         (clear)="onClearTopicConsultant(companyTopic)"
                         (add)="onAddTopicConsultant(companyTopic, $event)"
                         [(ngModel)]="companyTopic.topic.consultantList"

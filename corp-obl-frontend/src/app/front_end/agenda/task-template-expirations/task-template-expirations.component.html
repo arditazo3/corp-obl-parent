@@ -10,26 +10,26 @@
                         <div class="col-3 text-center">
                             <span class="float-left"
                                   *ngIf="taskExpiration.totalArchived !== 0 && taskExpiration.totalArchived === taskExpiration.totalExpirations">
-                                Archived {{taskExpiration.totalArchived}} / {{taskExpiration.totalExpirations}}</span>
+                                {{ 'FRONT_END.AGENDA.ARCHIVED' | translate }} {{taskExpiration.totalArchived}} / {{taskExpiration.totalExpirations}}</span>
 
                             <span class="float-left"
                                   *ngIf="taskExpiration.totalArchived !== taskExpiration.totalExpirations">
-                                Completed {{taskExpiration.totalCompleted}} / {{taskExpiration.totalExpirations}}</span>
+                                {{ 'FRONT_END.AGENDA.COMPLETED' | translate }} {{taskExpiration.totalCompleted}} / {{taskExpiration.totalExpirations}}</span>
                         </div>
                         <div class="col-3 text-center">
                             <div class="row"
                                  *ngIf="taskExpiration.totalArchived !== taskExpiration.totalExpirations &&
                                  taskExpiration.totalCompleted === taskExpiration.totalExpirations">
                                 <button type="button" class="btn-tnx btn-xs btn-warning"
-                                        (click)="restoreAll(taskExpiration)">Restore all
+                                        (click)="restoreAll(taskExpiration)">{{ 'FRONT_END.AGENDA.RESTORE_ALL' | translate }}
                                 </button>
                                 <button type="button" class="btn-tnx btn-xs btn-success"
-                                        (click)="archiveAll(taskExpiration)">Archive all
+                                        (click)="archiveAll(taskExpiration)">{{ 'FRONT_END.AGENDA.ARCHIVE_ALL' | translate }}
                                 </button>
                             </div>
                         </div>
                         <div class="col-3 text-right">
-                            <span class="float-left">Expiration date {{taskExpiration.expirationDate}}</span>
+                            <span class="float-left">{{ 'FRONT_END.AGENDA.EXPIRATION_DATE' | translate }} {{taskExpiration.expirationDate}}</span>
                         </div>
                     </div>
                 </div>

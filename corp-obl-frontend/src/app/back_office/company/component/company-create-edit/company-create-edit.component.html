@@ -3,7 +3,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Company Form</h4>
+                <h4 class="card-title">{{ 'BACK_OFFICE.COMPANY.COMPANY_FORM' | translate }}</h4>
                 <hr>
                 <form class="form-horizontal" [formGroup]="createEditCompany"
                       (ngSubmit)="createEditCompanySubmit()">
@@ -11,14 +11,17 @@
 
                         <div class="form-group row">
                             <label for="description"
-                                   class="col-sm-3 text-right control-label col-form-label">Description</label>
+                                   class="col-sm-3 text-right control-label col-form-label">{{
+                                'BACK_OFFICE.COMPANY.DESCRIPTION' | translate }}</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control"
                                        formControlName="description"
                                        id="description"
                                        [ngClass]="{'is-invalid': submitted && f.description.errors }">
                                 <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                                    <div *ngIf="f.description.errors.required">Description is required</div>
+                                    <div *ngIf="f.description.errors.required">{{
+                                        'BACK_OFFICE.COMPANY.DESCRIPTION_REQUIRED' | translate }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -36,9 +39,11 @@
                         <div class="input-group">
                             <div class="m-b-0 col text-right">
                                 <button #cancelBtn type="button" routerLink="//back-office/company"
-                                        class="btn-tnx btn-outline-secondary waves-effect waves-light">Cancel
+                                        class="btn-tnx btn-outline-secondary waves-effect waves-light">{{
+                                    'GENERAL.CANCEL' | translate }}
                                 </button>
-                                <button #submitBtn class="btn-tnx btn-success waves-effect waves-light">Save Company
+                                <button #submitBtn class="btn-tnx btn-success waves-effect waves-light">{{
+                                    'BACK_OFFICE.COMPANY.SAVE_COMPANY' | translate }}
                                 </button>
                             </div>
                         </div>
@@ -48,11 +53,12 @@
                 <swal
                         #errorDescriptionSwal
                         title=""
-                        text="Can not save company with the same description."
+                        text="{{ 'BACK_OFFICE.COMPANY.CANNOT_SAVE_COMP_SAME_DESCR' | translate }}"
                         type="error">
                 </swal>
 
             </div>
         </div>
     </div>
-    <!-- End Row -->
+</div>
+<!-- End Row -->

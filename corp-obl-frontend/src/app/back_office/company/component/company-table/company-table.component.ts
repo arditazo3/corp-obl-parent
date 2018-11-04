@@ -7,6 +7,7 @@ import {TransferDataService} from '../../../../shared/common/service/transfer-da
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {DataFilter} from '../../../../shared/common/api/model/data-filter';
 import {PageEnum} from '../../../../shared/common/api/enum/page.enum';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'app-company-table',
@@ -30,7 +31,8 @@ export class CompanyTableComponent implements OnInit {
     constructor(
         private router: Router,
         private companyService: CompanyService,
-        private transferService: TransferDataService
+        private transferService: TransferDataService,
+        public translate: TranslateService
     ) {
     }
 

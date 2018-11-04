@@ -49,8 +49,6 @@ export class AssociationOfficeComponent implements OnInit {
         me.usersObservable = me.userService.getAllUsersExceptAdminRole();
 
         me.getTaskOfficesArray(null);
-
-        //     me.populateAvailableUsersOnOffices();
     }
 
     getTaskOfficesArray(taskOffices) {
@@ -91,8 +89,6 @@ export class AssociationOfficeComponent implements OnInit {
         }
 
         this.taskOfficesArray.push(taskOffice);
-
-        //       this.populateAvailableUsersOnOffices();
     }
 
 
@@ -124,8 +120,6 @@ export class AssociationOfficeComponent implements OnInit {
         console.log('AssociationOfficeComponent - clearAll');
 
         this.taskOfficesArray = [];
-
-        //    this.populateAvailableUsersOnOffices();
     }
 
 }

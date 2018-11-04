@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.mysql.fabric.xmlrpc.base.Array;
 import com.tx.co.back_office.company.domain.OfficeTaskTemplate;
 import com.tx.co.back_office.office.api.model.OfficeTaskTemplates;
 import com.tx.co.back_office.office.api.model.TaskTempOffices;

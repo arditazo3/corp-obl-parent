@@ -357,7 +357,7 @@ public abstract class UpdateCacheData {
 		Map<TranslationPairKey, Translation> translationHashMap = getTranslationsFromCache();
 		
 		for (TranslationPairKey translationPairKeyLoop : translationHashMap.keySet()) {
-			if(translationPairKeyLoop.getLang().equals(translationPairKey.getLang())
+			if(translationPairKeyLoop.getLang().equalsIgnoreCase(translationPairKey.getLang())
 					&& translationPairKeyLoop.getTablename().contains(translationPairKey.getTablename())) {
 				
 				return translationHashMap.get(translationPairKeyLoop);

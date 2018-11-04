@@ -25,4 +25,9 @@ export class UserService {
 
         return this.apiRequest.get(this.appConfig.userList);
     }
+
+    userLanguangeOnChange(user): Observable<any> {
+
+        return this.apiRequest.post(this.appConfig.userLanguangeOnChange, user);
+    }
 }

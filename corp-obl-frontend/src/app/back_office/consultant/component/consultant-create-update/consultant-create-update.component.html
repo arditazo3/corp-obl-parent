@@ -3,22 +3,21 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Consultant Form</h4>
+                <h4 class="card-title">{{ 'BACK_OFFICE.CONSULTANT.CONSULTANT_FORM' | translate }}</h4>
                 <hr>
                 <form class="form-horizontal" [formGroup]="createEditConsultant"
                       (ngSubmit)="createEditConsultantSubmit()">
                     <div class="card-body">
 
                         <div class="form-group row">
-                            <label for="name" class="col-sm-3 text-right control-label col-form-label">Nominative /
-                                Business name</label>
+                            <label for="name" class="col-sm-3 text-right control-label col-form-label">{{ 'BACK_OFFICE.CONSULTANT.NOMINATIVE_BUSINESS_NAME' | translate }}</label>
                             <div class="input-group col-sm-9">
                                 <input type="text" class="form-control"
                                        formControlName="name"
                                        id="name"
                                        [ngClass]="{'is-invalid': submitted && f.name.errors }">
                                 <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-                                    <div *ngIf="f.name.errors.required">Nominative / Business name is required</div>
+                                    <div *ngIf="f.name.errors.required">{{ 'BACK_OFFICE.CONSULTANT.NOMINATIVE_BUSINESS_NAME_REQUIRED' | translate }}</div>
                                 </div>
                             </div>
                         </div>
@@ -34,15 +33,14 @@
                                     <div *ngIf="f.email.errors.required">Email is required</div>
                                 </div>
                                 <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                                    <div *ngIf="f.email.errors?.email || f.email.errors?.pattern">Email not valid.</div>
+                                    <div *ngIf="f.email.errors?.email || f.email.errors?.pattern">{{ 'GENERAL.EMAIL_NOT_VALID' | translate }}</div>
                                 </div>
 
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="phone1" class="col-sm-3 text-right control-label col-form-label">Phone
-                                no.1</label>
+                            <label for="phone1" class="col-sm-3 text-right control-label col-form-label">{{ 'BACK_OFFICE.CONSULTANT.TELEPHONE_1' | translate }}</label>
                             <div class="input-group col-sm-9">
                                 <input type="text" class="form-control"
                                        formControlName="phone1"
@@ -51,8 +49,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="phone2" class="col-sm-3 text-right control-label col-form-label">Phone
-                                no.2</label>
+                            <label for="phone2" class="col-sm-3 text-right control-label col-form-label">{{ 'BACK_OFFICE.CONSULTANT.TELEPHONE_2' | translate }}</label>
                             <div class="input-group col-sm-9">
                                 <input type="text" class="form-control"
                                        formControlName="phone2"
@@ -69,7 +66,7 @@
                                         class="btn-tnx btn-outline-secondary waves-effect waves-light">
                                     Cancel
                                 </button>
-                                <button #submitBtn class="btn-tnx btn-success waves-effect waves-light">Save Consultant
+                                <button #submitBtn class="btn-tnx btn-success waves-effect waves-light">{{ 'BACK_OFFICE.CONSULTANT.SAVE_CONSULTANT' | translate }}
                                 </button>
                             </div>
                         </div>

@@ -22,6 +22,7 @@ export class AppConfig {
     public userPath = 'user';
     public userList = this.userPath + this.list;
     public userListExceptRole = this.userPath + '/user-except';
+    public userLanguangeOnChange = this.userPath + '/user-language-change';
 
     /**
      * Back office

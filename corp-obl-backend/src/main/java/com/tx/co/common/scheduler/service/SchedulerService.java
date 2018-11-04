@@ -25,7 +25,7 @@ public class SchedulerService extends CacheDataLoader implements ISchedulerServi
 	private Integer maxAttempts;
 
 	// @Scheduled(cron="*/10 * * * * *")
-	@Scheduled(cron="0 0 0 * * *")
+	// @Scheduled(cron="0 0 0 * * *")
 	@Override
 	public void jobScheduled() {
 		if(scheduledJobEnabled) {

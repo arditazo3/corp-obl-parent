@@ -22,6 +22,7 @@ import { AgendaControlledComponent } from './agenda-controlled/agenda-controlled
 import { ExpirationActivityControlledComponent } from './agenda-controlled/expiration-activity-controlled/expiration-activity-controlled.component';
 import { OfficeExpirationControlledComponent } from './agenda-controlled/office-expiration-controlled/office-expiration-controlled.component';
 import { TaskTemplateExpirationsControlledComponent } from './agenda-controlled/task-template-expirations-controlled/task-template-expirations-controlled.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -39,13 +40,13 @@ import { TaskTemplateExpirationsControlledComponent } from './agenda-controlled/
         RouterModule.forChild(FrontEndRoutes),
         PerfectScrollbarModule,
         FileUploadModule,
-
         SweetAlert2Module.forRoot({
             buttonsStyling: false,
             customClass: 'modal-content',
             confirmButtonClass: 'btn btn-primary',
             cancelButtonClass: 'btn'
         }),
+        TranslateModule
     ],
     declarations: [
         AgendaComponent,

@@ -10,9 +10,12 @@
                     <div class="card-body">
 
                         <div class="form-group row">
-                            <label for="description" class="col-sm-3 text-right control-label col-form-label">Description</label>
+                            <label for="description" class="col-sm-3 text-right control-label col-form-label">{{
+                                'BACK_OFFICE.TOPIC.DESCRIPTION' | translate }}</label>
                             <div class="input-group col-sm-9">
-                                <div class="remark-feedback" *ngIf="languageNotAvailable">The French language it not available yet</div>
+                                <div class="remark-feedback" *ngIf="languageNotAvailable">{{
+                                    'BACK_OFFICE.TOPIC.FRENCH_LANGUAGE__NOT_AVAILABLE' | translate }}
+                                </div>
                                 <input type="text" class="form-control"
                                        formControlName="description"
                                        id="description">
@@ -30,14 +33,14 @@
                                     </ng-select>
                                 </div>
                                 <div *ngIf="submitted && !hasDescription" class="invalid-feedback-show">
-                                    Description is required
+                                    {{ 'BACK_OFFICE.TOPIC.DESCRIPTION_REQUIRED' | translate }}
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-sm-3 text-right control-label
-                     col-form-label">Assign the Companies</label>
+                     col-form-label">{{ 'BACK_OFFICE.TOPIC.ASSIGN_COMPANIES' | translate }}</label>
                             <div class="col-sm-9">
                                 <ng-select
                                         [items]="companiesObservable | async"
@@ -45,12 +48,13 @@
                                         [closeOnSelect]="false"
                                         [searchable]="true"
                                         bindLabel="description"
-                                        placeholder="Select companies"
+                                        placeholder="{{ 'BACK_OFFICE.TOPIC.SELECT_COMPANIES' | translate }}"
                                         [ngModelOptions]="{standalone: true}"
                                         [(ngModel)]="selectedCompanies">
                                 </ng-select>
-                                <div *ngIf="submitted && (!selectedCompanies || selectedCompanies?.length === 0)" class="invalid-feedback-show">
-                                    Company is required
+                                <div *ngIf="submitted && (!selectedCompanies || selectedCompanies?.length === 0)"
+                                     class="invalid-feedback-show">
+                                    {{ 'BACK_OFFICE.TOPIC.COMPANY_REQUIRED' | translate }}
                                 </div>
                             </div>
                         </div>
@@ -64,7 +68,8 @@
                                         class="btn-tnx btn-outline-secondary waves-effect waves-light">
                                     Cancel
                                 </button>
-                                <button #submitBtn class="btn-tnx btn-success waves-effect waves-light">Save Topic
+                                <button #submitBtn class="btn-tnx btn-success waves-effect waves-light">{{
+                                    'BACK_OFFICE.TOPIC.SAVE_TOPIC' | translate }}
                                 </button>
                             </div>
                         </div>
@@ -82,12 +87,13 @@
                         title=""
                         text=""
                         [showCancelButton]="true"
-                        confirmButtonText="Yes, save it!"
-                        cancelButtonText="No, cancel!"
+                        confirmButtonText="{{ 'GENERAL.CANNOT_BE_UNDONE' | translate }}"
+                        cancelButtonText="{{ 'GENERAL.NO_CANCEL' | translate }}"
                         type="info">
                 </swal>
 
             </div>
         </div>
     </div>
-    <!-- End Row -->
+</div>
+<!-- End Row -->

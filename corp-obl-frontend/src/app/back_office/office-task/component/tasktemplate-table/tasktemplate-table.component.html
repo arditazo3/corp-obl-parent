@@ -5,13 +5,13 @@
         <div id="container-fluid">
           <div class="row">
             <div class="col-2 float-left">
-              <span class="float-left">All tasks</span>
+              <span class="float-left">{{ 'BACK_OFFICE.OFFICE_TASK.ALL_TASKS' | translate }}</span>
             </div>
             <div class="col-8 text-center">
             </div>
             <div class="col-2 float-right">
               <button class="btn-tnx btn-info btn-block " type="button"
-                      (click)="createTask()">Create
+                      (click)="createTask()">{{ 'GENERAL.CREATE' | translate }}
               </button>
             </div>
           </div>
@@ -23,11 +23,11 @@
           <tr *ngFor="let taskTemplate of taskTemplatesArray">
             <td>
               <button class="btn-tnx btn-info btn-block" type="button"
-                      (click)="modifyTaskTemplate(taskTemplate)">Modify
+                      (click)="modifyTaskTemplate(taskTemplate)">{{ 'GENERAL.MODIFY' | translate }}
               </button>
             </td>
             <td>{{taskTemplate.descriptionTaskTemplate}}</td>
-            <td>Offices: {{taskTemplate.counterOffices}}</td>
+            <td>{{ 'BACK_OFFICE.OFFICE_TASK.OFFICES_SPACE' | translate }} {{taskTemplate.counterOffices}}</td>
           </tr>
           </tbody>
         </table>

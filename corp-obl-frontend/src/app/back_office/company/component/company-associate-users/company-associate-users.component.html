@@ -1,5 +1,5 @@
 <div class="form-group row">
-    <label class="col-sm-3 text-right control-label col-form-label">Associate users to the company</label>
+    <label class="col-sm-3 text-right control-label col-form-label">{{ 'BACK_OFFICE.COMPANY.ASSOCIATE_USERS_COMPANY' | translate }}</label>
     <div class="col-sm-9">
         <ng-select
                 [items]="usersObservable | async"
@@ -7,7 +7,7 @@
                 [closeOnSelect]="false"
                 [searchable]="true"
                 bindLabel="fullName"
-                placeholder="Select users"
+                placeholder="{{ 'BACK_OFFICE.COMPANY.SELECT_USERS' | translate }}"
                 [ngModelOptions]="{standalone: true}"
                 [(ngModel)]="selectedUsers"
                 (change)="onChangeSelectUsers($event)">
@@ -18,13 +18,10 @@
             </ng-template>
         </ng-select>
     </div>
-    <!--<div *ngIf="submitted && f.description.errors" class="invalid-feedback">-->
-    <!--<div *ngIf="f.description.errors.required">Description is required</div>-->
-    <!--</div>-->
 </div>
 <br/>
 <div class="form-group row">
-    <label class="col-sm-3 text-right control-label col-form-label">Assign users as Admin of company</label>
+    <label class="col-sm-3 text-right control-label col-form-label">{{ 'BACK_OFFICE.COMPANY.ASSIGN_USERS_AS_ADMIN_COMPANY' | translate }}</label>
     <div class="col-sm-9">
         <ng-select
                 [items]="usersAsAdminObservable | async"
@@ -32,7 +29,7 @@
                 [closeOnSelect]="false"
                 [searchable]="true"
                 bindLabel="fullName"
-                placeholder="Select users"
+                placeholder="{{ 'BACK_OFFICE.COMPANY.SELECT_USERS' | translate }}"
                 (change)="onChangeSelectUsers($event)"
                 [ngModelOptions]="{standalone: true}"
                 [(ngModel)]="selectedUsersAsAdmin">

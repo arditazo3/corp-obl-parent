@@ -13,3 +13,5 @@ select * from co_office;
 select * from co_expiration;
 
 select * from co_expirationactivity;
+
+select * from co_translations where description like '%Companies%';

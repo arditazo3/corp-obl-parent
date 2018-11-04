@@ -10,11 +10,10 @@
                         <input type="text" [(ngModel)]="expActivityMsg"
                                [ngModelOptions]="{standalone: true}"
                                class="form-control col-md-9"
-                               placeholder="Type something...">
+                               placeholder="{{ 'FRONT_END.AGENDA.TYPE_SOMETHING' | translate }}">
                         <div class="input-group-append">
                             <div class="col-md-2">
-                                <button type="button" (click)="fileInput.click()" class="btn-tnx btn-default">Upload
-                                    Files
+                                <button type="button" (click)="fileInput.click()" class="btn-tnx btn-default">{{ 'GENERAL.UPLOAD_FILES' | translate }}
                                 </button>
                                 <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
                                     <input #selectedFile type="file" #fileInput ng2FileSelect [uploader]="uploader"
@@ -24,7 +23,7 @@
                         </div>
                     </div>
                     <div *ngIf="submitted && !expActivityMsg" class="invalid-feedback-show">
-                        Message is required
+                        {{ 'FRONT_END.AGENDA.MESSAGE_REQUIRED' | translate }}
                     </div>
 
                     <div class="row">
@@ -47,11 +46,11 @@
                                     <td nowrap>
                                         <button type="button" class="btn-tnx btn-danger btn-xs"
                                                 (click)="removeFile(item)">
-                                            <span class="fa fa-trash"></span> Remove
+                                            <span class="fa fa-trash"></span> {{ 'GENERAL.REMOVE' | translate }}
                                         </button>
                                         <button *ngIf="!isNewForm" type="button" class="btn-tnx btn-xs"
                                                 (click)="downloadFile(item)">
-                                            <span class="fa fa-download"></span> Download
+                                            <span class="fa fa-download"></span> {{ 'GENERAL.DOWNLOAD' | translate }}
                                         </button>
                                     </td>
                                 </tr>
@@ -64,10 +63,10 @@
                         <div class="m-b-0 col text-left">
                             <button #cancelBtn type="button"
                                     class="btn-tnx btn-outline-secondary waves-effect waves-light">
-                                Cancel
+                                {{ 'GENERAL.CANCEL' | translate }}
                             </button>
                             <button #submitBtn type="button" (click)="saveExpActivDetail()"
-                                    class="btn-tnx btn-success waves-effect waves-light">Save
+                                    class="btn-tnx btn-success waves-effect waves-light">{{ 'GENERAL.SAVE' | translate }}
                             </button>
                         </div>
                     </div>

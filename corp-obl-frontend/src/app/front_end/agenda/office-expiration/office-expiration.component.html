@@ -18,29 +18,29 @@
             <div class="ml-auto d-flex float-right align-items-center">
                 <div ngbDropdown class="d-inline-block btn-group mr-3">
                     <button type="button" (click)="showHideDetailsMsg()" class="btn-tnx btn-primary">{{ hideDetailsBtn ?
-                        'Hide' : 'Details' }}</button>
+                        ('GENERAL.HIDE' | translate) : ('GENERAL.DETAILS' | translate) }}</button>
                     <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
                         <button class="btn-tnx btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
                         <div class="dropdown-menu" ngbDropdownMenu>
                             <button class="dropdown-item"
                                     *ngIf="restoreBtn"
-                                    (click)="restoreExp()">Restore
+                                    (click)="restoreExp()">{{ 'FRONT_END.AGENDA.RESTORE' | translate }}
                             </button>
                             <button class="dropdown-item"
                                     *ngIf="rejectBtn"
-                                    (click)="rejectExp()">Reject
+                                    (click)="rejectExp()">{{ 'FRONT_END.AGENDA.REJECT' | translate }}
                             </button>
                             <button class="dropdown-item"
                                     *ngIf="archivedBtn"
-                                    (click)="archivedExp()">Archived
+                                    (click)="archivedExp()">{{ 'FRONT_END.AGENDA.ARCHIVED' | translate }}
                             </button>
                             <button class="dropdown-item"
                                     *ngIf="approvedBtn"
-                                    (click)="approvedExp()">Approved
+                                    (click)="approvedExp()">{{ 'FRONT_END.AGENDA.APPROVED' | translate }}
                             </button>
                             <button class="dropdown-item"
                                     *ngIf="notApprovedBtn"
-                                    (click)="notApprovedExp()">Not Approved
+                                    (click)="notApprovedExp()">{{ 'FRONT_END.AGENDA.NOT_APPROVED' | translate }}
                             </button>
                         </div>
                     </div>

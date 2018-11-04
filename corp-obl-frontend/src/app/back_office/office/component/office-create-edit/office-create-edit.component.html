@@ -1,76 +1,80 @@
 <!-- Row -->
 <div class="row">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">Office Form</h4>
-        <hr>
-        <form class="form-horizontal" [formGroup]="createEditOffice"
-              (ngSubmit)="createEditOfficeSubmit()">
-          <div class="card-body">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">{{ 'BACK_OFFICE.OFFICE.OFFICE_FORM' | translate }}</h4>
+                <hr>
+                <form class="form-horizontal" [formGroup]="createEditOffice"
+                      (ngSubmit)="createEditOfficeSubmit()">
+                    <div class="card-body">
 
-            <div class="form-group row">
-              <label for="description" class="col-sm-3 text-right control-label col-form-label">Description</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control"
-                       formControlName="description"
-                       id="description"
-                       [ngClass]="{'is-invalid': submitted && f.description.errors }">
-                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                  <div *ngIf="f.description.errors.required">Description is required</div>
-                </div>
-              </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-sm-3 text-right control-label col-form-label">{{
+                                'BACK_OFFICE.OFFICE.DESCRIPTION' | translate }}</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control"
+                                       formControlName="description"
+                                       id="description"
+                                       [ngClass]="{'is-invalid': submitted && f.description.errors }">
+                                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                    <div *ngIf="f.description.errors.required">{{
+                                        'BACK_OFFICE.OFFICE.DESCRIPTION_REQUIRED' | translate }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 text-right control-label
+                     col-form-label">{{ 'BACK_OFFICE.OFFICE.ASSIGN_COMPANY' | translate }}</label>
+                            <div class="col-sm-9">
+                                <ng-select [items]="companiesObservable | async"
+                                           bindLabel="description"
+                                           [(ngModel)]="selectedCompany"
+                                           [ngModelOptions]="{standalone: true}"
+                                           placeholder="{{ 'BACK_OFFICE.OFFICE.SELECT_COMPANY' | translate }}">
+                                </ng-select>
+                                <div *ngIf="submitted && !selectedCompany" class="invalid-feedback-show">
+                                    {{ 'BACK_OFFICE.OFFICE.COMPANY_REQUIRED' | translate }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="m-b-0 col text-right">
+                                <button #cancelBtn type="button" routerLink="/back-office/office"
+                                        class="btn-tnx btn-outline-secondary waves-effect waves-light">
+                                    {{ 'GENERAL.CANCEL' | translate }}
+                                </button>
+                                <button #submitBtn class="btn-tnx btn-success waves-effect waves-light">{{
+                                    'BACK_OFFICE.OFFICE.SAVE_OFFICE' | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <swal
+                        #errorDescriptionSwal
+                        title=""
+                        type="error">
+                </swal>
+
+                <swal
+                        #confirmationOfficeSwal
+                        title=""
+                        text=""
+                        [showCancelButton]="true"
+                        confirmButtonText="{{ 'GENERAL.YES_SAVE_IT' | translate }}"
+                        cancelButtonText="{{ 'GENERAL.NO_CANCEL' | translate }}"
+                        type="warning">
+                </swal>
+
             </div>
-
-            <div class="form-group row">
-              <label class="col-sm-3 text-right control-label
-                     col-form-label">Assign the Company</label>
-              <div class="col-sm-9">
-                <ng-select [items]="companiesObservable | async"
-                           bindLabel="description"
-                           [(ngModel)]="selectedCompany"
-                           [ngModelOptions]="{standalone: true}"
-                           placeholder="Select a company">
-                </ng-select>
-                <div *ngIf="submitted && !selectedCompany" class="invalid-feedback-show">
-                  Company is required
-                </div>
-              </div>
-            </div>
-
-          </div>
-          <hr>
-          <div class="card-body">
-            <div class="row">
-              <div class="m-b-0 col text-right">
-                <button #cancelBtn type="button" routerLink="/back-office/office"
-                        class="btn-tnx btn-outline-secondary waves-effect waves-light">
-                  Cancel
-                </button>
-                <button #submitBtn class="btn-tnx btn-success waves-effect waves-light">Save Office
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-
-        <swal
-                #errorDescriptionSwal
-                title=""
-                type="error">
-        </swal>
-
-        <swal
-                #confirmationOfficeSwal
-                title=""
-                text=""
-                [showCancelButton]="true"
-                confirmButtonText="Yes, save it!"
-                cancelButtonText="No, cancel!"
-                type="warning">
-        </swal>
-
-      </div>
+        </div>
     </div>
-  </div>
-  <!-- End Row -->
+</div>

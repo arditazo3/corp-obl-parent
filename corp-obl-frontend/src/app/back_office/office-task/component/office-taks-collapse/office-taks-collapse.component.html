@@ -13,11 +13,11 @@
                         </div>
 
                         <div *ngIf="officeTaskTemplates?.taskTemplates" class="col-4 float-right">
-                            Task templates: {{ officeTaskTemplates?.taskTemplates?.length }}
+                            {{ 'BACK_OFFICE.OFFICE_TASK.TASK_TEMPLATES_SPACE' | translate }} {{ officeTaskTemplates?.taskTemplates?.length }}
                         </div>
                         <div class="col-2 float-right">
                             <button class="btn-tnx btn-info btn-block " type="button"
-                                    (click)="createTaskTemplate(officeTaskTemplates)">Create
+                                    (click)="createTaskTemplate(officeTaskTemplates)">{{ 'GENERAL.CREATE' | translate }}
                             </button>
                         </div>
                     </div>
@@ -29,7 +29,7 @@
                     <tr *ngFor="let taskTemplate of officeTaskTemplates.taskTemplates">
                         <td>
                             <button class="btn-tnx btn-info btn-block" type="button"
-                                    (click)="modifyTaskTemplate(taskTemplate, officeTaskTemplates?.office)">Modify
+                                    (click)="modifyTaskTemplate(taskTemplate, officeTaskTemplates?.office)">{{ 'GENERAL.MODIFY' | translate }}
                             </button>
                         </td>
                         <td>{{taskTemplate.descriptionTaskTemplate}}</td>
