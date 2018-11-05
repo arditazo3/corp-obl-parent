@@ -22,6 +22,7 @@
                        [footerHeight]="50"
                        [rowHeight]="55"
                        [rows]='rows'
+                       [messages]="{emptyMessage: ('GENERAL.NODATA' | translate), totalMessage: ('GENERAL.TOTAL' | translate), selectedMessage: false}"
                        [limit]="10">
 
           <!-- Column Templates -->
@@ -85,7 +86,7 @@
                 type="question"
                 [showCancelButton]="true"
                 [focusCancel]="true"
-                (confirm)="deleteOfficeCofirm(rowSelected.id)">
+                (confirm)="deleteOfficeConfirm()">
         </swal>
 
       </div>

@@ -44,4 +44,9 @@ public final class AppConstants  {
 
 	public static final String TASK_FILE_ICOMING = "TASK_FILE_ICOMING";
 	public static final String EXP_FILE_ICOMING = "EXP_FILE_ICOMING";
+	
+	/* Warning messages */
+	public static final String EXPIRATION_NOT_FOUND = "Expiration not found";
+	
+	public static final String ALERT_PRIMARY = "alert alert-primary";
 }

@@ -9,16 +9,13 @@
                     <!-- Logo icon -->
                     <img src="assets/images/logo-icon.png" alt="homepage" class="dark-logo"/>
                     <!--End Logo icon -->
-                    <!--&lt;!&ndash; Logo text &ndash;&gt;-->
-                    <!--<span class="logo-text">-->
-                    <!--&lt;!&ndash; dark Logo text &ndash;&gt;-->
-                    <!--<img src="assets/images/logo-text.png" alt="homepage" class="dark-logo"/>-->
-                    <!--&lt;!&ndash; Light Logo text &ndash;&gt;-->
-                    <!--<img src="assets/images/logo-light-text.png" class="light-logo" alt="homepage"/>-->
-                    <!--</span>-->
+                    <span class="logo-text">
+                    </span>
                 </div>
 
-                Current page
+                <ng-template ngFor let-url [ngForOf]="pageInfo?.urls" let-last="last">
+                    {{url.title | translate }}
+                </ng-template>
             </a>
             <!-- ============================================================== -->
             <!-- End Logo -->
@@ -30,14 +27,14 @@
                 [class.active]="showMenu === sidebarnavItem.title"
                 *ngIf="!sidebarnavItem.authorities ? true : containAuth(sidebarnavItem.authorities)"
                 [routerLinkActive]="sidebarnavItem.submenu.length != 0 ? '' : 'active'">
-                <div class="nav-small-cap" *ngIf="sidebarnavItem.extralink === true">{{sidebarnavItem.title}}</div>
+                <div class="nav-small-cap" *ngIf="sidebarnavItem.extralink === true">{{sidebarnavItem.title | translate }}</div>
                 <a class="sidebar-link waves-effect waves-dark"
                    [routerLink]="sidebarnavItem.class === '' ? [sidebarnavItem.path] : null"
                    [ngClass]="[sidebarnavItem.class]" *ngIf="!sidebarnavItem.extralink;"
                    (click)="addExpandClass(sidebarnavItem.title)"
                    [routerLinkActive]="sidebarnavItem.submenu.length != 0 ? '' : 'active'">
                     <i [ngClass]="[sidebarnavItem.icon]"></i>
-                    <span class="hide-menu">{{sidebarnavItem.title}}</span>
+                    <span class="hide-menu">{{sidebarnavItem.title | translate }}</span>
                 </a>
                 <!-- Second level menu -->
                 <ul aria-expanded="false" class="collapse first-level" *ngIf="sidebarnavItem.submenu.length > 0"
@@ -53,7 +50,7 @@
                                [ngClass]="[sidebarnavSubItem.class]" *ngIf="!sidebarnavSubItem.extralink;"
                                (click)="addActiveClass(sidebarnavSubItem.title)">
                                 <i [ngClass]="[sidebarnavSubItem.icon]"></i>
-                                <span class="hide-menu">{{sidebarnavSubItem.title}}</span>
+                                <span class="hide-menu">{{sidebarnavSubItem.title | translate }}</span>
                             </a>
                             <!-- Third level menu -->
                             <ul aria-expanded="false" class="collapse second-level"
@@ -65,7 +62,7 @@
                                        *ngIf="!sidebarnavSubsubItem.extralink;"
                                        [routerLinkActive]="sidebarnavSubsubItem.submenu.length > 0 ? '' : 'router-link-active'">
                                         <i [ngClass]="[sidebarnavSubsubItem.icon]"></i>
-                                        <span class="hide-menu">{{sidebarnavSubsubItem.title}}</span>
+                                        <span class="hide-menu">{{sidebarnavSubsubItem.title | translate }}</span>
                                     </a>
                                 </li>
                             </ul>

@@ -14,6 +14,7 @@ import com.tx.co.front_end.expiration.domain.ExpirationActivity;
 import com.tx.co.front_end.expiration.enums.StatusExpirationEnum;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
+import static com.tx.co.common.constants.AppConstants.*;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -173,7 +174,7 @@ public class UtilStatic {
 		String colorDefined = "";
 		if(totalExpirations > 0) {
 			if(totalExpirations.compareTo(totalArchived) == 0) {
-				colorDefined = "alert alert-primary";
+				colorDefined = ALERT_PRIMARY;
 			} else if(totalExpirations.compareTo(totalCompleted) == 0) {
 				colorDefined = "alert alert-success";
 			} else if(totalCompleted == 0) {
@@ -207,7 +208,7 @@ public class UtilStatic {
 			statusExpiration = StatusExpirationEnum.BASE;
 		// archived	
 		} else if(!isEmpty(registred)) {
-			colorDefined = "alert alert-primary";
+			colorDefined = ALERT_PRIMARY;
 			descriptionDate = "Archived at " + formatDateToString(registred);
 			statusExpiration = StatusExpirationEnum.ARCHIVED;
 			// completed	
@@ -217,7 +218,7 @@ public class UtilStatic {
 			statusExpiration = StatusExpirationEnum.COMPLETED;
 			// approved 	
 		} else if(!isEmpty(completed) && !isEmpty(approved) && isEmpty(registred)) {
-			colorDefined = "alert alert-primary";
+			colorDefined = ALERT_PRIMARY;
 			descriptionDate = "Approved at " + formatDateToString(approved);
 			statusExpiration = StatusExpirationEnum.APPROVED;
 			// expired and non completed  	

@@ -69,6 +69,7 @@
                                [rowHeight]="40"
                                [rows]='rows'
                                [limit]="10"
+                               [messages]="{emptyMessage: ('GENERAL.NODATA' | translate), totalMessage: ('GENERAL.TOTAL' | translate), selectedMessage: false}"
                                [groupExpansionDefault]="expansionDefault">
 
                     <!-- Group Header Template -->
@@ -153,7 +154,7 @@
                         type="question"
                         [showCancelButton]="true"
                         [focusCancel]="true"
-                        (confirm)="deleteOfficeCofirm(rowSelected.id)">
+                        (confirm)="deleteOfficeConfirm(rowSelected.id)">
                 </swal>
 
             </div>

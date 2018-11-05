@@ -55,7 +55,6 @@ export class TaskTemplateTableComponent implements OnInit {
 
     createTask() {
 
-        const me = this;
         this.transferService.objectParam = {
             isNewForm: true,
             task: undefined,

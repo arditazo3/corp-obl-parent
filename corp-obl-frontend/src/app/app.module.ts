@@ -32,7 +32,7 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {OfficeService} from './back_office/office/service/office.service';
 import {UploadService} from './shared/common/service/upload.service';
 import {UserService} from './user/service/user.service';
-import {TranslateCompiler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {

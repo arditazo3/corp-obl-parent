@@ -13,9 +13,7 @@ export class TransferDataService {
     private _dataFilter: DataFilter;
 
     constructor(
-        private router: Router
-    ) {
-    }
+    ) {}
 
 
     get singleParam() {

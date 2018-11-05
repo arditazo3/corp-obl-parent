@@ -1,4 +1,17 @@
 {
+  "MENU": {
+    "DASHBOARD": "Dashboard",
+    "BACK_OFFICE": "Back Office",
+    "COMPANY": "Company",
+    "OFFICE": "Office",
+    "TOPIC": "Topic",
+    "CONSULTANT": "Consultant",
+    "TASK": "Task",
+    "OFFICE_TASK": "Office Task",
+    "FRONT_END": "Front end",
+    "AGENDA_CONTROLLER": "Agenda Controller",
+    "AGENDA_CONTROLLED": "Agenda Controlled"
+  },
   "BACK_OFFICE": {
     "COMPANY": {
       "LIST_COMPANIES": "List of Companies",
@@ -173,6 +186,7 @@
     "ACTIONS": "Actions",
     "DOWNLOAD": "Download",
     "DETAILS": "Details",
-    "HIDE": "Hide"
+    "NODATA": "No data",
+    "TOTAL": "Total"
   }
 }

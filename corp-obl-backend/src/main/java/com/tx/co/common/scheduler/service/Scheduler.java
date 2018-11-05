@@ -252,24 +252,23 @@ public class Scheduler {
                             //expiration.setModifiedBy();
                             expirationService.saveUpdateExpiration(expiration);
                         }
-                    } else if (expirationClosableBy == EXPIRATION_CLOSABLEBY_ONE) {
-                        // Check each user
-                    	if(!isEmpty(office.getUserBeneficiaries())) {
-                    		for (final User beneficiary : office.getUserBeneficiaries()) {
-                    			// For each user if expiration not exist: create
-                    			Expiration expiration = expirationMap.get(searchingKey + "_" + beneficiary.getUsername());
-                    			if (null == expiration) {
-                    				// create expiration for each user
-                    				expiration = this.createExpiration(task, office, iExpirationDate, expirationClosableBy, beneficiary.getUsername());
-                    				if (null != expiration) {
-                    					expirationService.saveUpdateExpiration(expiration);
-                    				}
-                    			} else if(!expiration.getEnabled()) {
-                    				expiration.setEnabled(true);
-                    				expiration.setModificationDate(new Date());
-                    				//expiration.setModifiedBy();
+                    } else if (expirationClosableBy == EXPIRATION_CLOSABLEBY_ONE &&
+                    		!isEmpty(office.getUserBeneficiaries())) {
+                    	// Check each user
+                    	for (final User beneficiary : office.getUserBeneficiaries()) {
+                    		// For each user if expiration not exist: create
+                    		Expiration expiration = expirationMap.get(searchingKey + "_" + beneficiary.getUsername());
+                    		if (null == expiration) {
+                    			// create expiration for each user
+                    			expiration = this.createExpiration(task, office, iExpirationDate, expirationClosableBy, beneficiary.getUsername());
+                    			if (null != expiration) {
                     				expirationService.saveUpdateExpiration(expiration);
                     			}
+                    		} else if(!expiration.getEnabled()) {
+                    			expiration.setEnabled(true);
+                    			expiration.setModificationDate(new Date());
+                    			//expiration.setModifiedBy();
+                    			expirationService.saveUpdateExpiration(expiration);
                     		}
                     	}
                     }

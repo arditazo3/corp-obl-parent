@@ -124,8 +124,8 @@ export class OfficeTableComponent implements OnInit {
         this.deleteOfficeSwal.show();
     }
 
-    deleteOfficeCofirm() {
-        console.log('OfficeTableComponent - deleteOfficeCofirm' + this.rowSelected.idOffice);
+    deleteOfficeConfirm() {
+        console.log('OfficeTableComponent - deleteOfficeConfirm' + this.rowSelected.idOffice);
 
         const officeSelected = this.rowSelected;
 
@@ -133,10 +133,10 @@ export class OfficeTableComponent implements OnInit {
             (data) => {
                 this.errorDetails = undefined;
                 this.getOffices();
-                console.log('OfficeTableComponent - deleteOfficeCofirm - next');
+                console.log('OfficeTableComponent - deleteOfficeConfirm - next');
             }, error => {
                 this.errorDetails = error.error;
-                console.error('OfficeTableComponent - deleteOfficeCofirm - error \n', error);
+                console.error('OfficeTableComponent - deleteOfficeConfirm - error \n', error);
             }
         );
     }

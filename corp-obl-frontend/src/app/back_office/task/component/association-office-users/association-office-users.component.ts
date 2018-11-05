@@ -1,9 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Task} from '../../model/task';
 import {TaskOffice} from '../../model/taskoffice';
-import {Observable} from 'rxjs';
 import {Office} from '../../../office/model/office';
-import {IHash} from '../../../../shared/common/interface/ihash';
 import {User} from '../../../../user/model/user';
 import {Company} from '../../../company/model/company';
 
@@ -71,7 +68,6 @@ export class AssociationOfficeUsersComponent implements OnInit {
     onAddProvidersOffice($event) {
         console.log('AssociationOfficeComponent - onAddProvidersOffice');
 
-        const me = this;
         const userSelected = $event;
 
         this.userProvidersArray.push(userSelected);
@@ -95,7 +91,6 @@ export class AssociationOfficeUsersComponent implements OnInit {
     onAddBeneficiariesOffice($event) {
         console.log('AssociationOfficeComponent - onAddBeneficiariesOffice');
 
-        const me = this;
         const userSelected = $event;
 
         this.userBeneficiariesArray.push(userSelected);
@@ -158,7 +153,9 @@ export class AssociationOfficeUsersComponent implements OnInit {
                             me.userProvidersArray.splice(indexProvider, 1);
                         }
 
-                        const indexBeneficiary = me.userBeneficiariesArray.findIndex(userAvailable => userAvailable.username === user.username);
+                        const indexBeneficiary = me.userBeneficiariesArray
+                            .findIndex(userAvailable => userAvailable.username === user.username);
+
                         if (indexBeneficiary > -1) {
                             me.userBeneficiariesArray.splice(indexBeneficiary, 1);
                         }

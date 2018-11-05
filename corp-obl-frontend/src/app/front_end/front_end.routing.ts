@@ -10,10 +10,9 @@ export const FrontEndRoutes: Routes = [
                 path: 'agenda',
                 component: AgendaComponent,
                 data: {
-                    title: 'Agenda Controller Management',
+                    title: 'Corporate Obligations - Agenda Controller',
                     urls: [
-                        {title: 'Back Office', url: '/front-end/agenda'},
-                        {title: 'Agenda management'}
+                        {title: 'MENU.AGENDA_CONTROLLER', url: '/front-end/agenda'}
                     ]
                 }
             },
@@ -21,10 +20,9 @@ export const FrontEndRoutes: Routes = [
                 path: 'agenda-controlled',
                 component: AgendaControlledComponent,
                 data: {
-                    title: 'Agenda Controlled Management',
+                    title: 'Corporate Obligations - Agenda Controlled',
                     urls: [
-                        {title: 'Back Office', url: '/front-end/agenda'},
-                        {title: 'Agenda management'}
+                        {title: 'MENU.AGENDA_CONTROLLED', url: '/front-end/agenda'}
                     ]
                 }
             }

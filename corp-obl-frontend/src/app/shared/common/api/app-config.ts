@@ -41,7 +41,6 @@ export class AppConfig {
     public officePath = '/office';
     public getOffices = this.backOfficePath + this.officePath + this.list;                      // GET
     public getOfficesByRole = this.backOfficePath + this.officePath + this.list + '/by-role';    // GET
-    public getOfficesByTask = this.backOfficePath + this.officePath + this.list + '/by-task';    // POST
     public createUpdateOffice = this.backOfficePath + this.officePath + this.createupdate;      // POST
     public deleteOffice = this.backOfficePath + this.officePath + this.delete;                  // PUT
 

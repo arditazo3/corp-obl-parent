@@ -3,7 +3,6 @@ import {Observable} from 'rxjs';
 import {OfficeService} from '../../../office/service/office.service';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {UserService} from '../../../../user/service/user.service';
-import {IHash} from '../../../../shared/common/interface/ihash';
 import {TaskOffice} from '../../model/taskoffice';
 import {Task} from '../../model/task';
 import {Company} from '../../../company/model/company';

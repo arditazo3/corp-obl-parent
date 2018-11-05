@@ -3,7 +3,6 @@ import {Task} from '../../back_office/task/model/task';
 import {Office} from '../../back_office/office/model/office';
 import {ExpirationDetail} from './expiration-detail';
 import {ExpirationActivity} from './expiration-activity';
-import {StatusExpirationEnum} from '../../shared/common/api/enum/status.expiration.enum';
 
 export class Expiration {
 

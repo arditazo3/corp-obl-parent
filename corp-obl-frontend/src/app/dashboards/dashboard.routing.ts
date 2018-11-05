@@ -10,10 +10,9 @@ export const DashboardRoutes: Routes = [
         path: '',
         component: DashboardHomeComponent,
         data: {
-          title: 'Dashboard',
+          title: 'Corporate Obligations - Dashboard',
           urls: [
-            { title: 'Dashboard', url: '/dashboard' },
-            { title: 'Dashboard' }
+            { title: 'Dashboard', url: '/dashboard' }
           ]
         }
       }

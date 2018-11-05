@@ -1,4 +1,17 @@
 {
+  "MENU": {
+    "DASHBOARD": "Dashboard",
+    "BACK_OFFICE": "Back Office",
+    "COMPANY": "Azienda",
+    "OFFICE": "Ufficio",
+    "TOPIC": "Argomento",
+    "CONSULTANT": "Consulente",
+    "TASK": "Task",
+    "OFFICE_TASK": "Task Office",
+    "FRONT_END": "Front end",
+    "AGENDA_CONTROLLER": "Agenda Controller",
+    "AGENDA_CONTROLLED": "Agenda Controllato"
+  },
   "BACK_OFFICE": {
     "COMPANY": {
       "LIST_COMPANIES": "Elenco delle società",
@@ -173,6 +186,8 @@
     "ACTIONS": "Azioni",
     "DOWNLOAD": "Download",
     "DETAILS": "Detagli",
-    "HIDE": "Nascondi"
+    "HIDE": "Nascondi",
+    "NODATA": "No data",
+    "TOTAL": "Totale"
   }
 }

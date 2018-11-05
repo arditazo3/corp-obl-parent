@@ -31,7 +31,7 @@ import {TranslateModule} from '@ngx-translate/core';
         NgSelectModule,
         CommonModule,
         NgbModule,
-        NgbModalModule.forRoot(),
+        NgbModalModule,
         CalendarModule.forRoot(),
         NgxDatatableModule,
         MyDatePickerModule,

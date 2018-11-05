@@ -185,7 +185,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 				TaskOfficeExpirationUsernameDateKey taskOfficeExpirationDateKey = new TaskOfficeExpirationUsernameDateKey();
 				taskOfficeExpirationDateKey.idTask = task.getIdTask();
-				//		taskOfficeExpirationDateKey.idOffice = office.getIdOffice();
+
 				taskOfficeExpirationDateKey.expirationDate = expiration.getExpirationDate();
 
 				if(userRelationType.compareTo(CONTROLLED) == 0) {
@@ -307,11 +307,11 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 			if(!isEmpty(taskOfficeExpirations)) {
 				return taskOfficeExpirations.get(0);
 			} else {
-				throw new GeneralException("Expiration not found");
+				throw new GeneralException(EXPIRATION_NOT_FOUND);
 			}
 		} catch (Exception e) {
 			logger.error(e);
-			throw new GeneralException("Expiration not found");
+			throw new GeneralException(EXPIRATION_NOT_FOUND);
 		}
 	}
 
@@ -430,7 +430,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 		} catch (Exception e) {
 			logger.error(e);
-			throw new GeneralException("Expiration not found");
+			throw new GeneralException(EXPIRATION_NOT_FOUND);
 		}
 
 		return expiration;
@@ -506,7 +506,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 			logger.info("Deleting the Expiration with id: " + idExpiration );
 		} catch (Exception e) {
-			throw new GeneralException("Expiration not found");
+			throw new GeneralException(EXPIRATION_NOT_FOUND);
 		}
 	}
 

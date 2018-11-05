@@ -22,10 +22,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'company',
                 component: CompanyComponent,
                 data: {
-                    title: 'Company Management',
+                    title: 'Corporate Obligations - Company',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/company'},
-                        {title: 'Company management'}
+                        {title: 'MENU.COMPANY', url: '/back-office/company'}
                     ]
                 }
             },
@@ -33,10 +32,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'company/create',
                 component: CompanyCreateEditComponent,
                 data: {
-                    title: 'Company Management',
+                    title: 'Corporate Obligations - Company',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/company'},
-                        {title: 'Company management'}
+                        {title: 'MENU.COMPANY', url: '/back-office/company'}
                     ]
                 }
             },
@@ -44,10 +42,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'company/edit',
                 component: CompanyCreateEditComponent,
                 data: {
-                    title: 'Company Management',
+                    title: 'Corporate Obligations - Company',
                     urls: [
-                        {title: 'Back Company', url: '/back-office/company'},
-                        {title: 'Company management'}
+                        {title: 'MENU.COMPANY', url: '/back-office/company'}
                     ]
                 }
             },
@@ -55,10 +52,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'company/associate-users-company',
                 component: CompanyAssociateUsersComponent,
                 data: {
-                    title: 'Company Management',
+                    title: 'Corporate Obligations - Company',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/company'},
-                        {title: 'Company management'}
+                        {title: 'MENU.COMPANY', url: '/back-office/company'}
                     ]
                 }
             },
@@ -66,10 +62,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'office',
                 component: OfficeComponent,
                 data: {
-                    title: 'Office Management',
+                    title: 'Corporate Obligations - Office',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/office'},
-                        {title: 'Office management'}
+                        {title: 'MENU.OFFICE', url: '/back-office/office'}
                     ]
                 }
             },
@@ -77,10 +72,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'office/create',
                 component: OfficeCreateEditComponent,
                 data: {
-                    title: 'Company Management',
+                    title: 'Corporate Obligations - Office',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/office'},
-                        {title: 'Company management'}
+                        {title: 'MENU.OFFICE', url: '/back-office/office'}
                     ]
                 }
             },
@@ -88,10 +82,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'office/edit',
                 component: OfficeCreateEditComponent,
                 data: {
-                    title: 'Office Management',
+                    title: 'Corporate Obligations - Office',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/office'},
-                        {title: 'Office management'}
+                        {title: 'MENU.OFFICE', url: '/back-office/office'}
                     ]
                 }
             },
@@ -99,10 +92,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'topic',
                 component: TopicComponent,
                 data: {
-                    title: 'Topic Management',
+                    title: 'Corporate Obligations - Topic',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/topic'},
-                        {title: 'Topic management'}
+                        {title: 'MENU.TOPIC', url: '/back-office/topic'}
                     ]
                 }
             },
@@ -110,10 +102,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'topic/create',
                 component: TopicCreateUpdateComponent,
                 data: {
-                    title: 'Company Management',
+                    title: 'Corporate Obligations - Topic',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/topic'},
-                        {title: 'Company management'}
+                        {title: 'MENU.TOPIC', url: '/back-office/topic'}
                     ]
                 }
             },
@@ -121,10 +112,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'topic/edit',
                 component: TopicCreateUpdateComponent,
                 data: {
-                    title: 'Topic Management',
+                    title: 'Corporate Obligations - Topic',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/topic'},
-                        {title: 'Topic management'}
+                        {title: 'MENU.TOPIC', url: '/back-office/topic'}
                     ]
                 }
             },
@@ -132,10 +122,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'consultant',
                 component: ConsultantComponent,
                 data: {
-                    title: 'Consultant Management',
+                    title: 'Corporate Obligations - Consultant',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/consultant'},
-                        {title: 'Consultant management'}
+                        {title: 'MENU.CONSULTANT', url: '/back-office/consultant'}
                     ]
                 }
             },
@@ -143,10 +132,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'consultant/create',
                 component: ConsultantCreateUpdateComponent,
                 data: {
-                    title: 'Consultant Management',
+                    title: 'Corporate Obligations - Consultant',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/consultant'},
-                        {title: 'Consultant management'}
+                        {title: 'MENU.CONSULTANT', url: '/back-office/consultant'}
                     ]
                 }
             },
@@ -154,10 +142,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'consultant/edit',
                 component: ConsultantCreateUpdateComponent,
                 data: {
-                    title: 'Consultant Management',
+                    title: 'Corporate Obligations - Consultant',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/consultant'},
-                        {title: 'Consultant management'}
+                        {title: 'MENU.CONSULTANT', url: '/back-office/consultant'}
                     ]
                 }
             },
@@ -165,10 +152,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'task-template',
                 component: TaskTemplateComponent,
                 data: {
-                    title: 'Task template Management',
+                    title: 'Corporate Obligations - Task Template',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/task-template'},
-                        {title: 'Task template management'}
+                        {title: 'MENU.TASK', url: '/back-office/task-template'}
                     ]
                 }
             },
@@ -176,10 +162,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'task-template/create',
                 component: TaskTemplateCreateUpdateComponent,
                 data: {
-                    title: 'Task template Management',
+                    title: 'Corporate Obligations - Task Template',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/task-template'},
-                        {title: 'Task template management'}
+                        {title: 'MENU.TASK', url: '/back-office/task-template'}
                     ]
                 }
             },
@@ -187,10 +172,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'task-template/edit',
                 component: TaskTemplateCreateUpdateComponent,
                 data: {
-                    title: 'Task template Management',
+                    title: 'Corporate Obligations - Task Template',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/task-template'},
-                        {title: 'Task template management'}
+                        {title: 'MENU.TASK', url: '/back-office/task-template'}
                     ]
                 }
             },
@@ -198,10 +182,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'task',
                 component: TaskComponent,
                 data: {
-                    title: 'Task template Management',
+                    title: 'Corporate Obligations - Task',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/task-template'},
-                        {title: 'Task template management'}
+                        {title: 'MENU.TASK', url: '/back-office/task-template'}
                     ]
                 }
             },
@@ -209,10 +192,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'task/create-edit',
                 component: TaskTemplateCreateUpdateComponent,
                 data: {
-                    title: 'Task Management',
+                    title: 'Corporate Obligations - Task',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/task-template'},
-                        {title: 'Task template management'}
+                        {title: 'MENU.TASK', url: '/back-office/task-template'}
                     ]
                 }
             },
@@ -220,10 +202,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'office-task',
                 component: OfficeTaskComponent,
                 data: {
-                    title: 'Office Task Management',
+                    title: 'Corporate Obligations - Office Task',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/office-task'},
-                        {title: 'Task template management'}
+                        {title: 'MENU.OFFICE_TASK', url: '/back-office/office-task'}
                     ]
                 }
             },
@@ -231,10 +212,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'quick-configuration/create',
                 component: QuickConfigurationComponent,
                 data: {
-                    title: 'Quick Configuration Management',
+                    title: 'Corporate Obligations - Quick Configuration',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/office-task'},
-                        {title: 'Task template management'}
+                        {title: 'MENU.TASK', url: '/back-office/office-task'}
                     ]
                 }
             },
@@ -242,10 +222,9 @@ export const BackOfficeRoutes: Routes = [
                 path: 'quick-configuration/edit',
                 component: QuickConfigurationComponent,
                 data: {
-                    title: 'Quick Configuration Management',
+                    title: 'Corporate Obligations - Quick Configuration',
                     urls: [
-                        {title: 'Back Office', url: '/back-office/office-task'},
-                        {title: 'Task template management'}
+                        {title: 'MENU.TASK', url: '/back-office/office-task'}
                     ]
                 }
             }

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Expiration} from '../../model/expiration';
 import {saveAs as importedSaveAs} from 'file-saver';
 import {UploadService} from '../../../shared/common/service/upload.service';

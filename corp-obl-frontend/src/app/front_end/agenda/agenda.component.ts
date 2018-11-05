@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {IMyOptions} from 'mydatepicker';
 import {AppGlobals} from '../../shared/common/api/app-globals';
 import * as moment from 'moment';

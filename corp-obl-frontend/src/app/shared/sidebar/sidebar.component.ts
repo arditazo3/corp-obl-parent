@@ -1,12 +1,14 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ROUTES} from './menu-items';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FullComponent} from '../../layouts/full/full.component';
 import {UserInfoService, UserTokenInStorage} from '../../user/service/user-info.service';
 import {TranslateService} from '@ngx-translate/core';
 import {UserService} from '../../user/service/user.service';
 import {ApiErrorDetails} from '../common/api/model/api-error-details';
+import {Title} from '@angular/platform-browser';
+import {filter, map, mergeMap} from 'rxjs/operators';
 
 declare var $: any;
 
@@ -20,6 +22,8 @@ export class SidebarComponent implements OnInit {
     showSubMenu = '';
     public sidebarnavItems: any[];
     fullname = '';
+    currentPage = 'Current page';
+    pageInfo;
     public logoutVariable = '/authentication/logout';
 
     errorDetails: ApiErrorDetails;
@@ -47,16 +51,37 @@ export class SidebarComponent implements OnInit {
     constructor(
         private modalService: NgbModal,
         private router: Router,
+        private activatedRoute: ActivatedRoute,
+        private titleService: Title,
         private route: ActivatedRoute,
         private userInfoService: UserInfoService,
         private cdr: ChangeDetectorRef,
         private userService: UserService,
         private translate: TranslateService
     ) {
-        const userLang = this.userInfoService.getUserLang();
+
+        this.router.events
+            .pipe(filter(event => event instanceof NavigationEnd))
+            .pipe(map(() => this.activatedRoute))
+            .pipe(
+                map(route => {
+                    while (route.firstChild) {
+                        route = route.firstChild;
+                    }
+                    return route;
+                })
+            )
+            .pipe(filter(route => route.outlet === 'primary'))
+            .pipe(mergeMap(route => route.data))
+            .subscribe(event => {
+                this.titleService.setTitle(event['title']);
+                this.pageInfo = event;
+            });
+
+        const userLang = this.userInfoService.getUserLang().toUpperCase();
 
         // this language will be used as a fallback when a translation isn't found in the current language
-        translate.setDefaultLang('en');
+        translate.setDefaultLang('EN');
 
         // the lang to use, if the lang isn't available, it will use the current loader to get them
         translate.use(userLang);
@@ -93,7 +118,7 @@ export class SidebarComponent implements OnInit {
 
         const me = this;
 
-        this.translate.use(language);
+        this.translate.use(language.toUpperCase());
 
         const userInStorage: UserTokenInStorage = this.userInfoService.getUserInfo();
         userInStorage.user.lang = language;
@@ -109,11 +134,10 @@ export class SidebarComponent implements OnInit {
             }
         );
 
-        this.getUserLangFlag(language);
+        this.getUserLangFlag(language.toUpperCase());
     }
 
     getUserLangFlag(language) {
-        const userLang = this.userInfoService.getUserLang();
 
         if (language === 'EN') {
             this.flagLanguage = 'flag-icon-us';

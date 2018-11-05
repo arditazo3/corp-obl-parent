@@ -4,7 +4,7 @@ import {AuthorityEnum} from '../common/api/enum/authority.enum';
 export const ROUTES: RouteInfo[] = [
     {
         path: '/dashboard',
-        title: 'Dashboard',
+        title: 'MENU.DASHBOARD',
         icon: 'mdi mdi-view-dashboard',
         class: '',
         ddclass: '',
@@ -13,7 +13,7 @@ export const ROUTES: RouteInfo[] = [
     },
     {
         path: '',
-        title: 'Back Office',
+        title: 'MENU.BACK_OFFICE',
         icon: 'mdi mdi-desktop-mac',
         class: 'has-arrow',
         ddclass: '',
@@ -22,7 +22,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [
             {
                 path: '/back-office/company',
-                title: 'Company',
+                title: 'MENU.COMPANY',
                 icon: 'mdi mdi-briefcase',
                 class: '',
                 ddclass: '',
@@ -32,7 +32,7 @@ export const ROUTES: RouteInfo[] = [
             },
             {
                 path: '/back-office/office',
-                title: 'Office',
+                title: 'MENU.OFFICE',
                 icon: 'mdi mdi-glassdoor',
                 class: '',
                 ddclass: '',
@@ -42,7 +42,7 @@ export const ROUTES: RouteInfo[] = [
             },
             {
                 path: '/back-office/topic',
-                title: 'Topic',
+                title: 'MENU.TOPIC',
                 icon: 'mdi mdi-network-question',
                 class: '',
                 ddclass: '',
@@ -52,7 +52,7 @@ export const ROUTES: RouteInfo[] = [
             },
             {
                 path: '/back-office/consultant',
-                title: 'Consultant',
+                title: 'MENU.CONSULTANT',
                 icon: 'mdi mdi-account-settings',
                 class: '',
                 ddclass: '',
@@ -62,7 +62,7 @@ export const ROUTES: RouteInfo[] = [
             },
             {
                 path: '/back-office/task',
-                title: 'Task',
+                title: 'MENU.TASK',
                 icon: 'mdi mdi-table-large',
                 class: '',
                 ddclass: '',
@@ -72,7 +72,7 @@ export const ROUTES: RouteInfo[] = [
             },
             {
                 path: '/back-office/office-task',
-                title: 'Office task',
+                title: 'MENU.OFFICE_TASK',
                 icon: 'mdi mdi-file-document-box',
                 class: '',
                 ddclass: '',
@@ -84,7 +84,7 @@ export const ROUTES: RouteInfo[] = [
     },
     {
         path: '',
-        title: 'Front End',
+        title: 'MENU.FRONT_END',
         icon: 'mdi mdi-airplay',
         class: 'has-arrow',
         ddclass: '',
@@ -93,7 +93,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [
             {
                 path: '/front-end/agenda',
-                title: 'Agenda Controller',
+                title: 'MENU.AGENDA_CONTROLLER',
                 icon: 'mdi mdi-view-agenda',
                 class: '',
                 ddclass: '',
@@ -103,7 +103,7 @@ export const ROUTES: RouteInfo[] = [
             },
             {
                 path: '/front-end/agenda-controlled',
-                title: 'Agenda Controlled',
+                title: 'MENU.AGENDA_CONTROLLED',
                 icon: 'mdi mdi-view-column',
                 class: '',
                 ddclass: '',
