@@ -133,7 +133,7 @@ public abstract class CacheDataLoader {
 		((Collection<String>) cacheManager.getCacheNames()).stream().map(cacheManager::getCache).forEach(Cache::clear);
 
 		// Load all the users
-		List<User> userList = (List<User>) userRepository.findAll();
+		List<User> userList = (List<User>) userRepository.findAllEnabled();
 		storageDataCacheManager.put(USER_LIST_CACHE, userList);
 
 		// Load all the languages used on the web app

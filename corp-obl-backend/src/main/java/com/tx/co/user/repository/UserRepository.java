@@ -14,4 +14,6 @@ public interface UserRepository extends CrudRepository<User, String> {
     @Query("select u from User u where u.username = ?1 and u.enabled = 1")
     User findByUsername(String username);
     
+    @Query("select u from User u where u.enabled = 1")
+    Iterable<User> findAllEnabled();
 }

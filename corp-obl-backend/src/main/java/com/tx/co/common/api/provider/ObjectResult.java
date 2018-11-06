@@ -182,7 +182,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		result.setDescription(office.getDescription());
 		return result;
 	}
-	
+
 	/**
 	 * Map a {@link Office} instance to a {@link OfficeResult} instance.
 	 *
@@ -270,10 +270,53 @@ public abstract class ObjectResult extends UpdateCacheData {
 	 * @param topic
 	 * @return OfficeResult
 	 */
-	public TopicResult toTopicResult(Topic topic) {
+	public TopicResult toTopicObjectResult(Topic topic) {
 		TopicResult result = new TopicResult();
 		result.setIdTopic(topic.getIdTopic());
 		result.setDescription(topic.getDescription());
+
+		return result;
+	}
+
+	/**
+	 * Map a {@link Topic} instance to a {@link TopicResult} instance.
+	 *
+	 * @param topic
+	 * @return OfficeResult
+	 */
+	public TopicResult toTopicResult(Topic topic) {
+
+		TopicResult result = toTopicObjectResult(topic);
+
+		toTopicIncludeOfficesResult(topic, result);
+
+		toTopicIncludeTranslationsResult(topic, result);
+
+		toTopicIncludeConsultantsResult(topic, result);
+
+		return result;
+	}
+
+	/**
+	 * @param topic
+	 * @return
+	 */
+	public TopicResult toTopicWithoutConsultantsResult(Topic topic) {
+
+		TopicResult result = toTopicObjectResult(topic);
+
+		toTopicIncludeOfficesResult(topic, result);
+
+		toTopicIncludeTranslationsResult(topic, result);
+
+		return result;
+	}
+
+	/**
+	 * @param topic
+	 * @param result
+	 */
+	public void toTopicIncludeOfficesResult(Topic topic, TopicResult result) {
 		if (!isEmpty(topic.getCompanyTopic())) {
 			List<CompanyResult> companyResultsList = new ArrayList<>();
 			for (CompanyTopic companyTopic : topic.getCompanyTopic()) {
@@ -281,6 +324,13 @@ public abstract class ObjectResult extends UpdateCacheData {
 			}
 			result.setCompanyList(companyResultsList);
 		}
+	}
+
+	/**
+	 * @param topic
+	 * @param result
+	 */
+	public void toTopicIncludeTranslationsResult(Topic topic, TopicResult result) {
 		if (!isEmpty(topic.getTranslationList())) {
 			List<TranslationResult> translationResultsList = new ArrayList<>();
 			for (Translation translation : topic.getTranslationList()) {
@@ -288,6 +338,13 @@ public abstract class ObjectResult extends UpdateCacheData {
 			}
 			result.setTranslationList(translationResultsList);
 		}
+	}
+
+	/**
+	 * @param topic
+	 * @param result
+	 */
+	public void toTopicIncludeConsultantsResult(Topic topic, TopicResult result) {
 		if (!isEmpty(topic.getTopicConsultants())) {
 
 			List<TopicConsultantResult> topicConsultantsList = new ArrayList<>();
@@ -304,7 +361,6 @@ public abstract class ObjectResult extends UpdateCacheData {
 
 			result.setConsultantList(consultantList);
 		}
-		return result;
 	}
 
 	/**
@@ -584,7 +640,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		result.setDaysBeforeShowExpiration(taskTemplate.getDaysBeforeShowExpiration());
 		result.setExpirationClosableBy(taskTemplate.getExpirationClosableBy());
 		if (!isEmpty(taskTemplate.getTopic())) {
-			result.setTopic(toTopicResult(taskTemplate.getTopic()));
+			result.setTopic(toTopicWithoutConsultantsResult(taskTemplate.getTopic()));
 		}
 		if (!isEmpty(taskTemplate.getTaskTemplateAttachments())) {
 			List<TaskTemplateAttachmentResult> attachmentResults = new ArrayList<>();
