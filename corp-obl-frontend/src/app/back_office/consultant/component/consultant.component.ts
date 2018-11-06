@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Company} from '../../company/model/company';
 import {TransferDataService} from '../../../shared/common/service/transfer-data.service';
@@ -29,7 +29,7 @@ export class ConsultantComponent implements OnInit {
         private router: Router,
         private transferService: TransferDataService,
         private topicService: TopicService,
-        private companyService: CompanyService,
+        private companyService: CompanyService
     ) {
     }
 
@@ -66,6 +66,11 @@ export class ConsultantComponent implements OnInit {
     }
 
     onChangeCompany(company) {
+
+        if (company) {
+            this.selectedCompany = company;
+        }
+
         this.consultantTable.company = company;
         this.consultantTable.getCompanyConsultant(company);
         this.topicConsultant.getCompanyTopic(company);
@@ -74,6 +79,12 @@ export class ConsultantComponent implements OnInit {
     }
 
     deletedConsultant($event) {
+        if ($event) {
+            this.onChangeCompany(this.selectedCompany);
+        }
+    }
+
+    isSelectedCompany($event) {
         if ($event) {
             this.onChangeCompany(this.selectedCompany);
         }

@@ -77,7 +77,8 @@
         <br/>
     </div>
 
-    <div *ngIf="expirationActivity && expirationActivity.idExpirationActivity">
+    <div class="border border-dark w-100"
+            *ngIf="expirationActivity && expirationActivity.idExpirationActivity">
         <div>
             <h6 class="card-subtitle">{{ expirationActivity?.descriptionLastActivity }}</h6>
             <h4 class="card-title">{{ expirationActivity?.body }}</h4>

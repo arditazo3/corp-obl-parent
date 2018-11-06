@@ -3,15 +3,6 @@ import {AuthorityEnum} from '../common/api/enum/authority.enum';
 
 export const ROUTES: RouteInfo[] = [
     {
-        path: '/dashboard',
-        title: 'MENU.DASHBOARD',
-        icon: 'mdi mdi-view-dashboard',
-        class: '',
-        ddclass: '',
-        extralink: false,
-        submenu: []
-    },
-    {
         path: '',
         title: 'MENU.BACK_OFFICE',
         icon: 'mdi mdi-desktop-mac',
