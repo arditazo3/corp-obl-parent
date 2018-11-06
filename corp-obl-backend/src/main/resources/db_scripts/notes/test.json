@@ -1,0 +1,299 @@
+{
+  "idTaskTemplate": 2,
+  "topic": {
+    "idTopic": 2,
+    "description": "Topic 2 - IT",
+    "companyList": [
+      {
+        "idCompany": 4,
+        "description": "AZIENDA IT",
+        "usersAssociated": [
+          {
+            "idCompanyUser": 9,
+            "user": {
+              "username": "USER 11",
+              "fullName": "Prestatore 1",
+              "email": "rfratti@titantex.sm",
+              "lang": "IT",
+              "enabled": true,
+              "authorities": [
+                "CORPOBLIG_USER"
+              ]
+            },
+            "companyAdmin": true
+          },
+          {
+            "idCompanyUser": 11,
+            "user": {
+              "username": "INLAND",
+              "fullName": "Inland",
+              "email": "fratti.roberto@gmail.com",
+              "lang": "EN",
+              "enabled": true,
+              "authorities": [
+                "CORPOBLIG_BACKOFFICE_INLAND"
+              ]
+            },
+            "companyAdmin": true
+          },
+          {
+            "idCompanyUser": 8,
+            "user": {
+              "username": "USER",
+              "fullName": "Beneficiario 1",
+              "email": "rfratti@titantex.sm",
+              "lang": "IT",
+              "enabled": true,
+              "authorities": [
+                "CORPOBLIG_USER"
+              ]
+            },
+            "companyAdmin": false
+          },
+          {
+            "idCompanyUser": 10,
+            "user": {
+              "username": "USER 13",
+              "fullName": "Prestatore 3 Beneficiario 3",
+              "email": "rfratti@titantex.sm",
+              "lang": "IT",
+              "enabled": true,
+              "authorities": [
+                "CORPOBLIG_USER"
+              ]
+            },
+            "companyAdmin": true
+          }
+        ],
+        "offices": [
+          {
+            "idOffice": 3,
+            "description": "UFFICIO IT 1"
+          },
+          {
+            "idOffice": 4,
+            "description": "UFFICIO IT 2"
+          }
+        ]
+      }
+    ],
+    "topicConsultantList": [
+      {
+        "consultant": {
+          "idCompanyConsultant": 2,
+          "name": "consulente 2",
+          "email": "consulente2@gmail.com",
+          "phone1": "123456",
+          "phone2": "1234598",
+          "company": {
+            "idCompany": 1,
+            "description": "azienda DE",
+            "usersAssociated": [
+              {
+                "idCompanyUser": 14,
+                "user": {
+                  "username": "USER 11",
+                  "fullName": "Prestatore 1",
+                  "email": "rfratti@titantex.sm",
+                  "lang": "IT",
+                  "enabled": true,
+                  "authorities": [
+                    "CORPOBLIG_USER"
+                  ]
+                },
+                "companyAdmin": true
+              },
+              {
+                "idCompanyUser": 2,
+                "user": {
+                  "username": "USER",
+                  "fullName": "Beneficiario 1",
+                  "email": "rfratti@titantex.sm",
+                  "lang": "IT",
+                  "enabled": true,
+                  "authorities": [
+                    "CORPOBLIG_USER"
+                  ]
+                },
+                "companyAdmin": false
+              },
+              {
+                "idCompanyUser": 1,
+                "user": {
+                  "username": "FOREIGN",
+                  "fullName": "Foreign",
+                  "email": "fratti.roberto@gmail.com",
+                  "lang": "EN",
+                  "enabled": true,
+                  "authorities": [
+                    "CORPOBLIG_BACKOFFICE_FOREIGN"
+                  ]
+                },
+                "companyAdmin": true
+              }
+            ],
+            "offices": [
+              {
+                "idOffice": 2,
+                "description": "UFFICIO DE"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "consultant": {
+          "idCompanyConsultant": 6,
+          "name": "Consulente 2",
+          "email": "cc@cc.com",
+          "phone1": "123",
+          "company": {
+            "idCompany": 4,
+            "description": "AZIENDA IT",
+            "usersAssociated": [
+              {
+                "idCompanyUser": 9,
+                "user": {
+                  "username": "USER 11",
+                  "fullName": "Prestatore 1",
+                  "email": "rfratti@titantex.sm",
+                  "lang": "IT",
+                  "enabled": true,
+                  "authorities": [
+                    "CORPOBLIG_USER"
+                  ]
+                },
+                "companyAdmin": true
+              },
+              {
+                "idCompanyUser": 11,
+                "user": {
+                  "username": "INLAND",
+                  "fullName": "Inland",
+                  "email": "fratti.roberto@gmail.com",
+                  "lang": "EN",
+                  "enabled": true,
+                  "authorities": [
+                    "CORPOBLIG_BACKOFFICE_INLAND"
+                  ]
+                },
+                "companyAdmin": true
+              },
+              {
+                "idCompanyUser": 8,
+                "user": {
+                  "username": "USER",
+                  "fullName": "Beneficiario 1",
+                  "email": "rfratti@titantex.sm",
+                  "lang": "IT",
+                  "enabled": true,
+                  "authorities": [
+                    "CORPOBLIG_USER"
+                  ]
+                },
+                "companyAdmin": false
+              },
+              {
+                "idCompanyUser": 10,
+                "user": {
+                  "username": "USER 13",
+                  "fullName": "Prestatore 3 Beneficiario 3",
+                  "email": "rfratti@titantex.sm",
+                  "lang": "IT",
+                  "enabled": true,
+                  "authorities": [
+                    "CORPOBLIG_USER"
+                  ]
+                },
+                "companyAdmin": true
+              }
+            ],
+            "offices": [
+              {
+                "idOffice": 3,
+                "description": "UFFICIO IT 1"
+              },
+              {
+                "idOffice": 4,
+                "description": "UFFICIO IT 2"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "consultant": {
+          "idCompanyConsultant": 1,
+          "name": "Consulente 1",
+          "email": "consulente1@gmail.com",
+          "phone1": "324234",
+          "phone2": "12312312",
+          "company": {
+            "idCompany": 1,
+            "description": "azienda DE",
+            "usersAssociated": [
+              {
+                "idCompanyUser": 14,
+                "user": {
+                  "username": "USER 11",
+                  "fullName": "Prestatore 1",
+                  "email": "rfratti@titantex.sm",
+                  "lang": "IT",
+                  "enabled": true,
+                  "authorities": [
+                    "CORPOBLIG_USER"
+                  ]
+                },
+                "companyAdmin": true
+              },
+              {
+                "idCompanyUser": 2,
+                "user": {
+                  "username": "USER",
+                  "fullName": "Beneficiario 1",
+                  "email": "rfratti@titantex.sm",
+                  "lang": "IT",
+                  "enabled": true,
+                  "authorities": [
+                    "CORPOBLIG_USER"
+                  ]
+                },
+                "companyAdmin": false
+              },
+              {
+                "idCompanyUser": 1,
+                "user": {
+                  "username": "FOREIGN",
+                  "fullName": "Foreign",
+                  "email": "fratti.roberto@gmail.com",
+                  "lang": "EN",
+                  "enabled": true,
+                  "authorities": [
+                    "CORPOBLIG_BACKOFFICE_FOREIGN"
+                  ]
+                },
+                "companyAdmin": true
+              }
+            ],
+            "offices": [
+              {
+                "idOffice": 2,
+                "description": "UFFICIO DE"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "consultantList": []
+  },
+  "description": "Test2Uff2",
+  "recurrence": "monthly",
+  "expirationType": "month_start",
+  "daysOfNotice": 13,
+  "frequenceOfNotice": 3,
+  "daysBeforeShowExpiration": 30,
+  "expirationClosableBy": 2,
+  "descriptionTaskTemplate": "Test2Uff2 - Inizio mese",
+  "counterOffices": 1
+}
