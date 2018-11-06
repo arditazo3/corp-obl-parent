@@ -179,9 +179,9 @@ export class CompanyAssociateUsersComponent implements OnInit {
 
         this.usersAsAdminObservable = Observable.of(selectedUsersToAdminAlternetive);
 
-        if (this.company.idCompany !== undefined) {
-            this.associateUsersToCompanySubmit(false);
-        }
+        // if (this.company.idCompany !== undefined) {
+        //     this.associateUsersToCompanySubmit(false);
+        // }
     }
 
     mapIdCompanyUser(companyUsers): CompanyUser[] {
