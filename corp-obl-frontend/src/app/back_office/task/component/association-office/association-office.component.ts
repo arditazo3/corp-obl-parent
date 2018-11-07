@@ -41,9 +41,9 @@ export class AssociationOfficeComponent implements OnInit {
             return;
         }
 
-        const officesFiltredByTask = me.task.taskTemplate.topic.companyList[0].offices;
+      const officesFiltredByTask = me.task.taskTemplate.topic.companyList[0].offices;
 
-        me.officesObservable = Observable.of(officesFiltredByTask);
+      me.officesObservable = Observable.of(officesFiltredByTask);
 
         me.usersObservable = me.userService.getAllUsersExceptAdminRole();
 
