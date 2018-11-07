@@ -431,7 +431,9 @@ public abstract class UpdateCacheData {
 		if(!companyConsultant.getEnabled() && indexToUpdateOrInsert != -1) {
 			companyConsultantList.remove(indexToUpdateOrInsert);
 		} else if(indexToUpdateOrInsert == -1) {
-			companyConsultantList = new ArrayList<>();
+			if(isEmpty(companyConsultantList)) {
+				companyConsultantList = new ArrayList<>();	
+			}
 			companyConsultantList.add(companyConsultant);
 		} else if(!companyConsultant.getEnabled()) {
 			companyConsultantList.remove(indexToUpdateOrInsert);

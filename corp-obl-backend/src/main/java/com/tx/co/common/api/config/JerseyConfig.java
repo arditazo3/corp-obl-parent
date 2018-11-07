@@ -1,5 +1,6 @@
 package com.tx.co.common.api.config;
 
+import com.tx.co.admin.resource.AdminResource;
 import com.tx.co.back_office.company.resource.CompanyResource;
 import com.tx.co.back_office.office.resource.OfficeResource;
 import com.tx.co.back_office.task.resource.TaskResource;
@@ -44,6 +45,7 @@ public class JerseyConfig extends ResourceConfig {
 		 * Application Resource
 		 * */
 		register(AuthenticationResource.class);
+		register(AdminResource.class);
 		register(UserResource.class);
 		register(CompanyResource.class);
 		register(OfficeResource.class);
