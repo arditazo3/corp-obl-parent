@@ -138,7 +138,8 @@
       "ASSIGN_COMPANIES": "Assegna le società",
       "SELECT_COMPANIES": "Seleziona le aziende",
       "COMPANY_REQUIRED": "La società è richiesta",
-      "SAVE_TOPIC": "Salva argomento"
+      "SAVE_TOPIC": "Salva argomento",
+      "OPTIONS": "Opzioni"
     }
   },
   "FRONT_END": {

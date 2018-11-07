@@ -59,7 +59,7 @@ export class ConsultantComponent implements OnInit {
     }
 
     getCompanies() {
-        console.log('TopicCreateEditComponent - getCompanies');
+        console.log('ConsultantComponent - getCompanies');
 
         const me = this;
         me.companiesObservable = me.companyService.getCompaniesByRole();

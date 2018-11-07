@@ -71,7 +71,7 @@ export class TopicCreateUpdateComponent implements OnInit {
 
         this.languagesObservable = Observable.of(this.userInfoService.getLanguages());
         this.languagesNotAvailable = this.userInfoService.getLanguagesNotAvailable();
-        this.selectedLang = this.userInfoService.getLanguages()[0];
+        this.selectedLang = this.userInfoService.getUserLang();
         this.previousLang = this.selectedLang;
         this.getCompanies();
         this.setDefaultDescription();
@@ -95,7 +95,7 @@ export class TopicCreateUpdateComponent implements OnInit {
         const me = this;
         this.submitted = true;
 
-        this.topic.description = this.createEditTopic.get('description').value;
+        this.topic.description = this.getDescriptionByDefaultLangIfExist();
         this.onChangeSelectLang(this.selectedLang, this.selectedLang);
         this.topic.companyList = this.selectedCompanies;
         this.topic.translationList = this.translationList;
@@ -206,5 +206,19 @@ export class TopicCreateUpdateComponent implements OnInit {
             this.selectedLang = this.translationList[0].lang;
             this.previousLang = this.selectedLang;
         }
+    }
+
+    private getDescriptionByDefaultLangIfExist() {
+
+        if (this.translationList.length > 1) {
+            this.selectedLang = this.userInfoService.getUserLang();
+            this.translationList.forEach((translation) => {
+                if (translation.lang === this.selectedLang) {
+                    this.f.description.setValue(translation.description);
+                    return;
+                }
+            });
+        }
+        return this.createEditTopic.get('description').value;
     }
 }

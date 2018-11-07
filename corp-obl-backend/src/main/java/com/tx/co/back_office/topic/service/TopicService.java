@@ -92,13 +92,13 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 			topic.setCreatedBy(username);
 			topic.setEnabled(true);
 			topicStored = topic;
-			
+
 			logger.info("Creating the new topic");
 		} else { // Existing Topic
 			topicStored = getTopicById(topic.getIdTopic(), null);
 			topicStored.setDescription(topic.getDescription());
 			topicStored.setCompanyTopic(new HashSet<>());
-			
+
 			logger.info("Updating the topic with id: " + topicStored.getIdTopic());
 		}
 
@@ -147,7 +147,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 		updateTopicsCache(topicStored, true);
 
 		logger.info("Stored the topic with id: " + topicStored.getIdTopic());
-		
+
 		return topicStored;
 	}
 
@@ -182,14 +182,13 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 			topicRepository.save(topic);
 
 			updateTopicsCache(topic, false);
-			
+
 			logger.info("Delete the Topic with id: " + idTopic);
 		} catch (Exception e) {
 			throw new GeneralException("Topic not found");
 		}
 
 	}
-
 
 	@Override
 	public AuthenticationTokenUserDetails getTokenUserDetails() {
@@ -219,7 +218,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 
 		// New TopicConsultant
 		Optional<TopicConsultant> ifExistTopicConsultant = findByIdTopicConsultant(topicConsultant);
-		if(!ifExistTopicConsultant.isPresent()) {
+		if (!ifExistTopicConsultant.isPresent()) {
 			topicConsultant.setCreationDate(new Date());
 			topicConsultant.setCreatedBy(username);
 			topicConsultantStored = topicConsultant;
@@ -227,10 +226,10 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 			topicConsultantStored = ifExistTopicConsultant.get();
 		}
 
-		if(!isEmpty(topicConsultant.getCompanyConsultant())) {
+		if (!isEmpty(topicConsultant.getCompanyConsultant())) {
 			topicConsultantStored.setCompanyConsultant(topicConsultant.getCompanyConsultant());
 		}
-		if(!isEmpty(topicConsultant.getTopic())) {
+		if (!isEmpty(topicConsultant.getTopic())) {
 			topicConsultantStored.setTopic(topicConsultant.getTopic());
 		}
 
@@ -243,20 +242,21 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 		updateTopicConsultantsCache(topicConsultantStored, false);
 
 		logger.info("Stored the topicConsultant with id: " + topicConsultantStored.getIdTopicConsultant());
-		
+
 		return topicConsultantStored;
 	}
 
 	@Override
 	public Optional<TopicConsultant> findByIdTopicConsultant(TopicConsultant topicConsultant) {
-		return topicConsultantRepository.findTopicConsultantByIds(topicConsultant.getCompanyConsultant(), topicConsultant.getTopic());
+		return topicConsultantRepository.findTopicConsultantByIds(topicConsultant.getCompanyConsultant(),
+				topicConsultant.getTopic());
 	}
 
 	@Override
 	public void deleteTopicConsultant(TopicConsultant topicConsultantToDelete) {
 		try {
 			logger.info("Deleting the topicConsultant with id: " + topicConsultantToDelete.getIdTopicConsultant());
-			
+
 			Optional<TopicConsultant> topicConsultantOptional = findByIdTopicConsultant(topicConsultantToDelete);
 
 			if (!topicConsultantOptional.isPresent()) {
@@ -276,7 +276,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 			topicConsultantRepository.save(topicConsultant);
 
 			logger.info("Deleted the topicConsultant with id: " + topicConsultantToDelete.getIdTopicConsultant());
-			
+
 			updateTopicConsultantsCache(topicConsultant, false);
 		} catch (Exception e) {
 			logger.error("Error deleting Topic Consultant", e);
@@ -293,7 +293,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 	@Override
 	public void deleteTopicConsultants(Company company, Topic topic) {
 		List<TopicConsultant> topicConsultants = topicConsultantRepository.findTopicConsultantsByIds(company, topic);
-		if(!isEmpty(topicConsultants)) {
+		if (!isEmpty(topicConsultants)) {
 			for (TopicConsultant topicConsultant : topicConsultants) {
 				deleteTopicConsultant(topicConsultant);
 			}
@@ -302,14 +302,14 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 
 	@Override
 	public List<Topic> getTopicsByRole() {
-		
+
 		User userLoggedIn = getTokenUserDetails().getUser();
-		
-		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+
+		if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			return topicRepository.getTopicsByRoleAdmin();
-		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
+		} else if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
 			return topicRepository.getTopicsByRoleForeign(userLoggedIn.getUsername());
-		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND)) {
+		} else if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND)) {
 			Pageable topOne = PageRequest.of(0, 1);
 			return topicRepository.getTopicsByRoleInland(userLoggedIn.getUsername(), topOne);
 		}

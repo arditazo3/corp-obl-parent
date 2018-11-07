@@ -128,6 +128,8 @@ public class UserService extends UpdateCacheData implements IUserService, IUserM
 		
 		userRepository.save(userChangeLangulage);
 		
+		
+		
 		getTokenUserDetails().getUser().setLang(lang);
 		
 		authenticationTokenService.refreshToken(getTokenUserDetails());

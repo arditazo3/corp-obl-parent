@@ -138,7 +138,8 @@
       "ASSIGN_COMPANIES": "Assign the Companies",
       "SELECT_COMPANIES": "Select companies",
       "COMPANY_REQUIRED": "Company is required",
-      "SAVE_TOPIC": "Save Topic"
+      "SAVE_TOPIC": "Save Topic",
+      "OPTIONS": "Options"
     }
   },
   "FRONT_END": {

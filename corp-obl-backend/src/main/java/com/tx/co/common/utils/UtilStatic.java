@@ -12,6 +12,7 @@ import com.tx.co.front_end.expiration.api.model.TaskOfficeExpirationsResult;
 import com.tx.co.front_end.expiration.domain.Expiration;
 import com.tx.co.front_end.expiration.domain.ExpirationActivity;
 import com.tx.co.front_end.expiration.enums.StatusExpirationEnum;
+import com.tx.co.user.domain.User;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 import static com.tx.co.common.constants.AppConstants.*;
@@ -128,6 +129,21 @@ public class UtilStatic {
 		}
 		return -1;// not there is list
 	}
+	
+	public static int getIndexByPropertyUserList(String username, List<User> comparableList) {
+
+		if(!isEmpty(comparableList)) {
+			for (int i = 0; i < comparableList.size(); i++) {
+				User user = comparableList.get(i);
+
+				if (user !=null && user.getUsername().equalsIgnoreCase(username)) {
+					return i;
+				}
+			}
+		}
+		return -1;// not there is list
+	}
+
 
 	public static String formatDateToString(Date date) {
 

@@ -19,6 +19,7 @@ import com.tx.co.common.translation.domain.Translation;
 import com.tx.co.common.translation.service.ITranslationService;
 import com.tx.co.common.utils.UtilStatic;
 import com.tx.co.user.domain.User;
+import com.tx.co.user.service.IUserService;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,6 +43,7 @@ public abstract class UpdateCacheData {
 	private static final Logger logger = LogManager.getLogger(UpdateCacheData.class);
 
 	private javax.cache.CacheManager cacheManager;
+	private IUserService userService;
 	private CompanyService companyService;
 	private OfficeService officeService;
 	private TopicService topicService;
@@ -53,6 +55,11 @@ public abstract class UpdateCacheData {
 	@Autowired
 	public void setCacheManager(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
+	}
+	
+	@Autowired
+	public void setUserService(IUserService userService) {
+		this.userService = userService;
 	}
 
 	@Autowired
@@ -247,6 +254,36 @@ public abstract class UpdateCacheData {
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
 		return (HashMap<TranslationPairKey, Translation>) storageDataCacheManager.get(TRANSLATION_LIST_CACHE);
+	}
+
+	/**
+	 * @param user
+	 * @param updateFromDB
+	 */
+	public void updateUsersCache(User user, Boolean updateFromDB) {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		List<User> userList = getUsersFromCache();
+
+		// Object to update or to save as new one
+		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyUserList(user.getUsername(), userList); 
+
+		if(updateFromDB) {
+			user = userService.findByUsername(user.getUsername());
+		}
+
+		if(!user.isEnabled() && indexToUpdateOrInsert != -1) {
+			userList.remove(indexToUpdateOrInsert);
+		} else if(indexToUpdateOrInsert == -1) {
+			userList.add(user);
+		} else if(!user.isEnabled()) {
+			userList.remove(indexToUpdateOrInsert);
+		} else {
+			userList.set(indexToUpdateOrInsert, user);
+		}
+
+		storageDataCacheManager.put(USER_LIST_CACHE, userList);
 	}
 	
 	/**
