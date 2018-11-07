@@ -35,6 +35,9 @@ public final class ApiConstants {
 	 * */
 	public static final String BACK_OFFICE = "back-office";
 
+	// Admin URL
+	public static final String REFRESH_CACHE = "refresh-cache";
+	
 	// Company URL
 	public static final String COMPANY = "company";
 	public static final String COMPANY_GET_BY_ID = COMPANY + "/{idCompany}";
@@ -137,6 +140,7 @@ public final class ApiConstants {
 	public static final String orHasAuthority = "or hasAuthority";
 	public static final String AUTH_ADMIN_FOREIGN_INLAND = "hasAuthority('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + FOREIGN_ROLE + "') " + orHasAuthority + "('" + INLAND_ROLE + "')";
 	public static final String AUTH_ADMIN_USER = "hasAuthority('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + USER_ROLE + "')";
+	public static final String AUTH_ADMIN = "hasAuthority('"+ ADMIN_ROLE + "')";
 	/* End of authorization Role list */
 
 	/**
