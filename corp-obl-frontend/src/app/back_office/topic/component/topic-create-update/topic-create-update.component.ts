@@ -133,7 +133,7 @@ export class TopicCreateUpdateComponent implements OnInit {
 
     checkDescriptionKeyUp($event) {
 
-        const topicDescription = event.target.value.toString();
+        const topicDescription = $event.target.value;
         if (!topicDescription) {
             this.translationList = this.translationList.filter(trans => trans.lang !== this.selectedLang);
         }

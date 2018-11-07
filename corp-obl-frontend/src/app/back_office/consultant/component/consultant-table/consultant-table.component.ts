@@ -75,8 +75,8 @@ export class ConsultantTableComponent implements OnInit {
         const temp = this.temp.filter(function (d) {
             return d.name.toLowerCase().indexOf(val) !== -1 ||
                 d.email.toLowerCase().indexOf(val) !== -1 ||
-                d.phone1.toLowerCase().indexOf(val) !== -1 ||
-                d.phone2.toLowerCase().indexOf(val) !== -1 ||
+                (d.phone1 && d.phone1.toLowerCase().indexOf(val) !== -1) ||
+                (d.phone2 && d.phone2.toLowerCase().indexOf(val) !== -1) ||
                 !val;
         });
 
