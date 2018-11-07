@@ -102,8 +102,6 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 			logger.info("Updating the topic with id: " + topicStored.getIdTopic());
 		}
 
-		topicStored.setTranslationList(topic.getTranslationList());
-
 		List<Company> companyListIncluded = new ArrayList<>();
 		for (CompanyTopic companyTopic : topic.getCompanyTopic()) {
 
@@ -134,13 +132,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 
 		topicStored = topicRepository.save(topicStored);
 
-		for (Translation translation : topic.getTranslationList()) {
-			if (isEmpty(translation.getIdTranslation())) {
-				translation.setEntityId(topicStored.getIdTopic());
-				translation.setTablename("co_topic");
-			}
-			translationRepository.save(translation);
-		}
+		mergeTranslationsTopic(topicStored, topic);
 
 		topicRepository.updateCompanyTopicNotEnable(topic, companyListIncluded);
 
@@ -149,6 +141,22 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 		logger.info("Stored the topic with id: " + topicStored.getIdTopic());
 
 		return topicStored;
+	}
+
+	private void mergeTranslationsTopic(Topic topicStored, Topic topic) {
+
+		translationRepository.deleteByEntityIdAndTablename(topic.getIdTopic(), "co_topic");
+		
+		topicStored.setTranslationList(new ArrayList<>());
+		
+		for (Translation translation : topic.getTranslationList()) {
+			if (isEmpty(translation.getIdTranslation())) {
+				translation.setEntityId(topicStored.getIdTopic());
+				translation.setTablename("co_topic");
+			}
+			translationRepository.save(translation);
+			topicStored.getTranslationList().add(translation);
+		}
 	}
 
 	@Override

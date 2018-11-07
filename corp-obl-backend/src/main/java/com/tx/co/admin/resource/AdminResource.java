@@ -1,8 +1,11 @@
 package com.tx.co.admin.resource;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
+
+import com.tx.co.admin.service.IAdminService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -10,16 +13,27 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import static com.tx.co.common.constants.ApiConstants.*;
+
 @Component
-@Path("admin") // TODO Ardit: create costant
-@PreAuthorize("JustAdmin") // TODO Ardit: create costant for admin access
+@Path(BACK_OFFICE)
+@PreAuthorize(AUTH_ADMIN)
 public class AdminResource {
 
-    @GET
-    @Path("refreshCache") // TODO Ardit: create costant
+	private IAdminService adminService;
+	
+	@Autowired
+    public void setAdminService(IAdminService adminService) {
+		this.adminService = adminService;
+	}
+
+	@GET
+    @Path(REFRESH_CACHE)
     @Produces(MediaType.APPLICATION_JSON)
     public Response refreshCache() {
-        // TODO Ardit: refresh cache
+        
+		adminService.refreshCache();
+		
         return Response.noContent().build();
     }
 }
