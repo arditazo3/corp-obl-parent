@@ -13,11 +13,11 @@
                             <label for="description" class="col-sm-3 text-right control-label col-form-label">{{
                                 'BACK_OFFICE.TOPIC.DESCRIPTION' | translate }}</label>
                             <div class="input-group col-sm-9">
-                                <div class="remark-feedback" *ngIf="languageNotAvailable">{{
-                                    'BACK_OFFICE.TOPIC.FRENCH_LANGUAGE__NOT_AVAILABLE' | translate }}
+                                <div class="remark-feedback" *ngIf="langDescrInserted">{{ langDescrInserted === 'EN' ? ('BACK_OFFICE.TOPIC.ITALIAN_TEXT_NOT_INSERTED' | translate) : langDescrInserted === 'IT' ? ('BACK_OFFICE.TOPIC.ENGLISH_TEXT_NOT_INSERTED' | translate) : '' }}
                                 </div>
                                 <input type="text" class="form-control"
                                        formControlName="description"
+                                       (keyup)='checkDescriptionKeyUp($event)'
                                        id="description">
                                 <div class="input-group-prepend col-sm-2">
                                     <ng-select

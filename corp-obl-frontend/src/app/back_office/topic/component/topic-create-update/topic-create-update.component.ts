@@ -20,6 +20,7 @@ import {Translation} from '../../../../shared/common/translation/model/translati
 export class TopicCreateUpdateComponent implements OnInit {
 
     isNewForm;
+    langDescrInserted = '';
     topic: Topic = new Topic();
     submitted = false;
     hasDescription = false;
@@ -63,6 +64,7 @@ export class TopicCreateUpdateComponent implements OnInit {
             this.submitBtn.nativeElement.innerText = 'Update topic';
             this.selectedCompanies = this.topic.companyList;
             this.translationList = this.topic.translationList;
+            this.checkLangDescrInserted();
         }
 
         this.createEditTopic = this.formBuilder.group({
@@ -95,9 +97,11 @@ export class TopicCreateUpdateComponent implements OnInit {
         const me = this;
         this.submitted = true;
 
-        this.topic.description = this.getDescriptionByDefaultLangIfExist();
         this.onChangeSelectLang(this.selectedLang, this.selectedLang);
+        this.topic.description = this.getDescriptionByDefaultLangIfExist();
         this.topic.companyList = this.selectedCompanies;
+
+        this.translationList = this.translationList.filter(trans => trans.description !== '');
         this.topic.translationList = this.translationList;
 
         if (this.createEditTopic.invalid || this.selectedCompanies === undefined || this.selectedCompanies.length === 0
@@ -124,6 +128,14 @@ export class TopicCreateUpdateComponent implements OnInit {
         if (this.errorDetails !== undefined) {
             this.errorDescriptionSwal.title = this.errorDetails.message;
             this.errorDescriptionSwal.show();
+        }
+    }
+
+    checkDescriptionKeyUp($event) {
+
+        const topicDescription = event.target.value.toString();
+        if (!topicDescription) {
+            this.translationList = this.translationList.filter(trans => trans.lang !== this.selectedLang);
         }
     }
 
@@ -160,7 +172,7 @@ export class TopicCreateUpdateComponent implements OnInit {
             });
         }
 
-        if (newTranslation) {
+        if (newTranslation && description) {
             const createTranslation: Translation = new Translation();
             createTranslation.description = description;
             createTranslation.lang = previousValue;
@@ -218,7 +230,17 @@ export class TopicCreateUpdateComponent implements OnInit {
                     return;
                 }
             });
+        } else if (this.translationList.length === 1) {
+            this.f.description.setValue(this.translationList[0].description);
         }
         return this.createEditTopic.get('description').value;
+    }
+
+    checkLangDescrInserted() {
+
+        if (!this.isNewForm && this.translationList && this.translationList.length === 1) {
+
+            this.langDescrInserted = this.translationList[0].lang;
+        }
     }
 }

@@ -134,6 +134,8 @@
       "CREATE_NEW_TOPIC": "Create new Topic",
       "DESCRIPTION": "Description",
       "FRENCH_LANGUAGE__NOT_AVAILABLE": "The French language it's not available yet",
+      "ITALIAN_TEXT_NOT_INSERTED": "The Italian description has not been inserted",
+      "ENGLISH_TEXT_NOT_INSERTED": "The English description has not been inserted",
       "DESCRIPTION_REQUIRED": "Description is required",
       "ASSIGN_COMPANIES": "Assign the Companies",
       "SELECT_COMPANIES": "Select companies",
