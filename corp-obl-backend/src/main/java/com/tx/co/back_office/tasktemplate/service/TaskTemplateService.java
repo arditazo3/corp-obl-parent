@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.ws.rs.NotFoundException;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,7 +113,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		taskTemplateStored.setTopic(taskTemplate.getTopic());
 		taskTemplateStored.setModificationDate(new Date());
 		taskTemplateStored.setModifiedBy(username);
-		taskTemplateStored.setTaskTemplateAttachments(taskTemplate.getTaskTemplateAttachments());
+	//	taskTemplateStored.setTaskTemplateAttachments(taskTemplate.getTaskTemplateAttachments());
 
 		taskTemplateStored = taskTemplateRepository.save(taskTemplateStored);
 
@@ -152,9 +153,9 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		List<Task> tasks = new ArrayList<>();
 
 		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
-			tasks = convertToTaskForTable(taskTemplateRepository.findAllOrderByDescriptionAsc());
+			tasks = convertToTaskForTable(taskTemplateRepository.findAllOrderByDescriptionAsc(), new ArrayList<>());
 		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
-			tasks = convertToTaskForTable(taskTemplateRepository.getTaskTemplatesByRole(username));
+			tasks = convertToTaskForTable(taskTemplateRepository.getTaskTemplatesByRole(username), new ArrayList<>());
 		}
 
 		logger.info("Tasks for table - Number of items: " + tasks.size());
@@ -173,9 +174,8 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 		String querySql = "select tt from TaskTemplate tt " + 
 				"left join tt.topic t " + 
-				"left join t.topicConsultants tc " + 
-				"left join tc.companyConsultant cc " + 
-				"left join cc.company c " + 
+				"left join t.companyTopic ct " + 
+				"left join ct.company c " + 
 				"left join c.companyUsers cu " + 
 				"left join cu.user u on cu.username = u.username " +
 				"where tt.enabled <> 0 ";
@@ -224,10 +224,10 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 			query.setParameter("username", username);
 		}
 
-		return convertToTaskForTable(query.getResultList());
+		return convertToTaskForTable(query.getResultList(), objectSearchTaskTemplate.getCompanies());
 	}
 
-	public List<Task> convertToTaskForTable(List<TaskTemplate> taskTemplates) {
+	public List<Task> convertToTaskForTable(List<TaskTemplate> taskTemplates, List<Company> getCompanies) {
 
 		User userLoggedIn = getTokenUserDetails().getUser();
 		String lang = userLoggedIn.getLang();
@@ -247,6 +247,10 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 					List<Company> uniqueCompanies = coumpanyCounterList.stream()
 							.collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(Company::getIdCompany))), ArrayList::new));
 
+					if(!isEmpty(getCompanies) && !CollectionUtils.containsAny(uniqueCompanies, getCompanies)) {  
+						continue;
+					}
+					
 					taskLoop.setCounterCompany(uniqueCompanies.size());
 
 					String descriptionTask = buildDescription(taskLoop, lang, index);
@@ -393,6 +397,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
     		
     		logger.info("Delete the Task Template with id: " + idTaskTemplate);
     	} catch (Exception e) {
+    		logger.error(e);
     		throw new GeneralException("Task Template not found");
     	}
 	}

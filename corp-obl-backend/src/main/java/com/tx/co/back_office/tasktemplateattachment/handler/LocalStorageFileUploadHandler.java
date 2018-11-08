@@ -117,7 +117,7 @@ public class LocalStorageFileUploadHandler implements IFileUploadHandler {
 			int month = now.get(Calendar.MONTH);
 			int day = now.get(Calendar.DAY_OF_MONTH);
 			String yearInString = String.valueOf(year);
-			String monthInString = String.valueOf(month);
+			String monthInString = String.valueOf(month + 1);
 			String dayInString = String.valueOf(day);
 			String idString = request.getId().toString();
 
@@ -130,6 +130,10 @@ public class LocalStorageFileUploadHandler implements IFileUploadHandler {
 			request.getHttpFile().setFilePath(targetFileName);
 
 			File file = new File(targetFileName);
+			if (file.exists()) {
+				file.delete();
+			}
+			
 			file.getParentFile().mkdirs();
 
 			Files.copy(stream, Paths.get(targetFileName));

@@ -228,8 +228,18 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		taskOfficeStored.setModifiedBy(username);
 		taskOfficeStored.setModificationDate(new Date());
 
+		// TODO
+		if(!isEmpty(taskOffice.getTaskOfficeRelations()) && !isEmpty(taskOfficeStored.getIdTaskOffice())) {
+			List<TaskOfficeRelations> taskOfficeRelations = new ArrayList<>();
+			for (TaskOfficeRelations taskOfficeRelationLoop : taskOffice.getTaskOfficeRelations()) {
+				taskOfficeRelationLoop.setTaskOffice(taskOfficeStored);
+				taskOfficeRelations.add(taskOfficeRelationLoop);
+			}
+			taskOfficeStored.setTaskOfficeRelations(new HashSet<>(taskOfficeRelations));
+		}
+		
 		taskOfficeStored = taskOfficeRepository.save(taskOfficeStored);
-		taskOfficeStored.setTaskOfficeRelations(taskOffice.getTaskOfficeRelations());
+		
 
 		if(!isEmpty(taskOfficeStored.getTaskOfficeRelations())) {
 			for (TaskOfficeRelations taskOfficeRelationLoop : taskOfficeStored.getTaskOfficeRelations()) {
@@ -266,7 +276,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			if(taskOfficeRelationOptional.isPresent()) {
 				taskOfficeRelationStored = taskOfficeRelationOptional.get();
 			} else {
-				throw new GeneralException("Task office relation not found, id: " + taskOfficeRelation.getIdTaskOfficeRelation());
+				logger.warn("Task office relation not found, id: " + taskOfficeRelation.getIdTaskOfficeRelation());
 			}
 
 			logger.info("Updating the taskOfficeRelation with id: " + taskOfficeRelationStored.getIdTaskOfficeRelation());
