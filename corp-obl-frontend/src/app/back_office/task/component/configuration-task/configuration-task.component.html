@@ -140,7 +140,7 @@
                     <ngx-datatable-column name="{{ 'BACK_OFFICE.TASK.TOPIC' | translate }}" prop="counterCompany">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
                                      let-group="group" let-rowHeight="rowHeight">
-                            {{ 'BACK_OFFICE.TASK.COMPANIES_SPACE' | translate }} {{ row.counterCompany }}
+                                {{ 'BACK_OFFICE.TASK.COMPANIES_SPACE' | translate }} {{ row.counterCompany ? row.counterCompany : 0 }}
                         </ng-template>
                     </ngx-datatable-column>
 

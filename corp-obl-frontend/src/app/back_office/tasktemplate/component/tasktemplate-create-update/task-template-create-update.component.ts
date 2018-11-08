@@ -46,8 +46,9 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     topicsObservable: Observable<any[]>;
     periodicityObservable: Observable<any[]>;
     expirationTypeOnlyFixedDayObservable: Observable<any[]>;
-    expirationTypeObservable: Observable<any[]>;
+    expirationTypeObservableMonthly: Observable<any[]>;
     periodWeeklyExpFixedDay: Observable<any[]>;
+    expirationTypeObservable: Observable<any[]>;
     selectedTopic: Topic;
     selectedPeriodicity: Translation;
     selectedPeriodicityTypeChange: Subject<Translation> = new Subject<Translation>();
@@ -102,6 +103,8 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     ngOnInit() {
         console.log('TaskTemplateCreateUpdateComponent - ngOnInit');
 
+        this.isForeign = this.userInfoService.isRoleForeign();
+
         const me = this;
         let objectParam = this.transferService.objectParam;
         if (!objectParam) {
@@ -116,6 +119,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         this.getTopics();
         this.periodicityObservable = this.getTranslationLikeTablename('tasktemplate#periodicity');
         this.expirationTypeOnlyFixedDayObservable = this.getTranslationLikeTablename('tasktemplate#expirationtype#fix_day');
+        this.expirationTypeObservableMonthly = this.getTranslationLikeTablename('tasktemplate#expirationtype');
         this.expirationTypeObservable = this.getTranslationLikeTablename('tasktemplate#expirationtype');
         this.periodWeeklyExpFixedDay = this.getTranslationLikeTablename('tasktemplate#period_weekly_exp_fixed_day');
 
@@ -232,7 +236,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         this.uploader.onWhenAddingFileFailed = (item, filter, options) => this.onWhenAddingFileFailed(item, filter, options);
         this.onLoadFilesUploaded();
 
-        this.isForeign = this.userInfoService.isRoleForeign();
+
     }
 
     getTopics() {
@@ -258,11 +262,15 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         const me = this;
         this.submitted = true;
 
+        if (this.isForeign) {
+            this.createEditTaskTemplate.get('expirationRadio').setValue('1');
+        }
+
         if (this.createEditTaskTemplate.invalid) {
             return;
         }
 
-   //     this.dayValue = this.dayDateDP;
+        //     this.dayValue = this.dayDateDP;
 
         if (this.isTaskTemplateForm) {
             if ((this.selectedTopic === undefined ||
@@ -535,6 +543,15 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                         me.selectedExpirationType = data[0];
                         me.isFixedDay = true;
                         me.isWeekly = true;
+                    }
+                );
+            } else if (fromComp.tablename.indexOf('monthly') >= 0) {
+                this.expirationTypeObservableMonthly.subscribe(
+                    data => {
+                        me.expirationTypeObservable = Observable.of(data);
+                        me.selectedExpirationType = data[0];
+                        me.isFixedDay = true;
+                        me.isMonthly = true;
                     }
                 );
             } else if (fromComp.tablename.indexOf('yearly') >= 0) {

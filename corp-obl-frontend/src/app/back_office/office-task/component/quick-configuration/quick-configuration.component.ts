@@ -49,8 +49,9 @@ export class QuickConfigurationComponent implements OnInit {
     topicsObservable: Observable<any[]>;
     periodicityObservable: Observable<any[]>;
     expirationTypeOnlyFixedDayObservable: Observable<any[]>;
-    expirationTypeObservable: Observable<any[]>;
+    expirationTypeObservableMonthly: Observable<any[]>;
     periodWeeklyExpFixedDay: Observable<any[]>;
+    expirationTypeObservable: Observable<any[]>;
     selectedTopic: Topic;
     selectedPeriodicity: Translation;
     selectedPeriodicityTypeChange: Subject<Translation> = new Subject<Translation>();
@@ -131,6 +132,7 @@ export class QuickConfigurationComponent implements OnInit {
         this.getTopics();
         this.periodicityObservable = this.getTranslationLikeTablename('tasktemplate#periodicity');
         this.expirationTypeOnlyFixedDayObservable = this.getTranslationLikeTablename('tasktemplate#expirationtype#fix_day');
+        this.expirationTypeObservableMonthly = this.getTranslationLikeTablename('tasktemplate#expirationtype');
         this.expirationTypeObservable = this.getTranslationLikeTablename('tasktemplate#expirationtype');
         this.periodWeeklyExpFixedDay = this.getTranslationLikeTablename('tasktemplate#period_weekly_exp_fixed_day');
 
@@ -405,6 +407,15 @@ export class QuickConfigurationComponent implements OnInit {
                         me.isWeekly = true;
                     }
                 );
+            } else if (fromComp.tablename.indexOf('monthly') >= 0) {
+                this.expirationTypeObservableMonthly.subscribe(
+                    data => {
+                        me.expirationTypeObservable = Observable.of(data);
+                        me.selectedExpirationType = data[0];
+                        me.isFixedDay = true;
+                        me.isMonthly = true;
+                    }
+                );
             } else if (fromComp.tablename.indexOf('yearly') >= 0) {
                 this.expirationTypeOnlyFixedDayObservable.subscribe(
                     data => {
@@ -557,5 +568,37 @@ export class QuickConfigurationComponent implements OnInit {
             }
         }
         return hasValue;
+    }
+
+    deleteTaskTemplate() {
+        console.log('QuickConfigurationComponent - deleteTaskTemplate');
+        const me = this;
+
+        if (this.taskTemplate) {
+            this.confirmationTaskTemplateSwal.title = 'Do you want to delete: ' + this.taskTemplate.description + '?';
+            this.confirmationTaskTemplateSwal.show()
+                .then(function (result) {
+                    if (result.value === true) {
+                        // handle confirm, result is needed for modals with input
+                        me.taskTemplateService.deleteTaskTemplate(me.taskTemplate).subscribe(
+                            next => {
+                                me.router.navigate(['/back-office/office-task']);
+                                console.log('QuickConfigurationComponent - deleteTaskTemplate - next');
+                            },
+                            error => {
+                                console.error('QuickConfigurationComponent - deleteTaskTemplate - error \n', error);
+                            }
+                        );
+                    }
+                }, function (dismiss) {
+                    // dismiss can be "cancel" | "close" | "outside"
+                });
+        }
+    }
+
+    checkAssociationOffice($event) {
+        if ($event && this.task && this.task.taskOffices) {
+            this.task.taskOffices = this.associationOffice.taskOfficesArray;
+        }
     }
 }

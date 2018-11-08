@@ -9,6 +9,7 @@ import {ConsultantTableComponent} from './consultant-table/consultant-table.comp
 import {TopicConsultantComponent} from './topic-consultant/topic-consultant.component';
 import {DataFilter} from '../../../shared/common/api/model/data-filter';
 import {PageEnum} from '../../../shared/common/api/enum/page.enum';
+import {ConsultantService} from '../service/consultant.service';
 
 @Component({
     selector: 'app-consultant',
@@ -29,7 +30,8 @@ export class ConsultantComponent implements OnInit {
         private router: Router,
         private transferService: TransferDataService,
         private topicService: TopicService,
-        private companyService: CompanyService
+        private companyService: CompanyService,
+        private companyConsultantService: ConsultantService
     ) {
     }
 
@@ -67,9 +69,7 @@ export class ConsultantComponent implements OnInit {
 
     onChangeCompany(company) {
 
-        if (company) {
-            this.selectedCompany = company;
-        }
+        this.selectedCompany = company;
 
         this.consultantTable.company = company;
         this.consultantTable.getCompanyConsultant(company);
