@@ -255,7 +255,9 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 	public void associateUserToCompany(Company company) {
 		if(!isEmpty(company) && !isEmpty(company.getCompanyUsers())) {
 			
-			logger.info("Associating user to company with id: " + company.getIdCompany() );
+			Long idCompany = company.getIdCompany();
+			
+			logger.info("Associating user to company with id: " + idCompany );
 			
 			List<String> userListIncluded = new ArrayList<>();
 			// The modification of User
@@ -271,9 +273,19 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 				
 				// New CompanyUser
 		        if(isEmpty(companyUser.getIdCompanyUser())) {
-		        	companyUser.setCreationDate(new Date()); 
-		        	companyUser.setCreatedBy(username); 
-		        	companyUserStored = companyUser;
+		        	String usernameCompanyUser = companyUser.getUsername();
+		        	
+		        	Optional<CompanyUser> retrievedCompanyUserDeleted = 
+		        			companyUserRespository.getCompanyUserDisabledByUsernameAndCompanyId(usernameCompanyUser, company);
+		        	
+		        	if(retrievedCompanyUserDeleted.isPresent()) {
+		        		companyUserStored = retrievedCompanyUserDeleted.get();
+		        		companyUserStored.setCompanyAdmin(companyUser.getCompanyAdmin());
+		        	} else {
+		        		companyUser.setCreationDate(new Date()); 
+			        	companyUser.setCreatedBy(username); 
+			        	companyUserStored = companyUser;
+		        	}
 		        } else {
 		        	Optional<CompanyUser> retrievedCompanyUser = companyUserRespository.findById(companyUser.getIdCompanyUser());
 		        	

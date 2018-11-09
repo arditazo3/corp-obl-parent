@@ -27,4 +27,6 @@ public interface CompanyUserRespository extends CrudRepository<CompanyUser, Long
 	@Query("select cu from CompanyUser cu where cu.username = ?1 and cu.company = ?2 and cu.enabled <> 0")
 	Optional<CompanyUser> getCompanyUserByUsernameAndCompanyId(String username, Company company);
 
+	@Query("select cu from CompanyUser cu where cu.username = ?1 and cu.company = ?2 and cu.enabled <> 1")
+	Optional<CompanyUser> getCompanyUserDisabledByUsernameAndCompanyId(String username, Company company);
 }
