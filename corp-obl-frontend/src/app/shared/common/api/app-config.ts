@@ -24,6 +24,8 @@ export class AppConfig {
     public userListExceptRole = this.userPath + '/user-except';
     public userLanguangeOnChange = this.userPath + '/user-language-change';
 
+    public refreshCache = this.userPath + '/refresh-cache';
+
     /**
      * Back office
      * */

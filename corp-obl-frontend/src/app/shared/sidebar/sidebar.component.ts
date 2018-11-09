@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {ROUTES} from './menu-items';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -9,6 +9,7 @@ import {UserService} from '../../user/service/user.service';
 import {ApiErrorDetails} from '../common/api/model/api-error-details';
 import {Title} from '@angular/platform-browser';
 import {filter, map, mergeMap} from 'rxjs/operators';
+import {SwalComponent} from '@toverux/ngx-sweetalert2';
 
 declare var $: any;
 
@@ -30,6 +31,7 @@ export class SidebarComponent implements OnInit {
     flagLanguage = 'flag-icon-us';
 
     public fullComponent: FullComponent = new FullComponent();
+    @ViewChild('refreshCacheSwal') private refreshCacheSwal: SwalComponent;
 
     // this is for the open close
     addExpandClass(element: any) {
@@ -144,5 +146,23 @@ export class SidebarComponent implements OnInit {
         } else if (language === 'IT') {
             this.flagLanguage = 'flag-icon-it';
         }
+    }
+
+    refreshCache() {
+        console.info('SidebarComponent - refreshCache');
+
+        const me = this;
+        this.userService.refreshCache().subscribe(
+            success => {
+                me.refreshCacheSwal.show();
+            },
+            error => {
+                console.error('SidebarComponent - refreshCache - error \n', error);
+            }
+        );
+    }
+
+    isAdmin() {
+        return this.userInfoService.isRoleAdmin();
     }
 }

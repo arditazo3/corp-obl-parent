@@ -72,7 +72,11 @@
             </li>
         </ng-container>
 
-        <li class="sidebar-item w-100"></li>
+        <li class="sidebar-item w-100" *ngIf="isAdmin()">
+            <button type="button" (click)="refreshCache()" class="btn-tnx btn-success waves-effect waves-light">{{
+                'BACK_OFFICE.TOPIC.SAVE_TOPIC' | translate }}
+            </button>
+        </li>
 
         <!-- ============================================================== -->
         <!-- Right side menu -->
@@ -114,4 +118,10 @@
             </div>
         </li>
     </ul>
+
+    <swal
+            #refreshCacheSwal
+            title="{{'REFRESH_CACHE' | translate }}"
+            type="info">
+    </swal>
 </nav>

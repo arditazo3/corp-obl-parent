@@ -30,4 +30,9 @@ export class UserService {
 
         return this.apiRequest.post(this.appConfig.userLanguangeOnChange, user);
     }
+
+    refreshCache(): Observable<any> {
+
+        return this.apiRequest.get(this.appConfig.refreshCache);
+    }
 }
