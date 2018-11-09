@@ -19,7 +19,6 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Where;
 
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
@@ -58,7 +57,6 @@ public class TaskOffice implements Serializable {
 	@OneToMany
 	@JoinColumn (name = "taskoffice_id", insertable = false, updatable = false)
 	@Fetch(value = FetchMode.JOIN)
-	@Where(clause = "enabled = 1")
     private Set<TaskOfficeRelations> taskOfficeRelations = new HashSet<>();
 	
 	@Column(nullable = false, name = "startdate")

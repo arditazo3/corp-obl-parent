@@ -20,6 +20,8 @@ public interface ITopicService {
 
 	List<Topic> findAllOrderByDescriptionAsc();
 	
+	List<Topic> getTopicsByRoleList();
+	
 	List<Topic> getTopicsByRole();
 	
 	TopicConsultant saveUpdateTopicConsultant(TopicConsultant topicConsultant);

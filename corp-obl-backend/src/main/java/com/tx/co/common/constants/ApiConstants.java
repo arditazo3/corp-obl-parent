@@ -135,10 +135,12 @@ public final class ApiConstants {
 	public static final String ADMIN_ROLE = "CORPOBLIG_ADMIN";
 	public static final String FOREIGN_ROLE = "CORPOBLIG_BACKOFFICE_FOREIGN";
 	public static final String INLAND_ROLE = "CORPOBLIG_BACKOFFICE_INLAND";
+	public static final String USER_ADMIN = "CORPOBLIG_USER_ADMIN_COMPANY";
 	public static final String USER_ROLE = "CORPOBLIG_USER";
 
 	public static final String orHasAuthority = "or hasAuthority";
 	public static final String AUTH_ADMIN_FOREIGN_INLAND = "hasAuthority('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + FOREIGN_ROLE + "') " + orHasAuthority + "('" + INLAND_ROLE + "')";
+	public static final String AUTH_ADMIN_FOREIGN_INLAND_USER_ADMIN = "hasAuthority('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + FOREIGN_ROLE + "') " + orHasAuthority + "('" + INLAND_ROLE + "') " + orHasAuthority + "('" + USER_ADMIN + "')";
 	public static final String AUTH_ADMIN_USER = "hasAuthority('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + USER_ROLE + "')";
 	public static final String AUTH_ADMIN = "hasAuthority('"+ ADMIN_ROLE + "')";
 	/* End of authorization Role list */

@@ -222,13 +222,14 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 		taskOfficeStored.setTask(task);
 		taskOfficeStored.setStartDate(new Date());
-		taskOfficeStored.setEnabled(true);
+		taskOfficeStored.setEnabled(taskOfficeStored.getTask().getEnabled());
 		taskOfficeStored.setCreatedBy(username);
 		taskOfficeStored.setCreationDate(new Date());
 		taskOfficeStored.setModifiedBy(username);
 		taskOfficeStored.setModificationDate(new Date());
 
-		// TODO
+		taskOfficeStored = taskOfficeRepository.save(taskOfficeStored);
+		
 		if(!isEmpty(taskOffice.getTaskOfficeRelations()) && !isEmpty(taskOfficeStored.getIdTaskOffice())) {
 			List<TaskOfficeRelations> taskOfficeRelations = new ArrayList<>();
 			for (TaskOfficeRelations taskOfficeRelationLoop : taskOffice.getTaskOfficeRelations()) {
@@ -237,9 +238,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			}
 			taskOfficeStored.setTaskOfficeRelations(new HashSet<>(taskOfficeRelations));
 		}
-		
-		taskOfficeStored = taskOfficeRepository.save(taskOfficeStored);
-		
+
 
 		if(!isEmpty(taskOfficeStored.getTaskOfficeRelations())) {
 			for (TaskOfficeRelations taskOfficeRelationLoop : taskOfficeStored.getTaskOfficeRelations()) {
@@ -279,7 +278,10 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 				logger.warn("Task office relation not found, id: " + taskOfficeRelation.getIdTaskOfficeRelation());
 			}
 
-			logger.info("Updating the taskOfficeRelation with id: " + taskOfficeRelationStored.getIdTaskOfficeRelation());
+			if(taskOfficeRelationStored == null) {
+				taskOfficeRelationStored = taskOfficeRelation;
+			}
+			logger.info("Updating the taskOfficeRelation with id: " + (taskOfficeRelationStored != null ? taskOfficeRelationStored.getIdTaskOfficeRelation() : ""));
 		}
 
 		taskOfficeRelationStored.setUsername(taskOfficeRelation.getUsername());
@@ -287,6 +289,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		taskOfficeRelationStored.setRelationType(taskOfficeRelation.getRelationType());
 		taskOfficeRelationStored.setModifiedBy(username);
 		taskOfficeRelationStored.setModificationDate(new Date());
+		taskOfficeRelationStored.setEnabled(taskOfficeRelationStored.getTaskOffice().getEnabled());
 
 		taskOfficeRelationStored = taskOfficeRelationRepository.save(taskOfficeRelationStored);
 

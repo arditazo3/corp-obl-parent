@@ -12,6 +12,7 @@ import javax.ws.rs.NotFoundException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -91,7 +92,9 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 			topic.setCreationDate(new Date());
 			topic.setCreatedBy(username);
 			topic.setEnabled(true);
-			topicStored = topic;
+			
+			topicStored = new Topic();
+			BeanUtils.copyProperties(topic, topicStored);
 
 			logger.info("Creating the new topic");
 		} else { // Existing Topic
@@ -134,7 +137,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 
 		mergeTranslationsTopic(topicStored, topic);
 
-		topicRepository.updateCompanyTopicNotEnable(topic, companyListIncluded);
+		topicRepository.updateCompanyTopicNotEnable(topicStored, companyListIncluded);
 
 		updateTopicsCache(topicStored, true);
 
@@ -322,5 +325,29 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 			return topicRepository.getTopicsByRoleInland(userLoggedIn.getUsername(), topOne);
 		}
 		return new ArrayList<>();
+	}
+
+	@Override
+	public List<Topic> getTopicsByRoleList() {
+		User userLoggedIn = getTokenUserDetails().getUser();
+
+		List<Topic> topicList = new ArrayList<>();
+
+		if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+			topicList =  topicRepository.getTopicsByRoleAdmin();
+		} else if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) ||
+				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND)) {
+			topicList = topicRepository.getTopicsByRoleForeign(userLoggedIn.getUsername());
+		}
+
+		if(!isEmpty(topicList)) {
+			for (Topic topic : topicList) {
+				List<Translation> translationList = translationRepository
+						.getTranslationByEntityIdAndTablename(topic.getIdTopic(), "co_topic");
+				topic.setTranslationList(translationList);
+			}	
+		}
+
+		return topicList;
 	}
 }

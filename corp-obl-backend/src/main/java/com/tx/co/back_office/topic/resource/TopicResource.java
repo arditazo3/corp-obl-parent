@@ -33,7 +33,7 @@ import com.tx.co.common.api.provider.ObjectResult;
 
 @Component
 @Path(BACK_OFFICE)
-@PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
+@PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND_USER_ADMIN)
 public class TopicResource extends ObjectResult {
 
 	private static final Logger logger = LogManager.getLogger(TopicResource.class);
@@ -55,7 +55,7 @@ public class TopicResource extends ObjectResult {
 
     	logger.info("getTopics - Path: " + TOPIC_LIST);
     	
-        Iterable<Topic> topicIterable = topicService.findAllTopic();
+        Iterable<Topic> topicIterable = topicService.getTopicsByRoleList();
         List<TopicResult> queryTopicList =
                 StreamSupport.stream(topicIterable.spliterator(), false)
                         .map(this::toTopicResult)

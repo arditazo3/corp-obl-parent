@@ -33,4 +33,5 @@ public interface CompanyRepository extends CrudRepository<Company, Long> {
 			" and cu.username = :username and cu.companyAdmin <> 0 " + 
 			" group by c.id order by c.description asc")
 	List<Company> getCompaniesByRoleUser(@Param("username") String username);
+	
 }

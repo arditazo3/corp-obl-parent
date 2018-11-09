@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
@@ -301,6 +302,19 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 			}	
 			companyUserRespository.updateCompanyUserNotEnable(company, userListIncluded);
 			updateCompaniesCache(company, true);
+		} else if(!isEmpty(company)) {
+			
+			Optional<Company> companyStoredOptional = findByIdCompany(company.getIdCompany());
+			
+			if(companyStoredOptional.isPresent()) {
+				Company companyStored = companyStoredOptional.get();
+				
+				List<String> userListIncluded = companyStored.getCompanyUsers().stream().map(CompanyUser::getUsername).collect(Collectors.toList());
+				
+				if(!isEmpty(userListIncluded)) {
+					companyUserRespository.updateCompanyUserEnable(companyStored, userListIncluded);	
+				}
+			}
 		}
 	}
 

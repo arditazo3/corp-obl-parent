@@ -55,7 +55,7 @@ public class OfficeResource extends ObjectResult {
 
     	logger.info("getOffices - Path: " + OFFICE_LIST);
     	
-        Iterable<Office> officeIterable = officeService.findAllOffice();
+        Iterable<Office> officeIterable = officeService.getOfficesByRole();
         List<OfficeResult> queryOfficeList =
                 StreamSupport.stream(officeIterable.spliterator(), false)
                         .map(this::toOfficeWithCompanyResult)

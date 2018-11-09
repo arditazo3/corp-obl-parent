@@ -15,3 +15,5 @@ select * from co_expiration;
 select * from co_expirationactivity;
 
 select * from co_translations where description like '%Companies%';
+
+select * from co_company c left join co_companyuser cc on c.id = cc.company_id where cc.companyadmin = 1;

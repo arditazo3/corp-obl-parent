@@ -2,6 +2,8 @@ package com.tx.co.user.service;
 
 import static com.tx.co.common.constants.AppConstants.*;
 
+import com.tx.co.back_office.company.domain.Company;
+import com.tx.co.back_office.company.repository.CompanyRepository;
 import com.tx.co.back_office.task.repository.TaskOfficeRelationRepository;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
@@ -33,14 +35,16 @@ public class UserService extends UpdateCacheData implements IUserService, IUserM
     private static final Logger logger = LogManager.getLogger(UserService.class);
 
     private final UserRepository userRepository;
+    private final CompanyRepository companyRepository;
     private final TaskOfficeRelationRepository taskOfficeRelationRepository;
     private final AuthenticationTokenService authenticationTokenService;
 
     @Autowired
-    public UserService(UserRepository userRepository, TaskOfficeRelationRepository taskOfficeRelationRepository, AuthenticationTokenService authenticationTokenService) {
+    public UserService(UserRepository userRepository, TaskOfficeRelationRepository taskOfficeRelationRepository, AuthenticationTokenService authenticationTokenService, CompanyRepository companyRepository) {
         this.userRepository = userRepository;
         this.taskOfficeRelationRepository = taskOfficeRelationRepository;
         this.authenticationTokenService = authenticationTokenService;
+        this.companyRepository = companyRepository;
     }
 
     /**
@@ -114,7 +118,19 @@ public class UserService extends UpdateCacheData implements IUserService, IUserM
 					getTaskOfficeRelationsByUsernameAndRelationType(username, CONTROLLED))) {
 				user.getAuthorities().add(Authority.CORPOBLIG_CONTROLLED);
 			}
+			
+			checkIfUserIsCompanyAdmin(user);
 		}
+	}
+
+	private void checkIfUserIsCompanyAdmin(User user) {
+
+		List<Company> companies = companyRepository.getCompaniesByRoleUser(user.getUsername());
+		
+		if(!isEmpty(companies)) {
+			user.getAuthorities().add(Authority.CORPOBLIG_USER_ADMIN_COMPANY);
+		}
+		
 	}
 
 	@Override

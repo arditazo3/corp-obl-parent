@@ -33,7 +33,7 @@ import static com.tx.co.common.constants.ApiConstants.*;
 
 @Component
 @Path(BACK_OFFICE)
-@PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
+@PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND_USER_ADMIN)
 public class CompanyResource extends ObjectResult {
 
     private static final Logger logger = LogManager.getLogger(CompanyResource.class);
@@ -96,7 +96,6 @@ public class CompanyResource extends ObjectResult {
     @Path(COMPANY_GET_BY_ID)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @PreAuthorize("hasAuthority('"+ ADMIN_ROLE +"')")
     public Response getCompany(@PathParam("idCompany") Long idCompany) {
 
     	logger.info("getCompany - Path: " + COMPANY_GET_BY_ID);
