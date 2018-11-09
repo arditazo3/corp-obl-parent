@@ -83,7 +83,7 @@ export class TopicCreateUpdateComponent implements OnInit {
         console.log('TopicCreateEditComponent - getCompanies');
 
         const me = this;
-        me.companiesObservable = me.companyService.getCompanies();
+        me.companiesObservable = me.companyService.getCompaniesByRole();
     }
 
     // convenience getter for easy access to form fields
@@ -159,7 +159,7 @@ export class TopicCreateUpdateComponent implements OnInit {
         let newTranslation = true;
         let resetDescriptionTF = true;
         const description = this.createEditTopic.get('description').value;
-        if (this.translationList.length > 0) {
+        if (this.translationList && this.translationList.length > 0) {
 
             this.translationList.forEach((translation) => {
                 if (translation.lang === previousValue) {
@@ -196,7 +196,7 @@ export class TopicCreateUpdateComponent implements OnInit {
     hasDescriptionMultiLang(): boolean {
         this.hasDescription = false;
 
-        if (this.translationList.length > 0) {
+        if (this.translationList && this.translationList.length > 0) {
             this.translationList.forEach((translation) => {
                 if (translation && translation.description && translation.description.trim() !== '') {
                     this.hasDescription = true;
@@ -207,14 +207,14 @@ export class TopicCreateUpdateComponent implements OnInit {
     }
 
     private setDefaultDescription() {
-        if (this.translationList.length > 1) {
+        if (this.translationList && this.translationList.length > 1) {
             this.translationList.forEach((translation) => {
                 if (translation.lang === this.selectedLang) {
                     this.f.description.setValue(translation.description);
                     return;
                 }
             });
-        } else if (this.translationList.length === 1) {
+        } else if (this.translationList && this.translationList.length === 1) {
             this.selectedLang = this.translationList[0].lang;
             this.previousLang = this.selectedLang;
         }

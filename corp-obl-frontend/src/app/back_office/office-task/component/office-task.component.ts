@@ -50,6 +50,9 @@ export class OfficeTaskComponent implements OnInit {
             this.searchOfficeTasks();
             this.searchTaskTemplates();
             this.storeDataFilter();
+        } else {
+            this.searchOfficeTasks();
+            this.searchTaskTemplates();
         }
     }
 

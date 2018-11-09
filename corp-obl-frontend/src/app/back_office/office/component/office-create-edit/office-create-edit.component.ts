@@ -63,7 +63,7 @@ export class OfficeCreateEditComponent implements OnInit {
         console.log('OfficeCreateEditComponent - getCompanies');
 
         const me = this;
-        me.companiesObservable = me.companyService.getCompanies();
+        me.companiesObservable = me.companyService.getCompaniesByRole();
     }
 
     // convenience getter for easy access to form fields

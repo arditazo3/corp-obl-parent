@@ -81,8 +81,7 @@ export class CompanyCreateEditComponent implements OnInit {
 
                 // If it is new form the route back should be from the child
                 // after it is done all the process
-                if (!me.isNewForm ||
-                    me.appCompanyAssociateUserComponent.selectedUsers.length === 0) {
+                if (me.isNewForm && me.appCompanyAssociateUserComponent.selectedUsers.length === 0) {
 
                     me.router.navigate(['/back-office/company']);
                 }

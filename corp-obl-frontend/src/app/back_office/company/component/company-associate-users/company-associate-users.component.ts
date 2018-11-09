@@ -118,7 +118,7 @@ export class CompanyAssociateUsersComponent implements OnInit {
         const me = this;
         this.submitted = true;
 
-        if (this.selectedUsers === undefined || this.selectedUsers.length === 0) {
+        if (this.selectedUsers === undefined) {
             return;
         }
 
@@ -145,11 +145,7 @@ export class CompanyAssociateUsersComponent implements OnInit {
             (data) => {
                 me.errorDetails = undefined;
 
-                // If it is new form the route back should be from the child
-                // after it is done all the process
-                if (isNewForm) {
-                    me.router.navigate(['/back-office/company']);
-                }
+                me.router.navigate(['/back-office/company']);
 
                 console.log('CompanyAssociateUsersComponent - associateUsersToCompanySubmit - next');
             }, error => {

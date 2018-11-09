@@ -9,7 +9,7 @@ export const ROUTES: RouteInfo[] = [
         class: 'has-arrow',
         ddclass: '',
         extralink: false,
-        authorities: [AuthorityEnum[AuthorityEnum.CORPOBLIG_ADMIN], AuthorityEnum[AuthorityEnum.CORPOBLIG_BACKOFFICE_FOREIGN], AuthorityEnum[AuthorityEnum.CORPOBLIG_BACKOFFICE_INLAND]],
+        authorities: [AuthorityEnum[AuthorityEnum.CORPOBLIG_ADMIN], AuthorityEnum[AuthorityEnum.CORPOBLIG_BACKOFFICE_FOREIGN], AuthorityEnum[AuthorityEnum.CORPOBLIG_BACKOFFICE_INLAND], AuthorityEnum[AuthorityEnum.CORPOBLIG_USER_ADMIN_COMPANY]],
         submenu: [
             {
                 path: '/back-office/company',
@@ -49,7 +49,7 @@ export const ROUTES: RouteInfo[] = [
                 ddclass: '',
                 extralink: false,
                 submenu: [],
-                authorities: [AuthorityEnum[AuthorityEnum.CORPOBLIG_ADMIN], AuthorityEnum[AuthorityEnum.CORPOBLIG_BACKOFFICE_FOREIGN], AuthorityEnum[AuthorityEnum.CORPOBLIG_BACKOFFICE_INLAND]]
+                authorities: [AuthorityEnum[AuthorityEnum.CORPOBLIG_ADMIN], AuthorityEnum[AuthorityEnum.CORPOBLIG_BACKOFFICE_FOREIGN], AuthorityEnum[AuthorityEnum.CORPOBLIG_BACKOFFICE_INLAND], AuthorityEnum[AuthorityEnum.CORPOBLIG_USER_ADMIN_COMPANY]]
             },
             {
                 path: '/back-office/task',

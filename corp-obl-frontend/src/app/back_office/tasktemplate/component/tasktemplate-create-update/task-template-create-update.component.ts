@@ -549,8 +549,10 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 this.expirationTypeObservableMonthly.subscribe(
                     data => {
                         me.expirationTypeObservable = Observable.of(data);
-                        me.selectedExpirationType = data[0];
-                        me.isFixedDay = true;
+                        if (this.isFixedDay) {
+                            me.selectedExpirationType = data[0];
+                            me.isFixedDay = true;
+                        }
                         me.isMonthly = true;
                     }
                 );
