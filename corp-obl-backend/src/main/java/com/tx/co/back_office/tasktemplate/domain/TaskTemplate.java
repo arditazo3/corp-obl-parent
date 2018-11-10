@@ -1,9 +1,12 @@
 package com.tx.co.back_office.tasktemplate.domain;
 
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -267,6 +270,15 @@ public class TaskTemplate implements Serializable {
 
 	public void setCounterOffices(Integer counterOffices) {
 		this.counterOffices = counterOffices;
+	}
+	
+	public Set<Task> getTaskFilterEnabled() {
+		if(!isEmpty(tasks)) {
+			
+			setTasks(tasks.stream()
+				    .filter(task -> (isEmpty(task.getEnabled()) || task.getEnabled()) ).collect(Collectors.toSet()));
+		}
+		return tasks;
 	}
 
 	@Override

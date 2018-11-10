@@ -29,4 +29,6 @@ public interface ITaskService {
     Task getTasksByTaskTemplate(TaskTemplate taskTemplate);
 
     void deleteTask(Task task);
+    
+    void deleteTaskOffice(TaskOffice taskOffice);
 }

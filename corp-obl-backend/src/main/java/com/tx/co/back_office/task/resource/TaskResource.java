@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
+import com.tx.co.back_office.task.api.model.TaskOfficeResult;
 import com.tx.co.back_office.task.api.model.TaskResult;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.task.model.TaskOffice;
@@ -104,5 +105,18 @@ public class TaskResource extends ObjectResult {
 
         return Response.noContent().build();
     }
+    
+    @PUT
+    @Path(TASK_OFFICE_DELETE)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteTaskOffice(TaskOfficeResult taskOfficeResult) {
+
+    	taskService.deleteTaskOffice(toTaskOffice(taskOfficeResult));
+
+        return Response.noContent().build();
+    }
+    
+    
 	
 }

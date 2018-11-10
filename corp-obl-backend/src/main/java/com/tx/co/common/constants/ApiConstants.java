@@ -98,6 +98,7 @@ public final class ApiConstants {
 	public static final String TASK_CREATE_UPDATE = TASK + CREATE_UPDATE;
 	public static final String SINGLE_TASK_BY_TASKTEMPLATE = TASK + "/by-tasktemplate";
 	public static final String TASK_DELETE = TASK + DELETE;
+	public static final String TASK_OFFICE_DELETE = TASK + DELETE + "/task-office";
 
 	// Office Task URL
 	public static final String OFFICE_TASKS = "office-task";

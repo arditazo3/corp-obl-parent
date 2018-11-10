@@ -314,21 +314,6 @@ public abstract class ObjectResult extends UpdateCacheData {
 
 	/**
 	 * @param topic
-	 * @return
-	 */
-	public TopicResult toTopicWithoutConsultantsResult(Topic topic) {
-
-		TopicResult result = toTopicObjectResult(topic);
-
-		toTopicIncludeOfficesResult(topic, result);
-
-		toTopicIncludeTranslationsResult(topic, result);
-
-		return result;
-	}
-
-	/**
-	 * @param topic
 	 * @param result
 	 */
 	public void toTopicIncludeOfficesResult(Topic topic, TopicResult result) {
@@ -691,7 +676,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		result.setDaysBeforeShowExpiration(taskTemplate.getDaysBeforeShowExpiration());
 		result.setExpirationClosableBy(taskTemplate.getExpirationClosableBy());
 		if (!isEmpty(taskTemplate.getTopic())) {
-			result.setTopic(toTopicWithoutConsultantsResult(taskTemplate.getTopic()));
+			result.setTopic(toTopicWithTranslationsResult(taskTemplate.getTopic()));
 		}
 		if (!isEmpty(taskTemplate.getTaskTemplateAttachments())) {
 			List<TaskTemplateAttachmentResult> attachmentResults = new ArrayList<>();
@@ -923,34 +908,38 @@ public abstract class ObjectResult extends UpdateCacheData {
 		taskOffice.setIdTaskOffice(taskOfficeResult.getIdTaskOffice());
 		taskOffice.setTaskTemplate(toTaskTemplate(taskOfficeResult.getTaskTemplate()));
 		taskOffice.setTask(toTask(taskOfficeResult.getTask()));
-		taskOffice.setOffice(toOffice(taskOfficeResult.getOffice()));
+		
+		if(!isEmpty(taskOfficeResult.getOffice())) {
+			taskOffice.setOffice(toOffice(taskOfficeResult.getOffice()));	
+			
+			if (!isEmpty(taskOfficeResult.getOffice().getUserProviders())) {
+				List<TaskOfficeRelations> taskOfficeRelations = new ArrayList<>();
+				for (User user : taskOfficeResult.getOffice().getUserProviders()) {
+					TaskOfficeRelations taskOfficeRelation = new TaskOfficeRelations();
+					taskOfficeRelation.setUsername(user.getUsername());
+					taskOfficeRelation.setRelationType(CONTROLLER);
+					taskOfficeRelation.setTaskOffice(taskOffice);
+
+					taskOfficeRelations.add(taskOfficeRelation);
+				}
+				taskOffice.getTaskOfficeRelations().addAll(new HashSet<TaskOfficeRelations>(taskOfficeRelations));
+			}
+			if (!isEmpty(taskOfficeResult.getOffice().getUserBeneficiaries())) {
+				List<TaskOfficeRelations> taskOfficeRelations = new ArrayList<>();
+				for (User user : taskOfficeResult.getOffice().getUserBeneficiaries()) {
+					TaskOfficeRelations taskOfficeRelation = new TaskOfficeRelations();
+					taskOfficeRelation.setUsername(user.getUsername());
+					taskOfficeRelation.setRelationType(CONTROLLED);
+					taskOfficeRelation.setTaskOffice(taskOffice);
+
+					taskOfficeRelations.add(taskOfficeRelation);
+				}
+				taskOffice.getTaskOfficeRelations().addAll(new HashSet<TaskOfficeRelations>(taskOfficeRelations));
+			}
+		}
+		
 		taskOffice.setStartDate(taskOfficeResult.getStartDate());
 		taskOffice.setEndDate(taskOfficeResult.getEndDate());
-
-		if (!isEmpty(taskOfficeResult.getOffice().getUserProviders())) {
-			List<TaskOfficeRelations> taskOfficeRelations = new ArrayList<>();
-			for (User user : taskOfficeResult.getOffice().getUserProviders()) {
-				TaskOfficeRelations taskOfficeRelation = new TaskOfficeRelations();
-				taskOfficeRelation.setUsername(user.getUsername());
-				taskOfficeRelation.setRelationType(CONTROLLER);
-				taskOfficeRelation.setTaskOffice(taskOffice);
-
-				taskOfficeRelations.add(taskOfficeRelation);
-			}
-			taskOffice.getTaskOfficeRelations().addAll(new HashSet<TaskOfficeRelations>(taskOfficeRelations));
-		}
-		if (!isEmpty(taskOfficeResult.getOffice().getUserBeneficiaries())) {
-			List<TaskOfficeRelations> taskOfficeRelations = new ArrayList<>();
-			for (User user : taskOfficeResult.getOffice().getUserBeneficiaries()) {
-				TaskOfficeRelations taskOfficeRelation = new TaskOfficeRelations();
-				taskOfficeRelation.setUsername(user.getUsername());
-				taskOfficeRelation.setRelationType(CONTROLLED);
-				taskOfficeRelation.setTaskOffice(taskOffice);
-
-				taskOfficeRelations.add(taskOfficeRelation);
-			}
-			taskOffice.getTaskOfficeRelations().addAll(new HashSet<TaskOfficeRelations>(taskOfficeRelations));
-		}
 
 		return taskOffice;
 	}
