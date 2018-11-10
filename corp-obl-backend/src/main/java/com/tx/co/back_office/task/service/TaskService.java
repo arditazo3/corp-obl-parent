@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.tx.co.back_office.office.domain.Office;
+import com.tx.co.back_office.office.service.OfficeService;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.task.model.TaskOffice;
 import com.tx.co.back_office.task.model.TaskOfficeRelations;
@@ -50,6 +51,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	private TaskOfficeRepository taskOfficeRepository;
 	private TaskOfficeRelationRepository taskOfficeRelationRepository;
 	private IExpirationService expirationService; 
+	private OfficeService officeService;
 	private Scheduler scheduler;
 
 	@Autowired
@@ -70,6 +72,11 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	@Autowired
 	public void setExpirationService(IExpirationService expirationService) {
 		this.expirationService = expirationService;
+	}
+
+	@Autowired
+	public void setOfficeService(OfficeService officeService) {
+		this.officeService = officeService;
 	}
 
 	@Autowired
@@ -148,7 +155,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		taskStored = taskRepository.save(taskStored);
 
 		scheduler.elaborateTask(taskStored);
-		
+
 		return taskTaskOfficeSaveUpdate(taskStored, task);
 	}
 
@@ -229,7 +236,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		taskOfficeStored.setModificationDate(new Date());
 
 		taskOfficeStored = taskOfficeRepository.save(taskOfficeStored);
-		
+
 		if(!isEmpty(taskOffice.getTaskOfficeRelations()) && !isEmpty(taskOfficeStored.getIdTaskOffice())) {
 			List<TaskOfficeRelations> taskOfficeRelations = new ArrayList<>();
 			for (TaskOfficeRelations taskOfficeRelationLoop : taskOffice.getTaskOfficeRelations()) {
@@ -241,8 +248,10 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 
 		if(!isEmpty(taskOfficeStored.getTaskOfficeRelations())) {
-			for (TaskOfficeRelations taskOfficeRelationLoop : taskOfficeStored.getTaskOfficeRelations()) {
 
+			taskOfficeRelationRepository.updateTaskOfficeRelationsNotEnableByTaskOffice(taskOfficeStored, username);
+
+			for (TaskOfficeRelations taskOfficeRelationLoop : taskOfficeStored.getTaskOfficeRelations()) {
 				saveUpdateTaskOfficeRelation(taskOfficeRelationLoop, taskOfficeStored);
 			}
 		}
@@ -260,36 +269,34 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 		TaskOfficeRelations taskOfficeRelationStored = null;
 
-		// New Task office relation
-		if(isEmpty(taskOfficeRelation.getIdTaskOfficeRelation())) {
-			taskOfficeRelation.setCreationDate(new Date());
-			taskOfficeRelation.setCreatedBy(username);
-			taskOfficeRelation.setEnabled(true);
+		Optional<TaskOfficeRelations> taskOfficeRelationOptional = taskOfficeRelationRepository.
+				getTaskOfficeRelationsByUsernameAndTaskOffice(taskOfficeRelation.getUsername(), taskOffice);
 
-			taskOfficeRelationStored = taskOfficeRelation;
-
-			logger.info("Creating the new taskOfficeRelation");
-		} else { // Existing Task template
-			Optional<TaskOfficeRelations> taskOfficeRelationOptional = taskOfficeRelationRepository.findById(taskOfficeRelation.getIdTaskOfficeRelation());
-
-			if(taskOfficeRelationOptional.isPresent()) {
-				taskOfficeRelationStored = taskOfficeRelationOptional.get();
-			} else {
-				logger.warn("Task office relation not found, id: " + taskOfficeRelation.getIdTaskOfficeRelation());
-			}
+		// Existing Task template
+		if (taskOfficeRelationOptional.isPresent()){ 
+			taskOfficeRelationStored = taskOfficeRelationOptional.get();
 
 			if(taskOfficeRelationStored == null) {
 				taskOfficeRelationStored = taskOfficeRelation;
 			}
 			logger.info("Updating the taskOfficeRelation with id: " + (taskOfficeRelationStored != null ? taskOfficeRelationStored.getIdTaskOfficeRelation() : ""));
-		}
+
+			// New Task office relation
+		} else if(isEmpty(taskOfficeRelation.getIdTaskOfficeRelation())) {
+			taskOfficeRelation.setCreationDate(new Date());
+			taskOfficeRelation.setCreatedBy(username);
+
+			taskOfficeRelationStored = taskOfficeRelation;
+
+			logger.info("Creating the new taskOfficeRelation");
+		} 
 
 		taskOfficeRelationStored.setUsername(taskOfficeRelation.getUsername());
 		taskOfficeRelationStored.setTaskOffice(taskOffice);
 		taskOfficeRelationStored.setRelationType(taskOfficeRelation.getRelationType());
 		taskOfficeRelationStored.setModifiedBy(username);
 		taskOfficeRelationStored.setModificationDate(new Date());
-		taskOfficeRelationStored.setEnabled(taskOfficeRelationStored.getTaskOffice().getEnabled());
+		taskOfficeRelationStored.setEnabled(true);
 
 		taskOfficeRelationStored = taskOfficeRelationRepository.save(taskOfficeRelationStored);
 
@@ -310,16 +317,6 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 						(!isEmpty(taskOffice.getIdTaskOffice()) && !isEmpty(taskOfficeStored.getIdTaskOffice()) && 
 								taskOffice.getIdTaskOffice().compareTo(taskOfficeStored.getIdTaskOffice()) == 0)) {
 
-					if(!isEmpty(taskOfficeStored.getTaskOfficeRelations())) {
-						for (TaskOfficeRelations taskOfficeRelationToDelete : taskOfficeStored.getTaskOfficeRelations()) {
-							if(!isEmpty(taskOfficeRelationToDelete.getIdTaskOfficeRelation())) {
-								Optional<TaskOfficeRelations> checkIfExist = taskOfficeRelationRepository.findById(taskOfficeRelationToDelete.getIdTaskOfficeRelation());
-								if(checkIfExist.isPresent()) {
-									taskOfficeRelationRepository.delete(checkIfExist.get());	
-								}
-							}
-						}
-					}
 					taskOfficesToSave.add(taskOffice);
 				}
 			}
@@ -343,6 +340,12 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 					if(taskOfficeRepository.findById(taskOffice.getIdTaskOffice()).isPresent()) {
 						taskOfficeRepository.save(taskOffice);	
+
+						if(!isEmpty(taskOffice.getTaskOfficeRelations())) {
+							for (TaskOfficeRelations taskOfficeRelations : taskOffice.getTaskOfficeRelations()) {
+								officeService.deleteTaskOfficeRelations(taskOfficeRelations);
+							}
+						}
 					}
 				}
 			}
@@ -383,7 +386,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			taskStored = taskRepository.save(taskStored);
 
 			taskTaskOfficeSaveUpdate(taskStored, task);
-			
+
 			if(!isEmpty(taskStored.getExpirationsFilterEnabled())) {
 				for (Expiration expiration : taskStored.getExpirationsFilterEnabled()) {
 					expirationService.deleteExpiration(expiration.getIdExpiration());

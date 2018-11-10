@@ -247,7 +247,17 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 					List<Company> uniqueCompanies = coumpanyCounterList.stream()
 							.collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(Company::getIdCompany))), ArrayList::new));
 
-					if(!isEmpty(getCompanies) && !CollectionUtils.containsAny(uniqueCompanies, getCompanies)) {  
+					List<Long> idCompaniesUnique = new ArrayList<>(); 
+					if (!isEmpty(uniqueCompanies)) {
+						idCompaniesUnique = uniqueCompanies.stream().map(Company::getIdCompany).collect(Collectors.toList());
+					}
+					
+					List<Long> idCompanies = new ArrayList<>();
+					if (!isEmpty(getCompanies)) {
+						idCompanies = getCompanies.stream().map(Company::getIdCompany).collect(Collectors.toList());
+					}
+					
+					if(!isEmpty(getCompanies) && !CollectionUtils.containsAny(idCompaniesUnique, idCompanies)) {  
 						continue;
 					}
 					

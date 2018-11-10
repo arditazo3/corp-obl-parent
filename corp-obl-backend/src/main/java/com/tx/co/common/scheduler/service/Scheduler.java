@@ -385,7 +385,7 @@ public class Scheduler {
             final int iToday = UtilDate.getDateAsInt(new Date(), PATTERN_INT_DATE);
             final String expirationType = task.getExpirationType();
             final String recurrence = task.getRecurrence();
-            final int day = task.getDay();
+            final int day = task.getDay() == null ? -1 : task.getDay();
             final int daysBeforeShowExpiration = task.getDaysBeforeShowExpiration();
             final int iCurrentYear = UtilDate.getYear();
             int maxDeadline = UtilDate.getDateAsInt(UtilDate.postpone(new Date(), DAY, daysBeforeShowExpiration), PATTERN_INT_DATE);
