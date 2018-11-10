@@ -72,15 +72,20 @@
             </li>
         </ng-container>
 
-        <li class="sidebar-item w-100" *ngIf="isAdmin()">
-            <button type="button" (click)="refreshCache()" class="btn-tnx btn-success waves-effect waves-light">{{
-                'BACK_OFFICE.TOPIC.SAVE_TOPIC' | translate }}
-            </button>
+        <li class="sidebar-item w-100">
         </li>
 
         <!-- ============================================================== -->
         <!-- Right side menu -->
         <!-- ============================================================== -->
+
+        <li class="sidebar-item" *ngIf="isAdmin()" placement="bottom-right">
+            <div style="display: flex;" class="text-center">
+                <a class="sidebar-link" (click)="refreshCache()">
+                    {{ 'GENERAL.REFRESH_CACHE' | translate }}
+                </a>
+            </div>
+        </li>
 
         <li class="sidebar-item" ngbDropdown placement="bottom-right">
             <!-- ============================================================== -->
@@ -121,7 +126,7 @@
 
     <swal
             #refreshCacheSwal
-            title="{{'REFRESH_CACHE' | translate }}"
+            title="{{'GENERAL.CACHE_REFRESHED' | translate }}"
             type="info">
     </swal>
 </nav>

@@ -25,6 +25,7 @@ import {TaskTemplateOffice} from '../../model/tasktemplate-office';
 import {IMyOptions} from 'mydatepicker';
 import {AppGlobals} from '../../../../shared/common/api/app-globals';
 import {NgSelectComponent} from '@ng-select/ng-select';
+import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'app-quick-configuration',
@@ -46,7 +47,10 @@ export class QuickConfigurationComponent implements OnInit {
     counterCallback = 0;
     errorDetails: ApiErrorDetails = new ApiErrorDetails();
 
-    topicsObservable: Observable<any[]>;
+    langOnChange = '';
+
+    tempTopicsArray: Topic[];
+    topicsArray: Topic[];
     periodicityObservable: Observable<any[]>;
     expirationTypeOnlyFixedDayObservable: Observable<any[]>;
     expirationTypeObservableMonthly: Observable<any[]>;
@@ -93,7 +97,8 @@ export class QuickConfigurationComponent implements OnInit {
         private taskService: TaskService,
         private userInfoService: UserInfoService,
         private translationService: TranslationService,
-        private uploadService: UploadService
+        private uploadService: UploadService,
+        private translateService: TranslateService
     ) {
         const me = this;
         this.selectedPeriodicityTypeChange.subscribe(
@@ -101,6 +106,17 @@ export class QuickConfigurationComponent implements OnInit {
                 me.swtichItemsExpirationSelect(value);
             }
         );
+
+        me.langOnChange = me.translateService.currentLang;
+
+        me.translateService.onLangChange
+            .subscribe((event: LangChangeEvent) => {
+                if (event.lang) {
+                    me.langOnChange = event.lang;
+                    me.descriptionTopicOnChange();
+                    me.descriptionTopicSelectedOnChange();
+                }
+            });
     }
 
     ngOnInit() {
@@ -191,7 +207,11 @@ export class QuickConfigurationComponent implements OnInit {
         console.log('QuickConfigurationComponent - getTopics');
 
         const me = this;
-        me.topicsObservable = me.topicService.getTopicsByRole();
+        me.topicService.getTopicsByRole().subscribe(
+            data => {
+                me.tempTopicsArray = data;
+                me.descriptionTopicOnChange();
+            });
     }
 
     getTranslationLikeTablename(tablename): Observable<any[]> {
@@ -572,35 +592,39 @@ export class QuickConfigurationComponent implements OnInit {
         return hasValue;
     }
 
-    deleteTaskTemplate() {
-        console.log('QuickConfigurationComponent - deleteTaskTemplate');
+    descriptionTopicOnChange() {
         const me = this;
 
-        if (this.taskTemplate) {
-            this.confirmationTaskTemplateSwal.title = 'Do you want to delete: ' + this.taskTemplate.description + '?';
-            this.confirmationTaskTemplateSwal.show()
-                .then(function (result) {
-                    if (result.value === true) {
-                        // handle confirm, result is needed for modals with input
-                        me.taskTemplateService.deleteTaskTemplate(me.taskTemplate).subscribe(
-                            next => {
-                                me.router.navigate(['/back-office/office-task']);
-                                console.log('QuickConfigurationComponent - deleteTaskTemplate - next');
-                            },
-                            error => {
-                                console.error('QuickConfigurationComponent - deleteTaskTemplate - error \n', error);
-                            }
-                        );
-                    }
-                }, function (dismiss) {
-                    // dismiss can be "cancel" | "close" | "outside"
-                });
+        if (me.tempTopicsArray && me.tempTopicsArray.length > 0) {
+
+            me.tempTopicsArray.forEach(topic => {
+                if (topic.translationList && topic.translationList.length > 1) {
+                    topic.translationList.forEach(translation => {
+                        if (translation.lang === me.langOnChange) {
+                            topic.description = translation.description;
+                        }
+                    });
+                }
+            });
+
+            me.topicsArray = [...me.tempTopicsArray];
+        } else {
+            me.topicsArray = [...[]];
         }
     }
 
-    checkAssociationOffice($event) {
-        if ($event && this.task && this.task.taskOffices) {
-            this.task.taskOffices = this.associationOffice.taskOfficesArray;
+    descriptionTopicSelectedOnChange() {
+        const me = this;
+
+        if (me.selectedTopic) {
+
+            if (me.selectedTopic.translationList && me.selectedTopic.translationList.length > 1) {
+                me.selectedTopic.translationList.forEach(translation => {
+                    if (translation.lang === me.langOnChange) {
+                        me.selectedTopic.description = translation.description;
+                    }
+                });
+            }
         }
     }
 }

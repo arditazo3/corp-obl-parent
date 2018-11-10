@@ -42,9 +42,10 @@ export class AssociationOfficeComponent implements OnInit {
             return;
         }
 
-        const officesFiltredByTask = me.task.taskTemplate.topic.companyList[0].offices;
-
-        me.officesObservable = Observable.of(officesFiltredByTask);
+        if (me.task.taskTemplate && me.task.taskTemplate.topic) {
+            const officesFiltredByTask = me.task.taskTemplate.topic.companyList[0].offices;
+            me.officesObservable = Observable.of(officesFiltredByTask);
+        }
 
         me.usersObservable = me.userService.getAllUsersExceptAdminRole();
 

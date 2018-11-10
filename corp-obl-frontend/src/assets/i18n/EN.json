@@ -191,6 +191,8 @@
     "DETAILS": "Details",
     "HIDE": "Hide",
     "NODATA": "No data",
-    "TOTAL": "Total"
+    "TOTAL": "Total",
+    "REFRESH_CACHE": "Refresh Cache",
+    "CACHE_REFRESHED": "Cache Refreshed"
   }
 }

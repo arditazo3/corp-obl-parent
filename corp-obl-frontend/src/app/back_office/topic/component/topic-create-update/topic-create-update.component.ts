@@ -191,6 +191,7 @@ export class TopicCreateUpdateComponent implements OnInit {
         this.previousLang = actualValue;
 
         this.hasDescriptionMultiLang();
+        this.checkLangDescrInserted();
     }
 
     hasDescriptionMultiLang(): boolean {
@@ -238,9 +239,13 @@ export class TopicCreateUpdateComponent implements OnInit {
 
     checkLangDescrInserted() {
 
-        if (!this.isNewForm && this.translationList && this.translationList.length === 1) {
-
-            this.langDescrInserted = this.translationList[0].lang;
+        if (this.translationList) {
+            if (this.translationList.length === 1) {
+                this.langDescrInserted = this.translationList[0].lang;
+            } else if (this.userInfoService.getLanguages() &&
+                this.userInfoService.getLanguages().length === this.translationList.length) {
+                this.langDescrInserted = '';
+            }
         }
     }
 }

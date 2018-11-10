@@ -7,6 +7,7 @@ import {TransferDataService} from '../../../../shared/common/service/transfer-da
 import {TopicService} from '../../service/topic.service';
 import {DataFilter} from '../../../../shared/common/api/model/data-filter';
 import {PageEnum} from '../../../../shared/common/api/enum/page.enum';
+import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'app-topic-table',
@@ -19,6 +20,8 @@ export class TopicTableComponent implements OnInit {
     @ViewChild('myTable') table: any;
     @ViewChild('deleteTopicSwal') deleteTopicSwal: SwalComponent;
 
+    langOnChange = '';
+
     columns: any[];
     rows: Topic[];
     data: any;
@@ -30,8 +33,20 @@ export class TopicTableComponent implements OnInit {
     constructor(
         private router: Router,
         private topicService: TopicService,
-        private transferService: TransferDataService
+        private transferService: TransferDataService,
+        private translateService: TranslateService
     ) {
+        const me = this;
+
+        me.langOnChange = me.translateService.currentLang;
+
+        me.translateService.onLangChange
+            .subscribe((event: LangChangeEvent) => {
+                if (event.lang) {
+                    me.langOnChange = event.lang;
+                    me.descriptionOnChange();
+                }
+            });
     }
 
     async ngOnInit() {
@@ -59,12 +74,33 @@ export class TopicTableComponent implements OnInit {
         const me = this;
         this.topicService.getTopics().subscribe(
             (data) => {
-                me.rows = data;
-                me.temp = [...data];
+                me.temp = data;
+                me.rows = me.descriptionOnChange();
 
                 me.updateDataFilter(this.dataFilter.description);
             }
         );
+    }
+
+    descriptionOnChange(): any {
+        const me = this;
+
+        if (me.temp && me.temp.length > 0) {
+
+            me.temp.forEach(topic => {
+                if (topic.translationList && topic.translationList.length > 1) {
+                    topic.translationList.forEach(translation => {
+                        if (translation.lang === me.langOnChange) {
+                            topic.description = translation.description;
+                        }
+                    });
+                }
+            });
+
+            return me.temp;
+        } else {
+            return;
+        }
     }
 
     updateDataFilter(val) {

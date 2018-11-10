@@ -58,7 +58,7 @@ public class TopicResource extends ObjectResult {
         Iterable<Topic> topicIterable = topicService.getTopicsByRoleList();
         List<TopicResult> queryTopicList =
                 StreamSupport.stream(topicIterable.spliterator(), false)
-                        .map(this::toTopicResult)
+                        .map(this::toTopicWithTranslationsResult)
                         .collect(Collectors.toList());
 
         return Response.ok(queryTopicList).build();

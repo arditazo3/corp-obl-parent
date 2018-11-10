@@ -25,7 +25,7 @@
                             </div>
                             <div class="col-sm-12 col-md-4">
                                 <label for="topic" class="control-label col-form-label">{{ 'BACK_OFFICE.OFFICE_TASK.TOPIC' | translate }}</label>
-                                <ng-select [items]="topicsObservable | async"
+                                <ng-select [items]="topicsArray"
                                            bindLabel="description"
                                            id="topic"
                                            [ngModelOptions]="{standalone: true}"

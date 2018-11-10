@@ -8,7 +8,7 @@ import {Company} from '../../../company/model/company';
     selector: 'app-association-office-users',
     templateUrl: './association-office-users.component.html',
     styleUrls: ['./association-office-users.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AssociationOfficeUsersComponent implements OnInit {
 

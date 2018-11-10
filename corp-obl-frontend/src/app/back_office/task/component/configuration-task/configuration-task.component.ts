@@ -1,4 +1,13 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    DoCheck,
+    ElementRef,
+    IterableDiffers,
+    OnInit,
+    ViewChild
+} from '@angular/core';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {Router} from '@angular/router';
 import {TaskTemplateService} from '../../../tasktemplate/service/tasktemplate.service';
@@ -10,11 +19,14 @@ import {ObjectSearchTaskTemplate} from '../../../tasktemplate/model/object-searc
 import {Observable} from 'rxjs';
 import {DataFilter} from '../../../../shared/common/api/model/data-filter';
 import {PageEnum} from '../../../../shared/common/api/enum/page.enum';
+import {Topic} from '../../../topic/model/topic';
+import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'app-configuration-task',
     templateUrl: './configuration-task.component.html',
     styleUrls: ['./configuration-task.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfigurationTaskComponent implements OnInit {
 
@@ -22,6 +34,7 @@ export class ConfigurationTaskComponent implements OnInit {
     @ViewChild('myTable') table: any;
     expansionDefault = false;
 
+    langOnChange = '';
     descriptionTaskTemplate: string;
 
     columns: any[];
@@ -32,7 +45,8 @@ export class ConfigurationTaskComponent implements OnInit {
     index = 1;
 
     companiesObservable: Observable<any[]>;
-    topicsObservable: Observable<any[]>;
+    tempTopicsArray: Topic[];
+    topicsArray: Topic[];
 
     selectedCompanies = [];
     selectedTopics = [];
@@ -43,8 +57,22 @@ export class ConfigurationTaskComponent implements OnInit {
         private taskTemplateService: TaskTemplateService,
         private topicService: TopicService,
         private companyService: CompanyService,
-        private transferService: TransferDataService
+        private transferService: TransferDataService,
+        private translateService: TranslateService,
+        private cdr:ChangeDetectorRef
     ) {
+        const me = this;
+
+        me.langOnChange = me.translateService.currentLang;
+
+        me.translateService.onLangChange
+            .subscribe((event: LangChangeEvent) => {
+                if (event.lang) {
+                    me.langOnChange = event.lang;
+                    me.descriptionTopicOnChange();
+                    me.descriptionTopicSelectedOnChange();
+                }
+            });
     }
 
     async ngOnInit() {
@@ -60,9 +88,9 @@ export class ConfigurationTaskComponent implements OnInit {
             this.descriptionTaskTemplate = this.dataFilter.description;
             this.selectedCompanies = this.dataFilter.companies;
             this.selectedTopics = this.dataFilter.topics;
-
-            this.searchTaskTemplate();
         }
+
+        this.searchTaskTemplate();
     }
 
     getCompanies() {
@@ -76,7 +104,12 @@ export class ConfigurationTaskComponent implements OnInit {
         console.log('ConfigurationTaskComponent - getTopics');
 
         const me = this;
-        me.topicsObservable = me.topicService.getTopicsByRole();
+        me.topicService.getTopicsByRole().subscribe(
+            data => {
+                me.tempTopicsArray = data;
+                me.descriptionTopicOnChange();
+            }
+        );
     }
 
     getTaskTemplates() {
@@ -100,7 +133,10 @@ export class ConfigurationTaskComponent implements OnInit {
 
         this.taskTemplateService.searchTaskTemplate(objectSearchTaskTemplate).subscribe(
             (data) => {
-                me.rows = data;
+
+                const dataUpdated: Task[] = data.map(x => Object.assign({}, x));
+                me.rows = [...dataUpdated];
+                me.cdr.detectChanges();
             }
         );
 
@@ -220,4 +256,45 @@ export class ConfigurationTaskComponent implements OnInit {
 
         this.transferService.dataFilter = this.dataFilter;
     }
+
+    descriptionTopicOnChange() {
+        const me = this;
+
+        if (me.tempTopicsArray && me.tempTopicsArray.length > 0) {
+
+            me.tempTopicsArray.forEach(topic => {
+                if (topic.translationList && topic.translationList.length > 1) {
+                    topic.translationList.forEach(translation => {
+                        if (translation.lang === me.langOnChange) {
+                            topic.description = translation.description;
+                        }
+                    });
+                }
+            });
+
+            me.topicsArray = [...me.tempTopicsArray];
+        } else {
+            me.topicsArray = [...[]];
+        }
+    }
+
+    descriptionTopicSelectedOnChange() {
+        const me = this;
+
+        if (me.selectedTopics && me.selectedTopics.length > 0) {
+
+            me.selectedTopics.forEach(topic => {
+                if (topic.translationList && topic.translationList.length > 1) {
+                    topic.translationList.forEach(translation => {
+                        if (translation.lang === me.langOnChange) {
+                            topic.description = translation.description;
+                        }
+                    });
+                }
+            });
+            const selectedTopicsTemp = me.selectedTopics.map(x => Object.assign({}, x));
+            me.selectedTopics = selectedTopicsTemp;
+        }
+    }
+
 }

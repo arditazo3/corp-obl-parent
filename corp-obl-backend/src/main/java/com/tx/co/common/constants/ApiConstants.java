@@ -29,15 +29,14 @@ public final class ApiConstants {
 	public static final String USER_LANGUAGE_ON_CHANGE = "user-language-change";
 	public static final String USER_BY_USERNAME = "{username}";
 	public static final String ME = "me";
+	// Refresh cache URL
+	public static final String REFRESH_CACHE = "refresh-cache";
 
 	/**
 	 * Back office Resources
 	 * */
 	public static final String BACK_OFFICE = "back-office";
 
-	// Admin URL
-	public static final String REFRESH_CACHE = "refresh-cache";
-	
 	// Company URL
 	public static final String COMPANY = "company";
 	public static final String COMPANY_GET_BY_ID = COMPANY + "/{idCompany}";
@@ -126,7 +125,7 @@ public final class ApiConstants {
 	public static final String STATUS_EXPIRATION_ON_CHANGE = AGENDA + "/status-expiration-on-change";
 	public static final String STATUS_ALL_EXPIRATION_ON_CHANGE = AGENDA + "/status-all-expiration-on-change";
 	public static final String UPDATE_TASK_EXPIRATION = AGENDA + "/update-task-expiration";
-	
+
 	/** End Front end Resources */
 
 	/**
@@ -138,11 +137,12 @@ public final class ApiConstants {
 	public static final String USER_ADMIN = "CORPOBLIG_USER_ADMIN_COMPANY";
 	public static final String USER_ROLE = "CORPOBLIG_USER";
 
-	public static final String orHasAuthority = "or hasAuthority";
-	public static final String AUTH_ADMIN_FOREIGN_INLAND = "hasAuthority('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + FOREIGN_ROLE + "') " + orHasAuthority + "('" + INLAND_ROLE + "')";
-	public static final String AUTH_ADMIN_FOREIGN_INLAND_USER_ADMIN = "hasAuthority('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + FOREIGN_ROLE + "') " + orHasAuthority + "('" + INLAND_ROLE + "') " + orHasAuthority + "('" + USER_ADMIN + "')";
-	public static final String AUTH_ADMIN_USER = "hasAuthority('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + USER_ROLE + "')";
-	public static final String AUTH_ADMIN = "hasAuthority('"+ ADMIN_ROLE + "')";
+	public static final String hasAuthority = "hasAuthority";
+	public static final String orHasAuthority = "or " + hasAuthority;
+	public static final String AUTH_ADMIN_FOREIGN_INLAND = hasAuthority + "('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + FOREIGN_ROLE + "') " + orHasAuthority + "('" + INLAND_ROLE + "')";
+	public static final String AUTH_ADMIN_FOREIGN_INLAND_USER_ADMIN = hasAuthority + "('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + FOREIGN_ROLE + "') " + orHasAuthority + "('" + INLAND_ROLE + "') " + orHasAuthority + "('" + USER_ADMIN + "')";
+	public static final String AUTH_ADMIN_USER = hasAuthority + "('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + USER_ROLE + "')";
+	public static final String AUTH_ADMIN = hasAuthority + "('"+ ADMIN_ROLE + "')";
 	/* End of authorization Role list */
 
 	/**

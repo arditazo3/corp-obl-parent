@@ -8,6 +8,7 @@ import {TopicService} from '../../../topic/service/topic.service';
 import {TopicConsultant} from '../../../topic/model/topic-consultant';
 import {CompanyTopic} from '../../../company/model/company_topic';
 import {Company} from '../../../company/model/company';
+import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'app-topic-consultant',
@@ -15,6 +16,9 @@ import {Company} from '../../../company/model/company';
     styleUrls: ['./topic-consultant.component.css']
 })
 export class TopicConsultantComponent implements OnInit {
+
+    langOnChange = '';
+    temp = [];
 
     companyTopicsArray = [];
     consultantsObservable: Observable<any[]>;
@@ -25,8 +29,21 @@ export class TopicConsultantComponent implements OnInit {
         private router: Router,
         private consultantService: ConsultantService,
         private topicService: TopicService,
-        private transferService: TransferDataService
+        private transferService: TransferDataService,
+        private translateService: TranslateService
     ) {
+
+        const me = this;
+
+        me.langOnChange = me.translateService.currentLang;
+
+        me.translateService.onLangChange
+            .subscribe((event: LangChangeEvent) => {
+                if (event.lang) {
+                    me.langOnChange = event.lang;
+                    me.descriptionOnChange();
+                }
+            });
     }
 
     ngOnInit() {
@@ -47,8 +64,8 @@ export class TopicConsultantComponent implements OnInit {
         const me = this;
         me.consultantService.getCompanyTopic(selectedCompany).subscribe(
             (data) => {
-                me.companyTopicsArray = data;
-                console.log('companyTopicsArray ' + me.companyTopicsArray);
+                me.temp = data;
+                me.companyTopicsArray = me.descriptionOnChange();
             }
         );
 
@@ -118,4 +135,24 @@ export class TopicConsultantComponent implements OnInit {
         );
     }
 
+    descriptionOnChange(): any {
+        const me = this;
+
+        if (me.temp && me.temp.length > 0) {
+
+            me.temp.forEach(companyTopic => {
+                if (companyTopic.topic && companyTopic.topic.translationList && companyTopic.topic.translationList.length > 1) {
+                    companyTopic.topic.translationList.forEach(translation => {
+                        if (translation.lang === me.langOnChange) {
+                            companyTopic.topic.description = translation.description;
+                        }
+                    });
+                }
+            });
+
+            return me.temp;
+        } else {
+            return;
+        }
+    }
 }

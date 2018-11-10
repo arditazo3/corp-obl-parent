@@ -87,12 +87,9 @@ public class CompanyConsultantService extends UpdateCacheData implements ICompan
         if(!isEmpty(companyConsultant.getCompany())) {
         	companyConsultantStored.setCompany(companyConsultant.getCompany());
         }
-        if(!isEmpty(companyConsultant.getPhone1())) {
-        	companyConsultantStored.setPhone1(companyConsultant.getPhone1());
-        }
-        if(!isEmpty(companyConsultant.getPhone2())) {
-        	companyConsultantStored.setPhone2(companyConsultant.getPhone2());
-        }
+        
+        companyConsultantStored.setPhone1(companyConsultant.getPhone1());
+        companyConsultantStored.setPhone2(companyConsultant.getPhone2());
 
         companyConsultantStored.setModificationDate(new Date());
         companyConsultantStored.setModifiedBy(username);

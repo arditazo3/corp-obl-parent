@@ -23,6 +23,7 @@ import {TaskTemplateOffice} from '../../../office-task/model/tasktemplate-office
 import {IMyOptions} from 'mydatepicker';
 import {AppGlobals} from '../../../../shared/common/api/app-globals';
 import {NgSelectComponent} from '@ng-select/ng-select';
+import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'app-tasktemplate-create-update',
@@ -43,7 +44,10 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     counterCallback = 0;
     errorDetails: ApiErrorDetails = new ApiErrorDetails();
 
-    topicsObservable: Observable<any[]>;
+    langOnChange = '';
+
+    tempTopicsArray: Topic[];
+    topicsArray: Topic[];
     periodicityObservable: Observable<any[]>;
     expirationTypeOnlyFixedDayObservable: Observable<any[]>;
     expirationTypeObservableMonthly: Observable<any[]>;
@@ -90,7 +94,8 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         private taskService: TaskService,
         private userInfoService: UserInfoService,
         private translationService: TranslationService,
-        private uploadService: UploadService
+        private uploadService: UploadService,
+        private translateService: TranslateService
     ) {
         const me = this;
         this.selectedPeriodicityTypeChange.subscribe(
@@ -98,6 +103,17 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 me.swtichItemsExpirationSelect(value);
             }
         );
+
+        me.langOnChange = me.translateService.currentLang;
+
+        me.translateService.onLangChange
+            .subscribe((event: LangChangeEvent) => {
+                if (event.lang) {
+                    me.langOnChange = event.lang;
+                    me.descriptionTopicOnChange();
+                    me.descriptionTopicSelectedOnChange();
+                }
+            });
     }
 
     ngOnInit() {
@@ -243,11 +259,14 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         console.log('TaskTemplateCreateUpdateComponent - getTopics');
 
         const me = this;
-        me.topicsObservable = me.topicService.getTopicsByRole();
+        me.topicService.getTopicsByRole().subscribe(
+            data => {
+                me.tempTopicsArray = data;
+                me.descriptionTopicOnChange();
+            });
     }
 
     getTranslationLikeTablename(tablename): Observable<any[]> {
-        console.log('TaskTemplateCreateUpdateComponent - getTranslationLikeTablename');
         return this.translationService.getTranslationsLikeTablename(tablename);
     }
 
@@ -262,7 +281,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         const me = this;
         this.submitted = true;
 
-        if (this.isForeign) {
+        if (this.isForeign && this.isTaskTemplateForm) {
             this.createEditTaskTemplate.get('expirationRadio').setValue('1');
         }
 
@@ -713,6 +732,42 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     checkAssociationOffice($event) {
         if ($event && this.task && this.task.taskOffices) {
             this.task.taskOffices = this.associationOffice.taskOfficesArray;
+        }
+    }
+
+    descriptionTopicOnChange() {
+        const me = this;
+
+        if (me.tempTopicsArray && me.tempTopicsArray.length > 0) {
+
+            me.tempTopicsArray.forEach(topic => {
+                if (topic.translationList && topic.translationList.length > 1) {
+                    topic.translationList.forEach(translation => {
+                        if (translation.lang === me.langOnChange) {
+                            topic.description = translation.description;
+                        }
+                    });
+                }
+            });
+
+            me.topicsArray = [...me.tempTopicsArray];
+        } else {
+            me.topicsArray = [...[]];
+        }
+    }
+
+    descriptionTopicSelectedOnChange() {
+        const me = this;
+
+        if (me.selectedTopic) {
+
+            if (me.selectedTopic.translationList && me.selectedTopic.translationList.length > 1) {
+                me.selectedTopic.translationList.forEach(translation => {
+                    if (translation.lang === me.langOnChange) {
+                        me.selectedTopic.description = translation.description;
+                    }
+                });
+            }
         }
     }
 }

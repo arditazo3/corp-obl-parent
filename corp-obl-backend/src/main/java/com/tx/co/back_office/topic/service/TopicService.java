@@ -315,16 +315,26 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 	public List<Topic> getTopicsByRole() {
 
 		User userLoggedIn = getTokenUserDetails().getUser();
+		List<Topic> topicList = new ArrayList<>();
 
 		if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
-			return topicRepository.getTopicsByRoleAdmin();
+			topicList = topicRepository.getTopicsByRoleAdmin();
 		} else if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
-			return topicRepository.getTopicsByRoleForeign(userLoggedIn.getUsername());
+			topicList = topicRepository.getTopicsByRoleForeign(userLoggedIn.getUsername());
 		} else if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND)) {
 			Pageable topOne = PageRequest.of(0, 1);
-			return topicRepository.getTopicsByRoleInland(userLoggedIn.getUsername(), topOne);
+			topicList = topicRepository.getTopicsByRoleInland(userLoggedIn.getUsername(), topOne);
 		}
-		return new ArrayList<>();
+		
+		if(!isEmpty(topicList)) {
+			for (Topic topic : topicList) {
+				List<Translation> translationList = translationRepository
+						.getTranslationByEntityIdAndTablename(topic.getIdTopic(), "co_topic");
+				topic.setTranslationList(translationList);
+			}	
+		}
+		
+		return topicList;
 	}
 
 	@Override

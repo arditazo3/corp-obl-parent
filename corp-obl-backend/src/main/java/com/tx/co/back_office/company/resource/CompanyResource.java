@@ -174,9 +174,9 @@ public class CompanyResource extends ObjectResult {
     @Path(CONSULTANT_CREATE_UPDATE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createUpdateCompany(CompanyConsultantResult companyConsultantResult) {
+    public Response createUpdateConsultant(CompanyConsultantResult companyConsultantResult) {
 
-    	logger.info("createUpdateCompany - Path: " + CONSULTANT_CREATE_UPDATE);
+    	logger.info("createUpdateConsultant - Path: " + CONSULTANT_CREATE_UPDATE);
     	
     	CompanyConsultant companyConsultantStored = companyConsultantService.saveUpdateCompanyConsultant(toCompanyConsultant(companyConsultantResult));
 
@@ -187,9 +187,9 @@ public class CompanyResource extends ObjectResult {
     @Path(CONSULTANT_DELETE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteCompany(CompanyConsultantResult companyConsultant) {
+    public Response deleteConsultant(CompanyConsultantResult companyConsultant) {
 
-    	logger.info("deleteCompany - Path: " + CONSULTANT_DELETE);
+    	logger.info("deleteConsultant - Path: " + CONSULTANT_DELETE);
     	
     	companyConsultantService.deleteCompanyConsultant(companyConsultant.getIdCompanyConsultant());
 

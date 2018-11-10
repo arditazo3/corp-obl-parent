@@ -1,6 +1,8 @@
 package com.tx.co.admin.resource;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -16,10 +18,12 @@ import javax.ws.rs.core.Response;
 import static com.tx.co.common.constants.ApiConstants.*;
 
 @Component
-@Path(BACK_OFFICE)
+@Path(USER)
 @PreAuthorize(AUTH_ADMIN)
 public class AdminResource {
 
+	private static final Logger logger = LogManager.getLogger(AdminResource.class);
+	
 	private IAdminService adminService;
 	
 	@Autowired
@@ -32,6 +36,8 @@ public class AdminResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response refreshCache() {
         
+		logger.info("refreshCache - Path: " + REFRESH_CACHE);
+		
 		adminService.refreshCache();
 		
         return Response.noContent().build();

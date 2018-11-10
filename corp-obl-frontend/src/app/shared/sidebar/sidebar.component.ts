@@ -116,7 +116,7 @@ export class SidebarComponent implements OnInit {
     }
 
     changeLanguage(language) {
-        console.log('CompanyTableComponent - changeLanguage');
+        console.log('SidebarComponent - changeLanguage');
 
         const me = this;
 

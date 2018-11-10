@@ -16,8 +16,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,8 +27,6 @@ import com.tx.co.common.translation.service.ITranslationService;
 @Component
 @Path(BACK_OFFICE)
 public class TranslationResource extends ObjectResult {
-
-	private static final Logger logger = LogManager.getLogger(TranslationResource.class);
 
 	@Context
 	private UriInfo uriInfo; 
@@ -49,8 +45,6 @@ public class TranslationResource extends ObjectResult {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getTranslations(@QueryParam("tablename") String tablename, @QueryParam("lang") String lang) {
 
-		logger.info("getTranslations - Path: " + TRANSLATION_LIKE_TABLENAME);
-		
 		Iterable<Translation> translationIterable = translationService.getTranslationLikeTablename(tablename, lang);
         List<TranslationResult> queryDetailsList =
                 StreamSupport.stream(translationIterable.spliterator(), false)

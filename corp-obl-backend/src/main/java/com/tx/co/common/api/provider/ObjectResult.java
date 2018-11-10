@@ -282,13 +282,28 @@ public abstract class ObjectResult extends UpdateCacheData {
 	 * Map a {@link Topic} instance to a {@link TopicResult} instance.
 	 *
 	 * @param topic
-	 * @return OfficeResult
+	 * @return TopicResult
 	 */
-	public TopicResult toTopicResult(Topic topic) {
+	public TopicResult toTopicWithTranslationsResult(Topic topic) {
 
 		TopicResult result = toTopicObjectResult(topic);
 
 		toTopicIncludeOfficesResult(topic, result);
+		
+		toTopicIncludeTranslationsResult(topic, result);
+
+		return result;
+	}
+	
+	/**
+	 * Map a {@link Topic} instance to a {@link TopicResult} instance.
+	 *
+	 * @param topic
+	 * @return TopicResult
+	 */
+	public TopicResult toTopicResult(Topic topic) {
+
+		TopicResult result = toTopicObjectResult(topic);
 
 		toTopicIncludeTranslationsResult(topic, result);
 
@@ -367,7 +382,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 	 * @param topicResult
 	 * @return
 	 */
-	public Topic toTopic(TopicResult topicResult) {
+	public Topic toTopicSingleObject(TopicResult topicResult) {
 		Topic topic = new Topic();
 		if (isEmpty(topicResult)) {
 			throw new GeneralException(EMPTY_FORM);
@@ -378,6 +393,17 @@ public abstract class ObjectResult extends UpdateCacheData {
 		if (!isEmpty(topicResult.getDescription())) {
 			topic.setDescription(topicResult.getDescription().trim());
 		}
+		return topic;
+	}
+	
+	/**
+	 * @param topicResult
+	 * @return
+	 */
+	public Topic toTopic(TopicResult topicResult) {
+		
+		Topic topic = toTopicSingleObject(topicResult);
+		
 		if (!isEmpty(topicResult.getCompanyList())) {
 			for (CompanyResult companyResult : topicResult.getCompanyList()) {
 				CompanyTopicResult companyTopicResult = new CompanyTopicResult();
@@ -392,6 +418,31 @@ public abstract class ObjectResult extends UpdateCacheData {
 		return topic;
 	}
 
+	/**
+	 * @param topicResult,
+	 *            hasTranslations
+	 * @return
+	 */
+	public Topic toTopicSingleObjectWithTranslation(TopicResult topicResult) {
+
+		Topic topic = toTopicSingleObject(topicResult);
+
+		if (!isEmpty(topicResult.getTranslationList())) {
+			for (TranslationResult translationResult : topicResult.getTranslationList()) {
+				if (!isEmpty(translationResult.getDescription())) {
+					topic.getTranslationList().add(toTranslation(translationResult));
+				}
+			}
+			if (isEmpty(topic.getTranslationList())) {
+				throw new GeneralException(FULLFIT_FORM);
+			}
+		} else {
+			throw new GeneralException(FULLFIT_FORM);
+		}
+
+		return topic;
+	}
+	
 	/**
 	 * @param topicResult,
 	 *            hasTranslations
@@ -558,7 +609,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		if (isEmpty(topicConsultantResult.getTopic())) {
 			throw new GeneralException("The Topic Consultant is empty");
 		} else {
-			topicConsultant.setTopic(toTopicWithTranslation(topicConsultantResult.getTopic()));
+			topicConsultant.setTopic(toTopicSingleObjectWithTranslation(topicConsultantResult.getTopic()));
 		}
 		return topicConsultant;
 	}
@@ -615,7 +666,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 			taskTemplate.setExpirationClosableBy(taskTemplateResult.getExpirationClosableBy());
 		}
 		if (!isEmpty(taskTemplateResult.getTopic())) {
-			taskTemplate.setTopic(toTopic(taskTemplateResult.getTopic()));
+			taskTemplate.setTopic(toTopicSingleObject(taskTemplateResult.getTopic()));
 		} else {
 			throw new GeneralException(FULLFIT_FORM);
 		}
@@ -812,7 +863,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		if (!isEmpty(objectSearchTaskTemplateResult.getTopics())) {
 			List<Topic> topics = new ArrayList<>();
 			for (TopicResult topicResult : objectSearchTaskTemplateResult.getTopics()) {
-				topics.add(toTopic(topicResult));
+				topics.add(toTopicSingleObject(topicResult));
 			}
 			objectSearchTaskTemplate.setTopics(topics);
 		}

@@ -35,7 +35,7 @@
       "CREATE_NEW_CONSULTANT": "Crea nuovo consulente",
       "NOMINATIVE_BUSINESS_NAME": "Nominativo / Nome commerciale",
       "NOMINATIVE_BUSINESS_NAME_REQUIRED": "Nominativo / Nome commerciale richiesto",
-      "TELEPHONE_1": "Telefono n. 1",
+      "TELEPHONE_1": "Telefono n.1",
       "TELEPHONE_2": "Telefono n.2",
       "CONSULTANT_FORM": "Modulo di consulenza",
       "SAVE_CONSULTANT": "Salva consulente"
@@ -191,6 +191,8 @@
     "DETAILS": "Detagli",
     "HIDE": "Nascondi",
     "NODATA": "No data",
-    "TOTAL": "Totale"
+    "TOTAL": "Totale",
+    "REFRESH_CACHE": "Refresh Cache",
+    "CACHE_REFRESHED": "Cache Aggiornato"
   }
 }
