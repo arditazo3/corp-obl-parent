@@ -27,6 +27,7 @@ import com.tx.co.back_office.task.repository.TaskOfficeRelationRepository;
 import com.tx.co.back_office.task.repository.TaskOfficeRepository;
 import com.tx.co.back_office.task.repository.TaskRepository;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
+import com.tx.co.back_office.tasktemplate.service.ITaskTemplateService;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.common.scheduler.service.Scheduler;
 import com.tx.co.front_end.expiration.domain.Expiration;
@@ -52,6 +53,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	private TaskOfficeRelationRepository taskOfficeRelationRepository;
 	private IExpirationService expirationService; 
 	private OfficeService officeService;
+	private ITaskTemplateService taskTemplateService;
 	private Scheduler scheduler;
 
 	@Autowired
@@ -75,8 +77,14 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	}
 
 	@Autowired
+	@Override
 	public void setOfficeService(OfficeService officeService) {
 		this.officeService = officeService;
+	}
+
+	@Autowired
+	public void setTaskTemplateService(ITaskTemplateService taskTemplateService) {
+		this.taskTemplateService = taskTemplateService;
 	}
 
 	@Autowired
@@ -279,7 +287,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			if(taskOfficeRelationStored == null) {
 				taskOfficeRelationStored = taskOfficeRelation;
 			}
-			logger.info("Updating the taskOfficeRelation with id: " + (taskOfficeRelationStored != null ? taskOfficeRelationStored.getIdTaskOfficeRelation() : ""));
+			logger.info("Updating the taskOfficeRelation with id: " + (!isEmpty(taskOfficeRelationStored) ? taskOfficeRelationStored.getIdTaskOfficeRelation() : ""));
 
 			// New Task office relation
 		} else if(isEmpty(taskOfficeRelation.getIdTaskOfficeRelation())) {
@@ -291,16 +299,18 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			logger.info("Creating the new taskOfficeRelation");
 		} 
 
-		taskOfficeRelationStored.setUsername(taskOfficeRelation.getUsername());
-		taskOfficeRelationStored.setTaskOffice(taskOffice);
-		taskOfficeRelationStored.setRelationType(taskOfficeRelation.getRelationType());
-		taskOfficeRelationStored.setModifiedBy(username);
-		taskOfficeRelationStored.setModificationDate(new Date());
-		taskOfficeRelationStored.setEnabled(true);
+		if(!isEmpty(taskOfficeRelationStored)) {
+			taskOfficeRelationStored.setUsername(taskOfficeRelation.getUsername());
+			taskOfficeRelationStored.setTaskOffice(taskOffice);
+			taskOfficeRelationStored.setRelationType(taskOfficeRelation.getRelationType());
+			taskOfficeRelationStored.setModifiedBy(username);
+			taskOfficeRelationStored.setModificationDate(new Date());
+			taskOfficeRelationStored.setEnabled(taskOffice.getEnabled());
 
-		taskOfficeRelationStored = taskOfficeRelationRepository.save(taskOfficeRelationStored);
+			taskOfficeRelationStored = taskOfficeRelationRepository.save(taskOfficeRelationStored);
 
-		logger.info("Stored the taskOfficeRelation with id: " + taskOfficeRelationStored.getIdTaskOfficeRelation());
+			logger.info("Stored the taskOfficeRelation with id: " + taskOfficeRelationStored.getIdTaskOfficeRelation());
+		}
 
 		return taskOfficeRelationStored;
 	}
@@ -308,6 +318,9 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	public Set<TaskOffice> mergeTaskOffice(Task taskStored, Set<TaskOffice> taskOffices) {
 
 		logger.info("Merging Task - Office");
+
+		// The modification of User
+		String username = getTokenUserDetails().getUser().getUsername();
 
 		Set<TaskOffice> taskOfficesToSave = new HashSet<>();
 		for (TaskOffice taskOffice : taskOffices) {
@@ -337,6 +350,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 					taskOffice.setEnabled(false);
 					taskOffice.setEndDate(new Date());
+					taskOffice.setModifiedBy(username);
 
 					if(taskOfficeRepository.findById(taskOffice.getIdTaskOffice()).isPresent()) {
 						taskOfficeRepository.save(taskOffice);	
@@ -385,6 +399,9 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 			taskStored = taskRepository.save(taskStored);
 
+			taskStored.setExcludeOffice(true);
+			task.setExcludeOffice(true);
+
 			taskTaskOfficeSaveUpdate(taskStored, task);
 
 			if(!isEmpty(taskStored.getExpirationsFilterEnabled())) {
@@ -392,8 +409,51 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 					expirationService.deleteExpiration(expiration.getIdExpiration());
 				}
 			}
-		}
 
+			// Reuse task later on
+			task = taskStored;
+		}
+	}
+
+	@Override
+	public void deleteTaskOffice(TaskOffice taskOffice) {
+
+		// The modification of User
+		String username = getTokenUserDetails().getUser().getUsername();
+
+		if(!isEmpty(taskOffice) && !isEmpty(taskOffice.getOffice())) {
+
+			Optional<TaskOffice> taskOfficeOptional = taskOfficeRepository.findById(taskOffice.getIdTaskOffice());
+			if(taskOfficeOptional.isPresent()) {
+
+				TaskOffice taskOfficeStored = taskOfficeOptional.get();
+
+				taskOfficeStored.setEnabled(false);
+				taskOfficeStored.setEndDate(new Date());
+				taskOfficeStored.setModifiedBy(username);
+
+				taskOfficeRepository.save(taskOfficeStored);	
+
+				taskOfficeRelationRepository.updateTaskOfficeRelationsNotEnableByTaskOffice(taskOfficeStored, username);
+
+				if(isEmpty(taskOfficeStored.getTask().getTaskOfficesFilterEnabled())) {
+					deleteTask(taskOfficeStored.getTask());
+
+					if(isEmpty(taskOfficeStored.getTask().getTaskTemplate().getTaskFilterEnabled())) {
+						taskTemplateService.deleteTaskTemplate(taskOfficeStored.getTask().getTaskTemplate());
+					}
+				}
+			}
+		} else if (!isEmpty(taskOffice) && 
+				!isEmpty(taskOffice.getTask()) && 
+				isEmpty(taskOffice.getTask().getTaskOfficesFilterEnabled())) {
+
+			deleteTask(taskOffice.getTask());
+
+			if(isEmpty(taskOffice.getTask().getTaskTemplate().getTaskFilterEnabled())) {
+				taskTemplateService.deleteTaskTemplate(taskOffice.getTask().getTaskTemplate());
+			}
+		}
 	}
 
 	@Override

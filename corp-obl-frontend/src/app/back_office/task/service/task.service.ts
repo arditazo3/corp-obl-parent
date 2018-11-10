@@ -34,6 +34,11 @@ export class TaskService {
         return this.apiRequest.put(this.appConfig.deleteTask, task);
     }
 
+    deleteTaskOffice(taskOffice): Observable<any> {
+
+        return this.apiRequest.put(this.appConfig.deleteTaskOffice, taskOffice);
+    }
+
     getSingleTaskByTaskTemplate(taskTemplate): Observable<any> {
 
         return this.apiRequest.post(this.appConfig.getSingleTaskByTaskTemplate, taskTemplate);

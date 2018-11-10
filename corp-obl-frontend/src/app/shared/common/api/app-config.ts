@@ -92,6 +92,7 @@ export class AppConfig {
     public getTasks = this.backOfficePath + this.taskPath + this.list;                                      // GET
     public createUpdateTask = this.backOfficePath + this.taskPath + this.createupdate;                      // POST
     public deleteTask = this.backOfficePath + this.taskPath + this.delete;                                  // PUT
+    public deleteTaskOffice = this.backOfficePath + this.taskPath + this.delete + '/task-office';           // PUT
 
     // Task template office URL
     public taskTemplateOffice = this.backOfficePath + '/tasktemplate-office';

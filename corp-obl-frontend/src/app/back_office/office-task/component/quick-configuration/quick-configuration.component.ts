@@ -298,6 +298,7 @@ export class QuickConfigurationComponent implements OnInit {
                             me.task.taskTemplate = taskTemplate;
                             me.task.taskOffices = me.associationOffice.taskOfficesArray;
                             me.task.office = me.office;
+                            me.task.excludeOffice = true;
 
                             me.taskService.saveUpdateTask(me.task).subscribe(
                                 dataTask => {
@@ -333,7 +334,7 @@ export class QuickConfigurationComponent implements OnInit {
     onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
         this.counterCallback++;
         if (this.counterUpload === this.counterCallback && !this.isNewForm) {
-            this.router.navigate(['/back-office/task']);
+            this.router.navigate(['/back-office/office-task']);
         }
     }
 
@@ -627,4 +628,46 @@ export class QuickConfigurationComponent implements OnInit {
             }
         }
     }
+
+    deleteTaskOffice() {
+        console.log('QuickConfigurationComponent - deleteTaskOffice');
+        const me = this;
+
+        if (this.taskTemplate) {
+            let msgSwal = 'Do you want to delete: ';
+            if (this.taskTemplate && this.taskTemplate.description) {
+                msgSwal += this.taskTemplate.description;
+            } else {
+                msgSwal += this.task.taskTemplate.description;
+            }
+            msgSwal += '?';
+            this.confirmationTaskTemplateSwal.title = msgSwal;
+            this.confirmationTaskTemplateSwal.show()
+                .then(function (result) {
+                    if (result.value === true) {
+                        // handle confirm, result is needed for modals with input
+
+                        if (!me.taskOffice) {
+                            me.taskOffice = new TaskOffice();
+                            me.taskOffice.task = me.task;
+                            me.taskOffice.task.excludeOffice = true;
+                            me.taskOffice.taskTemplate = me.taskTemplate;
+                        }
+
+                        me.taskService.deleteTaskOffice(me.taskOffice).subscribe(
+                            next => {
+                                me.router.navigate(['/back-office/office-task']);
+                                console.log('QuickConfigurationComponent - deleteTask - next');
+                            },
+                            error => {
+                                console.error('QuickConfigurationComponent - deleteTask - error \n', error);
+                            }
+                        );
+                    }
+                }, function (dismiss) {
+                    // dismiss can be "cancel" | "close" | "outside"
+                });
+        }
+    }
+
 }
