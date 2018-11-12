@@ -23,7 +23,8 @@
                        [rowHeight]="55"
                        [rows]='rows'
                        [messages]="{emptyMessage: ('GENERAL.NODATA' | translate), totalMessage: ('GENERAL.TOTAL' | translate), selectedMessage: false}"
-                       [limit]="10">
+                       [limit]="10"
+                       [sorts]="[{prop: 'description', dir: 'asc'}]">
 
           <!-- Column Templates -->
 

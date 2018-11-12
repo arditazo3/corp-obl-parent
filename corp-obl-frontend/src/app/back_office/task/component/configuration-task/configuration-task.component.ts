@@ -70,6 +70,7 @@ export class ConfigurationTaskComponent implements OnInit {
                 if (event.lang) {
                     me.langOnChange = event.lang;
                     me.descriptionTopicOnChange();
+                    me.descriptionTopicTableOnChange();
                     me.descriptionTopicSelectedOnChange();
                 }
             });
@@ -275,6 +276,28 @@ export class ConfigurationTaskComponent implements OnInit {
             me.topicsArray = [...me.tempTopicsArray];
         } else {
             me.topicsArray = [...[]];
+        }
+    }
+
+    descriptionTopicTableOnChange() {
+        const me = this;
+
+        if (me.rows && me.rows.length > 0) {
+
+            me.rows.forEach(task => {
+                if (task.taskTemplate && task.taskTemplate.topic &&
+                    task.taskTemplate.topic.translationList &&
+                    task.taskTemplate.topic.translationList.length > 1) {
+
+                    task.taskTemplate.topic.translationList.forEach(translation => {
+                        if (translation.lang === me.langOnChange) {
+                            task.taskTemplate.topic.description = translation.description;
+                        }
+                    });
+                }
+            });
+
+            me.cdr.detectChanges();
         }
     }
 
