@@ -132,8 +132,8 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		// Filter only its own expiration / grouped expiration
 		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLED) &&
 				userRelationType.compareTo(CONTROLLED) == 0) {
-			querySql += "and e.username = :username " + 
-					"or e.username = '' " ;
+			querySql += " and ( e.username = :username " +
+					"or e.username = '' ) " ;
 		}
 
 		querySql += "group by e.idExpiration " + 
