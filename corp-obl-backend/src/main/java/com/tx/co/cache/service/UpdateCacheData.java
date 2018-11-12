@@ -728,4 +728,19 @@ public abstract class UpdateCacheData {
 		return topicConsultant;
 	}
 
+	public String getLangOfUsername(String username) {
+		
+		String defaultLang = "EN";
+		
+		if(!isEmpty(getUsersFromCache()) && !isEmpty(username)) {
+			for (User user : getUsersFromCache()) {
+				if(user.getUsername().equalsIgnoreCase(username)) {
+					defaultLang = user.getLang();
+					break;
+				}
+			}
+		}
+		return defaultLang;
+	}
+	
 }

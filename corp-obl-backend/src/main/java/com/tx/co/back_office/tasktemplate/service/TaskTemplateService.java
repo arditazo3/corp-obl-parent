@@ -33,8 +33,11 @@ import com.tx.co.back_office.task.service.ITaskService;
 import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplate;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.repository.TaskTemplateRepository;
+import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.common.translation.api.model.TranslationPairKey;
+import com.tx.co.common.translation.domain.Translation;
+import com.tx.co.common.translation.repository.TranslationRepository;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
 import com.tx.co.security.domain.Authority;
@@ -53,6 +56,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 	private TaskTemplateRepository taskTemplateRepository;
 	private TaskOfficeRepository taskOfficeRepository;
+	private TranslationRepository translationRepository;
 	private EntityManager em;
 	private ITaskService taskService;
 
@@ -64,6 +68,11 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	@Autowired
 	public void setTaskOfficeRepository(TaskOfficeRepository taskOfficeRepository) {
 		this.taskOfficeRepository = taskOfficeRepository;
+	}
+
+	@Autowired
+	public void setTranslationRepository(TranslationRepository translationRepository) {
+		this.translationRepository = translationRepository;
 	}
 
 	@Autowired
@@ -201,15 +210,15 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 			if(!isEmpty(objectSearchTaskTemplate.getTopics())) {
 				querySql += "and t in :topicsList ";
 			}
-			
+
 			querySql += "and tt.description like :description  "
 					+ "group by tt.idTaskTemplate order by tt.description asc";
 		}
-		
+
 		query = em.createQuery(querySql, TaskTemplate.class);
 
 		query.setParameter(DESCRIPTION_QUERY_PARAM, "%" + objectSearchTaskTemplate.getDescriptionTaskTemplate() + "%");
-		
+
 		if(!isEmpty(objectSearchTaskTemplate.getTopics())) {
 			query.setParameter("topicsList",   objectSearchTaskTemplate.getTopics());
 		}
@@ -229,7 +238,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	public List<Task> convertToTaskForTable(List<TaskTemplate> taskTemplates, List<Company> getCompanies) {
 
 		User userLoggedIn = getTokenUserDetails().getUser();
-		String lang = userLoggedIn.getLang();
+		String lang = getLangOfUsername(userLoggedIn.getUsername());
 
 		List<Task> tasks = new ArrayList<>();
 		for (TaskTemplate taskTemplate : taskTemplates) {
@@ -239,7 +248,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 				for (Task taskLoop : taskTemplate.getTasks()) {
 
 					List<Company> coumpanyCounterList = new ArrayList<>();
-					
+
 					for (TaskOffice taskOfficeLoop : taskLoop.getTaskOfficesFilterEnabled()) {
 						coumpanyCounterList.add(taskOfficeLoop.getOffice().getCompany());
 					}
@@ -250,21 +259,23 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 					if (!isEmpty(uniqueCompanies)) {
 						idCompaniesUnique = uniqueCompanies.stream().map(Company::getIdCompany).collect(Collectors.toList());
 					}
-					
+
 					List<Long> idCompanies = new ArrayList<>();
 					if (!isEmpty(getCompanies)) {
 						idCompanies = getCompanies.stream().map(Company::getIdCompany).collect(Collectors.toList());
 					}
-					
+
 					if(!isEmpty(getCompanies) && !CollectionUtils.containsAny(idCompaniesUnique, idCompanies)) {  
 						continue;
 					}
-					
+
 					taskLoop.setCounterCompany(uniqueCompanies.size());
 
 					String descriptionTask = buildDescription(taskLoop, lang, index);
 
 					taskLoop.setDescriptionTask(descriptionTask);
+
+					setTranslationsToTopicsAndDescription(taskLoop, lang);
 
 					tasks.add(taskLoop);
 
@@ -273,6 +284,9 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 			} else {
 				Task task = new Task();
 				task.setTaskTemplate(taskTemplate);
+				
+				setTranslationsToTopicsAndDescription(task, lang);
+				
 				tasks.add(task);
 			}
 		}
@@ -280,6 +294,28 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		logger.info("Number of items: " + tasks.size());
 
 		return tasks;
+	}
+
+	private void setTranslationsToTopicsAndDescription(Task taskLoop, String lang) {
+
+		if(!isEmpty(taskLoop.getTaskTemplate()) && 
+				!isEmpty(taskLoop.getTaskTemplate().getTopic()) &&
+				isEmpty(taskLoop.getTaskTemplate().getTopic().getTranslationList())) {
+
+			Topic topic = taskLoop.getTaskTemplate().getTopic();
+
+			List<Translation> translationList = translationRepository
+					.getTranslationByEntityIdAndTablename(topic.getIdTopic(), "co_topic");
+			topic.setTranslationList(translationList);
+
+			if(!isEmpty(translationList) && !isEmpty(lang)) {
+				for (Translation translation : translationList) {
+					if(translation.getLang().equalsIgnoreCase(lang)) {
+						topic.setDescription(translation.getDescription());
+					}
+				}
+			}
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -320,7 +356,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		query = em.createQuery(querySql);
 
 		query.setParameter(DESCRIPTION_QUERY_PARAM, "%" + description + "%");
-		
+
 		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND) &&
 				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			query.setParameter("username", username);
@@ -332,17 +368,17 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	private List<TaskTemplate> setDescriptionTaskTemplate(List<TaskTemplate> taskTemplates) {
 
 		User userLoggedIn = getTokenUserDetails().getUser();
-		String lang = userLoggedIn.getLang();
+		String lang = getLangOfUsername(userLoggedIn.getUsername());
 
 		if(!isEmpty(taskTemplates)) {
-			
+
 			/*
 			 * Remove task template that doesn't contain only one task
 			 * Relation one to one
 			 * */
 			taskTemplates = taskTemplates.stream()
-    				.filter(taskTemplate -> ( !isEmpty(taskTemplate.getTasks()) && taskTemplate.getTasks().size() == 1 )).collect(Collectors.toList());
-    				
+					.filter(taskTemplate -> ( !isEmpty(taskTemplate.getTasks()) && taskTemplate.getTasks().size() == 1 )).collect(Collectors.toList());
+
 			for (TaskTemplate taskTemplate : taskTemplates) {
 
 				String descriptionTaskTemplate = buildDescription(taskTemplate, lang, 0);
@@ -352,7 +388,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 				List<Office> officeCounterList = new ArrayList<>();
 
 				if(!isEmpty(taskTemplate.getTasks())) {
-					
+
 					Task singleTask = taskTemplate.getTasks().iterator().next();
 
 					for (TaskOffice taskOfficeLoop : singleTask.getTaskOfficesFilterEnabled()) {
@@ -377,40 +413,40 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 		try {
 			Long idTaskTemplate = taskTemplate.getIdTaskTemplate();
-			
-    		logger.info("Deleting the TaskTemplate with id: " + idTaskTemplate);
-    		
-    		
-    		Optional<TaskTemplate> taskTemplateOptional = findByIdTaskTemplate(idTaskTemplate);
 
-    		if(!taskTemplateOptional.isPresent()) {
-    			throw new NotFoundException();
-    		}
+			logger.info("Deleting the TaskTemplate with id: " + idTaskTemplate);
 
-    		// The modification of User
-    		String username = getTokenUserDetails().getUser().getUsername();
 
-    		TaskTemplate taskTemplateStored = taskTemplateOptional.get();
-    		// disable the taskTemplateStored
-    		taskTemplateStored.setEnabled(false);
-    		taskTemplateStored.setModificationDate(new Date());
-    		taskTemplateStored.setModifiedBy(username);
+			Optional<TaskTemplate> taskTemplateOptional = findByIdTaskTemplate(idTaskTemplate);
 
-    		taskTemplateRepository.save(taskTemplateStored);
+			if(!taskTemplateOptional.isPresent()) {
+				throw new NotFoundException();
+			}
 
-    		if(!isEmpty(taskTemplateStored.getTasks())) {
-    			for (Task task : taskTemplateStored.getTasks()) {
-    				taskService.deleteTask(task);
+			// The modification of User
+			String username = getTokenUserDetails().getUser().getUsername();
+
+			TaskTemplate taskTemplateStored = taskTemplateOptional.get();
+			// disable the taskTemplateStored
+			taskTemplateStored.setEnabled(false);
+			taskTemplateStored.setModificationDate(new Date());
+			taskTemplateStored.setModifiedBy(username);
+
+			taskTemplateRepository.save(taskTemplateStored);
+
+			if(!isEmpty(taskTemplateStored.getTasks())) {
+				for (Task task : taskTemplateStored.getTasks()) {
+					taskService.deleteTask(task);
 				}
-    		}
-    		
-    		logger.info("Delete the Task Template with id: " + idTaskTemplate);
-    	} catch (Exception e) {
-    		logger.error(e);
-    		throw new GeneralException("Task Template not found");
-    	}
+			}
+
+			logger.info("Delete the Task Template with id: " + idTaskTemplate);
+		} catch (Exception e) {
+			logger.error(e);
+			throw new GeneralException("Task Template not found");
+		}
 	}
-	
+
 	/**
 	 * @param object
 	 * @param lang
@@ -418,13 +454,13 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	 * @return the description
 	 */
 	public String buildDescription(Object object, String lang, int index) {
-		
+
 		String description = "";
-		
+
 		if(!isEmpty(object)) {
 			if(object instanceof Task) {
 				Task task = (Task) object;
-				
+
 				description = getTranslationByLangLikeTablename(new TranslationPairKey("configurationinterval", lang)).getDescription();
 
 				if(index != 0) {
@@ -434,7 +470,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 				description += getTranslationByLangLikeTablename(new TranslationPairKey(task.getRecurrence(), lang)).getDescription() + " - ";
 
 				description += getTranslationByLangLikeTablename(new TranslationPairKey(task.getExpirationType(), lang)).getDescription();
-			
+
 				if (task.getExpirationType().compareTo(EXP_FIX_DAY) == 0 && !isEmpty(task.getDay())) {
 					if(task.getRecurrence().compareTo(REC_YEARLY) == 0) {
 						String dayString = task.getDay().toString();
@@ -450,11 +486,11 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 				}
 			} else if(object instanceof TaskTemplate) {
 				TaskTemplate taskTemplate = (TaskTemplate) object;
-				
+
 				description = taskTemplate.getDescription() + " - ";
 
 				description += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription();
-				
+
 				if (taskTemplate.getExpirationType().compareTo(EXP_FIX_DAY) == 0) {
 					if(taskTemplate.getRecurrence().compareTo(REC_YEARLY) == 0) {
 						String dayString = taskTemplate.getDay().toString();
@@ -470,7 +506,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 				}
 			}
 		}
-		
+
 		return description;
 	}
 }

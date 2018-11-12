@@ -342,7 +342,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 	public List<OfficeTaskTemplates> convertToOfficeTasks(List<OfficeTaskTemplate> officeTaskList) {
 
 		User userLoggedIn = getTokenUserDetails().getUser();
-		String lang = userLoggedIn.getLang();
+		String lang = getLangOfUsername(userLoggedIn.getUsername());
 
 		HashMap<Office, List<TaskTemplate>> officeTaskTemplatesMap = new HashMap<>();
 		for (OfficeTaskTemplate officeTask : officeTaskList) {
