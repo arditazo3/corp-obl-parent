@@ -342,6 +342,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 
 	public List<OfficeTaskTemplates> convertToOfficeTasks(List<OfficeTaskTemplate> officeTaskList) {
 
+		List<String> langs = getLanguagesFromCache();
 		HashMap<Office, List<TaskTemplate>> officeTaskTemplatesMap = new HashMap<>();
 		for (OfficeTaskTemplate officeTask : officeTaskList) {
 			Office office = officeTask.getOffice();
@@ -362,7 +363,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 			if(!isEmpty(taskTemplates)) {
 				for (TaskTemplate taskTemplate : taskTemplates) {
 
-					List<DescriptionLangResult> descriptionLangList = taskTemplateService.buildDescriptionList(taskTemplate, 0);
+					List<DescriptionLangResult> descriptionLangList = taskTemplateService.buildDescriptionList(taskTemplate, langs, 0);
 
 					taskTemplate.setDescriptionLangList(descriptionLangList);
 				}
