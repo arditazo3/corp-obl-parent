@@ -240,6 +240,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 		User userLoggedIn = getTokenUserDetails().getUser();
 		String lang = getLangOfUsername(userLoggedIn.getUsername());
+		List<String> langs = getLanguagesFromCache();
 
 		List<Task> tasks = new ArrayList<>();
 		for (TaskTemplate taskTemplate : taskTemplates) {
@@ -272,7 +273,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 					taskLoop.setCounterCompany(uniqueCompanies.size());
 
-					List<DescriptionLangResult> descriptionLangResults = buildDescriptionList(taskLoop, index);
+					List<DescriptionLangResult> descriptionLangResults = buildDescriptionList(taskLoop, langs, index);
 
 					taskLoop.setDescriptionLangList(descriptionLangResults);
 
@@ -367,8 +368,10 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	}
 
 	private List<TaskTemplate> setDescriptionTaskTemplate(List<TaskTemplate> taskTemplates) {
-
+		
 		if(!isEmpty(taskTemplates)) {
+			
+			List<String> langs = getLanguagesFromCache();
 
 			/*
 			 * Remove task template that doesn't contain only one task
@@ -379,7 +382,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 			for (TaskTemplate taskTemplate : taskTemplates) {
 
-				List<DescriptionLangResult> descriptionLangResults =  buildDescriptionList(taskTemplate, 0);
+				List<DescriptionLangResult> descriptionLangResults =  buildDescriptionList(taskTemplate, langs, 0);
 
 				taskTemplate.setDescriptionLangList(descriptionLangResults);
 
@@ -451,10 +454,9 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	 * @param index
 	 * @return the description
 	 */
-	public List<DescriptionLangResult> buildDescriptionList(Object object, int index) {
+	public List<DescriptionLangResult> buildDescriptionList(Object object, List<String> langs, int index) {
 
 		List<DescriptionLangResult> descriptionLangList = new ArrayList<>();
-		List<String> langs = getLanguagesFromCache();
 
 		if(!isEmpty(object) && !isEmpty(langs)) {
 			for (String lang : langs) {
