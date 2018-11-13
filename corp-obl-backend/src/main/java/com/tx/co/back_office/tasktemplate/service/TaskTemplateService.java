@@ -459,7 +459,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		List<DescriptionLangResult> descriptionLangList = new ArrayList<>();
 
 		if(!isEmpty(object) && !isEmpty(langs)) {
-			for (String lang : langs) {
+			for (String lang : new ArrayList<String>(langs)) {
 
 
 				if(object instanceof Task) {
