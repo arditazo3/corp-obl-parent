@@ -48,6 +48,7 @@ export class QuickConfigurationComponent implements OnInit {
     errorDetails: ApiErrorDetails = new ApiErrorDetails();
 
     langOnChange = '';
+    filesArray = [];
 
     tempTopicsArray: Topic[];
     topicsArray: Topic[];
@@ -278,6 +279,8 @@ export class QuickConfigurationComponent implements OnInit {
                             me.errorDetails = undefined;
                             console.log('QuickConfigurationComponent - createEditTaskTemplateSubmit - next');
 
+                            me.removeFiles();
+
                             me.uploader.onBuildItemForm = (fileItem: any, form: any) => {
                                 form.append('idTaskTemplate', taskTemplate.idTaskTemplate);
                             };
@@ -358,24 +361,34 @@ export class QuickConfigurationComponent implements OnInit {
         }
     }
 
-    removeFile(item) {
-        console.log('QuickConfigurationComponent - removeFile');
+    removeFileToRemove(item) {
+        console.log('QuickConfigurationComponent - removeFileToRemove');
 
-        const me = this;
-        if (item.formData && item.formData.length === undefined) {
-            const taskTempAttach: TaskTemplateAttachment = item.formData;
-
-            this.uploadService.removeFile(taskTempAttach).subscribe(
-                data => {
-                    console.log('QuickConfigurationComponent - removeFile - next');
-                },
-                error => {
-                    me.errorDetails = error.error;
-                    console.error('QuickConfigurationComponent - removeFile - error \n', error);
-                }
-            );
-        }
+        this.filesArray.push(item);
         item.remove();
+    }
+
+    removeFiles() {
+        console.log('QuickConfigurationComponent - removeFile');
+        const me = this;
+
+        if (this.filesArray && this.filesArray.length > 0) {
+            this.filesArray.forEach(item => {
+                if (item.formData && item.formData.length === undefined) {
+                    const taskTempAttach: TaskTemplateAttachment = item.formData;
+
+                    this.uploadService.removeFile(taskTempAttach).subscribe(
+                        data => {
+                            console.log('QuickConfigurationComponent - removeFile - next');
+                        },
+                        error => {
+                            me.errorDetails = error.error;
+                            console.error('QuickConfigurationComponent - removeFile - error \n', error);
+                        }
+                    );
+                }
+            });
+        }
     }
 
     onWhenAddingFileFailed(item: FileLikeObject, filter: any, options: any) {

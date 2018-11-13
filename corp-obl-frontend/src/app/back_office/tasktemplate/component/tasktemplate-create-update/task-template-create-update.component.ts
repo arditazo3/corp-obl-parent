@@ -45,6 +45,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     errorDetails: ApiErrorDetails = new ApiErrorDetails();
 
     langOnChange = '';
+    filesArray = [];
 
     tempTopicsArray: Topic[];
     topicsArray: Topic[];
@@ -224,7 +225,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         if (this.isTaskTemplateForm || (!this.isTaskTemplateForm && objectParam.newTask)) {
             this.createEditTaskTemplate = this.formBuilder.group({
                 description: new FormControl({value: this.taskTemplate.description, disabled: false}, Validators.required),
-                expirationRadio: new FormControl(this.taskTemplate.expirationClosableBy, Validators.required),
+            //    expirationRadio: new FormControl(this.taskTemplate.expirationClosableBy, Validators.required),
                 daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
                 frequenceOfNotice: new FormControl({value: this.taskTemplate.frequenceOfNotice, disabled: false}, Validators.required),
                 daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false},
@@ -279,9 +280,9 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         const me = this;
         this.submitted = true;
 
-        if (this.isForeign && this.isTaskTemplateForm) {
-            this.createEditTaskTemplate.get('expirationRadio').setValue('1');
-        }
+        // if (this.isForeign && this.isTaskTemplateForm) {
+        //     this.createEditTaskTemplate.get('expirationRadio').setValue('1');
+        // }
 
         if (this.createEditTaskTemplate.invalid) {
             return;
@@ -300,7 +301,8 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             this.taskTemplate.topic = this.selectedTopic;
             this.taskTemplate.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
             this.taskTemplate.expirationType = this.selectedExpirationType.tablename.split('#')[2];
-            this.taskTemplate.expirationClosableBy = this.createEditTaskTemplate.get('expirationRadio').value;
+            // default value 1 for create/update task template
+            this.taskTemplate.expirationClosableBy = 1;
             this.taskTemplate.day = this.getDayValueOnDynamicComp();
             this.taskTemplate.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
             this.taskTemplate.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;
@@ -344,6 +346,8 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                                 me.errorDetails = undefined;
                                 console.log('TaskTemplateCreateUpdateComponent - createEditTaskTemplateSubmit - next');
 
+                                me.removeFiles();
+
                                 me.uploader.onBuildItemForm = (fileItem: any, form: any) => {
                                     form.append('idTaskTemplate', taskTemplate.idTaskTemplate);
                                 };
@@ -383,6 +387,8 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                                 const taskTemplate: TaskTemplate = data;
                                 me.errorDetails = undefined;
                                 console.log('TaskTemplateCreateUpdateComponent - createEditTaskSubmit - next');
+
+                                me.removeFiles();
 
                                 me.router.navigate(['/back-office/task']);
                             }, error => {
@@ -493,24 +499,35 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         }
     }
 
-    removeFile(item) {
+    removeFileToRemove(item) {
+        console.log('TaskTemplateCreateUpdateComponent - removeFileToRemove');
+
+        this.filesArray.push(item);
+        item.remove();
+    }
+
+    removeFiles() {
         console.log('TaskTemplateCreateUpdateComponent - removeFile');
 
         const me = this;
-        if (item.formData && item.formData.length === undefined) {
-            const taskTempAttach: TaskTemplateAttachment = item.formData;
 
-            this.uploadService.removeFile(taskTempAttach).subscribe(
-                data => {
-                    console.log('TaskTemplateCreateUpdateComponent - removeFile - next');
-                },
-                error => {
-                    me.errorDetails = error.error;
-                    console.error('TaskTemplateCreateUpdateComponent - removeFile - error \n', error);
+        if (this.filesArray && this.filesArray.length > 0) {
+            this.filesArray.forEach(item => {
+                if (item.formData && item.formData.length === undefined) {
+                    const taskTempAttach: TaskTemplateAttachment = item.formData;
+
+                    this.uploadService.removeFile(taskTempAttach).subscribe(
+                        data => {
+                            console.log('TaskTemplateCreateUpdateComponent - removeFile - next');
+                        },
+                        error => {
+                            me.errorDetails = error.error;
+                            console.error('TaskTemplateCreateUpdateComponent - removeFile - error \n', error);
+                        }
+                    );
                 }
-            );
+            });
         }
-        item.remove();
     }
 
     onWhenAddingFileFailed(item: FileLikeObject, filter: any, options: any) {

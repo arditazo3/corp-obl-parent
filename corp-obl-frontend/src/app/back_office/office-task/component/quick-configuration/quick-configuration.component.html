@@ -126,8 +126,11 @@
                                                [ngModelOptions]="{standalone: true}"
                                                placeholder="{{ 'BACK_OFFICE.OFFICE_TASK.SELECT_DAY' | translate }}">
                                     </ng-select>
-                                    <div *ngIf="submitted && !dayValue && isFixedDay" class="invalid-feedback-show">
-                                        {{ 'BACK_OFFICE.OFFICE_TASK.DAY_REQUIRED' | translate }}
+                                    <div *ngIf="submitted && !selectedPeriodWeeklyExpFixedDay && isWeekly" class="invalid-feedback-show">
+                                        {{ 'BACK_OFFICE.TASK.DAY_REQUIRED' | translate }}
+                                    </div>
+                                    <div *ngIf="submitted && !dayNumberTI && isMonthly" class="invalid-feedback-show">
+                                        {{ 'BACK_OFFICE.TASK.DAY_REQUIRED' | translate }}
                                     </div>
                                     <div *ngIf="submitted && !dayDateDP && isYearly" class="invalid-feedback-show">
                                         {{ 'BACK_OFFICE.TASK.DAY_REQUIRED' | translate }}
@@ -211,7 +214,7 @@
                                         </td>
                                         <td nowrap>
                                             <button type="button" class="btn-tnx btn-danger btn-xs"
-                                                    (click)="removeFile(item)">
+                                                    (click)="removeFileToRemove(item)">
                                                 <span class="fa fa-trash"></span> {{ 'GENERAL.REMOVE' | translate }}
                                             </button>
                                             <button *ngIf="!isNewForm" type="button" class="btn-tnx btn-xs"

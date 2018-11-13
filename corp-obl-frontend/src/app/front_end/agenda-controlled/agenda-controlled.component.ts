@@ -62,8 +62,12 @@ export class AgendaControlledComponent implements OnInit {
 
         const me = this;
         const dateExpirationOfficesArchived: DateExpirationOfficesHasArchived = new DateExpirationOfficesHasArchived();
-        dateExpirationOfficesArchived.dateStart = AppGlobals.convertDatePickerToDate(this.dateStart.date);
-        dateExpirationOfficesArchived.dateEnd = AppGlobals.convertDatePickerToDate(dateEnd.date);
+        if (this.dateStart) {
+            dateExpirationOfficesArchived.dateStart = AppGlobals.convertDatePickerToDate(this.dateStart.date);
+        }
+        if (this.dateEnd) {
+            dateExpirationOfficesArchived.dateEnd = AppGlobals.convertDatePickerToDate(dateEnd.date);
+        }
         dateExpirationOfficesArchived.hideArchived = this.hideArchivedTasks;
         dateExpirationOfficesArchived.userRelationType = AppGlobals.CONTROLLED;
 

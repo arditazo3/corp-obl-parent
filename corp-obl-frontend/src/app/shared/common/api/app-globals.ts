@@ -12,6 +12,7 @@ export class AppGlobals {
     public static myDatePickerOptions: IMyDpOptions = {
         // other options...
         dateFormat: AppGlobals.dateFormat,
+        editableDateField: false
     };
 
     public static convertDateToDatePicker(date): any {
