@@ -1,11 +1,13 @@
 package com.tx.co.back_office.tasktemplate.api.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tx.co.back_office.task.api.model.TaskResult;
 import com.tx.co.back_office.tasktemplateattachment.api.model.TaskTemplateAttachmentResult;
 import com.tx.co.back_office.topic.api.model.TopicResult;
+import com.tx.co.common.api.model.DescriptionLangResult;
 
 /**
  * API model for returning task template details.
@@ -27,7 +29,7 @@ public class TaskTemplateResult {
 	private Integer frequenceOfNotice;
 	private Integer daysBeforeShowExpiration;
 	private Integer expirationClosableBy;
-	private String descriptionTaskTemplate;
+	private List<DescriptionLangResult> descriptionLangList = new ArrayList<>();
 	private Integer counterOffices;
 	
 	public Long getIdTaskTemplate() {
@@ -102,11 +104,12 @@ public class TaskTemplateResult {
 	public void setExpirationClosableBy(Integer expirationClosableBy) {
 		this.expirationClosableBy = expirationClosableBy;
 	}
-	public String getDescriptionTaskTemplate() {
-		return descriptionTaskTemplate;
+	
+	public List<DescriptionLangResult> getDescriptionLangList() {
+		return descriptionLangList;
 	}
-	public void setDescriptionTaskTemplate(String descriptionTaskTemplate) {
-		this.descriptionTaskTemplate = descriptionTaskTemplate;
+	public void setDescriptionLangList(List<DescriptionLangResult> descriptionLangList) {
+		this.descriptionLangList = descriptionLangList;
 	}
 	public Integer getCounterOffices() {
 		return counterOffices;

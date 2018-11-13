@@ -59,7 +59,7 @@ export class ConfigurationTaskComponent implements OnInit {
         private companyService: CompanyService,
         private transferService: TransferDataService,
         private translateService: TranslateService,
-        private cdr:ChangeDetectorRef
+        private cdr: ChangeDetectorRef
     ) {
         const me = this;
 

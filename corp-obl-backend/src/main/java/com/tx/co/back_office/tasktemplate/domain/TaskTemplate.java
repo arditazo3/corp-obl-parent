@@ -3,8 +3,10 @@ package com.tx.co.back_office.tasktemplate.domain;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,6 +30,7 @@ import org.hibernate.annotations.Where;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplateattachment.model.TaskTemplateAttachment;
 import com.tx.co.back_office.topic.domain.Topic;
+import com.tx.co.common.api.model.DescriptionLangResult;
 import com.tx.co.front_end.expiration.domain.Expiration;
 
 /**
@@ -107,7 +110,7 @@ public class TaskTemplate implements Serializable {
 	private String modifiedBy;
 
 	@Transient
-	private String descriptionTaskTemplate;
+	private List<DescriptionLangResult> descriptionLangList = new ArrayList<>();
 	
 	@Transient
 	private Integer counterOffices;
@@ -256,12 +259,12 @@ public class TaskTemplate implements Serializable {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public String getDescriptionTaskTemplate() {
-		return descriptionTaskTemplate;
+	public List<DescriptionLangResult> getDescriptionLangList() {
+		return descriptionLangList;
 	}
 
-	public void setDescriptionTaskTemplate(String descriptionTaskTemplate) {
-		this.descriptionTaskTemplate = descriptionTaskTemplate;
+	public void setDescriptionLangList(List<DescriptionLangResult> descriptionLangList) {
+		this.descriptionLangList = descriptionLangList;
 	}
 
 	public Integer getCounterOffices() {

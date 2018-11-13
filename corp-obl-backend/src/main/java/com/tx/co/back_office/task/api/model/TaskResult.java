@@ -1,10 +1,12 @@
 package com.tx.co.back_office.task.api.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tx.co.back_office.office.api.model.OfficeResult;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
+import com.tx.co.common.api.model.DescriptionLangResult;
 
 /**
  * API model for returning task details.
@@ -24,10 +26,10 @@ public class TaskResult {
 	private Integer frequenceOfNotice;
 	private Integer daysBeforeShowExpiration;
 	private List<TaskOfficeResult> taskOffices;
-	private String descriptionTask;
 	private Integer counterCompany;
 	private OfficeResult office;
 	private Boolean excludeOffice = false; 
+	private List<DescriptionLangResult> descriptionLangList = new ArrayList<>();
 	
 	public Long getIdTask() {
 		return idTask;
@@ -89,12 +91,6 @@ public class TaskResult {
 	public void setTaskOffices(List<TaskOfficeResult> taskOffices) {
 		this.taskOffices = taskOffices;
 	}
-	public String getDescriptionTask() {
-		return descriptionTask;
-	}
-	public void setDescriptionTask(String descriptionTask) {
-		this.descriptionTask = descriptionTask;
-	}
 	public Integer getCounterCompany() {
 		return counterCompany;
 	}
@@ -112,5 +108,11 @@ public class TaskResult {
 	}
 	public void setExcludeOffice(Boolean excludeOffice) {
 		this.excludeOffice = excludeOffice;
+	}
+	public List<DescriptionLangResult> getDescriptionLangList() {
+		return descriptionLangList;
+	}
+	public void setDescriptionLangList(List<DescriptionLangResult> descriptionLangList) {
+		this.descriptionLangList = descriptionLangList;
 	}
 }

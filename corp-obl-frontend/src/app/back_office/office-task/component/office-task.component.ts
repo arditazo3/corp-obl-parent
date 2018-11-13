@@ -9,6 +9,8 @@ import {TaskTemplateService} from '../../tasktemplate/service/tasktemplate.servi
 import {DataFilter} from '../../../shared/common/api/model/data-filter';
 import {PageEnum} from '../../../shared/common/api/enum/page.enum';
 import {TransferDataService} from '../../../shared/common/service/transfer-data.service';
+import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
+import {TaskTemplate} from '../../tasktemplate/model/tasktemplate';
 
 @Component({
     selector: 'app-office-task',
@@ -18,6 +20,9 @@ import {TransferDataService} from '../../../shared/common/service/transfer-data.
 export class OfficeTaskComponent implements OnInit {
 
     @ViewChild(OfficeTaksCollapseComponent) officeTaksCollapse: OfficeTaksCollapseComponent;
+
+    langOnChange = '';
+    temp = [];
 
     descriptionTaskTemplate: string;
     offices = [];
@@ -32,8 +37,21 @@ export class OfficeTaskComponent implements OnInit {
         private officeTaskService: OfficeTaskService,
         private officeService: OfficeService,
         private taskTemplateService: TaskTemplateService,
-        private transferService: TransferDataService
+        private transferService: TransferDataService,
+        private translateService: TranslateService
     ) {
+        const me = this;
+
+        me.langOnChange = me.translateService.currentLang;
+
+        me.translateService.onLangChange
+            .subscribe((event: LangChangeEvent) => {
+                if (event.lang) {
+                    me.langOnChange = event.lang;
+                    me.descriptionTaskTemplateLangOnChange(me.taskTemplatesArray);
+                    me.descriptionTaskTemplateLangOnChange(me.temp);
+                }
+            });
     }
 
     ngOnInit() {
@@ -73,6 +91,8 @@ export class OfficeTaskComponent implements OnInit {
 
         this.officeTaskService.searchOfficeTaskTemplates(taskTempOffices).subscribe(
             (data) => {
+                me.temp = data;
+                me.descriptionTaskTemplateLangOnChange(data);
                 me.officeTaksCollapse.getOfficeTaskTemplatesArray(data);
                 console.log('OfficeTaskComponent - searchOffice - next');
             }
@@ -86,9 +106,38 @@ export class OfficeTaskComponent implements OnInit {
 
         this.taskTemplateService.searchTaskTemplateByDescr({result: this.descriptionTaskTemplate}).subscribe(
             (data) => {
+                me.descriptionTaskTemplateLangOnChange(data);
                 me.taskTemplatesArray = data;
             }
         );
+    }
+
+    descriptionTaskTemplateLangOnChange(data) {
+
+        const me = this;
+
+        if (data && data.length > 0) {
+            data.forEach(object => {
+                if (object.hasOwnProperty('idTaskTemplate')) {
+                    object.descriptionLangList.forEach(descriptionLang => {
+
+                        if (descriptionLang.lang === me.langOnChange) {
+                            object.descriptionTaskTemplate = descriptionLang.description;
+                        }
+                    });
+                } else {
+                    object.taskTemplates.forEach(taskTemplate => {
+                        taskTemplate.descriptionLangList.forEach(descriptionLang => {
+
+                            if (descriptionLang.lang === me.langOnChange) {
+                                taskTemplate.descriptionTaskTemplate = descriptionLang.description;
+                            }
+                        });
+                    });
+                    me.officeTaksCollapse.getOfficeTaskTemplatesArray(data);
+                }
+            });
+        }
     }
 
     changeTextDescription() {

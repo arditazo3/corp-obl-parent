@@ -1,6 +1,7 @@
 import {Topic} from '../../topic/model/topic';
 import {Task} from '../../task/model/task';
 import {TaskTemplateAttachment} from '../../tasktemplateattachment/tasktemplateattachment';
+import {DescriptionLang} from '../../../shared/common/api/model/description-lang';
 
 export class TaskTemplate {
 
@@ -16,5 +17,6 @@ export class TaskTemplate {
     frequenceOfNotice: number;
     daysBeforeShowExpiration: number;
     expirationClosableBy: number;
+    descriptionLangList: DescriptionLang[];
     descriptionTaskTemplate: string;
 }

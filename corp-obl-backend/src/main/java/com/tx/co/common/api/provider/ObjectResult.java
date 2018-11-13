@@ -685,8 +685,8 @@ public abstract class ObjectResult extends UpdateCacheData {
 			}
 			result.setTaskTemplateAttachmentResults(attachmentResults);
 		}
-		if (!isEmpty(taskTemplate.getDescriptionTaskTemplate())) {
-			result.setDescriptionTaskTemplate(taskTemplate.getDescriptionTaskTemplate());
+		if (!isEmpty(taskTemplate.getDescriptionLangList())) {
+			result.setDescriptionLangList(taskTemplate.getDescriptionLangList());
 		}
 		if (!isEmpty(taskTemplate.getCounterOffices())) {
 			result.setCounterOffices(taskTemplate.getCounterOffices());
@@ -727,7 +727,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		taskResult.setDaysOfNotice(task.getDaysOfNotice());
 		taskResult.setFrequenceOfNotice(task.getFrequenceOfNotice());
 		taskResult.setDaysBeforeShowExpiration(task.getDaysBeforeShowExpiration());
-		taskResult.setDescriptionTask(task.getDescriptionTask());
+		taskResult.setDescriptionLangList(task.getDescriptionLangList());
 		taskResult.setCounterCompany(task.getCounterCompany());
 
 		if (!isEmpty(task.getTaskTemplate())) {

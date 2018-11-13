@@ -3,6 +3,7 @@ package com.tx.co.back_office.task.model;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -27,6 +28,7 @@ import org.hibernate.annotations.FetchMode;
 
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
+import com.tx.co.common.api.model.DescriptionLangResult;
 import com.tx.co.front_end.expiration.domain.Expiration;
 
 /**
@@ -103,7 +105,7 @@ public class Task implements Serializable {
 	private List<Office> officesAssociated;
 	
 	@Transient
-	private String descriptionTask;
+	private List<DescriptionLangResult> descriptionLangList = new ArrayList<>();
 	
 	@Transient
 	private Integer counterCompany;
@@ -242,12 +244,12 @@ public class Task implements Serializable {
 		this.officesAssociated = officesAssociated;
 	}
 
-	public String getDescriptionTask() {
-		return descriptionTask;
+	public List<DescriptionLangResult> getDescriptionLangList() {
+		return descriptionLangList;
 	}
 
-	public void setDescriptionTask(String descriptionTask) {
-		this.descriptionTask = descriptionTask;
+	public void setDescriptionLangList(List<DescriptionLangResult> descriptionLangList) {
+		this.descriptionLangList = descriptionLangList;
 	}
 
 	public Integer getCounterCompany() {

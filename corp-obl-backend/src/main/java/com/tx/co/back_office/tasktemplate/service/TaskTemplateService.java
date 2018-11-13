@@ -35,6 +35,7 @@ import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.repository.TaskTemplateRepository;
 import com.tx.co.back_office.topic.domain.Topic;
 import com.tx.co.cache.service.UpdateCacheData;
+import com.tx.co.common.api.model.DescriptionLangResult;
 import com.tx.co.common.translation.api.model.TranslationPairKey;
 import com.tx.co.common.translation.domain.Translation;
 import com.tx.co.common.translation.repository.TranslationRepository;
@@ -271,9 +272,9 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 					taskLoop.setCounterCompany(uniqueCompanies.size());
 
-					String descriptionTask = buildDescription(taskLoop, lang, index);
+					List<DescriptionLangResult> descriptionLangResults = buildDescriptionList(taskLoop, index);
 
-					taskLoop.setDescriptionTask(descriptionTask);
+					taskLoop.setDescriptionLangList(descriptionLangResults);
 
 					setTranslationsToTopicsAndDescription(taskLoop, lang);
 
@@ -284,9 +285,9 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 			} else {
 				Task task = new Task();
 				task.setTaskTemplate(taskTemplate);
-				
+
 				setTranslationsToTopicsAndDescription(task, lang);
-				
+
 				tasks.add(task);
 			}
 		}
@@ -367,9 +368,6 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 	private List<TaskTemplate> setDescriptionTaskTemplate(List<TaskTemplate> taskTemplates) {
 
-		User userLoggedIn = getTokenUserDetails().getUser();
-		String lang = getLangOfUsername(userLoggedIn.getUsername());
-
 		if(!isEmpty(taskTemplates)) {
 
 			/*
@@ -381,9 +379,9 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 			for (TaskTemplate taskTemplate : taskTemplates) {
 
-				String descriptionTaskTemplate = buildDescription(taskTemplate, lang, 0);
+				List<DescriptionLangResult> descriptionLangResults =  buildDescriptionList(taskTemplate, 0);
 
-				taskTemplate.setDescriptionTaskTemplate(descriptionTaskTemplate);
+				taskTemplate.setDescriptionLangList(descriptionLangResults);
 
 				List<Office> officeCounterList = new ArrayList<>();
 
@@ -453,60 +451,74 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 	 * @param index
 	 * @return the description
 	 */
-	public String buildDescription(Object object, String lang, int index) {
+	public List<DescriptionLangResult> buildDescriptionList(Object object, int index) {
 
-		String description = "";
+		List<DescriptionLangResult> descriptionLangList = new ArrayList<>();
+		List<String> langs = getLanguagesFromCache();
 
-		if(!isEmpty(object)) {
-			if(object instanceof Task) {
-				Task task = (Task) object;
+		if(!isEmpty(object) && !isEmpty(langs)) {
+			for (String lang : langs) {
 
-				description = getTranslationByLangLikeTablename(new TranslationPairKey("configurationinterval", lang)).getDescription();
 
-				if(index != 0) {
-					description += " " + index + ": ";
-				}
+				if(object instanceof Task) {
+					Task task = (Task) object;
+					String description = "";
 
-				description += getTranslationByLangLikeTablename(new TranslationPairKey(task.getRecurrence(), lang)).getDescription() + " - ";
+					description = getTranslationByLangLikeTablename(new TranslationPairKey("configurationinterval", lang)).getDescription();
 
-				description += getTranslationByLangLikeTablename(new TranslationPairKey(task.getExpirationType(), lang)).getDescription();
-
-				if (task.getExpirationType().compareTo(EXP_FIX_DAY) == 0 && !isEmpty(task.getDay())) {
-					if(task.getRecurrence().compareTo(REC_YEARLY) == 0) {
-						String dayString = task.getDay().toString();
-						if(dayString.length() == 8) {
-							String[] splitYearMonthDay = {dayString.substring(0, 4), dayString.substring(4, 6), dayString.substring(6)};
-							description += " - " + splitYearMonthDay[2] + "/" + splitYearMonthDay[1];
-						}
-					} else if(task.getRecurrence().compareTo(REC_WEEKLY) == 0) {
-						description += " - " + getTranslationByLangLikeTablename(new TranslationPairKey("period_weekly_exp_fixed_day#".concat(task.getDay().toString()), lang)).getDescription();
-					} else {
-						description += " - " + task.getDay();
+					if(index != 0) {
+						description += " " + index + ": ";
 					}
-				}
-			} else if(object instanceof TaskTemplate) {
-				TaskTemplate taskTemplate = (TaskTemplate) object;
 
-				description = taskTemplate.getDescription() + " - ";
+					description += getTranslationByLangLikeTablename(new TranslationPairKey(task.getRecurrence(), lang)).getDescription() + " - ";
 
-				description += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription();
+					description += getTranslationByLangLikeTablename(new TranslationPairKey(task.getExpirationType(), lang)).getDescription();
 
-				if (taskTemplate.getExpirationType().compareTo(EXP_FIX_DAY) == 0) {
-					if(taskTemplate.getRecurrence().compareTo(REC_YEARLY) == 0) {
-						String dayString = taskTemplate.getDay().toString();
-						if(dayString.length() == 8) {
-							String[] splitYearMonthDay = {dayString.substring(0, 4), dayString.substring(4, 6), dayString.substring(6)};
-							description += " - " + splitYearMonthDay[2] + "/" + splitYearMonthDay[1];
+					if (task.getExpirationType().compareTo(EXP_FIX_DAY) == 0 && !isEmpty(task.getDay())) {
+						if(task.getRecurrence().compareTo(REC_YEARLY) == 0) {
+							String dayString = task.getDay().toString();
+							if(dayString.length() == 8) {
+								String[] splitYearMonthDay = {dayString.substring(0, 4), dayString.substring(4, 6), dayString.substring(6)};
+								description += " - " + splitYearMonthDay[2] + "/" + splitYearMonthDay[1];
+							}
+						} else if(task.getRecurrence().compareTo(REC_WEEKLY) == 0) {
+							description += " - " + getTranslationByLangLikeTablename(new TranslationPairKey("period_weekly_exp_fixed_day#".concat(task.getDay().toString()), lang)).getDescription();
+						} else {
+							description += " - " + task.getDay();
 						}
-					} else if(taskTemplate.getRecurrence().compareTo(REC_WEEKLY) == 0) {
-						description += " - " + getTranslationByLangLikeTablename(new TranslationPairKey("period_weekly_exp_fixed_day#".concat(taskTemplate.getDay().toString()), lang)).getDescription();
-					} else {
-						description += " - " + taskTemplate.getDay();
 					}
+					
+					
+					descriptionLangList.add(new DescriptionLangResult(description, lang));
+					
+				} else if(object instanceof TaskTemplate) {
+					TaskTemplate taskTemplate = (TaskTemplate) object;
+					String description = "";
+
+					description = taskTemplate.getDescription() + " - ";
+
+					description += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription();
+
+					if (taskTemplate.getExpirationType().compareTo(EXP_FIX_DAY) == 0) {
+						if(taskTemplate.getRecurrence().compareTo(REC_YEARLY) == 0) {
+							String dayString = taskTemplate.getDay().toString();
+							if(dayString.length() == 8) {
+								String[] splitYearMonthDay = {dayString.substring(0, 4), dayString.substring(4, 6), dayString.substring(6)};
+								description += " - " + splitYearMonthDay[2] + "/" + splitYearMonthDay[1];
+							}
+						} else if(taskTemplate.getRecurrence().compareTo(REC_WEEKLY) == 0) {
+							description += " - " + getTranslationByLangLikeTablename(new TranslationPairKey("period_weekly_exp_fixed_day#".concat(taskTemplate.getDay().toString()), lang)).getDescription();
+						} else {
+							description += " - " + taskTemplate.getDay();
+						}
+					}
+					
+					descriptionLangList.add(new DescriptionLangResult(description, lang));
+					
 				}
 			}
 		}
 
-		return description;
+		return descriptionLangList;
 	}
 }

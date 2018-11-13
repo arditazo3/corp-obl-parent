@@ -30,6 +30,7 @@ import com.tx.co.back_office.task.repository.TaskOfficeRepository;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.service.TaskTemplateService;
 import com.tx.co.cache.service.UpdateCacheData;
+import com.tx.co.common.api.model.DescriptionLangResult;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
 import com.tx.co.security.api.usermanagement.IUserManagementDetails;
 import com.tx.co.security.domain.Authority;
@@ -341,9 +342,6 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 
 	public List<OfficeTaskTemplates> convertToOfficeTasks(List<OfficeTaskTemplate> officeTaskList) {
 
-		User userLoggedIn = getTokenUserDetails().getUser();
-		String lang = getLangOfUsername(userLoggedIn.getUsername());
-
 		HashMap<Office, List<TaskTemplate>> officeTaskTemplatesMap = new HashMap<>();
 		for (OfficeTaskTemplate officeTask : officeTaskList) {
 			Office office = officeTask.getOffice();
@@ -364,9 +362,9 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 			if(!isEmpty(taskTemplates)) {
 				for (TaskTemplate taskTemplate : taskTemplates) {
 
-					String descriptionTaskTemplate = taskTemplateService.buildDescription(taskTemplate, lang, 0);
+					List<DescriptionLangResult> descriptionLangList = taskTemplateService.buildDescriptionList(taskTemplate, 0);
 
-					taskTemplate.setDescriptionTaskTemplate(descriptionTaskTemplate);
+					taskTemplate.setDescriptionLangList(descriptionLangList);
 				}
 			}
 
