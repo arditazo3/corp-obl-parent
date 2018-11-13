@@ -491,7 +491,7 @@ export class QuickConfigurationComponent implements OnInit {
                     }
                 } else if (periodicityType === 'yearly') {
                     this.isYearly = true;
-                    this.myDatePickerOptionsTaskTempl = {dateFormat: 'dd/mm'};
+                    this.myDatePickerOptionsTaskTempl = {dateFormat: 'dd/mm', editableDateField: false};
                 }
             }
         }

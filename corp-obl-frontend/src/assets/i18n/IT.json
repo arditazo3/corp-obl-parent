@@ -118,7 +118,7 @@
       "EXPIRATION_REQUIRED": "Scadenza richiesta",
       "DAY": "Giorno",
       "SELECT_DAY": "Seleziona un giorno",
-      "DAY_REQUIRED": "Day is required",
+      "DAY_REQUIRED": "Il giorno è richiesto",
       "DAYS_NOTICE": "Giorni di preavviso",
       "DAYS_NOTICE_REQUIRED": "Sono richiesti giorni di preavviso",
       "FREQUENCE_NOTICE": "Frequenza di preavviso",

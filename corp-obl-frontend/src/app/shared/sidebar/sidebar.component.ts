@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ROUTES} from './menu-items';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -18,7 +18,7 @@ declare var $: any;
     templateUrl: './sidebar.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
     showMenu = '';
     showSubMenu = '';
     public sidebarnavItems: any[];
@@ -97,6 +97,11 @@ export class SidebarComponent implements OnInit {
         this.fullname = this.userInfoService.getUsername();
 
         this.cdr.detectChanges();
+    }
+
+    ngOnDestroy(): void {
+
+        this.cdr.detach();
     }
 
     containAuth(authoritiesAllowed) {

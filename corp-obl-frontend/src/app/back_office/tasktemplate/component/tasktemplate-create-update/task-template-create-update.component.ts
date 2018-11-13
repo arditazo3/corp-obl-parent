@@ -251,8 +251,6 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         };
         this.uploader.onWhenAddingFileFailed = (item, filter, options) => this.onWhenAddingFileFailed(item, filter, options);
         this.onLoadFilesUploaded();
-
-
     }
 
     getTopics() {
@@ -627,7 +625,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                     }
                 } else if (periodicityType === 'yearly') {
                     this.isYearly = true;
-                    this.myDatePickerOptionsTaskTempl = {dateFormat: 'dd/mm'};
+                    this.myDatePickerOptionsTaskTempl = {dateFormat: 'dd/mm', editableDateField: false};
                 }
             }
         }

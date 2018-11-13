@@ -4,7 +4,7 @@ import {
     Component,
     DoCheck,
     ElementRef,
-    IterableDiffers,
+    IterableDiffers, OnDestroy,
     OnInit,
     ViewChild
 } from '@angular/core';
@@ -79,6 +79,18 @@ export class ConfigurationTaskComponent implements OnInit {
     async ngOnInit() {
         console.log('ConfigurationTaskComponent - ngOnInit');
 
+        const me = this;
+
+        me.langOnChange = me.translateService.currentLang;
+
+        me.translateService.onLangChange
+            .subscribe((event: LangChangeEvent) => {
+                if (event.lang) {
+                    me.langOnChange = event.lang;
+                    me.descriptionTaskTemplateLangOnChange(me.rows);
+                }
+            });
+
         this.getCompanies();
         this.getTopics();
         this.getTaskTemplates();
@@ -93,6 +105,8 @@ export class ConfigurationTaskComponent implements OnInit {
 
         this.searchTaskTemplate();
     }
+
+
 
     getCompanies() {
         console.log('ConfigurationTaskComponent - getCompanies');
@@ -119,10 +133,44 @@ export class ConfigurationTaskComponent implements OnInit {
         const me = this;
         this.taskTemplateService.getTaskTemplatesForTable().subscribe(
             (data) => {
+                me.descriptionTaskTemplateLangOnChange(data);
                 me.rows = data;
-                //     console.log(JSON.stringify(data));
             }
         );
+    }
+
+    descriptionTaskTemplateLangOnChange(data) {
+
+        const me = this;
+
+        if (data && data.length > 0) {
+            data.forEach(object => {
+                if (object.hasOwnProperty('idTask')) {
+                    object.descriptionLangList.forEach(descriptionLang => {
+
+                        if (descriptionLang.lang === me.langOnChange) {
+                            object.descriptionTask = descriptionLang.description;
+                        }
+                    });
+                } else if (object.hasOwnProperty('idTaskTemplate')) {
+                    object.descriptionLangList.forEach(descriptionLang => {
+
+                        if (descriptionLang.lang === me.langOnChange) {
+                            object.descriptionTaskTemplate = descriptionLang.description;
+                        }
+                    });
+                } else {
+                    object.taskTemplates.forEach(taskTemplate => {
+                        taskTemplate.descriptionLangList.forEach(descriptionLang => {
+
+                            if (descriptionLang.lang === me.langOnChange) {
+                                taskTemplate.descriptionTaskTemplate = descriptionLang.description;
+                            }
+                        });
+                    });
+                }
+            });
+        }
     }
 
     searchTaskTemplate() {
@@ -137,6 +185,7 @@ export class ConfigurationTaskComponent implements OnInit {
 
                 const dataUpdated: Task[] = data.map(x => Object.assign({}, x));
                 me.rows = [...dataUpdated];
+                me.descriptionTopicTableOnChange();
                 me.cdr.detectChanges();
             }
         );
@@ -296,8 +345,6 @@ export class ConfigurationTaskComponent implements OnInit {
                     });
                 }
             });
-
-            me.cdr.detectChanges();
         }
     }
 
@@ -319,5 +366,7 @@ export class ConfigurationTaskComponent implements OnInit {
             me.selectedTopics = selectedTopicsTemp;
         }
     }
+
+
 
 }

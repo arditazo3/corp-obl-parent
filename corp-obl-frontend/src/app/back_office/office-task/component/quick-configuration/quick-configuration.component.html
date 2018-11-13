@@ -129,6 +129,9 @@
                                     <div *ngIf="submitted && !dayValue && isFixedDay" class="invalid-feedback-show">
                                         {{ 'BACK_OFFICE.OFFICE_TASK.DAY_REQUIRED' | translate }}
                                     </div>
+                                    <div *ngIf="submitted && !dayDateDP && isYearly" class="invalid-feedback-show">
+                                        {{ 'BACK_OFFICE.TASK.DAY_REQUIRED' | translate }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
