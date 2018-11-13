@@ -72,6 +72,7 @@ export class ConfigurationTaskComponent implements OnInit {
                     me.descriptionTopicOnChange();
                     me.descriptionTopicTableOnChange();
                     me.descriptionTopicSelectedOnChange();
+                    me.descriptionTaskTemplateLangOnChange(me.rows);
                 }
             });
     }
@@ -81,19 +82,9 @@ export class ConfigurationTaskComponent implements OnInit {
 
         const me = this;
 
-        me.langOnChange = me.translateService.currentLang;
-
-        me.translateService.onLangChange
-            .subscribe((event: LangChangeEvent) => {
-                if (event.lang) {
-                    me.langOnChange = event.lang;
-                    me.descriptionTaskTemplateLangOnChange(me.rows);
-                }
-            });
-
         this.getCompanies();
         this.getTopics();
-        this.getTaskTemplates();
+    //    this.getTaskTemplates();
 
         const dataFilterTemp: DataFilter = this.transferService.dataFilter;
         if (dataFilterTemp && dataFilterTemp.page === PageEnum.BO_TASK) {
@@ -184,6 +175,7 @@ export class ConfigurationTaskComponent implements OnInit {
             (data) => {
 
                 const dataUpdated: Task[] = data.map(x => Object.assign({}, x));
+                me.descriptionTaskTemplateLangOnChange(dataUpdated)
                 me.rows = [...dataUpdated];
                 me.descriptionTopicTableOnChange();
                 me.cdr.detectChanges();
