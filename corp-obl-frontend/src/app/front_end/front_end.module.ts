@@ -23,6 +23,7 @@ import { ExpirationActivityControlledComponent } from './agenda-controlled/expir
 import { OfficeExpirationControlledComponent } from './agenda-controlled/office-expiration-controlled/office-expiration-controlled.component';
 import { TaskTemplateExpirationsControlledComponent } from './agenda-controlled/task-template-expirations-controlled/task-template-expirations-controlled.component';
 import {TranslateModule} from '@ngx-translate/core';
+import { OfficeExpTaskTemplateComponent } from './shared/office-exp-task-template/office-exp-task-template.component';
 
 @NgModule({
     imports: [
@@ -56,7 +57,8 @@ import {TranslateModule} from '@ngx-translate/core';
         AgendaControlledComponent,
         ExpirationActivityControlledComponent,
         OfficeExpirationControlledComponent,
-        TaskTemplateExpirationsControlledComponent
+        TaskTemplateExpirationsControlledComponent,
+        OfficeExpTaskTemplateComponent
     ],
     providers: [
         ExpirationService

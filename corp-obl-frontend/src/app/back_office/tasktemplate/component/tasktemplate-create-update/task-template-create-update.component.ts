@@ -233,7 +233,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         if (this.isTaskTemplateForm || (!this.isTaskTemplateForm && objectParam.newTask)) {
             this.createEditTaskTemplate = this.formBuilder.group({
                 description: new FormControl({value: this.taskTemplate.description, disabled: false}, Validators.required),
-            //    expirationRadio: new FormControl(this.taskTemplate.expirationClosableBy, Validators.required),
+                expirationRadio: new FormControl(this.taskTemplate.expirationClosableBy, Validators.required),
                 daysOfNotice: new FormControl({value: this.taskTemplate.daysOfNotice, disabled: false}, Validators.required),
                 frequenceOfNotice: new FormControl({value: this.taskTemplate.frequenceOfNotice, disabled: false}, Validators.required),
                 daysBeforeShowExpiration: new FormControl({value: this.taskTemplate.daysBeforeShowExpiration, disabled: false},
@@ -288,9 +288,9 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         const me = this;
         this.submitted = true;
 
-        // if (this.isForeign && this.isTaskTemplateForm) {
-        //     this.createEditTaskTemplate.get('expirationRadio').setValue('1');
-        // }
+        if (this.isForeign && this.isTaskTemplateForm) {
+            this.createEditTaskTemplate.get('expirationRadio').setValue('1');
+        }
 
         if (this.createEditTaskTemplate.invalid) {
             return;
@@ -309,8 +309,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             this.taskTemplate.topic = this.selectedTopic;
             this.taskTemplate.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
             this.taskTemplate.expirationType = this.selectedExpirationType.tablename.split('#')[2];
-            // default value 1 for create/update task template
-            this.taskTemplate.expirationClosableBy = 1;
+            this.taskTemplate.expirationClosableBy = this.createEditTaskTemplate.get('expirationRadio').value;
             this.taskTemplate.day = this.getDayValueOnDynamicComp();
             this.taskTemplate.daysOfNotice = this.createEditTaskTemplate.get('daysOfNotice').value;
             this.taskTemplate.daysBeforeShowExpiration = this.createEditTaskTemplate.get('daysBeforeShowExpiration').value;

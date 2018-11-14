@@ -4,7 +4,8 @@
             <div id="container-fluid">
                 <div class="row">
                     <div class="col-4">
-                        <span class="float-left">{{ expiration?.office?.description }} <i *ngIf="expiration.username !== ''">-</i> {{ expiration.username }}</span>
+                        <span class="float-left">{{ expiration?.office?.description }} <i
+                                *ngIf="expiration.username !== ''">-</i> {{ expiration.username }}</span>
                     </div>
                     <div class="col-4 text-center">
                     </div>
@@ -15,43 +16,66 @@
             </div>
         </ng-template>
         <ng-template ngbPanelContent>
-            <div class="ml-auto d-flex float-right align-items-center">
-                <div ngbDropdown class="d-inline-block btn-group mr-3">
-                    <button type="button" (click)="showHideDetailsMsg()" class="btn-tnx btn-primary">{{ hideDetailsBtn ? ('GENERAL.HIDE' | translate) : ('GENERAL.DETAILS' | translate) }}</button>
-                    <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-                        <button class="btn-tnx btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
-                        <div class="dropdown-menu" ngbDropdownMenu>
-                            <button class="dropdown-item"
-                                    *ngIf="restoreBtn"
-                                    (click)="restoreExp()">{{ 'FRONT_END.AGENDA.RESTORE' | translate }}
-                            </button>
-                            <button class="dropdown-item"
-                                    *ngIf="rejectBtn"
-                                    (click)="rejectExp()">{{ 'FRONT_END.AGENDA.REJECT' | translate }}
-                            </button>
-                            <button class="dropdown-item"
-                                    *ngIf="archivedBtn"
-                                    (click)="archivedExp()">{{ 'FRONT_END.AGENDA.ARCHIVED' | translate }}
-                            </button>
-                            <button class="dropdown-item"
-                                    *ngIf="approvedBtn"
-                                    (click)="approvedExp()">{{ 'FRONT_END.AGENDA.APPROVED' | translate }}
-                            </button>
-                            <button class="dropdown-item"
-                                    *ngIf="notApprovedBtn"
-                                    (click)="notApprovedExp()">{{ 'FRONT_END.AGENDA.NOT_APPROVED' | translate }}
-                            </button>
+
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-10">
+                        <app-office-exp-task-template
+                                *ngIf="expiration && expiration.taskTemplate"
+                                [taskTemplate]="expiration.taskTemplate">
+                        </app-office-exp-task-template>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div ngbDropdown class="d-inline-block btn-group mr-3">
+                                <button type="button" (click)="showHideDetailsMsg()" class="btn-tnx btn-primary">{{
+                                    hideDetailsBtn ?
+                                    ('GENERAL.HIDE' | translate) : ('GENERAL.DETAILS' | translate) }}
+                                </button>
+                                <div class="btn-group" ngbDropdown role="group"
+                                     aria-label="Button group with nested dropdown">
+                                    <button class="btn-tnx btn-primary dropdown-toggle-split"
+                                            ngbDropdownToggle></button>
+                                    <div class="dropdown-menu" ngbDropdownMenu>
+                                        <button class="dropdown-item"
+                                                *ngIf="restoreBtn"
+                                                (click)="restoreExp()">{{ 'FRONT_END.AGENDA.RESTORE' | translate }}
+                                        </button>
+                                        <button class="dropdown-item"
+                                                *ngIf="rejectBtn"
+                                                (click)="rejectExp()">{{ 'FRONT_END.AGENDA.REJECT' | translate }}
+                                        </button>
+                                        <button class="dropdown-item"
+                                                *ngIf="archivedBtn"
+                                                (click)="archivedExp()">{{ 'FRONT_END.AGENDA.ARCHIVED' | translate }}
+                                        </button>
+                                        <button class="dropdown-item"
+                                                *ngIf="approvedBtn"
+                                                (click)="approvedExp()">{{ 'FRONT_END.AGENDA.APPROVED' | translate }}
+                                        </button>
+                                        <button class="dropdown-item"
+                                                *ngIf="notApprovedBtn"
+                                                (click)="notApprovedExp()">{{ 'FRONT_END.AGENDA.NOT_APPROVED' |
+                                            translate }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div *ngFor="let expirationActivity of expiration.expirationActivities">
-                <app-expiration-activity [expiration]="expiration" [expirationActivity]="expirationActivity"
-                                         (updateExpirationActivities)="updateExpirationActivities($event)"
-                                         class="w-100"></app-expiration-activity>
-            </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div *ngFor="let expirationActivity of expiration.expirationActivities">
+                            <app-expiration-activity [expiration]="expiration" [expirationActivity]="expirationActivity"
+                                                     (updateExpirationActivities)="updateExpirationActivities($event)"
+                                                     class="w-100"></app-expiration-activity>
+                        </div>
+                    </div>
+                </div>
 
+            </div>
         </ng-template>
     </ngb-panel>
 </ngb-accordion>

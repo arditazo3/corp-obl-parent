@@ -40,32 +40,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--<div class="col-sm-12 col-md-4" [hidden]="isForeign">-->
-                                <!--<div class="form-group" *ngIf="isTaskTemplateForm">-->
-                                    <!--<label class="control-label col-form-label">{{ 'BACK_OFFICE.TASK.WHO_MANAGES_TASK' | translate }}</label>-->
-                                    <!--<div class="form-check">-->
-                                        <!--<div class="custom-control custom-radio">-->
-                                            <!--<input type="radio" formControlName="expirationRadio"-->
-                                                   <!--class="custom-control-input" [value]=1-->
-                                                   <!--id="customControlValidation2">-->
-                                            <!--<label class="custom-control-label"-->
-                                                   <!--for="customControlValidation2">{{ 'BACK_OFFICE.TASK.ANYONE_CAN_CLOSE_TASK' | translate }}</label>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--<div class="form-check" *ngIf="!isForeign">-->
-                                        <!--<div class="custom-control custom-radio">-->
-                                            <!--<input type="radio" formControlName="expirationRadio"-->
-                                                   <!--class="custom-control-input" [value]=2-->
-                                                   <!--id="customControlValidation3">-->
-                                            <!--<label class="custom-control-label"-->
-                                                   <!--for="customControlValidation3">{{ 'BACK_OFFICE.TASK.EVERY_USER_HAS_TASK' | translate }}</label>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--<span *ngIf="submitted && f.expirationRadio.errors" class="invalid-feedback-show">-->
-                                    <!--<div *ngIf="f.expirationRadio.errors.required">{{ 'BACK_OFFICE.TASK.EXPIRATION_CLOSED_BY_REQUIRED' | translate }}</div>-->
-                                <!--</span>-->
-                                <!--</div>-->
-                            <!--</div>-->
+                            <div class="col-sm-12 col-md-4" [hidden]="isForeign">
+                                <div class="form-group" *ngIf="isTaskTemplateForm">
+                                    <label class="control-label col-form-label">{{ 'BACK_OFFICE.TASK.WHO_MANAGES_TASK' | translate }}</label>
+                                    <div class="form-check">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" formControlName="expirationRadio"
+                                                   class="custom-control-input" [value]=1
+                                                   id="customControlValidation2">
+                                            <label class="custom-control-label"
+                                                   for="customControlValidation2">{{ 'BACK_OFFICE.TASK.ANYONE_CAN_CLOSE_TASK' | translate }}</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check" *ngIf="!isForeign">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" formControlName="expirationRadio"
+                                                   class="custom-control-input" [value]=2
+                                                   id="customControlValidation3">
+                                            <label class="custom-control-label"
+                                                   for="customControlValidation3">{{ 'BACK_OFFICE.TASK.EVERY_USER_HAS_TASK' | translate }}</label>
+                                        </div>
+                                    </div>
+                                    <span *ngIf="submitted && f.expirationRadio.errors" class="invalid-feedback-show">
+                                    <div *ngIf="f.expirationRadio.errors.required">{{ 'BACK_OFFICE.TASK.EXPIRATION_CLOSED_BY_REQUIRED' | translate }}</div>
+                                </span>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row">

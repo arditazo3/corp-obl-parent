@@ -1,0 +1,36 @@
+<div class="d-md-flex align-items-center">
+    <div class="border border-dark w-75">
+        <div>
+            <h6 class="card-subtitle">{{ taskTemplate?.description }}</h6>
+
+            <div class="col-md-12 table-responsive">
+                <table class="table table-borderless table-sm">
+                    <thead>
+                    <tr>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let taskTemplateAttachment of taskTemplate?.taskTemplateAttachmentResults">
+                        <td>
+                            <strong><a (click)="downloadFileExp(taskTemplateAttachment)"
+                                       class="text-primary" style="cursor: pointer;">
+                                {{ taskTemplateAttachment?.fileName }}
+                            </a></strong>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <swal
+            #errorTaskTemplateSwal
+            title=""
+            text=""
+            type="error">
+    </swal>
+
+</div>
