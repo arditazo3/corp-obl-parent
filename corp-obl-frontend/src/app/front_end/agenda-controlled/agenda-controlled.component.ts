@@ -24,7 +24,7 @@ export class AgendaControlledComponent implements OnInit {
     dateStart: any;
     dateEnd: any;
 
-    hideArchivedTasks = false;
+    archivedTasks = true;
 
     constructor(
         private officeService: OfficeService,
@@ -35,11 +35,14 @@ export class AgendaControlledComponent implements OnInit {
     ngOnInit() {
         console.log('AgendaControlledComponent - ngOnInit');
 
-        const dateNow: Date = new Date();
-        this.dateStart = AppGlobals.convertDateToDatePicker(dateNow);
+        let dateNow: Date = new Date();
+
+        const dateAMonthAgo = moment(dateNow).add(-1, 'months').toDate();
+        this.dateStart = AppGlobals.convertDateToDatePicker(dateAMonthAgo);
 
         this.searchTaskTemplatesDefault();
 
+        dateNow = new Date();
         const dateAfter3Months = moment(dateNow).add(3, 'months').toDate();
         this.dateEnd = AppGlobals.convertDateToDatePicker(dateAfter3Months);
 
@@ -68,7 +71,7 @@ export class AgendaControlledComponent implements OnInit {
         if (this.dateEnd) {
             dateExpirationOfficesArchived.dateEnd = AppGlobals.convertDatePickerToDate(dateEnd.date);
         }
-        dateExpirationOfficesArchived.hideArchived = this.hideArchivedTasks;
+        dateExpirationOfficesArchived.showArchived = this.archivedTasks;
         dateExpirationOfficesArchived.userRelationType = AppGlobals.CONTROLLED;
 
         this.expirationService
@@ -89,9 +92,13 @@ export class AgendaControlledComponent implements OnInit {
 
         const me = this;
         const dateExpirationOfficesArchived: DateExpirationOfficesHasArchived = new DateExpirationOfficesHasArchived();
-        dateExpirationOfficesArchived.dateStart = AppGlobals.convertDatePickerToDate(this.dateStart.date);
-        dateExpirationOfficesArchived.dateEnd = AppGlobals.convertDatePickerToDate(this.dateEnd.date);
-        dateExpirationOfficesArchived.hideArchived = this.hideArchivedTasks;
+        if (this.dateStart) {
+            dateExpirationOfficesArchived.dateStart = AppGlobals.convertDatePickerToDate(this.dateStart.date);
+        }
+        if (this.dateEnd) {
+            dateExpirationOfficesArchived.dateEnd = AppGlobals.convertDatePickerToDate(this.dateEnd.date);
+        }
+        dateExpirationOfficesArchived.showArchived = this.archivedTasks;
         dateExpirationOfficesArchived.userRelationType = AppGlobals.CONTROLLED;
 
         this.expirationService

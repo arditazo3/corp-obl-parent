@@ -91,7 +91,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		Date dateStart = dateExpirationOfficesHasArchived.getDateStart();
 		Date endDate = dateExpirationOfficesHasArchived.getDateEnd();
 		List<Office> offices = dateExpirationOfficesHasArchived.getOffices();
-		Boolean hideArchived = dateExpirationOfficesHasArchived.getHideArchived();
+		Boolean showArchived = dateExpirationOfficesHasArchived.getShowArchived();
 
 		String querySql = "select e " +
 				"from Expiration e " +
@@ -118,7 +118,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		if (!isEmpty(offices)) {
 			querySql += "and e.office in :officeList ";
 		}
-		if (hideArchived) {
+		if (!showArchived) {
 			querySql += "and e.registered is null ";
 		}
 		// Filter by user and authority

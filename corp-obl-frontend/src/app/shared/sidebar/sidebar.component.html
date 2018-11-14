@@ -5,9 +5,12 @@
             <!-- Logo -->
             <!-- ============================================================== -->
             <a class="sidebar-link">
-                <div class="" [attr.data-logobg]="fullComponent.options.logobg">
+                <div class="" [attr.data-logobg]="fullComponent.options.logobg" style="padding-right: 15px">
                     <!-- Logo icon -->
-                    <img src="assets/images/favicon-32x32.png" alt="homepage" class="dark-logo"/>
+                    <!--Web-->
+                    <img *ngIf="!isMobile" src="assets/images/logo-icon-login.png" alt="homepage" class="dark-logo"/>
+                    <!--Mobile-->
+                    <img *ngIf="isMobile" src="assets/images/favicon-32x32.png" alt="homepage" class="dark-logo"/>
                     <!--End Logo icon -->
                     <span class="logo-text">
                     </span>

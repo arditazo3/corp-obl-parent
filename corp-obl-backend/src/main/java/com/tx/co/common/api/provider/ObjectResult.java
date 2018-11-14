@@ -1025,7 +1025,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 			}
 			dateExpirationOfficesHasArchived.setOffices(offices);
 		}
-		dateExpirationOfficesHasArchived.setHideArchived(dateExpirationOfficesHasArchivedResult.getHideArchived());
+		dateExpirationOfficesHasArchived.setShowArchived(dateExpirationOfficesHasArchivedResult.getShowArchived());
 		dateExpirationOfficesHasArchived.setUserRelationType(dateExpirationOfficesHasArchivedResult.getUserRelationType());
 
 		return dateExpirationOfficesHasArchived;

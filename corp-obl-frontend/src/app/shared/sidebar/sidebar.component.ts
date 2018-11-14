@@ -10,6 +10,7 @@ import {ApiErrorDetails} from '../common/api/model/api-error-details';
 import {Title} from '@angular/platform-browser';
 import {filter, map, mergeMap} from 'rxjs/operators';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 declare var $: any;
 
@@ -19,6 +20,7 @@ declare var $: any;
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+    isMobile = false;
     showMenu = '';
     showSubMenu = '';
     public sidebarnavItems: any[];
@@ -59,7 +61,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
         private userInfoService: UserInfoService,
         private cdr: ChangeDetectorRef,
         private userService: UserService,
-        private translate: TranslateService
+        private translate: TranslateService,
+        private deviceService: DeviceDetectorService
     ) {
 
         this.router.events
@@ -89,6 +92,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
         translate.use(userLang);
 
         this.getUserLangFlag(userLang);
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     // End open close

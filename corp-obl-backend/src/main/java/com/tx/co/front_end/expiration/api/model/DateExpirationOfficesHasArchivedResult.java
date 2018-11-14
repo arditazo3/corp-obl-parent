@@ -20,7 +20,7 @@ public class DateExpirationOfficesHasArchivedResult {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private Date dateEnd;
 	private List<OfficeResult> offices;
-	private Boolean hideArchived;
+	private Boolean showArchived;
 	private Integer userRelationType;
 	
 	public Date getDateStart() {
@@ -41,11 +41,11 @@ public class DateExpirationOfficesHasArchivedResult {
 	public void setOffices(List<OfficeResult> offices) {
 		this.offices = offices;
 	}
-	public Boolean getHideArchived() {
-		return hideArchived;
+	public Boolean getShowArchived() {
+		return showArchived;
 	}
-	public void setHideArchived(Boolean hideArchived) {
-		this.hideArchived = hideArchived;
+	public void setShowArchived(Boolean showArchived) {
+		this.showArchived = showArchived;
 	}
 	public Integer getUserRelationType() {
 		return userRelationType;

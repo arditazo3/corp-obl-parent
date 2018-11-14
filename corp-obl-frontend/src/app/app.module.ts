@@ -34,6 +34,7 @@ import {UploadService} from './shared/common/service/upload.service';
 import {UserService} from './user/service/user.service';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {DeviceDetectorModule} from 'ngx-device-detector';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true,
@@ -77,7 +78,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient]
             }
-        })
+        }),
+        DeviceDetectorModule.forRoot()
     ],
     providers: [
         UserInfoService,

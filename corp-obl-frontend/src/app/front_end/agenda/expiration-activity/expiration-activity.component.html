@@ -61,7 +61,7 @@
 
                     <div class="row">
                         <div class="m-b-0 col text-left">
-                            <button #cancelBtn type="button"
+                            <button #cancelBtn type="button" (click)="cleanFormAfterInsert()"
                                     class="btn-tnx btn-outline-secondary waves-effect waves-light">
                                 {{ 'GENERAL.CANCEL' | translate }}
                             </button>

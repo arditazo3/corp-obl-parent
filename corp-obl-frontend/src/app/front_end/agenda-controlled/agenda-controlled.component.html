@@ -23,12 +23,12 @@
           </div>
 
           <div class="col-md-2">
-            <label class="control-label col-form-label">{{ 'FRONT_END.AGENDA.HIDE_ARCHIVED_TASKS' | translate }}</label>
+            <label class="control-label col-form-label">{{ 'FRONT_END.AGENDA.ARCHIVED_TASKS' | translate }}</label>
             <div class="form-check form-check-inline">
               <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="hideArchivedTask"
-                       [checked]="hideArchivedTasks" (change)="hideArchivedTasks = !hideArchivedTasks">
-                <label class="custom-control-label" for="hideArchivedTask"></label>
+                <input type="checkbox" class="custom-control-input" id="showArchivedTask"
+                       [checked]="archivedTasks" (change)="archivedTasks = !archivedTasks">
+                <label class="custom-control-label" for="showArchivedTask"></label>
               </div>
             </div>
           </div>

@@ -44,7 +44,7 @@ public class ExpirationServiceTest extends AbstractServiceTest {
 		List<Office> offices = getOfficeService().findAllOffice();
 		dateExpirationOfficesHasArchived.setOffices(offices);
 		
-		dateExpirationOfficesHasArchived.setHideArchived(true);
+		dateExpirationOfficesHasArchived.setShowArchived(true);
 		
 		List<TaskOfficeExpirations> taskTemplateExpirations = getExpirationService().searchDateExpirationOffices(dateExpirationOfficesHasArchived);
 		

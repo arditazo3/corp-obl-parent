@@ -123,12 +123,19 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         this.isForeign = this.userInfoService.isRoleForeign();
 
         const me = this;
-        let objectParam = this.transferService.objectParam;
+        const objectParam = this.transferService.objectParam;
+
+        // return to the list if the user refresh the browser
         if (!objectParam) {
-            const taskTemplateTemp = new TaskTemplate();
-            const taskTemp = new Task();
-            taskTemp.taskTemplate = taskTemplateTemp;
-            objectParam = {isTaskTemplateForm: true, task: taskTemp};
+            this.createEditTaskTemplate = this.formBuilder.group({
+                description: new FormControl(),
+                daysOfNotice: new FormControl(),
+                frequenceOfNotice: new FormControl(),
+                daysBeforeShowExpiration: new FormControl()
+            });
+
+            me.router.navigate(['/back-office/task']);
+            return;
         }
         this.isTaskTemplateForm = objectParam.isTaskTemplateForm;
         this.task = objectParam.task;
@@ -170,7 +177,32 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                     });
                 }
             );
-        } else if (this.isTaskTemplateForm) {
+        } else if (!this.isTaskTemplateForm && !objectParam.newTask) {
+            this.submitBtn.nativeElement.innerText = 'Update Task';
+
+            this.periodicityObservable.subscribe(
+                (data) => {
+                    data.forEach((item) => {
+                        if (item && item.tablename.indexOf(me.task.recurrence) >= 0) {
+                            me.selectedPeriodicityTypeChange.next(item);
+                            me.selectedPeriodicity = item;
+                            me.onChangePeriodExpiration(null);
+                        }
+                    });
+                }
+            );
+            this.expirationTypeObservable.subscribe(
+                (data) => {
+                    data.forEach((item) => {
+                        if (item && item.tablename.indexOf(me.task.expirationType) >= 0) {
+                            me.selectedExpirationType = item;
+                            me.onChangePeriodExpiration(null);
+                        }
+                    });
+                }
+            );
+        } else if (this.isTaskTemplateForm && this.task && this.task.taskTemplate) {
+
             this.submitBtn.nativeElement.innerText = 'Update Task Template';
             this.taskTemplate = this.task.taskTemplate;
             this.selectedTopic = this.taskTemplate.topic;
@@ -190,30 +222,6 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 (data) => {
                     data.forEach((item) => {
                         if (item && item.tablename.indexOf(me.taskTemplate.expirationType) >= 0) {
-                            me.selectedExpirationType = item;
-                            me.onChangePeriodExpiration(null);
-                        }
-                    });
-                }
-            );
-        } else if (!this.isTaskTemplateForm && !objectParam.newTask) {
-            this.submitBtn.nativeElement.innerText = 'Update Task';
-
-            this.periodicityObservable.subscribe(
-                (data) => {
-                    data.forEach((item) => {
-                        if (item && item.tablename.indexOf(me.task.recurrence) >= 0) {
-                            me.selectedPeriodicityTypeChange.next(item);
-                            me.selectedPeriodicity = item;
-                            me.onChangePeriodExpiration(null);
-                        }
-                    });
-                }
-            );
-            this.expirationTypeObservable.subscribe(
-                (data) => {
-                    data.forEach((item) => {
-                        if (item && item.tablename.indexOf(me.task.expirationType) >= 0) {
                             me.selectedExpirationType = item;
                             me.onChangePeriodExpiration(null);
                         }
