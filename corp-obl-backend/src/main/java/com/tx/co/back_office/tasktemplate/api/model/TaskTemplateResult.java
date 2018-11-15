@@ -22,6 +22,7 @@ public class TaskTemplateResult {
 	private List<TaskResult> taskResults;
 	private List<TaskTemplateAttachmentResult> taskTemplateAttachmentResults;
 	private String description;
+    private Boolean isRapidConfiguration;
 	private String recurrence;
 	private String expirationType;
 	private Integer day;
@@ -61,6 +62,12 @@ public class TaskTemplateResult {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public Boolean getIsRapidConfiguration() {
+		return isRapidConfiguration;
+	}
+	public void setIsRapidConfiguration(Boolean isRapidConfiguration) {
+		this.isRapidConfiguration = isRapidConfiguration;
 	}
 	public String getRecurrence() {
 		return recurrence;

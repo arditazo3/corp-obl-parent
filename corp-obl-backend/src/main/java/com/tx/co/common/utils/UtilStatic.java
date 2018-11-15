@@ -29,7 +29,7 @@ import org.apache.logging.log4j.Logger;
 public class UtilStatic {
 
 	private static final Logger logger = LogManager.getLogger(UtilStatic.class);
-	
+
 	private UtilStatic() {}
 
 	public static int getIndexByPropertyCompanyList(Long idCompany, List<Company> comparableList) {
@@ -129,7 +129,7 @@ public class UtilStatic {
 		}
 		return -1;// not there is list
 	}
-	
+
 	public static int getIndexByPropertyUserList(String username, List<User> comparableList) {
 
 		if(!isEmpty(comparableList)) {
@@ -154,7 +154,7 @@ public class UtilStatic {
 		// representation of a date with the defined format.
 		return df.format(date);
 	}
-	
+
 	public static String formatHoursMinutesToString(Date date) {
 
 		// Create an instance of SimpleDateFormat used for formatting 
@@ -170,7 +170,7 @@ public class UtilStatic {
 		if(isEmpty(dateString)) {
 			return null;
 		}
-		
+
 		SimpleDateFormat  simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 		try {
@@ -180,23 +180,22 @@ public class UtilStatic {
 			return null;
 		}
 	}
-	
+
 	public static String buildColor(TaskOfficeExpirationsResult taskExpiration) {
 
 		Integer totalExpirations = taskExpiration.getTotalExpirations();
 		Integer totalCompleted = taskExpiration.getTotalCompleted();
 		Integer totalArchived = taskExpiration.getTotalArchived();
+		Integer totalExpired = taskExpiration.getTotalExpired();
 
 		String colorDefined = "";
 		if(totalExpirations > 0) {
 			if(totalExpirations.compareTo(totalArchived) == 0) {
 				colorDefined = ALERT_PRIMARY;
 			} else if(totalExpirations.compareTo(totalCompleted) == 0) {
-				colorDefined = "alert alert-success";
-			} else if(totalCompleted == 0) {
-				colorDefined = "";
-			} else if(totalExpirations.compareTo(totalCompleted) > 0) {
-				colorDefined = "alert alert-warning";
+				colorDefined = ALERT_SUCCESS;
+			} else if(totalExpirations.compareTo(totalExpired) == 0) {
+				colorDefined = ALERT_WARNING;
 			}
 		} else {
 			colorDefined = "";
@@ -211,18 +210,22 @@ public class UtilStatic {
 		String colorDefined = "";
 		String descriptionDate = "";
 		StatusExpirationEnum statusExpiration = StatusExpirationEnum.BASE;
-		
+
 		Date dateNow = new Date();
 		Date completed = expiration.getCompleted();
 		Date approved = expiration.getApproved();
 		Date registred = expiration.getRegistered();
 		Date expirationDate = expiration.getExpirationDate();
-		
-		// base
-		if(isEmpty(completed) && isEmpty(approved) && isEmpty(registred)) {
+
+		// expired
+		if(!isEmpty(expirationDate) && expirationDate.before(dateNow) &&
+				isEmpty(completed) && isEmpty(registred)) {
+			colorDefined = ALERT_WARNING;
+			// base
+		} else if(isEmpty(completed) && isEmpty(approved) && isEmpty(registred)) {
 			colorDefined = "";
 			statusExpiration = StatusExpirationEnum.BASE;
-		// archived	
+			// archived	
 		} else if(!isEmpty(registred)) {
 			colorDefined = ALERT_PRIMARY;
 			descriptionDate = "Archived at " + formatDateToString(registred);
@@ -238,10 +241,6 @@ public class UtilStatic {
 			descriptionDate = "Approved at " + formatDateToString(approved);
 			statusExpiration = StatusExpirationEnum.APPROVED;
 			// expired and non completed  	
-		} else if(!isEmpty(expirationDate) && expirationDate.before(dateNow) &&
-				isEmpty(completed)) {
-			colorDefined = "warning";
-			// not completed but not expired	
 		} else {
 			colorDefined = "";
 		}
@@ -250,21 +249,21 @@ public class UtilStatic {
 		expirationDetail.setExpirationDescriptionDate(descriptionDate);
 		expirationDetail.setStatusExpiration(statusExpiration);
 		expirationDetail.setStatusExpiration(statusExpiration);
-		
+
 		return expirationDetail;
 	}
-	
+
 	public static String buildDescriptionLastActivity(ExpirationActivity expirationActivity) {
-		
+
 		String descriptionLastActivity = "";
 		String userModify = expirationActivity.getModifiedBy();
 		Date lastModify = expirationActivity.getModificationDate();
-		
+
 		if(!isEmpty(userModify) && !isEmpty(lastModify)) {
 			descriptionLastActivity += userModify + ", " + formatDateToString(lastModify) + ", at " + formatHoursMinutesToString(lastModify) + " wrote";	
 		}
-		
+
 		return descriptionLastActivity;
 	}
-	
+
 }

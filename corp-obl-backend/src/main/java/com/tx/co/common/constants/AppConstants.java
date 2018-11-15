@@ -49,4 +49,6 @@ public final class AppConstants  {
 	public static final String EXPIRATION_NOT_FOUND = "Expiration not found";
 	
 	public static final String ALERT_PRIMARY = "alert alert-primary";
+	public static final String ALERT_WARNING = "alert alert-warning";
+	public static final String ALERT_SUCCESS = "alert alert-success";
 }

@@ -19,6 +19,7 @@ public class TaskOfficeExpirations {
 	private Integer totalExpirations;
 	private Integer totalCompleted;
 	private Integer totalArchived;
+	private Integer totalExpired;
 	private String expirationDate;
 	private Set<Expiration> expirations = new HashSet<>();
 	private String statusExpirationOnChange;
@@ -52,6 +53,12 @@ public class TaskOfficeExpirations {
 	}
 	public void setTotalArchived(Integer totalArchived) {
 		this.totalArchived = totalArchived;
+	}
+	public Integer getTotalExpired() {
+		return totalExpired;
+	}
+	public void setTotalExpired(Integer totalExpired) {
+		this.totalExpired = totalExpired;
 	}
 	public String getExpirationDate() {
 		return expirationDate;

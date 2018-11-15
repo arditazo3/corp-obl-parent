@@ -244,6 +244,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		int countTaskExpiration = 0;
 		int countTaskExpirationCompleted = 0;
 		int countTaskExpirationArchived = 0;
+		int countTaskExpirationExpired = 0;
 
 		for (Expiration expirationLoop : taskOfficeExpirations.getExpirations()) {
 
@@ -263,13 +264,19 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 				expirationLoop.getExpirationActivities().add(new ExpirationActivity());
 			}
 
+			Date dateNow = new Date();
 			Date completedDate = expirationLoop.getCompleted();
 			Date archivedDate = expirationLoop.getRegistered();
+			Date expirationDate = expirationLoop.getExpirationDate();
 
+			if (!isEmpty(expirationDate) && expirationDate.before(dateNow) && isEmpty(completedDate)) {
+				countTaskExpirationExpired++;
+			}
 			if (!isEmpty(completedDate)) {
 				countTaskExpirationCompleted++;
 			}
 			if (!isEmpty(archivedDate)) {
+				countTaskExpirationCompleted++;
 				countTaskExpirationArchived++;
 			}
 			countTaskExpiration++;
@@ -278,6 +285,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		taskOfficeExpirations.setTotalExpirations(countTaskExpiration);
 		taskOfficeExpirations.setTotalCompleted(countTaskExpirationCompleted);
 		taskOfficeExpirations.setTotalArchived(countTaskExpirationArchived);
+		taskOfficeExpirations.setTotalExpired(countTaskExpirationExpired);
 		taskOfficeExpirations.setExpirationDate(UtilStatic.formatDateToString(taskOfficeExpirations.getExpirations().iterator().next().getExpirationDate()));
 	}
 
@@ -300,12 +308,22 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 			Expiration expirationStored = expirationOptional.get();
 			expirationStored.setUserRelationType(userRelationType);
 
-			expirations.add(expirationStored);
+			expirations.addAll(expirationStored.getTask().getExpirationsFilterEnabled());
 
 			List<TaskOfficeExpirations> taskOfficeExpirations = convertToTaskTemplateExpirations(expirations, userRelationType);
 
 			if(!isEmpty(taskOfficeExpirations)) {
-				return taskOfficeExpirations.get(0);
+				
+				Optional<TaskOfficeExpirations> taskOfficeExpirationsOptional = taskOfficeExpirations.stream()
+						.filter(taskOfficeExpiration -> 
+						taskOfficeExpiration.getExpirations().iterator().next().getIdExpiration()
+						.compareTo(expiration.getIdExpiration()) == 0).findFirst();
+				
+				if (taskOfficeExpirationsOptional.isPresent()) {
+					return taskOfficeExpirationsOptional.get();
+				} else {
+					return taskOfficeExpirations.get(0);
+				}
 			} else {
 				throw new GeneralException(EXPIRATION_NOT_FOUND);
 			}

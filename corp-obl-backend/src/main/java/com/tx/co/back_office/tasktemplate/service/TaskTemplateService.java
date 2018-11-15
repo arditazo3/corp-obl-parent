@@ -113,6 +113,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		}
 
 		taskTemplateStored.setDescription(taskTemplate.getDescription());
+		taskTemplateStored.setIsRapidConfiguration(taskTemplate.getIsRapidConfiguration());
 		taskTemplateStored.setDay(taskTemplate.getDay());
 		taskTemplateStored.setDaysBeforeShowExpiration(taskTemplate.getDaysBeforeShowExpiration());
 		taskTemplateStored.setDaysOfNotice(taskTemplate.getDaysOfNotice());
@@ -187,7 +188,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 				"left join ct.company c " + 
 				"left join c.companyUsers cu " + 
 				"left join cu.user u on cu.username = u.username " +
-				"where tt.enabled <> 0 ";
+				"where tt.enabled <> 0 and tt.isRapidConfiguration <> 1";
 
 		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) &&
 				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
@@ -352,7 +353,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 		Query query;
 
-		querySql += "tt.description like :description " +
+		querySql += "tt.description like :description and tt.isRapidConfiguration <> 0 " +
 				"group by tt.idTaskTemplate " + 
 				"order by tt.description asc ";
 		query = em.createQuery(querySql);

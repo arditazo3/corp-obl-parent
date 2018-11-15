@@ -69,7 +69,10 @@ public class TaskTemplate implements Serializable {
 	
 	@Column(nullable = false)
 	private String description;
-
+	
+	@Column(name = "israpidconfiguration", nullable = false)
+    private Boolean isRapidConfiguration;
+	
 	@Column(nullable = false)
 	private String recurrence; 
 
@@ -161,6 +164,14 @@ public class TaskTemplate implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Boolean getIsRapidConfiguration() {
+		return isRapidConfiguration;
+	}
+
+	public void setIsRapidConfiguration(Boolean isRapidConfiguration) {
+		this.isRapidConfiguration = isRapidConfiguration;
 	}
 
 	public String getRecurrence() {

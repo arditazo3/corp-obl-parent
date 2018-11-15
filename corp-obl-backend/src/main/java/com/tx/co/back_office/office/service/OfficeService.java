@@ -269,7 +269,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		Query query;
 
 
-		querySql += "where to.enabled <> 0 and tt.enabled <> 0 and tt.description like :description " + 
+		querySql += "where to.enabled <> 0 and tt.enabled <> 0 and tt.isRapidConfiguration <> 0 and tt.description like :description " + 
 				"and to.office in :officeList " + 
 				"group by to.idTaskOffice " + 
 				"order by to.taskTemplate.description asc ";

@@ -1,26 +1,40 @@
-<div class="ml-auto d-flex float-right align-items-center">
-    <div ngbDropdown class="d-inline-block btn-group mr-3">
-        <button type="button" (click)="showHideDetailsMsg()" class="btn-tnx btn-primary">{{ hideDetailsBtn ?
-            'Hide' : 'Details' }}</button>
-        <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-            <button class="btn-tnx btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
-            <div class="dropdown-menu" ngbDropdownMenu>
-                <button class="dropdown-item"
-                        *ngIf="completedActivityBtn"
-                        (click)="completedExp()">{{ 'FRONT_END.AGENDA.COMPLETED' | translate }}
+<div class="form-body">
+    <div class="row">
+        <div class="col-md-9">
+            <app-office-exp-task-template
+                    *ngIf="expiration && expiration.taskTemplate && hideDetailsBtn"
+                    [taskTemplate]="expiration.taskTemplate">
+            </app-office-exp-task-template>
+        </div>
+
+        <div class="col-md-3 text-right">
+            <div ngbDropdown class="d-inline-block btn-group mr-3">
+                <button type="button" (click)="showHideDetailsMsg()" class="btn-tnx btn-primary">
+                    {{ hideDetailsBtn ? 'Hide' : 'Details' }}
                 </button>
-                <button class="dropdown-item"
-                        *ngIf="notCompletedActivityBtn"
-                        (click)="notCompletedExp()">{{ 'FRONT_END.AGENDA.NOT_COMPLETED' | translate }}
-                </button>
+                <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+                    <button class="btn-tnx btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
+                    <div class="dropdown-menu" ngbDropdownMenu>
+                        <button class="dropdown-item"
+                                *ngIf="completedActivityBtn"
+                                (click)="completedExp()">{{ 'FRONT_END.AGENDA.COMPLETED' | translate }}
+                        </button>
+                        <button class="dropdown-item"
+                                *ngIf="notCompletedActivityBtn"
+                                (click)="notCompletedExp()">{{ 'FRONT_END.AGENDA.NOT_COMPLETED' | translate }}
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<br>
-<div *ngFor="let expirationActivity of expiration.expirationActivities">
-    <app-expiration-activity-controlled [expiration]="expiration" [expirationActivity]="expirationActivity"
-                                        (updateExpirationActivities)="updateExpirationActivities($event)"
-                                        class="w-100"></app-expiration-activity-controlled>
+
+    <br>
+    <div *ngFor="let expirationActivity of expiration.expirationActivities">
+        <app-expiration-activity-controlled [expiration]="expiration" [expirationActivity]="expirationActivity"
+                                            (updateExpirationActivities)="updateExpirationActivities($event)"
+                                            class="w-100"></app-expiration-activity-controlled>
+    </div>
+
 </div>

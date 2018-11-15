@@ -629,6 +629,9 @@ public abstract class ObjectResult extends UpdateCacheData {
 		if (!isEmpty(taskTemplateResult.getDescription())) {
 			taskTemplate.setDescription(taskTemplateResult.getDescription().trim());
 		}
+		if (!isEmpty(taskTemplateResult.getIsRapidConfiguration())) {
+			taskTemplate.setIsRapidConfiguration(taskTemplateResult.getIsRapidConfiguration());
+		}
 		if (!isEmpty(taskTemplateResult.getRecurrence())) {
 			taskTemplate.setRecurrence(taskTemplateResult.getRecurrence());
 		}
@@ -668,6 +671,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		TaskTemplateResult result = new TaskTemplateResult();
 		result.setIdTaskTemplate(taskTemplate.getIdTaskTemplate());
 		result.setDescription(taskTemplate.getDescription());
+		result.setIsRapidConfiguration(taskTemplate.getIsRapidConfiguration());
 		result.setRecurrence(taskTemplate.getRecurrence());
 		result.setExpirationType(taskTemplate.getExpirationType());
 		result.setDay(taskTemplate.getDay());
@@ -1043,6 +1047,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		taskOfficeExpirationsResult.setIdTaskTemplate(taskOfficeExpirations.getIdTaskTemplate());
 		taskOfficeExpirationsResult.setTotalCompleted(taskOfficeExpirations.getTotalCompleted());
 		taskOfficeExpirationsResult.setTotalArchived(taskOfficeExpirations.getTotalArchived());
+		taskOfficeExpirationsResult.setTotalExpired(taskOfficeExpirations.getTotalExpired());
 		taskOfficeExpirationsResult.setTotalExpirations(taskOfficeExpirations.getTotalExpirations());
 
 		String colorDefined = UtilStatic.buildColor(taskOfficeExpirationsResult);

@@ -19,6 +19,7 @@ public class TaskOfficeExpirationsResult {
 	private Integer totalExpirations;
 	private Integer totalCompleted;
 	private Integer totalArchived;
+	private Integer totalExpired;
 	private String colorDefined;
 	private String expirationDate;
 	private TaskResult task;
@@ -55,6 +56,12 @@ public class TaskOfficeExpirationsResult {
 	}
 	public void setTotalArchived(Integer totalArchived) {
 		this.totalArchived = totalArchived;
+	}
+	public Integer getTotalExpired() {
+		return totalExpired;
+	}
+	public void setTotalExpired(Integer totalExpired) {
+		this.totalExpired = totalExpired;
 	}
 	public String getColorDefined() {
 		return colorDefined;
