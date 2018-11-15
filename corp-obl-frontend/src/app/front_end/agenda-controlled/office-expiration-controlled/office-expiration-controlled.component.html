@@ -9,8 +9,8 @@
 
         <div class="col-md-3 text-right">
             <div ngbDropdown class="d-inline-block btn-group mr-3">
-                <button type="button" (click)="showHideDetailsMsg()" class="btn btn-primary">
-                    {{ hideDetailsBtn ? 'Hide' : 'Details' }}
+                <button type="button" (click)="showHideDetailsMsg()" class="btn-dropdown btn-primary">
+                    {{ hideDetailsBtn ? ('GENERAL.HIDE' | translate) : ('GENERAL.DETAILS' | translate) }}
                 </button>
                 <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
                     <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>

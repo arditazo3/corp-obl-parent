@@ -4,8 +4,8 @@
             <div id="container-fluid">
                 <div class="row">
                     <div class="col-4">
-                        <span class="float-left">{{ expiration?.office?.description }} <i
-                                *ngIf="expiration.username !== ''">-</i> {{ expiration.username }}</span>
+                        <span class="float-left">{{ expiration?.office?.description }}
+                            <i *ngIf="expiration.username !== ''">-</i> {{ expiration.username }}</span>
                     </div>
                     <div class="col-4 text-center">
                     </div>
@@ -28,7 +28,7 @@
                     <div class="col-md-3 text-right">
                         <div class="form-group">
                             <div ngbDropdown class="d-inline-block btn-group mr-3">
-                                <button type="button" (click)="showHideDetailsMsg()" class="btn btn-primary">
+                                <button type="button" (click)="showHideDetailsMsg()" class="btn-dropdown btn-primary">
                                     {{ hideDetailsBtn ? ('GENERAL.HIDE' | translate) : ('GENERAL.DETAILS' | translate) }}
                                 </button>
                                 <div class="btn-group" ngbDropdown role="group"
@@ -36,27 +36,43 @@
                                     <button class="btn btn-primary dropdown-toggle-split"
                                             ngbDropdownToggle></button>
                                     <div class="dropdown-menu" ngbDropdownMenu>
-                                        <button class="dropdown-item"
-                                                *ngIf="restoreBtn"
-                                                (click)="restoreExp()">{{ 'FRONT_END.AGENDA.RESTORE' | translate }}
-                                        </button>
-                                        <button class="dropdown-item"
-                                                *ngIf="rejectBtn"
-                                                (click)="rejectExp()">{{ 'FRONT_END.AGENDA.REJECT' | translate }}
-                                        </button>
-                                        <button class="dropdown-item"
-                                                *ngIf="archivedBtn"
-                                                (click)="archivedExp()">{{ 'FRONT_END.AGENDA.ARCHIVED' | translate }}
-                                        </button>
-                                        <button class="dropdown-item"
-                                                *ngIf="approvedBtn"
-                                                (click)="approvedExp()">{{ 'FRONT_END.AGENDA.APPROVED' | translate }}
-                                        </button>
-                                        <button class="dropdown-item"
-                                                *ngIf="notApprovedBtn"
-                                                (click)="notApprovedExp()">{{ 'FRONT_END.AGENDA.NOT_APPROVED' |
-                                            translate }}
-                                        </button>
+                                        <div *ngIf="restoreBtn">
+                                            <button class="dropdown-item"
+                                                    (click)="restoreExp()">{{ 'FRONT_END.AGENDA.RESTORE' | translate }}
+                                            </button>
+                                            <li class="divider dropdown-divider"></li>
+                                        </div>
+
+                                        <div *ngIf="rejectBtn">
+                                            <button class="dropdown-item"
+                                                    (click)="rejectExp()">{{ 'FRONT_END.AGENDA.REJECT' | translate }}
+                                            </button>
+                                            <li class="divider dropdown-divider"></li>
+                                        </div>
+
+                                        <div *ngIf="archivedBtn">
+                                            <button class="dropdown-item"
+                                                    (click)="archivedExp()">{{ 'FRONT_END.AGENDA.ARCHIVED' | translate
+                                                }}
+                                            </button>
+                                            <li class="divider dropdown-divider"></li>
+                                        </div>
+
+                                        <div *ngIf="approvedBtn">
+                                            <button class="dropdown-item"
+                                                    (click)="approvedExp()">{{ 'FRONT_END.AGENDA.APPROVED' | translate
+                                                }}
+                                            </button>
+                                            <li class="divider dropdown-divider"></li>
+                                        </div>
+
+                                        <div *ngIf="notApprovedBtn">
+                                            <button class="dropdown-item"
+                                                    (click)="notApprovedExp()">{{ 'FRONT_END.AGENDA.NOT_APPROVED' |
+                                                translate }}
+                                            </button>
+                                            <li class="divider dropdown-divider"></li>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -3,13 +3,13 @@
         <ngb-panel id="static-1" title="{{ 'BACK_OFFICE.CONSULTANT.LIST_CONSULTANTS' | translate }}">
             <ng-template ngbPanelContent>
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-9 no-padding-right">
                         <input type='text' class="form-control"
                                placeholder="{{ 'BACK_OFFICE.CONSULTANT.TYPE_FILTER_ROWS' | translate }}"
                                (keyup)='updateFilter($event)'/>
                     </div>
-                    <div class="col-md-3 text-right">
-                        <button class="btn btn-info btn-block" type="button" (click)="createNewCompanyConsultant()">
+                    <div class="col-md-3 no-padding-left text-right">
+                        <button class="btn-inline btn-info btn-block" type="button" (click)="createNewCompanyConsultant()">
                             {{ 'BACK_OFFICE.CONSULTANT.CREATE_NEW_CONSULTANT' | translate }}
                         </button>
                     </div>

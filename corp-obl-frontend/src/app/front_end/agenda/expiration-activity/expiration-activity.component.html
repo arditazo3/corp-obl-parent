@@ -12,8 +12,8 @@
                                class="form-control col-md-9"
                                placeholder="{{ 'FRONT_END.AGENDA.TYPE_SOMETHING' | translate }}">
                         <div class="input-group-append">
-                            <div class="col-md-2">
-                                <button type="button" (click)="fileInput.click()" class="btn btn-default">{{ 'GENERAL.UPLOAD_FILES' | translate }}
+                            <div class="col-md-2 no-padding">
+                                <button type="button" (click)="fileInput.click()" class="btn-inline btn-default">{{ 'GENERAL.UPLOAD_FILES' | translate }}
                                 </button>
                                 <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
                                     <input #selectedFile type="file" #fileInput ng2FileSelect [uploader]="uploader"
