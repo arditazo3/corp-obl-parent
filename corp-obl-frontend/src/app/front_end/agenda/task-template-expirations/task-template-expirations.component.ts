@@ -57,12 +57,40 @@ export class TaskTemplateExpirationsComponent implements OnInit {
     updateTaskExpirationsList(taskExpiration) {
 
         this.itemIndexUpdatedOpenPanel = this.taskExpirations.findIndex(taskExpirationLoop =>
-            (taskExpirationLoop.idTaskTemplate === taskExpiration.idTaskTemplate &&
-                taskExpirationLoop.office.idOffice === taskExpiration.office.idOffice &&
-                taskExpirationLoop.task.idTask === taskExpiration.task.idTask));
+            (this.containItemToUpdateIndex(taskExpirationLoop, taskExpiration)));
 
         this.activeIds = [];
         this.activeIds.push('panel-' + this.itemIndexUpdatedOpenPanel);
         this.taskExpirations[this.itemIndexUpdatedOpenPanel] = taskExpiration;
+    }
+
+    containItemToUpdateIndex(taskExpirationLoop, taskExpiration): boolean {
+        let containItemIndex = false;
+
+        taskExpirationLoop.expirations.forEach(expiration => {
+
+            if (expiration.idExpiration === taskExpiration.expirations[0].idExpiration) {
+                containItemIndex = true;
+            }
+        });
+
+        return containItemIndex;
+    }
+
+    updateTaskExpirationOnChange($event, expiration, taskExpiration) {
+        console.log('TaskTemplateExpirationsComponent - updateTaskExpirationOnChange');
+
+        if ($event) {
+            const me = this;
+            this.expirationService.updateTaskExpiration(expiration).subscribe(
+                data => {
+                    me.updateTaskExpirationsList(data);
+                    console.log('TaskTemplateExpirationsComponent - updateTaskExpirationOnChange - next');
+                },
+                error => {
+                    console.error('TaskTemplateExpirationsComponent - updateTaskExpirationOnChange - error \n', error);
+                }
+            );
+        }
     }
 }

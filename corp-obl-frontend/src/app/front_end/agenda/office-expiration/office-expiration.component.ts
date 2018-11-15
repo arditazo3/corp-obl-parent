@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TaskOfficeExpirations} from '../../model/task-office-expirations';
 import {Expiration} from '../../model/expiration';
 import {StatusExpirationEnum} from '../../../shared/common/api/enum/status.expiration.enum';
@@ -13,6 +13,7 @@ import {ExpirationActivity} from '../../model/expiration-activity';
 })
 export class OfficeExpirationComponent implements OnInit {
 
+    @Output() updateTaskExpirationOnChange = new EventEmitter<boolean>();
     @Input() taskExpiration: TaskOfficeExpirations;
     @Input() expiration: Expiration;
 
@@ -114,6 +115,7 @@ export class OfficeExpirationComponent implements OnInit {
                 me.errorDetails = undefined;
                 me.expiration = data;
                 me.setStatusExpiration();
+                me.updateTaskExpirationOnChange.next(true);
 
                 console.log('OfficeExpirationComponent - saveStatusExpirationOnChange - next');
             },

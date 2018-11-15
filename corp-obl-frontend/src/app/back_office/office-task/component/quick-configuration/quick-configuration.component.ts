@@ -243,6 +243,7 @@ export class QuickConfigurationComponent implements OnInit {
         }
 
         this.taskTemplate.description = this.createEditTaskTemplate.get('description').value;
+        this.taskTemplate.isRapidConfiguration = true;
         this.taskTemplate.topic = this.selectedTopic;
         this.taskTemplate.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
         this.taskTemplate.expirationType = this.selectedExpirationType.tablename.split('#')[2];

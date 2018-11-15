@@ -10,6 +10,7 @@ export class TaskTemplate {
     taskResults: Task[];
     taskTemplateAttachmentResults: TaskTemplateAttachment[];
     description: string;
+    isRapidConfiguration: boolean;
     recurrence: string;
     expirationType: string;
     day: number;
