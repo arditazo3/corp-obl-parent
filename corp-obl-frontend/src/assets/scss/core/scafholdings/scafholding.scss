@@ -302,7 +302,7 @@ Card
 ******************/
 
 .card {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     .card-subtitle {
         font-weight: $font-weight-light;
         margin-bottom: 10px;
@@ -331,7 +331,7 @@ Card
 }
 
 .card-group {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     .card {
         border-right: 1px solid $border-color;
     }

@@ -11,3 +11,22 @@
 .no-padding-left {
   padding-left: 0 !important;
 }
+
+.card-body {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: .5rem;
+}
+
+.collapse.show {
+  border: 1px solid $border-color;
+}
+
+.card-subtitle {
+  margin-top: 0 !important;
+}
+
+.table {
+  margin-bottom: 0 !important;
+}

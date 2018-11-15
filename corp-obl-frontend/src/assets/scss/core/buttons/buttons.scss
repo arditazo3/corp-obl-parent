@@ -75,6 +75,26 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  font-size: 10px;
+  line-height: 1;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.btn-accordion {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 13px;
+  text-decoration: none !important;
+  line-height: 1;
   border: 1px solid transparent;
   border-radius: .25rem;
   transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
@@ -92,4 +112,11 @@
   .btn-ghost-#{$color} {
     @include button-ghost-variant($value);
   }
+}
+
+.btn-link {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  width: 100%;
 }

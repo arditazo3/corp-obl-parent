@@ -232,7 +232,7 @@ public class UtilStatic {
 			statusExpiration = StatusExpirationEnum.ARCHIVED;
 			// completed	
 		} else if(!isEmpty(completed) && isEmpty(approved) && isEmpty(registred)) {
-			colorDefined = "success";
+			colorDefined = ALERT_SUCCESS;
 			descriptionDate = "Completed at " + formatDateToString(completed);
 			statusExpiration = StatusExpirationEnum.COMPLETED;
 			// approved 	
