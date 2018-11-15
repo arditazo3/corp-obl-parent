@@ -20,10 +20,10 @@
                             <div class="row"
                                  *ngIf="taskExpiration.totalArchived !== taskExpiration.totalExpirations &&
                                  taskExpiration.totalCompleted === taskExpiration.totalExpirations">
-                                <button type="button" class="btn-tnx btn-xs btn-warning"
+                                <button type="button" class="btn btn-xs btn-warning"
                                         (click)="restoreAll(taskExpiration)">{{ 'FRONT_END.AGENDA.RESTORE_ALL' | translate }}
                                 </button>
-                                <button type="button" class="btn-tnx btn-xs btn-success"
+                                <button type="button" class="btn btn-xs btn-success"
                                         (click)="archiveAll(taskExpiration)">{{ 'FRONT_END.AGENDA.ARCHIVE_ALL' | translate }}
                                 </button>
                             </div>

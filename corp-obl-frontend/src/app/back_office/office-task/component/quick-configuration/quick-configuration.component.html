@@ -186,7 +186,7 @@
 
                         <div class="row">
                             <div class="col-md-2">
-                                <button type="button" (click)="fileInput.click()" class="btn-tnx btn-default">{{ 'GENERAL.UPLOAD_FILES' | translate }}
+                                <button type="button" (click)="fileInput.click()" class="btn btn-default">{{ 'GENERAL.UPLOAD_FILES' | translate }}
                                 </button>
                                 <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
                                     <input #selectedFile type="file" #fileInput ng2FileSelect [uploader]="uploader"
@@ -213,11 +213,11 @@
                                         <td nowrap>{{ item?.file?.size/1024/1024 | number:'.1' }} MB
                                         </td>
                                         <td nowrap>
-                                            <button type="button" class="btn-tnx btn-danger btn-xs"
+                                            <button type="button" class="btn btn-danger btn-xs"
                                                     (click)="removeFileToRemove(item)">
                                                 <span class="fa fa-trash"></span> {{ 'GENERAL.REMOVE' | translate }}
                                             </button>
-                                            <button *ngIf="!isNewForm" type="button" class="btn-tnx btn-xs"
+                                            <button *ngIf="!isNewForm" type="button" class="btn btn-xs"
                                                     (click)="downloadFile(item)">
                                                 <span class="fa fa-download"></span> {{ 'GENERAL.DOWNLOAD' | translate }}
                                             </button>
@@ -236,14 +236,14 @@
                         <div class="row">
                             <div class="m-b-0 col text-left">
                                 <button #cancelBtn type="button" routerLink="/back-office/office-task"
-                                        class="btn-tnx btn-outline-secondary waves-effect waves-light">
+                                        class="btn btn-outline-secondary waves-effect waves-light">
                                     {{ 'GENERAL.CANCEL' | translate }}
                                 </button>
-                                <button #submitBtn class="btn-tnx btn-success waves-effect waves-light">{{ 'BACK_OFFICE.OFFICE_TASK.SAVE_TASK_TEMPLATE' | translate }}
+                                <button #submitBtn class="btn btn-success waves-effect waves-light">{{ 'BACK_OFFICE.OFFICE_TASK.SAVE_TASK_TEMPLATE' | translate }}
                                 </button>
                                 <button type="button" (click)="deleteTaskOffice()"
                                         *ngIf="associationOffice && associationOffice.taskOfficesArray.length === 0 && !isNewForm"
-                                        class="btn-tnx btn-danger waves-effect waves-light">{{ 'GENERAL.DELETE' | translate }}
+                                        class="btn btn-danger waves-effect waves-light">{{ 'GENERAL.DELETE' | translate }}
                                 </button>
                             </div>
                         </div>

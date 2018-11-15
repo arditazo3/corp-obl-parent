@@ -10,7 +10,7 @@
                    placeholder="{{ 'BACK_OFFICE.OFFICE.TYPE_FILTER_ROWS' | translate }}" (keyup)='updateFilter($event)'/>
           </div>
           <div class="col-md-3 text-right">
-            <button class="btn-tnx btn-info btn-block" type="button" (click)="createNewOffice()">{{ 'BACK_OFFICE.OFFICE.CREATE_NEW_OFFICE' | translate }}
+            <button class="btn btn-info btn-block" type="button" (click)="createNewOffice()">{{ 'BACK_OFFICE.OFFICE.CREATE_NEW_OFFICE' | translate }}
             </button>
           </div>
         </div>
@@ -35,11 +35,11 @@
                   [canAutoResize]="false">
             <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
               <div style="font-size:9px" class="desktop-hidden">
-                <button class="btn-tnx btn-warning waves-effect waves-light btn-sm" type="button"
+                <button class="btn btn-warning waves-effect waves-light btn-sm" type="button"
                         (click)="editOffice(row)">
                   <i class="fas fa-pencil-alt fa-xs"></i>
                 </button>
-                <button class="btn-tnx btn-danger waves-effect waves-light btn-sm" type="button"
+                <button class="btn btn-danger waves-effect waves-light btn-sm" type="button"
                         (click)="deleteOfficeAlert(row)">
                   <i class="far fa-trash-alt fa-xs"></i>
                 </button>
@@ -57,13 +57,13 @@
 
             <ng-template let-row="row" ngx-datatable-cell-template>
               <span class="mobile-hidden">
-              <button class="btn-tnx btn-warning
+              <button class="btn btn-warning
               waves-effect waves-light" type="button"
                       (click)="editOffice(row)">{{ 'GENERAL.EDIT' | translate }}</button>
               </span>
 
               <span class="mobile-hidden">
-              <button class="btn-tnx btn-danger
+              <button class="btn btn-danger
               waves-effect waves-light"
                       type="button" (click)="deleteOfficeAlert(row)">{{ 'GENERAL.REMOVE' | translate }}</button>
               </span>

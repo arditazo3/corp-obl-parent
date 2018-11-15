@@ -16,7 +16,7 @@
                             {{ 'BACK_OFFICE.OFFICE_TASK.TASK_TEMPLATES_SPACE' | translate }} {{ officeTaskTemplates?.taskTemplates?.length }}
                         </div>
                         <div class="col-2 float-right">
-                            <button class="btn-tnx btn-info btn-block " type="button"
+                            <button class="btn btn-info btn-block " type="button"
                                     (click)="createTaskTemplate(officeTaskTemplates)">{{ 'GENERAL.CREATE' | translate }}
                             </button>
                         </div>
@@ -28,7 +28,7 @@
                     <tbody>
                     <tr *ngFor="let taskTemplate of officeTaskTemplates.taskTemplates">
                         <td>
-                            <button class="btn-tnx btn-info btn-block" type="button"
+                            <button class="btn btn-info btn-block" type="button"
                                     (click)="modifyTaskTemplate(taskTemplate, officeTaskTemplates?.office)">{{ 'GENERAL.MODIFY' | translate }}
                             </button>
                         </td>
