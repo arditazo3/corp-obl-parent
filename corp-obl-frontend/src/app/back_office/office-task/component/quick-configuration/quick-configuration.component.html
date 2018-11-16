@@ -3,8 +3,6 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">{{ 'BACK_OFFICE.OFFICE_TASK.QUICK_CONFIGURATION' | translate }}</h4>
-                <hr>
                 <form [formGroup]="createEditTaskTemplate"
                       (ngSubmit)="createEditTaskTemplateSubmit()">
                     <div class="card-body">
@@ -213,7 +211,7 @@
                                         <td nowrap>{{ item?.file?.size/1024/1024 | number:'.1' }} MB
                                         </td>
                                         <td nowrap>
-                                            <button type="button" class="btn btn-danger btn-xs"
+                                            <button type="button" class="btn btn-danger"
                                                     (click)="removeFileToRemove(item)">
                                                 <span class="fa fa-trash"></span> {{ 'GENERAL.REMOVE' | translate }}
                                             </button>

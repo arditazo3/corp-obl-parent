@@ -21,6 +21,7 @@ import {DataFilter} from '../../../../shared/common/api/model/data-filter';
 import {PageEnum} from '../../../../shared/common/api/enum/page.enum';
 import {Topic} from '../../../topic/model/topic';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-configuration-task',
@@ -34,6 +35,7 @@ export class ConfigurationTaskComponent implements OnInit {
     @ViewChild('myTable') table: any;
     expansionDefault = false;
 
+    isMobile = false;
     langOnChange = '';
     descriptionTaskTemplate: string;
 
@@ -59,7 +61,8 @@ export class ConfigurationTaskComponent implements OnInit {
         private companyService: CompanyService,
         private transferService: TransferDataService,
         private translateService: TranslateService,
-        private cdr: ChangeDetectorRef
+        private cdr: ChangeDetectorRef,
+        private deviceService: DeviceDetectorService
     ) {
         const me = this;
 
@@ -75,6 +78,8 @@ export class ConfigurationTaskComponent implements OnInit {
                     me.descriptionTaskTemplateLangOnChange(me.rows);
                 }
             });
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     async ngOnInit() {

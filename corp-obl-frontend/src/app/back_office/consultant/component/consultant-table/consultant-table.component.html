@@ -2,16 +2,18 @@
     <ngb-accordion #acc="ngbAccordion" activeIds="static-1">
         <ngb-panel id="static-1" title="{{ 'BACK_OFFICE.CONSULTANT.LIST_CONSULTANTS' | translate }}">
             <ng-template ngbPanelContent>
-                <div class="row">
-                    <div class="col-md-9 no-padding-right">
+                <div class="controls">
+                    <div class="input-group">
                         <input type='text' class="form-control"
                                placeholder="{{ 'BACK_OFFICE.CONSULTANT.TYPE_FILTER_ROWS' | translate }}"
                                (keyup)='updateFilter($event)'/>
-                    </div>
-                    <div class="col-md-3 no-padding-left text-right">
-                        <button class="btn-inline btn-info btn-block" type="button" (click)="createNewCompanyConsultant()">
-                            {{ 'BACK_OFFICE.CONSULTANT.CREATE_NEW_CONSULTANT' | translate }}
+                        <span class="input-group-append">
+                        <button class="btn-inline btn-info btn-block" type="button"
+                                (click)="createNewCompanyConsultant()">
+                            <span *ngIf="!isMobile">{{ 'BACK_OFFICE.CONSULTANT.CREATE_NEW_CONSULTANT' | translate }}</span>
+                            <i *ngIf="isMobile" class="fas fa-plus fa-xs"></i>
                         </button>
+                        </span>
                     </div>
                 </div>
                 <hr>
@@ -47,7 +49,8 @@
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="Options"
+                    <ngx-datatable-column *ngIf="!isMobile"
+                                          name="{{ 'BACK_OFFICE.COMPANY.OPTIONS' | translate }}"
                                           [maxWidth]="200"
                                           [sortable]="false" [flexGrow]="1">
 
@@ -78,20 +81,20 @@
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="Email" [flexGrow]="3" [minWidth]="150">
+                    <ngx-datatable-column *ngIf="!isMobile" name="Email" [flexGrow]="3" [minWidth]="150">
                         <ng-template let-row="row" ngx-datatable-cell-template>
                             {{row.email}}
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="{{ 'BACK_OFFICE.CONSULTANT.TELEPHONE_1' | translate }}" [flexGrow]="3"
+                    <ngx-datatable-column *ngIf="!isMobile" name="{{ 'BACK_OFFICE.CONSULTANT.TELEPHONE_1' | translate }}" [flexGrow]="3"
                                           [minWidth]="150">
                         <ng-template let-row="row" ngx-datatable-cell-template>
                             {{row.phone1}}
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="{{ 'BACK_OFFICE.CONSULTANT.TELEPHONE_2' | translate }}" [flexGrow]="3"
+                    <ngx-datatable-column *ngIf="!isMobile" name="{{ 'BACK_OFFICE.CONSULTANT.TELEPHONE_2' | translate }}" [flexGrow]="3"
                                           [minWidth]="150">
                         <ng-template let-row="row" ngx-datatable-cell-template>
                             {{row.phone2}}

@@ -7,6 +7,8 @@ import {OfficeService} from '../../service/office.service';
 import {Office} from '../../model/office';
 import {DataFilter} from '../../../../shared/common/api/model/data-filter';
 import {PageEnum} from '../../../../shared/common/api/enum/page.enum';
+import {TranslateService} from '@ngx-translate/core';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-office-table',
@@ -19,6 +21,8 @@ export class OfficeTableComponent implements OnInit {
     @ViewChild('myTable') table: any;
     @ViewChild('deleteOfficeSwal') deleteOfficeSwal: SwalComponent;
 
+    isMobile = false;
+
     columns: any[];
     rows: Office[];
     data: any;
@@ -30,8 +34,11 @@ export class OfficeTableComponent implements OnInit {
     constructor(
         private router: Router,
         private officeService: OfficeService,
-        private transferService: TransferDataService
+        private transferService: TransferDataService,
+        private deviceService: DeviceDetectorService
     ) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     async ngOnInit() {

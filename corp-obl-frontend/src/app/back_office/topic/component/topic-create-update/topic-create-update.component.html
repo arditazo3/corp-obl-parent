@@ -3,8 +3,6 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Topic Form</h4>
-                <hr>
                 <form class="form-horizontal" [formGroup]="createEditTopic"
                       (ngSubmit)="createEditTopicSubmit()">
                     <div class="card-body">
@@ -19,7 +17,7 @@
                                        formControlName="description"
                                        (keyup)='checkDescriptionKeyUp($event)'
                                        id="description">
-                                <div class="input-group-prepend col-sm-2">
+                                <div class="input-group-prepend ml-1">
                                     <ng-select
                                             [items]="languagesObservable | async"
                                             [searchable]="true"
@@ -27,7 +25,6 @@
                                             [clearable]="false"
                                             (change)="onChangeSelectLang(previousLang, $event)"
                                             [ngModelOptions]="{standalone: true}"
-                                            style="width: 100%"
                                             [(ngModel)]="selectedLang"
                                             [ngModel]="previousLang">
                                     </ng-select>
@@ -39,8 +36,9 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3 text-right control-label
-                     col-form-label">{{ 'BACK_OFFICE.TOPIC.ASSIGN_COMPANIES' | translate }}</label>
+                            <label class="col-sm-3 text-right control-label col-form-label">
+                                {{ 'BACK_OFFICE.TOPIC.ASSIGN_COMPANIES' | translate }}
+                            </label>
                             <div class="col-sm-9">
                                 <ng-select
                                         [items]="companiesObservable | async"

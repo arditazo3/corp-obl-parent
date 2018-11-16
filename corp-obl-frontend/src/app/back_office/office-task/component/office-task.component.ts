@@ -126,14 +126,16 @@ export class OfficeTaskComponent implements OnInit {
                         }
                     });
                 } else {
-                    object.taskTemplates.forEach(taskTemplate => {
-                        taskTemplate.descriptionLangList.forEach(descriptionLang => {
+                    if (object.taskTemplates) {
+                        object.taskTemplates.forEach(taskTemplate => {
+                            taskTemplate.descriptionLangList.forEach(descriptionLang => {
 
-                            if (descriptionLang.lang === me.langOnChange) {
-                                taskTemplate.descriptionTaskTemplate = descriptionLang.description;
-                            }
+                                if (descriptionLang.lang === me.langOnChange) {
+                                    taskTemplate.descriptionTaskTemplate = descriptionLang.description;
+                                }
+                            });
                         });
-                    });
+                    }
                     me.officeTaksCollapse.getOfficeTaskTemplatesArray(data);
                 }
             });

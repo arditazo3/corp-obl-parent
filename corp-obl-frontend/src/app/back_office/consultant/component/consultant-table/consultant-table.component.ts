@@ -6,6 +6,8 @@ import {Company} from '../../../company/model/company';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {Consultant} from '../../model/consultant';
 import {ConsultantService} from '../../service/consultant.service';
+import {TranslateService} from '@ngx-translate/core';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-consultant-table',
@@ -19,6 +21,8 @@ export class ConsultantTableComponent implements OnInit {
     @ViewChild('myTable') table: any;
     @ViewChild('deleteCompanyConsultantSwal') private deleteCompanyConsultantSwal: SwalComponent;
 
+    isMobile = false;
+
     columns: any[];
     rows: Consultant[];
     data: any;
@@ -30,8 +34,11 @@ export class ConsultantTableComponent implements OnInit {
     constructor(
         private router: Router,
         private companyConsultantService: ConsultantService,
-        private transferService: TransferDataService
+        private transferService: TransferDataService,
+        private deviceService: DeviceDetectorService
     ) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

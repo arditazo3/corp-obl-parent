@@ -1,95 +1,98 @@
 <div class="row">
-  <!-- column -->
-  <div class="col-lg-12">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-subtitle">{{ 'BACK_OFFICE.OFFICE.LIST_OFFICES' | translate }}</h5>
-        <div class="row">
-          <div class="col-md-9 no-padding-right">
-            <input #descriptionOffice type='text' class="form-control"
-                   placeholder="{{ 'BACK_OFFICE.OFFICE.TYPE_FILTER_ROWS' | translate }}" (keyup)='updateFilter($event)'/>
-          </div>
-          <div class="col-md-3 no-padding-left text-right">
-            <button class="btn-inline btn-info btn-block" type="button" (click)="createNewOffice()">{{ 'BACK_OFFICE.OFFICE.CREATE_NEW_OFFICE' | translate }}
+    <!-- column -->
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="controls">
+                    <div class="input-group">
+                        <input #descriptionOffice type='text' class="form-control"
+                               placeholder="{{ 'BACK_OFFICE.OFFICE.TYPE_FILTER_ROWS' | translate }}"
+                               (keyup)='updateFilter($event)'/>
+                        <span class="input-group-append">
+            <button class="btn-inline btn-info btn-block" type="button" (click)="createNewOffice()">
+              <span *ngIf="!isMobile">{{ 'BACK_OFFICE.OFFICE.CREATE_NEW_OFFICE' | translate }}</span>
+              <i *ngIf="isMobile" class="fas fa-plus fa-xs"></i>
             </button>
-          </div>
-        </div>
-        <hr>
-        <ngx-datatable #myTable
-                       class='material expandable'
-                       [columnMode]="'force'"
-                       [headerHeight]="50"
-                       [footerHeight]="50"
-                       [rowHeight]="55"
-                       [rows]='rows'
-                       [messages]="{emptyMessage: ('GENERAL.NODATA' | translate), totalMessage: ('GENERAL.TOTAL' | translate), selectedMessage: false}"
-                       [limit]="10">
+          </span>
+                    </div>
+                </div>
+                <hr>
+                <ngx-datatable #myTable
+                               class='material expandable'
+                               [columnMode]="'force'"
+                               [headerHeight]="50"
+                               [footerHeight]="50"
+                               [rowHeight]="55"
+                               [rows]='rows'
+                               [messages]="{emptyMessage: ('GENERAL.NODATA' | translate), totalMessage: ('GENERAL.TOTAL' | translate), selectedMessage: false}"
+                               [limit]="10">
 
-          <!-- Column Templates -->
+                    <!-- Column Templates -->
 
-          <ngx-datatable-column
-                  [width]="80"
-                  [resizeable]="false"
-                  [sortable]="false"
-                  [draggable]="false"
-                  [canAutoResize]="false">
-            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-              <div style="font-size:9px" class="desktop-hidden">
-                <button class="btn btn-warning waves-effect waves-light btn-sm" type="button"
-                        (click)="editOffice(row)">
-                  <i class="fas fa-pencil-alt fa-xs"></i>
-                </button>
-                <button class="btn btn-danger waves-effect waves-light btn-sm" type="button"
-                        (click)="deleteOfficeAlert(row)">
-                  <i class="far fa-trash-alt fa-xs"></i>
-                </button>
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
+                    <ngx-datatable-column
+                            [width]="80"
+                            [resizeable]="false"
+                            [sortable]="false"
+                            [draggable]="false"
+                            [canAutoResize]="false">
+                        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                            <div style="font-size:9px" class="desktop-hidden">
+                                <button class="btn btn-primary waves-effect waves-light btn-sm" type="button"
+                                        (click)="editOffice(row)">
+                                    <i class="fas fa-pencil-alt fa-xs"></i>
+                                </button>
+                                <button class="btn btn-danger waves-effect waves-light btn-sm" type="button"
+                                        (click)="deleteOfficeAlert(row)">
+                                    <i class="far fa-trash-alt fa-xs"></i>
+                                </button>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
 
-          <ngx-datatable-column name="Options"
-                                [maxWidth]="200"
-                                [sortable]="false" [flexGrow]="1">
+                    <ngx-datatable-column name="{{ 'BACK_OFFICE.COMPANY.OPTIONS' | translate }}"
+                                          *ngIf="!isMobile"
+                                          [maxWidth]="200"
+                                          [sortable]="false" [flexGrow]="1">
 
-            <ng-template let-column="column" ngx-datatable-header-template>
-              <span class="mobile-hidden">{{column.name}}</span>
-            </ng-template>
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                            <span class="mobile-hidden">{{column.name}}</span>
+                        </ng-template>
 
-            <ng-template let-row="row" ngx-datatable-cell-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
               <span class="mobile-hidden">
-              <button class="btn btn-warning
+              <button class="btn btn-primary
               waves-effect waves-light" type="button"
                       (click)="editOffice(row)">{{ 'GENERAL.EDIT' | translate }}</button>
               </span>
 
-              <span class="mobile-hidden">
+                            <span class="mobile-hidden">
               <button class="btn btn-danger
               waves-effect waves-light"
                       type="button" (click)="deleteOfficeAlert(row)">{{ 'GENERAL.REMOVE' | translate }}</button>
               </span>
-            </ng-template>
-          </ngx-datatable-column>
+                        </ng-template>
+                    </ngx-datatable-column>
 
-          <ngx-datatable-column name="Description" [flexGrow]="3" [minWidth]="150">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              {{row.description}}
-            </ng-template>
-          </ngx-datatable-column>
+                    <ngx-datatable-column name="Description" [flexGrow]="3" [minWidth]="150">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            {{row.description}}
+                        </ng-template>
+                    </ngx-datatable-column>
 
-          <!-- End Column Templates -->
-        </ngx-datatable>
+                    <!-- End Column Templates -->
+                </ngx-datatable>
 
-        <swal
-                #deleteOfficeSwal
-                title=""
-                text="{{ 'GENERAL.CANNOT_BE_UNDONE' | translate }}"
-                type="question"
-                [showCancelButton]="true"
-                [focusCancel]="true"
-                (confirm)="deleteOfficeConfirm()">
-        </swal>
+                <swal
+                        #deleteOfficeSwal
+                        title=""
+                        text="{{ 'GENERAL.CANNOT_BE_UNDONE' | translate }}"
+                        type="question"
+                        [showCancelButton]="true"
+                        [focusCancel]="true"
+                        (confirm)="deleteOfficeConfirm()">
+                </swal>
 
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

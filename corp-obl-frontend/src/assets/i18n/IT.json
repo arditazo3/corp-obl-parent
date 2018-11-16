@@ -165,7 +165,8 @@
       "EXPIRATION_DATE": "Data di scadenza",
       "MESSAGE_REQUIRED": "Il messaggio è obbligatorio",
       "AGENDA_CONTROLLED": "Agenda controllata",
-      "TYPE_SOMETHING": "Digita qualcosa ..."
+      "TYPE_SOMETHING": "Digita qualcosa ...",
+      "EXPIRY_INFORMATION": "Informazioni sulla scadenza"
     }
   },
   "GENERAL": {

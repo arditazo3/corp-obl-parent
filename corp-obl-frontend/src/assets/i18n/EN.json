@@ -165,7 +165,8 @@
       "EXPIRATION_DATE": "Expiration date",
       "MESSAGE_REQUIRED": "Message is required",
       "AGENDA_CONTROLLED": "Agenda Controlled",
-      "TYPE_SOMETHING": "Type something..."
+      "TYPE_SOMETHING": "Type something...",
+      "EXPIRY_INFORMATION": "Expiry information"
     }
   },
   "GENERAL": {

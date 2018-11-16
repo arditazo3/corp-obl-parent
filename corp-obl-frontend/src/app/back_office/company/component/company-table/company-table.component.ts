@@ -8,6 +8,7 @@ import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-det
 import {DataFilter} from '../../../../shared/common/api/model/data-filter';
 import {PageEnum} from '../../../../shared/common/api/enum/page.enum';
 import {TranslateService} from '@ngx-translate/core';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-company-table',
@@ -19,6 +20,8 @@ export class CompanyTableComponent implements OnInit {
     @ViewChild('descriptionCompany') descriptionCompany: ElementRef;
     @ViewChild('myTable') table: any;
     @ViewChild('deleteCompanySwal') private deleteCompanySwal: SwalComponent;
+
+    isMobile = false;
 
     columns: any[];
     rows: Company[];
@@ -32,8 +35,11 @@ export class CompanyTableComponent implements OnInit {
         private router: Router,
         private companyService: CompanyService,
         private transferService: TransferDataService,
-        public translate: TranslateService
+        public translate: TranslateService,
+        private deviceService: DeviceDetectorService
     ) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     async ngOnInit() {

@@ -8,6 +8,7 @@ import {TopicService} from '../../service/topic.service';
 import {DataFilter} from '../../../../shared/common/api/model/data-filter';
 import {PageEnum} from '../../../../shared/common/api/enum/page.enum';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-topic-table',
@@ -21,6 +22,7 @@ export class TopicTableComponent implements OnInit {
     @ViewChild('deleteTopicSwal') deleteTopicSwal: SwalComponent;
 
     langOnChange = '';
+    isMobile = false;
 
     columns: any[];
     rows: Topic[];
@@ -34,7 +36,8 @@ export class TopicTableComponent implements OnInit {
         private router: Router,
         private topicService: TopicService,
         private transferService: TransferDataService,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private deviceService: DeviceDetectorService
     ) {
         const me = this;
 
@@ -47,6 +50,8 @@ export class TopicTableComponent implements OnInit {
                     me.descriptionOnChange();
                 }
             });
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     async ngOnInit() {

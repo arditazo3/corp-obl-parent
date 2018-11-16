@@ -1,95 +1,98 @@
 <div class="row">
-  <!-- column -->
-  <div class="col-lg-12">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-subtitle">{{ 'BACK_OFFICE.COMPANY.LIST_COMPANIES' | translate }}</h5>
-        <div class="row">
-          <div class="col-md-9 no-padding-right">
-            <input #descriptionCompany type='text' class="form-control"
-                   placeholder="{{ 'BACK_OFFICE.COMPANY.TYPE_FILTER_ROWS' | translate }}" (keyup)='updateFilter($event)'/>
-          </div>
-          <div class="col-md-3 no-padding-left text-right">
-            <button class="btn-inline btn-info btn-block" type="button" (click)="createNewCompany()">{{ 'BACK_OFFICE.COMPANY.CREATE_NEW_COMPANY' | translate }}
-            </button>
-          </div>
-        </div>
-        <hr>
-        <ngx-datatable #myTable
-                       class='material expandable'
-                       [columnMode]="'force'"
-                       [headerHeight]="50"
-                       [footerHeight]="50"
-                       [rowHeight]="55"
-                       [rows]='rows'
-                       [messages]="{emptyMessage: ('GENERAL.NODATA' | translate), totalMessage: ('GENERAL.TOTAL' | translate), selectedMessage: false}"
-                       [limit]="10">
-
-          <!-- Column Templates -->
-
-          <ngx-datatable-column
-            [width]="80"
-            [resizeable]="false"
-            [sortable]="false"
-            [draggable]="false"
-            [canAutoResize]="false">
-            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-                <div style="font-size:9px" class="desktop-hidden">
-                  <button class="btn btn-warning waves-effect waves-light btn-sm" type="button"
-                          (click)="editCompany(row)">
-                    <i class="fas fa-pencil-alt fa-xs"></i>
-                  </button>
-                  <button class="btn btn-danger waves-effect waves-light btn-sm" type="button"
-                          (click)="deleteCompanyAlert(row)">
-                    <i class="far fa-trash-alt fa-xs"></i>
-                  </button>
+    <!-- column -->
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="controls">
+                    <div class="input-group">
+                        <input #descriptionCompany type='text' class="form-control"
+                               placeholder="{{ 'BACK_OFFICE.COMPANY.TYPE_FILTER_ROWS' | translate }}"
+                               (keyup)='updateFilter($event)'/>
+                        <span class="input-group-append">
+              <button class="btn-inline btn-info btn-block" type="button" (click)="createNewCompany()">
+                <span *ngIf="!isMobile">{{ 'BACK_OFFICE.COMPANY.CREATE_NEW_COMPANY' | translate }}</span>
+                <i *ngIf="isMobile" class="fas fa-plus fa-xs"></i>
+              </button>
+            </span>
+                    </div>
                 </div>
-            </ng-template>
-          </ngx-datatable-column>
+                <hr>
+                <ngx-datatable #myTable
+                               class='material expandable'
+                               [columnMode]="'force'"
+                               [headerHeight]="50"
+                               [footerHeight]="50"
+                               [rowHeight]="55"
+                               [rows]='rows'
+                               [messages]="{emptyMessage: ('GENERAL.NODATA' | translate), totalMessage: ('GENERAL.TOTAL' | translate), selectedMessage: false}"
+                               [limit]="10">
 
-          <ngx-datatable-column name="{{ 'BACK_OFFICE.COMPANY.OPTIONS' | translate }}"
-                                [maxWidth]="200"
-                                [sortable]="false" [flexGrow]="1">
+                    <!-- Column Templates -->
 
-            <ng-template let-column="column" ngx-datatable-header-template>
-              <span class="mobile-hidden">{{column.name}}</span>
-            </ng-template>
+                    <ngx-datatable-column
+                            [width]="80"
+                            [resizeable]="false"
+                            [sortable]="false"
+                            [draggable]="false"
+                            [canAutoResize]="false">
+                        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                            <div style="font-size:9px" class="desktop-hidden">
+                                <button class="btn btn-primary waves-effect waves-light btn-sm" type="button"
+                                        (click)="editCompany(row)">
+                                    <i class="fas fa-pencil-alt fa-xs"></i>
+                                </button>
+                                <button class="btn btn-danger waves-effect waves-light btn-sm" type="button"
+                                        (click)="deleteCompanyAlert(row)">
+                                    <i class="far fa-trash-alt fa-xs"></i>
+                                </button>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
 
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <span class="mobile-hidden">
-              <button class="btn btn-warning
-              waves-effect waves-light" type="button"
-                      (click)="editCompany(row)">{{ 'GENERAL.EDIT' | translate }}</button>
-              </span>
+                    <ngx-datatable-column *ngIf="!isMobile"
+                                          name="{{ 'BACK_OFFICE.COMPANY.OPTIONS' | translate }}"
+                                          [maxWidth]="200"
+                                          [sortable]="false" [flexGrow]="1">
 
-              <span class="mobile-hidden">
-              <button class="btn btn-danger
-              waves-effect waves-light"
-                      type="button" (click)="deleteCompanyAlert(row)">{{ 'GENERAL.REMOVE' | translate }}</button>
-              </span>
-            </ng-template>
-          </ngx-datatable-column>
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                            <span class="mobile-hidden">{{column.name}}</span>
+                        </ng-template>
 
-          <ngx-datatable-column name="{{ 'BACK_OFFICE.COMPANY.DESCRIPTION' | translate }}" [flexGrow]="3" [minWidth]="150">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              {{row.description}}
-            </ng-template>
-          </ngx-datatable-column>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                        <span class="mobile-hidden">
+                          <button class="btn btn-primary
+                          waves-effect waves-light" type="button"
+                                  (click)="editCompany(row)">{{ 'GENERAL.EDIT' | translate }}</button>
+                        </span>
 
-          <!-- End Column Templates -->
-        </ngx-datatable>
+                        <span class="mobile-hidden">
+                          <button class="btn btn-danger waves-effect waves-light"
+                                  type="button" (click)="deleteCompanyAlert(row)">{{ 'GENERAL.REMOVE' | translate }}</button>
+                        </span>
+                        </ng-template>
+                    </ngx-datatable-column>
 
-        <swal
-          #deleteCompanySwal
-          title=""
-          text="{{ 'GENERAL.CANNOT_BE_UNDONE' | translate }}"
-          type="question"
-          [showCancelButton]="true"
-          [focusCancel]="true"
-          (confirm)="deleteCompanyCofirm()">
-        </swal>
+                    <ngx-datatable-column name="{{ 'BACK_OFFICE.COMPANY.DESCRIPTION' | translate }}" [flexGrow]="3"
+                                          [minWidth]="150">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            {{row.description}}
+                        </ng-template>
+                    </ngx-datatable-column>
 
-      </div>
+                    <!-- End Column Templates -->
+                </ngx-datatable>
+
+                <swal
+                        #deleteCompanySwal
+                        title=""
+                        text="{{ 'GENERAL.CANNOT_BE_UNDONE' | translate }}"
+                        type="question"
+                        [showCancelButton]="true"
+                        [focusCancel]="true"
+                        (confirm)="deleteCompanyCofirm()">
+                </swal>
+
+            </div>
+        </div>
     </div>
-  </div>
 </div>
