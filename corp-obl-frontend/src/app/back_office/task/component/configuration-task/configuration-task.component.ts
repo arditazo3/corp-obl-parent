@@ -40,7 +40,7 @@ export class ConfigurationTaskComponent implements OnInit {
     descriptionTaskTemplate: string;
 
     columns: any[];
-    rows: Task[];
+    rows: Task[] = []; 
     data: any;
     errorDetails: ApiErrorDetails;
     idGroup = 0;
@@ -271,7 +271,8 @@ export class ConfigurationTaskComponent implements OnInit {
             this.expansionDefault = collapse;
         } else {
             this.expansionDefault = collapse;
-            this.getTaskTemplates();
+            // this.getTaskTemplates();
+            this.rows = [...this.rows];
         }
     }
 

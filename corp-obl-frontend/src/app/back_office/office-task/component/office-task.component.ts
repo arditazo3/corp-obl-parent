@@ -11,6 +11,8 @@ import {PageEnum} from '../../../shared/common/api/enum/page.enum';
 import {TransferDataService} from '../../../shared/common/service/transfer-data.service';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 import {TaskTemplate} from '../../tasktemplate/model/tasktemplate';
+import {ConsultantService} from '../../consultant/service/consultant.service';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-office-task',
@@ -21,6 +23,7 @@ export class OfficeTaskComponent implements OnInit {
 
     @ViewChild(OfficeTaksCollapseComponent) officeTaksCollapse: OfficeTaksCollapseComponent;
 
+    isMobile = false;
     langOnChange = '';
     temp = [];
 
@@ -38,7 +41,8 @@ export class OfficeTaskComponent implements OnInit {
         private officeService: OfficeService,
         private taskTemplateService: TaskTemplateService,
         private transferService: TransferDataService,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private deviceService: DeviceDetectorService
     ) {
         const me = this;
 
@@ -52,6 +56,8 @@ export class OfficeTaskComponent implements OnInit {
                     me.descriptionTaskTemplateLangOnChange(me.temp);
                 }
             });
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

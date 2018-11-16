@@ -2,11 +2,11 @@
     <!-- column -->
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-body">
+            <div class="{{ isMobile ? 'card-body-mobile' : 'card-body' }}">
                 <div class="row">
 
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="{{ isMobile ? '' : 'form-group' }}">
                             <label class="control-label col-form-label">{{ 'FRONT_END.AGENDA.SHOW_EXPIRATION_FROM' | translate }}</label>
                             <my-date-picker name="dateStart" [options]="myDatePickerOptions"
                                             [(ngModel)]="dateStart"></my-date-picker>
@@ -14,7 +14,7 @@
                     </div>
 
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="{{ isMobile ? '' : 'form-group' }}">
                             <label class="control-label col-form-label">{{ 'FRONT_END.AGENDA.TO' | translate }}</label>
                             <my-date-picker name="dateEnd" [options]="myDatePickerOptions"
                                             [(ngModel)]="dateEnd"></my-date-picker>
@@ -42,7 +42,7 @@
 
                     <div class="col-md-2">
                         <label class="control-label col-form-label">{{ 'FRONT_END.AGENDA.ARCHIVED_TASKS' | translate }}</label>
-                        <div class="form-group">
+                        <div class="{{ isMobile ? 'form-check-mobile' : 'form-group' }}">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="showArchivedTask"
                                        [checked]="archivedTasks" (change)="archivedTasks = !archivedTasks">
@@ -53,7 +53,9 @@
 
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label class="control-label col-form-label"></label><br><br>
+                            <label class="control-label col-form-label"></label>
+                            <br *ngIf="!isMobile">
+                            <br>
                             <button class="btn btn-info btn-block" type="button" (click)="searchTaskTemplates()">
                                 {{ 'FRONT_END.AGENDA.FILTER' | translate }}
                             </button>

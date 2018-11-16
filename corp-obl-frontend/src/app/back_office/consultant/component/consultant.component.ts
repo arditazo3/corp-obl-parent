@@ -10,6 +10,8 @@ import {TopicConsultantComponent} from './topic-consultant/topic-consultant.comp
 import {DataFilter} from '../../../shared/common/api/model/data-filter';
 import {PageEnum} from '../../../shared/common/api/enum/page.enum';
 import {ConsultantService} from '../service/consultant.service';
+import {TranslateService} from '@ngx-translate/core';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-consultant',
@@ -17,6 +19,8 @@ import {ConsultantService} from '../service/consultant.service';
     styleUrls: ['./consultant.component.css']
 })
 export class ConsultantComponent implements OnInit {
+
+    isMobile = false;
 
     @ViewChild(ConsultantTableComponent) consultantTable: ConsultantTableComponent;
     @ViewChild(TopicConsultantComponent) topicConsultant: TopicConsultantComponent;
@@ -31,8 +35,11 @@ export class ConsultantComponent implements OnInit {
         private transferService: TransferDataService,
         private topicService: TopicService,
         private companyService: CompanyService,
-        private companyConsultantService: ConsultantService
+        private companyConsultantService: ConsultantService,
+        private deviceService: DeviceDetectorService
     ) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

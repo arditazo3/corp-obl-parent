@@ -5,6 +5,7 @@ import {ApiErrorDetails} from '../../../shared/common/api/model/api-error-detail
 import {ExpirationService} from '../../service/expiration.service';
 import {StatusExpirationEnum} from '../../../shared/common/api/enum/status.expiration.enum';
 import {ExpirationActivity} from '../../model/expiration-activity';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   selector: 'app-office-expiration-controlled',
@@ -12,6 +13,8 @@ import {ExpirationActivity} from '../../model/expiration-activity';
   styleUrls: ['./office-expiration-controlled.component.css']
 })
 export class OfficeExpirationControlledComponent implements OnInit {
+
+    isMobile = false;
 
     @Output() updateTaskExpirationOnChange = new EventEmitter<boolean>();
     @Input() taskExpiration: TaskOfficeExpirations;
@@ -26,8 +29,11 @@ export class OfficeExpirationControlledComponent implements OnInit {
     errorDetails: ApiErrorDetails;
 
     constructor(
-        private expirationService: ExpirationService
+        private expirationService: ExpirationService,
+        private deviceService: DeviceDetectorService
     ) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

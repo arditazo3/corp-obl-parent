@@ -8,6 +8,8 @@ import {Company} from '../../../company/model/company';
 import {ConsultantService} from '../../service/consultant.service';
 import {AppGlobals} from '../../../../shared/common/api/app-globals';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
+import {CompanyService} from '../../../company/service/company.service';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-consultant-create-update',
@@ -15,6 +17,8 @@ import {SwalComponent} from '@toverux/ngx-sweetalert2';
     styleUrls: ['./consultant-create-update.component.css']
 })
 export class ConsultantCreateUpdateComponent implements OnInit {
+
+    isMobile = false;
 
     isNewForm;
     consultant: Consultant;
@@ -31,8 +35,11 @@ export class ConsultantCreateUpdateComponent implements OnInit {
         private router: Router,
         private transferService: TransferDataService,
         private formBuilder: FormBuilder,
-        private consultantService: ConsultantService
+        private consultantService: ConsultantService,
+        private deviceService: DeviceDetectorService
     ) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

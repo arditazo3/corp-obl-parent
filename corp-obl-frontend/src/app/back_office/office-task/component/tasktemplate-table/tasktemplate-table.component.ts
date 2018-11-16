@@ -3,6 +3,8 @@ import {Task} from '../../../task/model/task';
 import {Router} from '@angular/router';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {TaskService} from '../../../task/service/task.service';
+import {TranslateService} from '@ngx-translate/core';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-tasktemplate-table',
@@ -11,13 +13,18 @@ import {TaskService} from '../../../task/service/task.service';
 })
 export class TaskTemplateTableComponent implements OnInit {
 
+    isMobile = false;
+
     @Input() taskTemplatesArray = [];
 
     constructor(
         private router: Router,
         private transferService: TransferDataService,
-        private taskService: TaskService
+        private taskService: TaskService,
+        private deviceService: DeviceDetectorService
     ) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

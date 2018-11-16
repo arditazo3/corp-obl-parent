@@ -9,6 +9,8 @@ import {OfficeService} from '../../service/office.service';
 import {Observable} from 'rxjs';
 import {Company} from '../../../company/model/company';
 import {CompanyService} from '../../../company/service/company.service';
+import {ConsultantService} from '../../../consultant/service/consultant.service';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   selector: 'app-office-create-edit',
@@ -16,6 +18,8 @@ import {CompanyService} from '../../../company/service/company.service';
   styleUrls: ['./office-create-edit.component.css']
 })
 export class OfficeCreateEditComponent implements OnInit {
+
+    isMobile = false;
 
     isNewForm;
     office: Office = new Office();
@@ -36,8 +40,12 @@ export class OfficeCreateEditComponent implements OnInit {
       private transferService: TransferDataService,
       private formBuilder: FormBuilder,
       private officeService: OfficeService,
-      private companyService: CompanyService
-  ) { }
+      private companyService: CompanyService,
+      private deviceService: DeviceDetectorService
+  ) {
+
+      this.isMobile = this.deviceService.isMobile();
+  }
 
   ngOnInit() {
       console.log('OfficeCreateEditComponent - ngOnInit');

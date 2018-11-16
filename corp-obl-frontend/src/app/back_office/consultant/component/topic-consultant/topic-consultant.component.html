@@ -2,7 +2,7 @@
     <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" class="accordion nav-accordion">
         <ngb-panel>
             <ng-template ngbPanelTitle>
-                <div id="container-fluid">
+                <div id="{{ isMobile ? 'container-fluid-mobile' : 'container-fluid' }}">
                     <div class="row">
                         <div class="col-2 float-left">
                             <span class="float-left">{{ companyTopic.topic.description }}</span>

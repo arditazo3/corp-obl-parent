@@ -29,11 +29,3 @@ select * from co_taskoffice;
 select * from co_taskofficerelations;
 
 select * from co_expiration;
-
-
-
-update co_tasktemplate tt
-set israpidconfiguration = 1
-where (select count(task.id) from co_task task group by task.tasktemplate_id) > 1;
-
-;

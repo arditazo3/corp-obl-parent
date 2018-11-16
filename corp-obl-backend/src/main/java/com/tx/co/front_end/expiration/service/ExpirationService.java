@@ -575,6 +575,11 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 	private void sendEmailToBeneficiary(String statusExpirationOnChange, String username) {
 
+		if(isEmpty(username)) {
+			logger.error("No user found to send the email!");
+			return;
+		}
+		
 		User beneficiary = getUserFromUsername(username);
 		String beneficiaryEmail = beneficiary.getEmail();
 		String subject = "";

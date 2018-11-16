@@ -1,7 +1,7 @@
 <ngb-accordion #acc="ngbAccordion" class="accordion nav-accordion">
   <ngb-panel id="ngb-panel-{{taskOffice.office.idOffice}}">
     <ng-template ngbPanelTitle>
-      <div id="container-fluid">
+      <div id="{{ isMobile ? 'container-fluid-mobile' : 'container-fluid' }}">
         <div class="row" style="width: 100% !important;">
           <div class="col-2">
             <span class="float-left">{{ taskOffice.office.description }}</span>
@@ -9,8 +9,10 @@
           <div class="col-8 text-center">
           </div>
           <div class="col-2 float-right">
-            <button class="btn btn-danger btn-block" type="button"
-                    (click)="removeOfficeBtn(taskOffice.office)">{{ 'GENERAL.REMOVE' | translate }}
+            <button class="{{ isMobile ? 'btn btn-small btn-danger' : 'btn btn-danger btn-block' }}" type="button"
+                    (click)="removeOfficeBtn(taskOffice.office)">
+              <span *ngIf="!isMobile">{{ 'GENERAL.REMOVE' | translate }}</span>
+              <i *ngIf="isMobile" class="far fa-trash-alt fa-xs"></i>
             </button>
           </div>
         </div>

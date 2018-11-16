@@ -9,6 +9,7 @@ import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {ExpirationService} from '../../service/expiration.service';
 import {ExpirationActivity} from '../../model/expiration-activity';
 import {Router} from '@angular/router';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-expiration-activity',
@@ -17,6 +18,8 @@ import {Router} from '@angular/router';
     providers: [UploadService]
 })
 export class ExpirationActivityComponent implements OnInit {
+
+    isMobile = false;
 
     @Output() updateExpirationActivities = new EventEmitter<boolean>();
     @Input() expiration: Expiration;
@@ -36,8 +39,11 @@ export class ExpirationActivityComponent implements OnInit {
     constructor(
         private router: Router,
         private uploadService: UploadService,
-        private expirationService: ExpirationService
+        private expirationService: ExpirationService,
+        private deviceService: DeviceDetectorService
     ) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

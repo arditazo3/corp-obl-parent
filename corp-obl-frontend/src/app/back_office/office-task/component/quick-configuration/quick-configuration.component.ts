@@ -26,6 +26,7 @@ import {IMyOptions} from 'mydatepicker';
 import {AppGlobals} from '../../../../shared/common/api/app-globals';
 import {NgSelectComponent} from '@ng-select/ng-select';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-quick-configuration',
@@ -47,6 +48,7 @@ export class QuickConfigurationComponent implements OnInit {
     counterCallback = 0;
     errorDetails: ApiErrorDetails = new ApiErrorDetails();
 
+    isMobile = false;
     langOnChange = '';
     filesArray = [];
 
@@ -99,7 +101,8 @@ export class QuickConfigurationComponent implements OnInit {
         private userInfoService: UserInfoService,
         private translationService: TranslationService,
         private uploadService: UploadService,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private deviceService: DeviceDetectorService
     ) {
         const me = this;
         this.selectedPeriodicityTypeChange.subscribe(
@@ -118,6 +121,8 @@ export class QuickConfigurationComponent implements OnInit {
                     me.descriptionTopicSelectedOnChange();
                 }
             });
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

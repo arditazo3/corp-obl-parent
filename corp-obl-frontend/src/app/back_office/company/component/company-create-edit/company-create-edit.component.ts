@@ -7,6 +7,8 @@ import {CompanyService} from '../../service/company.service';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {CompanyAssociateUsersComponent} from '../company-associate-users/company-associate-users.component';
+import {ConsultantService} from '../../../consultant/service/consultant.service';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -15,6 +17,8 @@ import {CompanyAssociateUsersComponent} from '../company-associate-users/company
     styleUrls: ['./company-create-edit.component.css']
 })
 export class CompanyCreateEditComponent implements OnInit {
+
+    isMobile = false;
 
     isNewForm;
     company: Company = new Company();
@@ -31,7 +35,10 @@ export class CompanyCreateEditComponent implements OnInit {
         private router: Router,
         private transferService: TransferDataService,
         private formBuilder: FormBuilder,
-        private companyService: CompanyService) {
+        private companyService: CompanyService,
+        private deviceService: DeviceDetectorService) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

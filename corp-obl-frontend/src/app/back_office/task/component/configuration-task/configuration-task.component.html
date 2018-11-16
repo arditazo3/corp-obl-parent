@@ -2,7 +2,7 @@
     <!-- column -->
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-body">
+            <div class="{{ isMobile ? 'card-body-mobile' : 'card-body' }}">
                 <div class="row">
 
                     <div class="col-md-3">
@@ -129,6 +129,7 @@
                                      let-group="group" let-rowHeight="rowHeight">
                             <button *ngIf="row.idTask" type="button" class="btn-small btn-sm btn-primary"
                                     title="Expand/Collapse Group"
+                                    style="margin-top: -6px"
                                     (click)="modifyTask(row)">
                                 <span *ngIf="!isMobile">{{ 'BACK_OFFICE.TASK.MODIFY_CONFIG' | translate }}</span>
                                 <i *ngIf="isMobile" class="fas fa-pencil-alt fa-xs"></i>

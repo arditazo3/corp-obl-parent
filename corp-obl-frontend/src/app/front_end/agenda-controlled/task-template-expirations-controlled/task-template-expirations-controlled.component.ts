@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TaskOfficeExpirations} from '../../model/task-office-expirations';
 import {ExpirationService} from '../../service/expiration.service';
+import {TaskService} from '../../../back_office/task/service/task.service';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-task-template-expirations-controlled',
@@ -9,13 +11,18 @@ import {ExpirationService} from '../../service/expiration.service';
 })
 export class TaskTemplateExpirationsControlledComponent implements OnInit {
 
+    isMobile = false;
+
     @Input() taskExpirations: TaskOfficeExpirations[];
     itemIndexUpdatedOpenPanel;
     activeIds: string[] = [];
 
     constructor(
-        private expirationService: ExpirationService
+        private expirationService: ExpirationService,
+        private deviceService: DeviceDetectorService
     ) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

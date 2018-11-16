@@ -13,7 +13,9 @@
                                placeholder="{{ 'FRONT_END.AGENDA.TYPE_SOMETHING' | translate }}">
                         <div class="input-group-append">
                             <div class="col-md-2 no-padding">
-                                <button type="button" (click)="fileInput.click()" class="btn-inline btn-default">{{ 'GENERAL.UPLOAD_FILES' | translate }}
+                                <button type="button" (click)="fileInput.click()" class="btn-inline btn-default">
+                                    <span *ngIf="!isMobile">{{ 'GENERAL.UPLOAD_FILES' | translate }}</span>
+                                    <i *ngIf="isMobile" class="fas fa-upload fa-xs"></i>
                                 </button>
                                 <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
                                     <input #selectedFile type="file" #fileInput ng2FileSelect [uploader]="uploader"
@@ -44,13 +46,15 @@
                                     <td nowrap>{{ item?.file?.size/1024/1024 | number:'.1' }} MB
                                     </td>
                                     <td nowrap>
-                                        <button type="button" class="btn btn-danger"
+                                        <button type="button" class="{{ isMobile ? 'btn btn-small btn-danger' : 'btn btn-danger' }}"
                                                 (click)="removeFile(item)">
-                                            <span class="fa fa-trash"></span> {{ 'GENERAL.REMOVE' | translate }}
+                                            <span class="fa fa-trash"></span>
+                                            <span *ngIf="!isMobile">{{ 'GENERAL.REMOVE' | translate }}</span>
                                         </button>
-                                        <button *ngIf="!isNewForm" type="button" class="btn btn-xs"
+                                        <button *ngIf="!isNewForm" type="button" class="{{ isMobile ? 'btn btn-small btn-default' : 'btn btn-default' }}"
                                                 (click)="downloadFile(item)">
-                                            <span class="fa fa-download"></span> {{ 'GENERAL.DOWNLOAD' | translate }}
+                                            <span class="fa fa-download"></span>
+                                            <span *ngIf="!isMobile">{{ 'GENERAL.DOWNLOAD' | translate }}</span>
                                         </button>
                                     </td>
                                 </tr>
@@ -79,9 +83,9 @@
 
     <div class="border p-2 w-100"
             *ngIf="expirationActivity && expirationActivity.idExpirationActivity">
-        <div>
-            <h6 class="card-subtitle">{{ expirationActivity?.descriptionLastActivity }}</h6>
-            <h4 class="card-title">{{ expirationActivity?.body }}</h4>
+        <div class="{{ isMobile ? 'text-small' : '' }}">
+            <p><i>{{ expirationActivity?.descriptionLastActivity }}</i></p>
+            <h6><b>{{ expirationActivity?.body }}</b></h6>
 
             <div class="col-md-12 table-responsive">
                 <table class="table table-borderless table-sm">

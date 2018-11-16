@@ -7,6 +7,8 @@ import {OfficeService} from '../../back_office/office/service/office.service';
 import {ExpirationService} from '../service/expiration.service';
 import * as moment from 'moment';
 import {DateExpirationOfficesHasArchived} from '../model/date-expiration-offices-hasarchived';
+import {TranslateService} from '@ngx-translate/core';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   selector: 'app-agenda-controlled',
@@ -14,6 +16,8 @@ import {DateExpirationOfficesHasArchived} from '../model/date-expiration-offices
   styleUrls: ['./agenda-controlled.component.css']
 })
 export class AgendaControlledComponent implements OnInit {
+
+    isMobile = false;
 
     officesObservable: Observable<any[]>;
 
@@ -28,8 +32,11 @@ export class AgendaControlledComponent implements OnInit {
 
     constructor(
         private officeService: OfficeService,
-        private expirationService: ExpirationService
+        private expirationService: ExpirationService,
+        private deviceService: DeviceDetectorService
     ) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

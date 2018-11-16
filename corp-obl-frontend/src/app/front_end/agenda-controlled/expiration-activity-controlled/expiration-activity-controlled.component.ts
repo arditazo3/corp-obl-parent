@@ -9,6 +9,7 @@ import {ExpirationService} from '../../service/expiration.service';
 import {FileItem, FileLikeObject, ParsedResponseHeaders} from 'ng2-file-upload';
 import {ExpirationActivityAttachment} from '../../model/expiration-activity-attachment';
 import {saveAs as importedSaveAs} from 'file-saver';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-expiration-activity-controlled',
@@ -17,6 +18,8 @@ import {saveAs as importedSaveAs} from 'file-saver';
     providers: [UploadService]
 })
 export class ExpirationActivityControlledComponent implements OnInit {
+
+    isMobile = false;
 
     @Output() updateExpirationActivities = new EventEmitter<boolean>();
     @Input() expiration: Expiration;
@@ -36,8 +39,11 @@ export class ExpirationActivityControlledComponent implements OnInit {
     constructor(
         private router: Router,
         private uploadService: UploadService,
-        private expirationService: ExpirationService
+        private expirationService: ExpirationService,
+        private deviceService: DeviceDetectorService
     ) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

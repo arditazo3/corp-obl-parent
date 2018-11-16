@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {TransferDataService} from '../../../../shared/common/service/transfer-data.service';
 import {TaskService} from '../../../task/service/task.service';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-office-taks-collapse',
@@ -10,13 +11,18 @@ import {TaskService} from '../../../task/service/task.service';
 })
 export class OfficeTaksCollapseComponent implements OnInit {
 
+    isMobile = false;
+
     officeTaskTemplatesArray = [];
 
     constructor(
         private router: Router,
         private transferService: TransferDataService,
-        private taskService: TaskService
+        private taskService: TaskService,
+        private deviceService: DeviceDetectorService
     ) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

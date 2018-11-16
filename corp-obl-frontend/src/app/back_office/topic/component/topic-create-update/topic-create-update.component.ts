@@ -11,6 +11,8 @@ import {Topic} from '../../../topic/model/topic';
 import {Company} from '../../../company/model/company';
 import {UserInfoService} from '../../../../user/service/user-info.service';
 import {Translation} from '../../../../shared/common/translation/model/translation';
+import {ConsultantService} from '../../../consultant/service/consultant.service';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-topic-create-update',
@@ -18,6 +20,8 @@ import {Translation} from '../../../../shared/common/translation/model/translati
     styleUrls: ['./topic-create-update.component.css']
 })
 export class TopicCreateUpdateComponent implements OnInit {
+
+    isMobile = false;
 
     isNewForm;
     langDescrInserted = '';
@@ -48,8 +52,11 @@ export class TopicCreateUpdateComponent implements OnInit {
         private formBuilder: FormBuilder,
         private topicService: TopicService,
         private companyService: CompanyService,
-        private userInfoService: UserInfoService
+        private userInfoService: UserInfoService,
+        private deviceService: DeviceDetectorService
     ) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

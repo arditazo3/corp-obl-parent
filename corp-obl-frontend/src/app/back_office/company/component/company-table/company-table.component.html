@@ -2,7 +2,7 @@
     <!-- column -->
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-body">
+            <div class="{{ isMobile ? 'card-body-mobile' : 'card-body' }}">
                 <div class="controls">
                     <div class="input-group">
                         <input #descriptionCompany type='text' class="form-control"

@@ -3,6 +3,8 @@ import {TaskOffice} from '../../model/taskoffice';
 import {Office} from '../../../office/model/office';
 import {User} from '../../../../user/model/user';
 import {Company} from '../../../company/model/company';
+import {TranslateService} from '@ngx-translate/core';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-association-office-users',
@@ -16,6 +18,8 @@ export class AssociationOfficeUsersComponent implements OnInit {
 
     @Input() taskOffice: TaskOffice;
 
+    isMobile = false;
+
     office: Office;
     company: Company;
 
@@ -23,7 +27,9 @@ export class AssociationOfficeUsersComponent implements OnInit {
     userProvidersArray: User[];
     userBeneficiariesArray: User[];
 
-    constructor() {
+    constructor(private deviceService: DeviceDetectorService) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

@@ -9,6 +9,8 @@ import {TopicConsultant} from '../../../topic/model/topic-consultant';
 import {CompanyTopic} from '../../../company/model/company_topic';
 import {Company} from '../../../company/model/company';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
+import {TaskService} from '../../../task/service/task.service';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-topic-consultant',
@@ -17,6 +19,7 @@ import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 })
 export class TopicConsultantComponent implements OnInit {
 
+    isMobile = false;
     langOnChange = '';
     temp = [];
 
@@ -30,7 +33,8 @@ export class TopicConsultantComponent implements OnInit {
         private consultantService: ConsultantService,
         private topicService: TopicService,
         private transferService: TransferDataService,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private deviceService: DeviceDetectorService
     ) {
 
         const me = this;
@@ -44,6 +48,8 @@ export class TopicConsultantComponent implements OnInit {
                     me.descriptionOnChange();
                 }
             });
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     ngOnInit() {

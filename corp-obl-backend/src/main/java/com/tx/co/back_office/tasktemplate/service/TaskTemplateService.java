@@ -163,7 +163,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		List<Task> tasks = new ArrayList<>();
 
 		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
-			tasks = convertToTaskForTable(taskTemplateRepository.findAllOrderByDescriptionAsc(), new ArrayList<>());
+			tasks = convertToTaskForTable(taskTemplateRepository.findAllOrderNotRapidConfigurationByDescriptionAsc(), new ArrayList<>());
 		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
 			tasks = convertToTaskForTable(taskTemplateRepository.getTaskTemplatesByRole(username), new ArrayList<>());
 		}
