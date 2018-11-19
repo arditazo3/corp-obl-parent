@@ -272,7 +272,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 			if (!isEmpty(expirationDate) && expirationDate.before(dateNow) && isEmpty(completedDate)) {
 				countTaskExpirationExpired++;
 			}
-			if (!isEmpty(completedDate)) {
+			if (!isEmpty(completedDate) && isEmpty(archivedDate)) {
 				countTaskExpirationCompleted++;
 			}
 			if (!isEmpty(archivedDate)) {

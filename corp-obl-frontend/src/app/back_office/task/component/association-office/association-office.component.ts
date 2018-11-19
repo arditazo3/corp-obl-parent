@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Observable} from 'rxjs';
 import {OfficeService} from '../../../office/service/office.service';
 import {ApiErrorDetails} from '../../../../shared/common/api/model/api-error-details';
@@ -6,11 +6,13 @@ import {UserService} from '../../../../user/service/user.service';
 import {TaskOffice} from '../../model/taskoffice';
 import {Task} from '../../model/task';
 import {Company} from '../../../company/model/company';
+import {Office} from '../../../office/model/office';
 
 @Component({
     selector: 'app-association-office',
     templateUrl: './association-office.component.html',
-    styleUrls: ['./association-office.component.css']
+    styleUrls: ['./association-office.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AssociationOfficeComponent implements OnInit {
 
@@ -18,7 +20,7 @@ export class AssociationOfficeComponent implements OnInit {
     selectedOffices = [];
     companyTemp: Company;
 
-    officesObservable: Observable<any[]>;
+    officesAvailable: Office[] = [];
     usersObservable: Observable<any[]>;
 
     @Output() checkAssociationOffice = new EventEmitter<boolean>();
@@ -38,7 +40,15 @@ export class AssociationOfficeComponent implements OnInit {
         const me = this;
 
         if (!me.task) {
-            me.officesObservable = me.officeService.getOfficesByRole();
+
+            if (me.officesAvailable.length === 0) {
+                me.officeService.getOfficesByRole().subscribe(
+                    data => {
+                        const offices: Office[] = data;
+                        me.officesAvailable = [...offices];
+                    }
+                );
+            }
             return;
         }
 
@@ -46,8 +56,16 @@ export class AssociationOfficeComponent implements OnInit {
             me.task.taskTemplate.topic &&
             me.task.taskTemplate.topic.companyList) {
 
-            const officesFiltredByTask = me.task.taskTemplate.topic.companyList[0].offices;
-            me.officesObservable = Observable.of(officesFiltredByTask);
+            const officesFiltredByTask = [];
+
+            me.task.taskTemplate.topic.companyList.forEach(
+                company => {
+                    if (company.offices) {
+                        officesFiltredByTask.push(...company.offices);
+                    }
+                }
+            );
+            me.officesAvailable = [...officesFiltredByTask];
         }
 
         me.usersObservable = me.userService.getAllUsersExceptAdminRole();
@@ -73,7 +91,9 @@ export class AssociationOfficeComponent implements OnInit {
                 me.selectedOffices.push(taskOffice.office);
 
                 me.companyTemp = taskOffice.office.company;
-                me.officesObservable = Observable.of(taskOffice.office.company.offices);
+                if (me.companyTemp.offices) {
+                    me.officesAvailable = [...taskOffice.office.company.offices];
+                }
             });
         } else {
             me.taskOfficesArray = [];
@@ -87,7 +107,21 @@ export class AssociationOfficeComponent implements OnInit {
         taskOffice.office = $event;
 
         if (this.task) {
-            taskOffice.office.company = this.task.taskTemplate.topic.companyList[0];
+            if (this.task.taskTemplate.topic.companyList) {
+                this.task.taskTemplate.topic.companyList.forEach(
+                    companyLoop => {
+                        if (companyLoop.offices) {
+                            companyLoop.offices.forEach(
+                                officeLoop => {
+                                    if (officeLoop.idOffice === taskOffice.office.idOffice) {
+                                        taskOffice.office.company = companyLoop;
+                                    }
+                                }
+                            );
+                        }
+                    }
+                );
+            }
         } else if (this.companyTemp) {
             taskOffice.office.company = this.companyTemp;
         }

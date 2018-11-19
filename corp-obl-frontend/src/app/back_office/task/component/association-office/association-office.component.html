@@ -4,7 +4,7 @@
             <div class="form-group">
                 <label for="periodicity" class="control-label col-form-label">{{ 'BACK_OFFICE.TASK.ADD_ASSOCIATION' | translate }}</label>
                 <div class="col-sm-9">
-                    <ng-select [items]="officesObservable | async"
+                    <ng-select [items]="officesAvailable"
                                bindLabel="description"
                                id="periodicity"
                                [multiple]="true"

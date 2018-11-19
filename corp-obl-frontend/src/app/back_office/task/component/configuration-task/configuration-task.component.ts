@@ -170,7 +170,7 @@ export class ConfigurationTaskComponent implements OnInit {
     }
 
     searchTaskTemplate() {
-        console.log('ConfigurationTaskComponent - createNewTaskTemplate');
+        console.log('ConfigurationTaskComponent - searchTaskTemplate');
 
         const me = this;
         const objectSearchTaskTemplate = new ObjectSearchTaskTemplate(this.descriptionTaskTemplate,

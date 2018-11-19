@@ -5,6 +5,7 @@ import {User} from '../../../../user/model/user';
 import {Company} from '../../../company/model/company';
 import {TranslateService} from '@ngx-translate/core';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {Task} from '../../model/task';
 
 @Component({
     selector: 'app-association-office-users',
@@ -33,13 +34,10 @@ export class AssociationOfficeUsersComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log('AssociationOfficeUsersComponent - ngOnInit');
 
         this.office = this.taskOffice.office;
         this.company = this.office.company;
-
-        if (this.company) {
-            this.office.company.offices = [];
-        }
 
         if (!this.office.userProviders) {
             this.office.userProviders = [];
@@ -57,7 +55,7 @@ export class AssociationOfficeUsersComponent implements OnInit {
     }
 
     removeOfficeBtn(office) {
-        console.log('AssociationOfficeComponent - removeOfficeBtn');
+        console.log('AssociationOfficeUsersComponent - removeOfficeBtn');
 
         office.userProviders = [];
         office.userProviders = [];
@@ -72,7 +70,7 @@ export class AssociationOfficeUsersComponent implements OnInit {
     }
 
     onAddProvidersOffice($event) {
-        console.log('AssociationOfficeComponent - onAddProvidersOffice');
+        console.log('AssociationOfficeUsersComponent - onAddProvidersOffice');
 
         const userSelected = $event;
 
@@ -83,7 +81,7 @@ export class AssociationOfficeUsersComponent implements OnInit {
     }
 
     onRemoveProvidersOffice($event) {
-        console.log('AssociationOfficeComponent - onRemoveProvidersOffice');
+        console.log('AssociationOfficeUsersComponent - onRemoveProvidersOffice');
 
         const me = this;
         const userSelected = $event.value;
@@ -95,7 +93,7 @@ export class AssociationOfficeUsersComponent implements OnInit {
     }
 
     onAddBeneficiariesOffice($event) {
-        console.log('AssociationOfficeComponent - onAddBeneficiariesOffice');
+        console.log('AssociationOfficeUsersComponent - onAddBeneficiariesOffice');
 
         const userSelected = $event;
 
@@ -105,7 +103,7 @@ export class AssociationOfficeUsersComponent implements OnInit {
     }
 
     onRemoveBeneficiariesOffice($event, office) {
-        console.log('AssociationOfficeComponent - onRemoveBeneficiariesOffice');
+        console.log('AssociationOfficeUsersComponent - onRemoveBeneficiariesOffice');
 
         const me = this;
         const userSelected = $event.value;
@@ -120,7 +118,7 @@ export class AssociationOfficeUsersComponent implements OnInit {
     * Render of task office on change
     * */
     populateAvailableUsersOnOffices() {
-        console.log('AssociationOfficeComponent - populateAvailableUsersOnOffices');
+        console.log('AssociationOfficeUsersComponent - populateAvailableUsersOnOffices');
 
         const me = this;
 

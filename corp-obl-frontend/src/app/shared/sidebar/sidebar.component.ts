@@ -20,7 +20,9 @@ declare var $: any;
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+
     isMobile = false;
+
     showMenu = '';
     showSubMenu = '';
     public sidebarnavItems: any[];

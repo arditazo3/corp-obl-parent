@@ -272,6 +272,15 @@
                         type="warning">
                 </swal>
                 <swal
+                        #deleteTaskTemplateSwal
+                        title=""
+                        text=""
+                        [showCancelButton]="true"
+                        confirmButtonText="{{ 'GENERAL.YES_DELETE_IT' | translate }}"
+                        cancelButtonText="{{ 'GENERAL.NO_CANCEL' | translate }}"
+                        type="warning">
+                </swal>
+                <swal
                         #errorTaskTemplateSwal
                         title=""
                         text=""

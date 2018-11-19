@@ -12,6 +12,15 @@
   padding-left: 0 !important;
 }
 
+.card {
+  border-radius: 0.25rem !important;
+}
+
+.card-header {
+  border-top-right-radius: 0.25rem !important;
+  border-top-left-radius: 0.25rem !important;
+}
+
 .card-body {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -29,6 +38,8 @@
 
 .collapse.show {
   border: 1px solid $border-color;
+  border-bottom-right-radius: 0.25rem !important;
+  border-bottom-left-radius: 0.25rem !important;
 }
 
 .card-subtitle {
@@ -63,4 +74,17 @@
 
 .margin-right-10 {
   margin-right: -10px;
+}
+
+.row-no-margin {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dropdown-item {
+  padding: 0.1rem 0.5rem !important;
+}
+
+.dropdown-divider {
+  margin: 0.3rem 0 !important;
 }

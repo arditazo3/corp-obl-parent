@@ -14,6 +14,8 @@ select * from co_taskofficerelations;
 
 select * from co_topic;
 
+select * from co_companytopic;
+
 select * from co_companyconsultant;
 
 select * from co_topicconsultant;

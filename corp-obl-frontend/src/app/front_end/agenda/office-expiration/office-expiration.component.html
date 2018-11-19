@@ -42,7 +42,7 @@
                                                     (click)="restoreExp()">
                                                 {{ 'FRONT_END.AGENDA.RESTORE' | translate }}
                                             </button>
-                                            <li class="divider dropdown-divider"></li>
+                                            <li *ngIf="rejectBtn || archivedBtn || approvedBtn || notApprovedBtn" class="divider dropdown-divider"></li>
                                         </div>
 
                                         <div *ngIf="rejectBtn">
@@ -50,7 +50,7 @@
                                                     (click)="rejectExp()">
                                                 {{ 'FRONT_END.AGENDA.REJECT' | translate }}
                                             </button>
-                                            <li class="divider dropdown-divider"></li>
+                                            <li *ngIf="archivedBtn || approvedBtn || notApprovedBtn" class="divider dropdown-divider"></li>
                                         </div>
 
                                         <div *ngIf="archivedBtn">
@@ -58,7 +58,7 @@
                                                     (click)="archivedExp()">
                                                 {{ 'FRONT_END.AGENDA.ARCHIVED' | translate }}
                                             </button>
-                                            <li class="divider dropdown-divider"></li>
+                                            <li *ngIf="approvedBtn || notApprovedBtn" class="divider dropdown-divider"></li>
                                         </div>
 
                                         <div *ngIf="approvedBtn">
@@ -66,7 +66,7 @@
                                                     (click)="approvedExp()">
                                                 {{ 'FRONT_END.AGENDA.APPROVED' | translate }}
                                             </button>
-                                            <li class="divider dropdown-divider"></li>
+                                            <li *ngIf="notApprovedBtn" class="divider dropdown-divider"></li>
                                         </div>
 
                                         <div *ngIf="notApprovedBtn">
@@ -74,7 +74,6 @@
                                                     (click)="notApprovedExp()">
                                                 {{ 'FRONT_END.AGENDA.NOT_APPROVED' | translate }}
                                             </button>
-                                            <li class="divider dropdown-divider"></li>
                                         </div>
                                     </div>
                                 </div>

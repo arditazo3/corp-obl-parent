@@ -87,6 +87,7 @@ export class QuickConfigurationComponent implements OnInit {
     @ViewChild('cancelBtn') cancelBtn;
     @ViewChild('submitBtn') submitBtn;
     @ViewChild('confirmationTaskTemplateSwal') private confirmationTaskTemplateSwal: SwalComponent;
+    @ViewChild('deleteTaskTemplateSwal') private deleteTaskTemplateSwal: SwalComponent;
     @ViewChild('errorTaskTemplateSwal') private errorTaskTemplateSwal: SwalComponent;
     @ViewChild(AssociationOfficeComponent) associationOffice: AssociationOfficeComponent;
     createEditTaskTemplate: FormGroup;
@@ -265,7 +266,14 @@ export class QuickConfigurationComponent implements OnInit {
         this.task.daysBeforeShowExpiration = this.taskTemplate.daysBeforeShowExpiration;
         this.task.frequenceOfNotice = this.taskTemplate.frequenceOfNotice;
 
-        this.confirmationTaskTemplateSwal.title = 'Do you want to save: ' + this.taskTemplate.description + '?';
+        let msgSwal = '';
+        this.translateService.get('GENERAL.DO_WANT_SAVE').subscribe(
+            data => {
+                msgSwal = data;
+            });
+
+        this.confirmationTaskTemplateSwal.title = msgSwal + this.taskTemplate.description + '?';
+
         this.confirmationTaskTemplateSwal.show()
             .then(function (result) {
                 if (result.value === true) {
@@ -305,7 +313,13 @@ export class QuickConfigurationComponent implements OnInit {
                                 me.onSuccessItem(item, response, status, headers);
 
                             me.task.taskTemplate = taskTemplate;
+
                             me.task.taskOffices = me.associationOffice.taskOfficesArray;
+                            // Avoid infinite loop
+                            me.task.taskOffices.forEach(taskOffice => {
+                                taskOffice.office.company.offices = [];
+                            });
+
                             me.task.office = me.office;
                             me.task.excludeOffice = true;
 
@@ -653,15 +667,19 @@ export class QuickConfigurationComponent implements OnInit {
         const me = this;
 
         if (this.taskTemplate) {
-            let msgSwal = 'Do you want to delete: ';
+            let msgSwal = '';
+            this.translateService.get('GENERAL.DO_WANT_DELETE').subscribe(
+                data => {
+                    msgSwal = data;
+                });
             if (this.taskTemplate && this.taskTemplate.description) {
                 msgSwal += this.taskTemplate.description;
             } else {
                 msgSwal += this.task.taskTemplate.description;
             }
             msgSwal += '?';
-            this.confirmationTaskTemplateSwal.title = msgSwal;
-            this.confirmationTaskTemplateSwal.show()
+            this.deleteTaskTemplateSwal.title = msgSwal;
+            this.deleteTaskTemplateSwal.show()
                 .then(function (result) {
                     if (result.value === true) {
                         // handle confirm, result is needed for modals with input
@@ -671,6 +689,9 @@ export class QuickConfigurationComponent implements OnInit {
                             me.taskOffice.task = me.task;
                             me.taskOffice.task.excludeOffice = true;
                             me.taskOffice.taskTemplate = me.taskTemplate;
+                        }
+                        if (!me.taskOffice.task) {
+                            me.taskOffice.task = me.task;
                         }
 
                         me.taskService.deleteTaskOffice(me.taskOffice).subscribe(

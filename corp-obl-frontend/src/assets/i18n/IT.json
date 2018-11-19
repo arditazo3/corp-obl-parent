@@ -182,6 +182,7 @@
     "COLLAPSE": "Collapse",
     "CANNOT_BE_UNDONE": "Questo non può essere annullato",
     "YES_SAVE_IT": "Sì, salvalo!",
+    "YES_DELETE_IT": "Si, rimuovilo!",
     "NO_CANCEL": "No, annulla!",
     "EMAIL_NOT_VALID": "Email non valida",
     "UPLOAD_FILES": "Carica file",
@@ -191,9 +192,13 @@
     "DOWNLOAD": "Download",
     "DETAILS": "Detagli",
     "HIDE": "Nascondi",
-    "NODATA": "No data",
+    "NODATA": "Nessun dato",
     "TOTAL": "Totale",
     "REFRESH_CACHE": "Refresh Cache",
-    "CACHE_REFRESHED": "Cache Aggiornato"
+    "CACHE_REFRESHED": "Cache Aggiornato",
+    "DO_WANT_SAVE": "Vuoi salvare: ",
+    "DO_WANT_DELETE": "Vuoi eliminare: ",
+    "ENGLISH": "Inglese",
+    "ITALIAN": "Italiano"
   }
 }

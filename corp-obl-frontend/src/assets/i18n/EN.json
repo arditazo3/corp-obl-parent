@@ -182,6 +182,7 @@
     "COLLAPSE": "Collapse",
     "CANNOT_BE_UNDONE": "This cannot be undone",
     "YES_SAVE_IT": "Yes, save it!",
+    "YES_DELETE_IT": "Yes, delete it!",
     "NO_CANCEL": "No, cancel!",
     "EMAIL_NOT_VALID": "Email not valid",
     "UPLOAD_FILES": "Upload Files",
@@ -194,6 +195,10 @@
     "NODATA": "No data",
     "TOTAL": "Total",
     "REFRESH_CACHE": "Refresh Cache",
-    "CACHE_REFRESHED": "Cache Refreshed"
+    "CACHE_REFRESHED": "Cache Refreshed",
+    "DO_WANT_SAVE": "Do you want to save: ",
+    "DO_WANT_DELETE": "Do you want to delete: ",
+    "ENGLISH": "English",
+    "ITALIAN": "Italian"
   }
 }

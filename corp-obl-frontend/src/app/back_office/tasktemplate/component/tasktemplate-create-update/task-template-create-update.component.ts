@@ -84,6 +84,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     @ViewChild('cancelBtn') cancelBtn;
     @ViewChild('submitBtn') submitBtn;
     @ViewChild('confirmationTaskTemplateSwal') private confirmationTaskTemplateSwal: SwalComponent;
+    @ViewChild('deleteTaskTemplateSwal') private deleteTaskTemplateSwal: SwalComponent;
     @ViewChild('errorTaskTemplateSwal') private errorTaskTemplateSwal: SwalComponent;
     @ViewChild(AssociationOfficeComponent) associationOffice: AssociationOfficeComponent;
     createEditTaskTemplate: FormGroup;
@@ -334,7 +335,12 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             this.task.frequenceOfNotice = this.createEditTaskTemplate.get('frequenceOfNotice').value;
         }
 
-        let msgSwal = 'Do you want to save: ';
+        let msgSwal = '';
+        this.translateService.get('GENERAL.DO_WANT_SAVE').subscribe(
+            data => {
+                msgSwal = data;
+            });
+
         if (this.taskTemplate && this.taskTemplate.description) {
             msgSwal += this.taskTemplate.description;
         } else {
@@ -393,6 +399,11 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                     } else {
 
                         me.task.taskOffices = me.associationOffice.taskOfficesArray;
+                        // Avoid infinite loop
+                        me.task.taskOffices.forEach(taskOffice => {
+                            taskOffice.office.company.offices = [];
+                        });
+
                         me.task.excludeOffice = true;
 
                         me.taskService.saveUpdateTask(me.task).subscribe(
@@ -422,8 +433,13 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         const me = this;
 
         if (this.taskTemplate) {
-            this.confirmationTaskTemplateSwal.title = 'Do you want to delete: ' + this.taskTemplate.description + '?';
-            this.confirmationTaskTemplateSwal.show()
+            let msgSwal = '';
+            this.translateService.get('GENERAL.DO_WANT_DELETE').subscribe(
+                data => {
+                    msgSwal = data;
+                });
+            this.deleteTaskTemplateSwal.title = msgSwal + this.taskTemplate.description + '?';
+            this.deleteTaskTemplateSwal.show()
                 .then(function (result) {
                     if (result.value === true) {
                         // handle confirm, result is needed for modals with input
@@ -448,15 +464,19 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         const me = this;
 
         if (this.taskTemplate) {
-            let msgSwal = 'Do you want to delete: ';
+            let msgSwal = '';
+            this.translateService.get('GENERAL.DO_WANT_DELETE').subscribe(
+                data => {
+                    msgSwal = data;
+                });
             if (this.taskTemplate && this.taskTemplate.description) {
                 msgSwal += this.taskTemplate.description;
             } else {
                 msgSwal += this.task.taskTemplate.description;
             }
             msgSwal += '?';
-            this.confirmationTaskTemplateSwal.title = msgSwal;
-            this.confirmationTaskTemplateSwal.show()
+            this.deleteTaskTemplateSwal.title = msgSwal;
+            this.deleteTaskTemplateSwal.show()
                 .then(function (result) {
                     if (result.value === true) {
                         // handle confirm, result is needed for modals with input

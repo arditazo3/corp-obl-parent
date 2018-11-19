@@ -103,9 +103,10 @@
             <div class="dropdown-menu dropdown-menu-right bounceInDown" aria-labelledby="navbarDropdown"
                  ngbDropdownMenu>
                 <a class="dropdown-item" (click)="changeLanguage('EN')">
-                    <i class="flag-icon flag-icon-us"></i> English</a>
+                    <i class="flag-icon flag-icon-us divider"></i> {{ 'GENERAL.ENGLISH' | translate }}</a>
+                <li class="divider dropdown-divider"></li>
                 <a class="dropdown-item" (click)="changeLanguage('IT')">
-                    <i class="flag-icon flag-icon-it"></i> Italian</a>
+                    <i class="flag-icon flag-icon-it"></i> {{ 'GENERAL.ITALIAN' | translate }}</a>
                 <!--<a class="dropdown-item" href="#">-->
                     <!--<i class="flag-icon flag-icon-fr"></i> French</a>-->
             </div>
