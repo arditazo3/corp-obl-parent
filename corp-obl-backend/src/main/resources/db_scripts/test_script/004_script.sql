@@ -31,3 +31,7 @@ select * from co_taskoffice;
 select * from co_taskofficerelations;
 
 select * from co_expiration;
+
+select * from co_expirationactivity;
+
+update co_company set enabled = 1;

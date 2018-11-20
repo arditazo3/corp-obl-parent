@@ -138,12 +138,12 @@ public final class ApiConstants {
 	public static final String USER_ADMIN = "CORPOBLIG_USER_ADMIN_COMPANY";
 	public static final String USER_ROLE = "CORPOBLIG_USER";
 
-	public static final String hasAuthority = "hasAuthority";
-	public static final String orHasAuthority = "or " + hasAuthority;
-	public static final String AUTH_ADMIN_FOREIGN_INLAND = hasAuthority + "('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + FOREIGN_ROLE + "') " + orHasAuthority + "('" + INLAND_ROLE + "')";
-	public static final String AUTH_ADMIN_FOREIGN_INLAND_USER_ADMIN = hasAuthority + "('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + FOREIGN_ROLE + "') " + orHasAuthority + "('" + INLAND_ROLE + "') " + orHasAuthority + "('" + USER_ADMIN + "')";
-	public static final String AUTH_ADMIN_USER = hasAuthority + "('"+ ADMIN_ROLE + "') " + orHasAuthority + "('" + USER_ROLE + "')";
-	public static final String AUTH_ADMIN = hasAuthority + "('"+ ADMIN_ROLE + "')";
+	public static final String HAS_AUTHORITY = "hasAuthority";
+	public static final String OR_HAS_AUTHORITY = "or " + HAS_AUTHORITY;
+	public static final String AUTH_ADMIN_FOREIGN_INLAND = HAS_AUTHORITY + "('"+ ADMIN_ROLE + "') " + OR_HAS_AUTHORITY + "('" + FOREIGN_ROLE + "') " + OR_HAS_AUTHORITY + "('" + INLAND_ROLE + "')";
+	public static final String AUTH_ADMIN_FOREIGN_INLAND_USER_ADMIN = HAS_AUTHORITY + "('"+ ADMIN_ROLE + "') " + OR_HAS_AUTHORITY + "('" + FOREIGN_ROLE + "') " + OR_HAS_AUTHORITY + "('" + INLAND_ROLE + "') " + OR_HAS_AUTHORITY + "('" + USER_ADMIN + "')";
+	public static final String AUTH_ADMIN_USER = HAS_AUTHORITY + "('"+ ADMIN_ROLE + "') " + OR_HAS_AUTHORITY + "('" + USER_ROLE + "')";
+	public static final String AUTH_ADMIN = HAS_AUTHORITY + "('"+ ADMIN_ROLE + "')";
 	/* End of authorization Role list */
 
 	/**

@@ -21,7 +21,7 @@ public interface OfficeRepository extends CrudRepository<Office, Long> {
 			" left join o.company c " + 
 			" left join c.companyUsers cu " + 
 			" left join cu.user u " + 
-			" where c.enabled <> 0 and cu.enabled <> 0 and u.enabled <> 0 " + 
+			" where o.enabled <> 0 and c.enabled <> 0 and cu.enabled <> 0 and u.enabled <> 0 " + 
 			" and u.username = :username " + 
 			" group by o.id order by o.description asc")
 	List<Office> getOfficesByRole(@Param("username") String username);
