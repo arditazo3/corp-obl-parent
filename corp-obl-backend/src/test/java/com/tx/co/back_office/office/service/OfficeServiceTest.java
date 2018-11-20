@@ -14,8 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.tx.co.abstraction.AbstractServiceTest;
 import com.tx.co.back_office.company.domain.Company;
 import com.tx.co.back_office.office.domain.Office;
-import com.tx.co.back_office.task.model.Task;
-import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 
 /**
  * Tests for the office service class.

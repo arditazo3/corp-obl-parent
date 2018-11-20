@@ -198,6 +198,7 @@
     "CACHE_REFRESHED": "Cache Refreshed",
     "DO_WANT_SAVE": "Do you want to save: ",
     "DO_WANT_DELETE": "Do you want to delete: ",
+    "DELETE_SPACE": "Delete: ",
     "ENGLISH": "English",
     "ITALIAN": "Italian"
   }

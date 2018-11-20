@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.tx.co.abstraction.AbstractApiTest;
 import com.tx.co.back_office.company.api.model.CompanyResult;
-import com.tx.co.back_office.task.api.model.TaskResult;
 
 /**
  * Tests for the company resource class.
@@ -29,7 +28,7 @@ import com.tx.co.back_office.task.api.model.TaskResult;
 public class CompanyResourceTest extends AbstractApiTest {
 
 	@Test
-    public void getTasks() {
+    public void getCompanies() {
 
 		String authorizationHeader = composeAuthorizationHeader(getTokenForAdmin());
 		

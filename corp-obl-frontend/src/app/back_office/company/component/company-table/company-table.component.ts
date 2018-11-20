@@ -36,7 +36,8 @@ export class CompanyTableComponent implements OnInit {
         private companyService: CompanyService,
         private transferService: TransferDataService,
         public translate: TranslateService,
-        private deviceService: DeviceDetectorService
+        private deviceService: DeviceDetectorService,
+        private translateService: TranslateService
     ) {
 
         this.isMobile = this.deviceService.isMobile();
@@ -127,7 +128,14 @@ export class CompanyTableComponent implements OnInit {
 
         this.rowSelected = row;
 
-        this.deleteCompanySwal.title = 'Delete: ' + row.description + '?';
+        let msgSwal = '';
+
+        this.translateService.get('GENERAL.DELETE_SPACE').subscribe(
+            data => {
+                msgSwal = data;
+            });
+
+        this.deleteCompanySwal.title = msgSwal + row.description + '?';
 
         this.deleteCompanySwal.show();
     }

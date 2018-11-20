@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.tx.co.abstraction.AbstractApiTest;
 import com.tx.co.back_office.office.api.model.OfficeResult;
-import com.tx.co.back_office.task.api.model.TaskResult;
 
 /**
  * Tests for the office service class.

@@ -160,7 +160,14 @@ export class TopicTableComponent implements OnInit {
 
         this.rowSelected = row;
 
-        this.deleteTopicSwal.title = 'Delete: ' + row.description + '?';
+        let msgSwal = '';
+
+        this.translateService.get('GENERAL.DELETE_SPACE').subscribe(
+            data => {
+                msgSwal = data;
+            });
+
+        this.deleteTopicSwal.title = msgSwal + row.description + '?';
 
         this.deleteTopicSwal.show();
     }

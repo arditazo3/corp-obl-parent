@@ -35,7 +35,8 @@ export class OfficeTableComponent implements OnInit {
         private router: Router,
         private officeService: OfficeService,
         private transferService: TransferDataService,
-        private deviceService: DeviceDetectorService
+        private deviceService: DeviceDetectorService,
+        private translateService: TranslateService
     ) {
 
         this.isMobile = this.deviceService.isMobile();
@@ -126,13 +127,20 @@ export class OfficeTableComponent implements OnInit {
 
         this.rowSelected = row;
 
-        this.deleteOfficeSwal.title = 'Delete: ' + row.description + '?';
+        let msgSwal = '';
+
+        this.translateService.get('GENERAL.DELETE_SPACE').subscribe(
+            data => {
+                msgSwal = data;
+            });
+
+        this.deleteOfficeSwal.title = msgSwal + row.description + '?';
 
         this.deleteOfficeSwal.show();
     }
 
     deleteOfficeConfirm() {
-        console.log('OfficeTableComponent - deleteOfficeConfirm' + this.rowSelected.idOffice);
+        console.log('OfficeTableComponent - deleteOfficeConfirm ' + this.rowSelected.idOffice);
 
         const officeSelected = this.rowSelected;
 

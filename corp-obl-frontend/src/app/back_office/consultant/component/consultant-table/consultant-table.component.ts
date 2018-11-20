@@ -35,7 +35,8 @@ export class ConsultantTableComponent implements OnInit {
         private router: Router,
         private companyConsultantService: ConsultantService,
         private transferService: TransferDataService,
-        private deviceService: DeviceDetectorService
+        private deviceService: DeviceDetectorService,
+        private translateService: TranslateService
     ) {
 
         this.isMobile = this.deviceService.isMobile();
@@ -114,7 +115,14 @@ export class ConsultantTableComponent implements OnInit {
 
         this.rowSelected = row;
 
-        this.deleteCompanyConsultantSwal.title = 'Delete: ' + row.name + '?';
+        let msgSwal = '';
+
+        this.translateService.get('GENERAL.DELETE_SPACE').subscribe(
+            data => {
+                msgSwal = data;
+            });
+
+        this.deleteCompanyConsultantSwal.title = msgSwal + row.name + '?';
 
         this.deleteCompanyConsultantSwal.show();
     }
