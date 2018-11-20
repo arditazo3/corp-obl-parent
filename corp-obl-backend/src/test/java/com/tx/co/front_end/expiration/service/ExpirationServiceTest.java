@@ -1,6 +1,6 @@
 package com.tx.co.front_end.expiration.service;
 
-import static com.tx.co.common.constants.AppConstants.ADMIN;
+import static com.tx.co.common.constants.AppConstants.*;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Calendar;
@@ -45,6 +45,8 @@ public class ExpirationServiceTest extends AbstractServiceTest {
 		dateExpirationOfficesHasArchived.setOffices(offices);
 		
 		dateExpirationOfficesHasArchived.setShowArchived(true);
+		
+		dateExpirationOfficesHasArchived.setUserRelationType(CONTROLLED);
 		
 		List<TaskOfficeExpirations> taskTemplateExpirations = getExpirationService().searchDateExpirationOffices(dateExpirationOfficesHasArchived);
 		

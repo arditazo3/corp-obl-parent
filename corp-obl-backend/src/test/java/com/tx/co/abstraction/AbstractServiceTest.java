@@ -1,9 +1,11 @@
 package com.tx.co.abstraction;
 
+import com.tx.co.back_office.company.service.ICompanyService;
 import com.tx.co.back_office.office.service.IOfficeService;
 import com.tx.co.back_office.task.repository.TaskRepository;
 import com.tx.co.back_office.task.service.ITaskService;
 import com.tx.co.back_office.tasktemplate.service.ITaskTemplateService;
+import com.tx.co.back_office.topic.service.ITopicService;
 import com.tx.co.front_end.expiration.repository.ExpirationRepository;
 import com.tx.co.front_end.expiration.service.ExpirationService;
 import com.tx.co.user.service.IUserService;
@@ -23,6 +25,8 @@ public class AbstractServiceTest extends AbstractApiTest {
     private ExpirationService expirationService;
     private IOfficeService officeService;
     private ExpirationRepository expirationRepository;
+    private ICompanyService companyService;
+    private ITopicService topicService;
 
     public IUserService getUserService() {
         return userService;
@@ -86,4 +90,22 @@ public class AbstractServiceTest extends AbstractApiTest {
     public void setOfficeService(IOfficeService officeService) {
         this.officeService = officeService;
     }
+
+	public ICompanyService getCompanyService() {
+		return companyService;
+	}
+
+	@Autowired
+	public void setCompanyService(ICompanyService companyService) {
+		this.companyService = companyService;
+	}
+
+	public ITopicService getTopicService() {
+		return topicService;
+	}
+
+	@Autowired
+	public void setTopicService(ITopicService topicService) {
+		this.topicService = topicService;
+	}
 }

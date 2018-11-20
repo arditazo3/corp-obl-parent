@@ -137,7 +137,9 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 
 		mergeTranslationsTopic(topicStored, topic);
 
-		topicRepository.updateCompanyTopicNotEnable(topicStored, companyListIncluded);
+		if(!isEmpty(companyListIncluded)) {
+			topicRepository.updateCompanyTopicNotEnable(topicStored, companyListIncluded);	
+		}
 
 		updateTopicsCache(topicStored, true);
 
