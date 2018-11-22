@@ -9,6 +9,10 @@ export class AppGlobals {
     public static CONTROLLER = 1;
     public static CONTROLLED = 2;
 
+    /* Color of Loading */
+    public static PrimaryWhite = '#ffffff';
+    public static SecondaryGrey = '#ccc';
+
     public static myDatePickerOptions: IMyDpOptions = {
         // other options...
         dateFormat: AppGlobals.dateFormat,

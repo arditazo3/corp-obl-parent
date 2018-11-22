@@ -4,13 +4,13 @@
             <div id="{{ isMobile ? 'container-fluid-mobile' : 'container-fluid' }} text-left">
                 <div class="row">
                     <div class="{{ isMobile ? 'col-3 text-small margin-left-10' : 'col-4' }}">
-                        <span class="float-left">{{ expiration?.office?.description }}
+                        <span class="{{ isMobile ? 'float-left' : '' }}">{{ expiration?.office?.description }}
                             <i *ngIf="expiration.username !== ''">-</i> {{ expiration.username }}</span>
                     </div>
                     <div class="col-4 text-center">
                     </div>
                     <div class="{{ isMobile ? 'col-3 text-small margin-right-10' : 'col-4' }} {{ isMobile ? 'text-left' : 'text-right' }}">
-                        <span class="float-left">{{expiration.expirationDetail.expirationDescriptionDate}}</span>
+                        <span class="{{ isMobile ? 'float-left' : '' }}">{{expiration.expirationDetail.expirationDescriptionDate}}</span>
                     </div>
                 </div>
             </div>

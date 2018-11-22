@@ -27,6 +27,7 @@ import {AppGlobals} from '../../../../shared/common/api/app-globals';
 import {NgSelectComponent} from '@ng-select/ng-select';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {ngxLoadingAnimationTypes, NgxLoadingComponent} from 'ngx-loading';
 
 @Component({
     selector: 'app-quick-configuration',
@@ -92,6 +93,12 @@ export class QuickConfigurationComponent implements OnInit {
     @ViewChild('errorEmptyProvidersBeneficiaries') private errorEmptyProvidersBeneficiaries: SwalComponent;
     @ViewChild(AssociationOfficeComponent) associationOffice: AssociationOfficeComponent;
     createEditTaskTemplate: FormGroup;
+
+    @ViewChild('ngxLoading') ngxLoadingComponent: NgxLoadingComponent;
+    public primaryColour = AppGlobals.PrimaryWhite;
+    public secondaryColour = AppGlobals.SecondaryGrey;
+    public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+    public config = { animationType: ngxLoadingAnimationTypes.none, primaryColour: this.primaryColour, secondaryColour: this.secondaryColour, tertiaryColour: this.primaryColour, backdropBorderRadius: '3px' };
 
     constructor(
         private router: Router,
@@ -280,6 +287,8 @@ export class QuickConfigurationComponent implements OnInit {
             .then(function (result) {
                 if (result.value === true) {
 
+                    me.ngxLoadingComponent.show = true;
+
                     const taskTemplateOffice = new TaskTemplateOffice();
                     taskTemplateOffice.taskTemplate = me.taskTemplate;
                     taskTemplateOffice.office = me.office;
@@ -341,6 +350,7 @@ export class QuickConfigurationComponent implements OnInit {
                 }
             }, function (dismiss) {
                 // dismiss can be "cancel" | "close" | "outside"
+                me.ngxLoadingComponent.show = false;
             });
     }
 

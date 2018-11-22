@@ -44,6 +44,7 @@ import {QuickConfigurationComponent} from './office-task/component/quick-configu
 import { TaskTemplateTableComponent } from './office-task/component/tasktemplate-table/tasktemplate-table.component';
 import { AssociationOfficeUsersComponent } from './task/component/association-office-users/association-office-users.component';
 import {TranslateModule} from '@ngx-translate/core';
+import {NgxLoadingModule} from 'ngx-loading';
 
 @NgModule({
     imports: [
@@ -66,7 +67,8 @@ import {TranslateModule} from '@ngx-translate/core';
             confirmButtonClass: 'btn btn-primary',
             cancelButtonClass: 'btn'
         }),
-        TranslateModule
+        TranslateModule,
+        NgxLoadingModule
     ],
     declarations: [
         CompanyComponent,

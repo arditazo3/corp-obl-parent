@@ -8,7 +8,7 @@
                             <span class="float-left">{{ taskExpiration.description }} - {{ taskExpiration.office.description }} <i *ngIf="taskExpiration?.expirations[0].username !== ''">-</i> {{ taskExpiration?.expirations[0].username }}</span>
                         </div>
                         <div class="{{ isMobile ? 'col-5 text-small margin-left-2' : 'col-4' }} {{ isMobile ? 'text-left' : 'text-right' }}">
-                            <span class="float-left">{{ 'FRONT_END.AGENDA.EXPIRATION_DATE' | translate }} {{taskExpiration.expirationDate}}</span>
+                            <span class="{{ isMobile ? 'float-left' : '' }}">{{ 'FRONT_END.AGENDA.EXPIRATION_DATE' | translate }} {{taskExpiration.expirationDate}}</span>
                         </div>
                     </div>
                 </div>
