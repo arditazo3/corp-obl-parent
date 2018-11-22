@@ -177,4 +177,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     isAdmin() {
         return this.userInfoService.isRoleAdmin();
     }
+
+    closeMobileMenu() {
+        this.userService.showMobileMenu.emit(false);
+    }
 }

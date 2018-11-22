@@ -266,4 +266,13 @@ public class UtilStatic {
 		return descriptionLastActivity;
 	}
 
+	public static void DurationExecutionMethod(long startTime, String methodString, Logger logger) {
+		
+		
+		long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        
+        logger.info(methodString + ", duration: " + elapsedTime/1000.0 + " seconds");
+	}
+	
 }

@@ -5,13 +5,13 @@
       <div class="{{ isMobile ? 'card-body-mobile' : 'card-body' }}">
         <div class="row">
 
-          <div class="col-md-3">
+          <div class="col-md-3 {{ isMobile ? 'margin-b-5' : '' }}">
             <input type='text' class="form-control"
                    [(ngModel)]="descriptionTaskTemplate" (keyup)="changeTextDescription()"
                    placeholder="{{ 'BACK_OFFICE.OFFICE_TASK.SEARCH_DESCRIPTION' | translate }}"/>
           </div>
 
-          <div class="col-md-3">
+          <div class="col-md-3 {{ isMobile ? 'margin-b-5' : '' }}">
             <ng-select
                     [items]="officesObservable | async"
                     [multiple]="true"

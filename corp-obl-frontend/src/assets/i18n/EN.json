@@ -200,6 +200,9 @@
     "DO_WANT_DELETE": "Do you want to delete: ",
     "DELETE_SPACE": "Delete: ",
     "ENGLISH": "English",
-    "ITALIAN": "Italian"
+    "ITALIAN": "Italian",
+    "PLEASE_SELECT_LEAST_ONE_USER": "Please select at least one user at",
+    "PROVIDER_SECTION": "Provider section",
+    "BENEFICIARY_SECTION": "Beneficiary section"
   }
 }

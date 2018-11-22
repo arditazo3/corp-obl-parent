@@ -130,13 +130,13 @@
                                                placeholder="{{ 'BACK_OFFICE.TASK.SELECT_DAY' | translate }}">
                                     </ng-select>
                                     <div *ngIf="submitted && !selectedPeriodWeeklyExpFixedDay && isWeekly" class="invalid-feedback-show">
-                                        {{ 'BACK_OFFICE.TASK.DAY_REQUIRED1' | translate }}
+                                        {{ 'BACK_OFFICE.TASK.DAY_REQUIRED' | translate }}
                                     </div>
-                                    <div *ngIf="submitted && (!hasValueDayComp()) && isMonthly" class="invalid-feedback-show">
-                                        {{ 'BACK_OFFICE.TASK.DAY_REQUIRED2' | translate }}
+                                    <div *ngIf="submitted && !hasValueDayComp() && isMonthly" class="invalid-feedback-show">
+                                        {{ 'BACK_OFFICE.TASK.DAY_REQUIRED' | translate }}
                                     </div>
                                     <div *ngIf="submitted && !dayDateDP && isYearly" class="invalid-feedback-show">
-                                        {{ 'BACK_OFFICE.TASK.DAY_REQUIRED3' | translate }}
+                                        {{ 'BACK_OFFICE.TASK.DAY_REQUIRED' | translate }}
                                     </div>
                                 </div>
                             </div>
@@ -284,6 +284,13 @@
                         #errorTaskTemplateSwal
                         title=""
                         text=""
+                        type="error">
+                </swal>
+                <swal
+                        #errorEmptyProvidersBeneficiaries
+                        title=""
+                        text=""
+                        html=""
                         type="error">
                 </swal>
 

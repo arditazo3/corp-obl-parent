@@ -35,7 +35,7 @@
                             </div>
                         </div>
 
-                        <div class="{{ isMobile ? 'col-5 text-small margin-left-2' : 'col-3' }} text-right">
+                        <div class="{{ isMobile ? 'col-5 text-small margin-left-2' : 'col-3' }} {{ isMobile ? 'text-left' : 'text-right' }}">
                             <span class="float-left">{{ 'FRONT_END.AGENDA.EXPIRATION_DATE' | translate }} {{taskExpiration.expirationDate}}</span>
                         </div>
                     </div>

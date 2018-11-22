@@ -5,12 +5,12 @@
             <div class="{{ isMobile ? 'card-body-mobile' : 'card-body' }}">
                 <div class="row">
 
-                    <div class="col-md-3">
+                    <div class="col-md-3 {{ isMobile ? 'margin-b-5' : '' }}">
                         <input #descriptionTask type='text' class="form-control" [(ngModel)]="descriptionTaskTemplate"
                                placeholder="{{ 'BACK_OFFICE.TASK.SEARCH_DESCRIPTION' | translate }}"/>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-3 {{ isMobile ? 'margin-b-5' : '' }}">
                         <ng-select
                                 [items]="companiesObservable | async"
                                 [multiple]="true"
@@ -28,7 +28,7 @@
                         </ng-select>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-3 {{ isMobile ? 'margin-b-5' : '' }}">
                         <ng-select
                                 [items]="topicsArray"
                                 [multiple]="true"
@@ -46,12 +46,12 @@
                         </ng-select>
                     </div>
 
-                    <div class="col-md-1">
+                    <div class="col-md-1 {{ isMobile ? 'margin-b-5' : '' }}">
                         <button class="btn btn-info btn-block" type="button" (click)="searchTaskTemplate()">{{ 'GENERAL.SEARCH' | translate }}
                         </button>
                     </div>
 
-                    <div class="col-md-1 text-right">
+                    <div class="col-md-1 {{ isMobile ? 'text-left' : 'text-right' }}">
                         <button class="btn btn-info btn-block" type="button" (click)="createNewTaskTemplate()">
                             {{ 'GENERAL.CREATE' | translate }}
                         </button>

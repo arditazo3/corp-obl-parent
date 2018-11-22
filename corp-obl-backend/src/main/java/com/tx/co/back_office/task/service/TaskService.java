@@ -30,6 +30,7 @@ import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.service.ITaskTemplateService;
 import com.tx.co.cache.service.UpdateCacheData;
 import com.tx.co.common.scheduler.service.Scheduler;
+import com.tx.co.common.utils.UtilStatic;
 import com.tx.co.front_end.expiration.domain.Expiration;
 import com.tx.co.front_end.expiration.service.IExpirationService;
 import com.tx.co.security.api.AuthenticationTokenUserDetails;
@@ -172,13 +173,22 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		taskStored.setOffice(task.getOffice());
 		taskStored.setExcludeOffice(task.getExcludeOffice());
 
+		long startTime = System.currentTimeMillis();
+		
 		taskStored.setTaskOffices(mergeTaskOffice(taskStored, task.getTaskOfficesFilterEnabled()));
 
+		UtilStatic.DurationExecutionMethod(startTime, "mergeTaskOffice", logger);
+		
 		if(!isEmpty(task.getTaskOfficesFilterEnabled())) {
 			List<TaskOffice> taskOffices = new ArrayList<>();
 			for (TaskOffice taskOfficeLoop : task.getTaskOffices()) {
 
+				startTime = System.currentTimeMillis();
+				
 				TaskOffice taskOffice = saveUpdateTaskOffice(taskStored, taskOfficeLoop);
+				
+				UtilStatic.DurationExecutionMethod(startTime, "saveUpdateTaskOffice", logger);
+				
 				taskOffices.add(taskOffice);
 			}
 			taskStored.setTaskOffices(new HashSet<TaskOffice>(taskOffices));
@@ -192,18 +202,32 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	@Override
 	public TaskOffice saveUpdateTaskOffice(Task task, TaskOffice taskOffice) {
 
+		Task taskLight = new Task();
+		taskLight.setIdTask(task.getIdTask());
+		
+		TaskTemplate taskTemplateLight = new TaskTemplate();
+		Office officeLight = new Office();
+		
+		taskTemplateLight.setIdTaskTemplate(task.getTaskTemplate().getIdTaskTemplate());
+		officeLight.setIdOffice(taskOffice.getOffice().getIdOffice());
+		
+		TaskOffice taskOfficeLight = new TaskOffice();
+		taskOfficeLight.setIdTaskOffice(taskOffice.getIdTaskOffice());
+		taskOfficeLight.setTaskTemplate(taskTemplateLight);
+		taskOfficeLight.setOffice(officeLight);
+		
 		// The modification of User
 		String username = getTokenUserDetails().getUser().getUsername();
 
 		TaskOffice taskOfficeStored = null;
 
 		// New Task office
-		if(isEmpty(taskOffice.getIdTaskOffice())) {
+		if(isEmpty(taskOfficeLight.getIdTaskOffice())) {
 
-			if(!isEmpty(task.getTaskTemplate()) && !isEmpty(task.getTaskTemplate().getIdTaskTemplate()) &&
-					!isEmpty(taskOffice.getTask()) && !isEmpty(taskOffice.getTask().getIdTask()) &&
-					!isEmpty(taskOffice.getOffice()) && !isEmpty(taskOffice.getOffice().getIdOffice())) {
-				taskOfficeStored = taskOfficeRepository.getAllTaskOfficeByTaskTemplateAndTaskAndOffice(task.getTaskTemplate(), taskOffice.getTask(), taskOffice.getOffice());	
+			if(!isEmpty(taskLight.getTaskTemplate()) && !isEmpty(taskLight.getTaskTemplate().getIdTaskTemplate()) &&
+					!isEmpty(taskOfficeLight.getTask()) && !isEmpty(taskOfficeLight.getTask().getIdTask()) &&
+					!isEmpty(taskOfficeLight.getOffice()) && !isEmpty(taskOfficeLight.getOffice().getIdOffice())) {
+				taskOfficeStored = taskOfficeRepository.getAllTaskOfficeByTaskTemplateAndTaskAndOffice(taskLight.getTaskTemplate(), taskOfficeLight.getTask(), taskOfficeLight.getOffice());	
 			}
 
 			if(isEmpty(taskOfficeStored)) {
@@ -224,7 +248,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			}
 			taskOfficeStored.setEndDate(date);
 		} else { // Existing Task template
-			Optional<TaskOffice> taskOfficeOptional = taskOfficeRepository.findById(taskOffice.getIdTaskOffice());
+			Optional<TaskOffice> taskOfficeOptional = taskOfficeRepository.findById(taskOfficeLight.getIdTaskOffice());
 
 			if (taskOfficeOptional.isPresent()) {
 				taskOfficeStored = taskOfficeOptional.get();
@@ -260,7 +284,12 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			taskOfficeRelationRepository.updateTaskOfficeRelationsNotEnableByTaskOffice(taskOfficeStored, username);
 
 			for (TaskOfficeRelations taskOfficeRelationLoop : taskOfficeStored.getTaskOfficeRelations()) {
+				
+				long startTime = System.currentTimeMillis();
+				
 				saveUpdateTaskOfficeRelation(taskOfficeRelationLoop, taskOfficeStored);
+				
+				UtilStatic.DurationExecutionMethod(startTime, "saveUpdateTaskOfficeRelation", logger);
 			}
 		}
 
@@ -272,14 +301,21 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	@Override
 	public TaskOfficeRelations saveUpdateTaskOfficeRelation(TaskOfficeRelations taskOfficeRelation, TaskOffice taskOffice) {
 
+		TaskOffice taskOfficeLight = new TaskOffice();
+		taskOfficeLight.setIdTaskOffice(taskOffice.getIdTaskOffice());
+		
 		// The modification of User
 		String username = getTokenUserDetails().getUser().getUsername();
 
 		TaskOfficeRelations taskOfficeRelationStored = null;
 
+		long startTime = System.currentTimeMillis();
+		
 		Optional<TaskOfficeRelations> taskOfficeRelationOptional = taskOfficeRelationRepository.
 				getTaskOfficeRelationsByUsernameAndTaskOffice(taskOfficeRelation.getUsername(), taskOffice);
 
+		UtilStatic.DurationExecutionMethod(startTime, "getTaskOfficeRelationsByUsernameAndTaskOffice", logger);
+		
 		// Existing Task template
 		if (taskOfficeRelationOptional.isPresent()){ 
 			taskOfficeRelationStored = taskOfficeRelationOptional.get();
@@ -300,6 +336,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		} 
 
 		if(!isEmpty(taskOfficeRelationStored)) {
+			
 			taskOfficeRelationStored.setUsername(taskOfficeRelation.getUsername());
 			taskOfficeRelationStored.setTaskOffice(taskOffice);
 			taskOfficeRelationStored.setRelationType(taskOfficeRelation.getRelationType());
@@ -307,7 +344,11 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			taskOfficeRelationStored.setModificationDate(new Date());
 			taskOfficeRelationStored.setEnabled(taskOffice.getEnabled());
 
+			startTime = System.currentTimeMillis();
+			
 			taskOfficeRelationStored = taskOfficeRelationRepository.save(taskOfficeRelationStored);
+			
+			UtilStatic.DurationExecutionMethod(startTime, "save taskOfficeRelationStored", logger);
 
 			logger.info("Stored the taskOfficeRelation with id: " + taskOfficeRelationStored.getIdTaskOfficeRelation());
 		}

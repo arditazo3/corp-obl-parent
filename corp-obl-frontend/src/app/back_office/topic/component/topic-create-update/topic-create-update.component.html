@@ -8,7 +8,7 @@
                     <div class="{{ isMobile ? 'card-body-mobile' : 'card-body' }}">
 
                         <div class="form-group row">
-                            <label for="description" class="col-sm-3 text-right control-label col-form-label">{{
+                            <label for="description" class="col-sm-3 {{ isMobile ? 'text-left' : 'text-right' }} {{ langDescrInserted ? 'margin-b-5' : '' }} control-label col-form-label">{{
                                 'BACK_OFFICE.TOPIC.DESCRIPTION' | translate }}</label>
                             <div class="input-group col-sm-9">
                                 <div class="remark-feedback" *ngIf="langDescrInserted">{{ langDescrInserted === 'EN' ? ('BACK_OFFICE.TOPIC.ITALIAN_TEXT_NOT_INSERTED' | translate) : langDescrInserted === 'IT' ? ('BACK_OFFICE.TOPIC.ENGLISH_TEXT_NOT_INSERTED' | translate) : '' }}
@@ -36,7 +36,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3 text-right control-label col-form-label">
+                            <label class="col-sm-3 {{ isMobile ? 'text-left' : 'text-right' }} control-label col-form-label">
                                 {{ 'BACK_OFFICE.TOPIC.ASSIGN_COMPANIES' | translate }}
                             </label>
                             <div class="col-sm-9">
@@ -61,7 +61,7 @@
                     <hr>
                     <div class="{{ isMobile ? 'card-body-mobile' : 'card-body' }}">
                         <div class="row">
-                            <div class="m-b-0 col text-right">
+                            <div class="m-b-0 col {{ isMobile ? 'text-left' : 'text-right' }}">
                                 <button #cancelBtn type="button" routerLink="/back-office/topic"
                                         class="btn btn-outline-secondary waves-effect waves-light">
                                     {{ 'GENERAL.CANCEL' | translate }}

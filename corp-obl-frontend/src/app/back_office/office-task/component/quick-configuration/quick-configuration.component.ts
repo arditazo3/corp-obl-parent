@@ -282,6 +282,18 @@ export class QuickConfigurationComponent implements OnInit {
                     taskTemplateOffice.taskTemplate = me.taskTemplate;
                     taskTemplateOffice.office = me.office;
 
+                    me.task.taskOffices = me.associationOffice.taskOfficesArray;
+                    // Avoid infinite loop
+                    me.task.taskOffices.forEach(taskOffice => {
+                        taskOffice.office.company.offices = [];
+                    });
+
+                    me.task.office = me.office;
+                    me.task.excludeOffice = true;
+
+                    taskTemplateOffice.task = me.task;
+                    taskTemplateOffice.isSavingTaskTemplateTask = true;
+
                     me.taskTemplateService.saveUpdateTaskTemplate(taskTemplateOffice).subscribe(
                         (data) => {
                             const taskTemplate: TaskTemplate = data;
@@ -305,36 +317,43 @@ export class QuickConfigurationComponent implements OnInit {
                                     item.upload();
                                     noFileUpload = false;
                                     me.counterUpload++;
+                                } else {
+                                    me.router.navigate(['/back-office/office-task']);
                                 }
                             });
+
+                            if (me.uploader.queue.length === 0) {
+                                me.router.navigate(['/back-office/office-task']);
+                            }
+
                             me.uploader.onErrorItem = (item, response, status, headers) =>
                                 me.onErrorItem(item, response, status, headers);
                             me.uploader.onSuccessItem = (item, response, status, headers) =>
                                 me.onSuccessItem(item, response, status, headers);
 
-                            me.task.taskTemplate = taskTemplate;
-
-                            me.task.taskOffices = me.associationOffice.taskOfficesArray;
-                            // Avoid infinite loop
-                            me.task.taskOffices.forEach(taskOffice => {
-                                taskOffice.office.company.offices = [];
-                            });
-
-                            me.task.office = me.office;
-                            me.task.excludeOffice = true;
-
-                            me.taskService.saveUpdateTask(me.task).subscribe(
-                                dataTask => {
-                                    console.log('QuickConfigurationComponent - createEditTaskSubmit - next');
-
-                                    me.router.navigate(['/back-office/office-task']);
-                                },
-                                errorTask => {
-                                    me.errorDetails = errorTask.error;
-                                    //    me.showErrorDescriptionSwal();
-                                    console.log('QuickConfigurationComponent - createEditTaskSubmit - error \n', errorTask);
-                                }
-                            );
+                            // me.task.taskTemplate = taskTemplate;
+                            //
+                            // me.task.taskOffices = me.associationOffice.taskOfficesArray;
+                            // // Avoid infinite loop
+                            // me.task.taskOffices.forEach(taskOffice => {
+                            //     taskOffice.office.company.offices = [];
+                            // });
+                            //
+                            // me.task.office = me.office;
+                            // me.task.excludeOffice = true;
+                            //
+                            // me.taskService.saveUpdateTask(me.task).subscribe(
+                            //     dataTask => {
+                            //         console.log('QuickConfigurationComponent - createEditTaskSubmit - next');
+                            //
+                            //         me.router.navigate(['/back-office/office-task']);
+                            //     },
+                            //     errorTask => {
+                            //         me.errorDetails = errorTask.error;
+                            //         //    me.showErrorDescriptionSwal();
+                            //         console.log('QuickConfigurationComponent - createEditTaskSubmit - error \n', errorTask);
+                            //     }
+                            // );
                         }, error => {
                             me.errorDetails = error.error;
                             //    me.showErrorDescriptionSwal();

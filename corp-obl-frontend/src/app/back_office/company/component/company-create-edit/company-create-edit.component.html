@@ -9,7 +9,7 @@
 
                         <div class="form-group row">
                             <label for="description"
-                                   class="col-sm-3 text-right control-label col-form-label">{{
+                                   class="col-sm-3 {{ isMobile ? 'text-left' : 'text-right' }} control-label col-form-label">{{
                                 'BACK_OFFICE.COMPANY.DESCRIPTION' | translate }}</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control"
@@ -35,7 +35,7 @@
                     <hr>
                     <div class="{{ isMobile ? 'card-body-mobile' : 'card-body' }}">
                         <div class="input-group">
-                            <div class="m-b-0 col text-right">
+                            <div class="m-b-0 col {{ isMobile ? 'text-left' : 'text-right' }}">
                                 <button #cancelBtn type="button" routerLink="//back-office/company"
                                         class="btn btn-outline-secondary waves-effect waves-light">{{
                                     'GENERAL.CANCEL' | translate }}

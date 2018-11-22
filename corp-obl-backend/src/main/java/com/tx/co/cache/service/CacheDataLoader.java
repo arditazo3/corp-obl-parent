@@ -6,7 +6,10 @@ import com.tx.co.back_office.company.repository.CompanyRepository;
 import com.tx.co.back_office.company.service.ICompanyConsultantService;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.repository.OfficeRepository;
+import com.tx.co.back_office.task.model.IdTaskOfficeUsernameMapKey;
 import com.tx.co.back_office.task.model.Task;
+import com.tx.co.back_office.task.model.TaskOfficeRelations;
+import com.tx.co.back_office.task.repository.TaskOfficeRelationRepository;
 import com.tx.co.back_office.task.repository.TaskRepository;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.repository.TaskTemplateRepository;
@@ -61,6 +64,7 @@ public abstract class CacheDataLoader {
 	private TaskRepository taskRepository;
 	private TaskTemplateAttachmentRepository taskTemplateAttachmentRepository;
 	private TranslationRepository translationRepository;
+	private TaskOfficeRelationRepository taskOfficeRelationRepository;
 
 	// Split the string with operator ; to get all the languages
 	@Value("${web.app.language}")
@@ -119,6 +123,11 @@ public abstract class CacheDataLoader {
 		this.translationRepository = translationRepository;
 	}
 
+	@Autowired
+	public void setTaskOfficeRelationRepository(TaskOfficeRelationRepository taskOfficeRelationRepository) {
+		this.taskOfficeRelationRepository = taskOfficeRelationRepository;
+	}
+
 	/**
 	 * Store the data to the cache before to start the application
 	 */
@@ -126,7 +135,7 @@ public abstract class CacheDataLoader {
 	public void init() {
 
 		logger.info("CacheDataLoader - init");
-		
+
 		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
 
 		// Clear the cache
@@ -182,11 +191,16 @@ public abstract class CacheDataLoader {
 		// Load all the task template attachment
 		List<TaskTemplateAttachment> taskTemplateAttachmentList = (List<TaskTemplateAttachment>) taskTemplateAttachmentRepository.findAll();
 		storageDataCacheManager.put(TASK_TEMPLATE_ATTACHMENT_LIST_CACHE, taskTemplateAttachmentList);
-		
+
 		// Load all the translations
 		List<Translation> translations = (List<Translation>) translationRepository.findAll();
 		storageDataCacheManager.put(TRANSLATION_LIST_CACHE, convertHashMapPairKey(translations));
+
+		// Load all the task office relations
+		loadTaskOfficeRelations(storageDataCacheManager);
 	}
+
+
 
 	private void loadConsultantByCompany(final Cache<String, Object> storageDataCacheManager) {
 
@@ -213,17 +227,44 @@ public abstract class CacheDataLoader {
 
 	private HashMap<TranslationPairKey, Translation> convertHashMapPairKey(List<Translation> translations) {
 		HashMap<TranslationPairKey, Translation> translationHashMap = new HashMap<>();
-		
+
 		if(!isEmpty(translations)) {
 			for (Translation translation : translations) {
 				TranslationPairKey translationPairKey = new TranslationPairKey();
 				translationPairKey.setLang(translation.getLang());
 				translationPairKey.setTablename(translation.getTablename());
-				
+
 				translationHashMap.put(translationPairKey, translation);
 			}
 		}
-		
+
 		return translationHashMap;
+	}
+
+	@SuppressWarnings("unused")
+	private void loadTaskOfficeRelations(final Cache<String, Object> storageDataCacheManager) {
+
+		List<TaskOfficeRelations> taskOfficeRelations = (List<TaskOfficeRelations>) taskOfficeRelationRepository.findAll();
+
+		Map<IdTaskOfficeUsernameMapKey, TaskOfficeRelations> taskOfficeRelationsMap = new HashMap<>();
+		
+		if(!isEmpty(taskOfficeRelations)) {
+			for (TaskOfficeRelations taskOfficeRelation : taskOfficeRelations) {
+				if(!isEmpty(taskOfficeRelation.getUsername()) && 
+						!isEmpty(taskOfficeRelation.getTaskOffice())) {
+					
+					Long idTaskOffice = taskOfficeRelation.getTaskOffice().getIdTaskOffice();
+					String username = taskOfficeRelation.getUsername();
+					
+					if(!isEmpty(taskOfficeRelation.getTaskOffice())) {
+						taskOfficeRelation.getTaskOffice().setTask(null);
+						taskOfficeRelation.getTaskOffice().setTaskTemplate(null);	
+					}
+					
+					taskOfficeRelationsMap.put(new IdTaskOfficeUsernameMapKey(idTaskOffice, username), taskOfficeRelation);
+				}
+			}
+		}
+		storageDataCacheManager.put(TASK_OFFICE_RELATIONS_CACHE, taskOfficeRelationsMap);
 	}
 }

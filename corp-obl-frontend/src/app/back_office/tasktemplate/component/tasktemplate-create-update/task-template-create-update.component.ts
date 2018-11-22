@@ -25,6 +25,7 @@ import {AppGlobals} from '../../../../shared/common/api/app-globals';
 import {NgSelectComponent} from '@ng-select/ng-select';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {TaskOffice} from '../../../task/model/taskoffice';
 
 @Component({
     selector: 'app-tasktemplate-create-update',
@@ -86,6 +87,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
     @ViewChild('confirmationTaskTemplateSwal') private confirmationTaskTemplateSwal: SwalComponent;
     @ViewChild('deleteTaskTemplateSwal') private deleteTaskTemplateSwal: SwalComponent;
     @ViewChild('errorTaskTemplateSwal') private errorTaskTemplateSwal: SwalComponent;
+    @ViewChild('errorEmptyProvidersBeneficiaries') private errorEmptyProvidersBeneficiaries: SwalComponent;
     @ViewChild(AssociationOfficeComponent) associationOffice: AssociationOfficeComponent;
     createEditTaskTemplate: FormGroup;
 
@@ -308,7 +310,7 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
             if ((this.selectedTopic === undefined ||
                 this.selectedPeriodicity === undefined ||
                 this.selectedExpirationType === undefined) ||
-                (!this.hasValueDayComp())) {
+                !this.hasValueDayComp()) {
                 return;
             }
             this.taskTemplate.description = this.createEditTaskTemplate.get('description').value;
@@ -324,7 +326,8 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
         } else {
             if ((this.selectedPeriodicity === undefined ||
                 this.selectedExpirationType === undefined) ||
-                (!this.hasValueDayComp())) {
+                !this.hasValueDayComp() ||
+                this.checkEmptyProvidersBeneficiaries()) {
                 return;
             }
             this.task.recurrence = this.selectedPeriodicity.tablename.split('#')[2];
@@ -817,5 +820,88 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                 });
             }
         }
+    }
+
+    checkEmptyProvidersBeneficiaries(): boolean {
+        let hasEmptyProvidersBeneficiaries = false;
+        let emptyEmptyProvidersBeneficiariesMsg = '';
+
+        if (this.associationOffice && this.associationOffice.taskOfficesArray) {
+
+            let providerSectionMsg = '';
+            let beneficiarySectionMsg = '';
+
+            this.translateService.get('GENERAL.PROVIDER_SECTION').subscribe(
+                data => {
+                    providerSectionMsg = data;
+                });
+            this.translateService.get('GENERAL.BENEFICIARY_SECTION').subscribe(
+                data => {
+                    beneficiarySectionMsg = data;
+                });
+
+            const taskOfficesArray = this.associationOffice.taskOfficesArray;
+
+            taskOfficesArray.forEach(taskOffice => {
+                if (taskOffice.office) {
+
+                    let hasEmptyProviders = true;
+                    let hasEmptyBeneficiaries = true;
+
+                    const office = taskOffice.office;
+                    if (office.userProviders && office.userProviders.length > 0) {
+                        hasEmptyProviders = false;
+                    }
+                    if (office.userBeneficiaries && office.userBeneficiaries.length > 0) {
+                        hasEmptyBeneficiaries = false;
+                    }
+                    if (hasEmptyProviders || hasEmptyBeneficiaries) {
+                        hasEmptyProvidersBeneficiaries = true;
+
+                        if (hasEmptyProviders) {
+                            emptyEmptyProvidersBeneficiariesMsg += taskOffice.office.description;
+                            emptyEmptyProvidersBeneficiariesMsg += ' ';
+                            emptyEmptyProvidersBeneficiariesMsg += providerSectionMsg;
+                            if (hasEmptyBeneficiaries) {
+                                emptyEmptyProvidersBeneficiariesMsg += ' <br>';
+                            }
+                        }
+                        if (hasEmptyBeneficiaries) {
+                            emptyEmptyProvidersBeneficiariesMsg += taskOffice.office.description;
+                            emptyEmptyProvidersBeneficiariesMsg += ' ';
+                            emptyEmptyProvidersBeneficiariesMsg += beneficiarySectionMsg;
+                        }
+                    }
+                    emptyEmptyProvidersBeneficiariesMsg += ' <br>';
+                } else {
+                    emptyEmptyProvidersBeneficiariesMsg += taskOffice.office.description;
+                    emptyEmptyProvidersBeneficiariesMsg += ' ';
+                    emptyEmptyProvidersBeneficiariesMsg += providerSectionMsg;
+                    emptyEmptyProvidersBeneficiariesMsg += ' <br>';
+
+                    emptyEmptyProvidersBeneficiariesMsg += taskOffice.office.description;
+                    emptyEmptyProvidersBeneficiariesMsg += ' ';
+                    emptyEmptyProvidersBeneficiariesMsg += beneficiarySectionMsg;
+                    emptyEmptyProvidersBeneficiariesMsg += ' <br> ';
+                }
+            });
+
+            let pleaseSelectLeastOneUser = '';
+            this.translateService.get('GENERAL.PLEASE_SELECT_LEAST_ONE_USER').subscribe(
+                data => {
+                    pleaseSelectLeastOneUser = data;
+                });
+
+            this.errorEmptyProvidersBeneficiaries.title = pleaseSelectLeastOneUser;
+            this.errorEmptyProvidersBeneficiaries.html = '<div class="text-left margin-left-55">' + emptyEmptyProvidersBeneficiariesMsg + '</div>';
+
+            this.errorEmptyProvidersBeneficiaries.show();
+
+        } else {
+            hasEmptyProvidersBeneficiaries = false;
+        }
+
+
+        return hasEmptyProvidersBeneficiaries;
     }
 }
