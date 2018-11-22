@@ -19,6 +19,5 @@ export class Task {
     descriptionLangList: DescriptionLang[];
     counterCompany: number;
     office: Office;
-    excludeOffice = false;
     counterOffices;
 }

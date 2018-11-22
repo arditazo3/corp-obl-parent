@@ -407,8 +407,6 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                             taskOffice.office.company.offices = [];
                         });
 
-                        me.task.excludeOffice = true;
-
                         me.taskService.saveUpdateTask(me.task).subscribe(
                             (data) => {
                                 const taskTemplate: TaskTemplate = data;
@@ -484,7 +482,6 @@ export class TaskTemplateCreateUpdateComponent implements OnInit {
                     if (result.value === true) {
                         // handle confirm, result is needed for modals with input
 
-                        me.task.excludeOffice = true;
                         me.taskService.deleteTask(me.task).subscribe(
                             next => {
                                 me.router.navigate(['/back-office/task']);

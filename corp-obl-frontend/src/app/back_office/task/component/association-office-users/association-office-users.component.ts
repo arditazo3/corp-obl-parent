@@ -70,7 +70,6 @@ export class AssociationOfficeUsersComponent implements OnInit {
     }
 
     onAddProvidersOffice($event) {
-        console.log('AssociationOfficeUsersComponent - onAddProvidersOffice');
 
         const userSelected = $event;
 
@@ -81,7 +80,6 @@ export class AssociationOfficeUsersComponent implements OnInit {
     }
 
     onRemoveProvidersOffice($event) {
-        console.log('AssociationOfficeUsersComponent - onRemoveProvidersOffice');
 
         const me = this;
         const userSelected = $event.value;
@@ -93,7 +91,6 @@ export class AssociationOfficeUsersComponent implements OnInit {
     }
 
     onAddBeneficiariesOffice($event) {
-        console.log('AssociationOfficeUsersComponent - onAddBeneficiariesOffice');
 
         const userSelected = $event;
 
@@ -103,7 +100,6 @@ export class AssociationOfficeUsersComponent implements OnInit {
     }
 
     onRemoveBeneficiariesOffice($event, office) {
-        console.log('AssociationOfficeUsersComponent - onRemoveBeneficiariesOffice');
 
         const me = this;
         const userSelected = $event.value;
@@ -118,7 +114,6 @@ export class AssociationOfficeUsersComponent implements OnInit {
     * Render of task office on change
     * */
     populateAvailableUsersOnOffices() {
-        console.log('AssociationOfficeUsersComponent - populateAvailableUsersOnOffices');
 
         const me = this;
 

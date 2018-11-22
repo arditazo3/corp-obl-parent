@@ -89,6 +89,7 @@ export class QuickConfigurationComponent implements OnInit {
     @ViewChild('confirmationTaskTemplateSwal') private confirmationTaskTemplateSwal: SwalComponent;
     @ViewChild('deleteTaskTemplateSwal') private deleteTaskTemplateSwal: SwalComponent;
     @ViewChild('errorTaskTemplateSwal') private errorTaskTemplateSwal: SwalComponent;
+    @ViewChild('errorEmptyProvidersBeneficiaries') private errorEmptyProvidersBeneficiaries: SwalComponent;
     @ViewChild(AssociationOfficeComponent) associationOffice: AssociationOfficeComponent;
     createEditTaskTemplate: FormGroup;
 
@@ -244,7 +245,8 @@ export class QuickConfigurationComponent implements OnInit {
         if (this.selectedTopic === undefined ||
             this.selectedPeriodicity === undefined ||
             this.selectedExpirationType === undefined ||
-            !this.hasValueDayComp()) {
+            !this.hasValueDayComp() ||
+            this.checkEmptyProvidersBeneficiaries()) {
             return;
         }
 
@@ -289,7 +291,6 @@ export class QuickConfigurationComponent implements OnInit {
                     });
 
                     me.task.office = me.office;
-                    me.task.excludeOffice = true;
 
                     taskTemplateOffice.task = me.task;
                     taskTemplateOffice.isSavingTaskTemplateTask = true;
@@ -331,29 +332,6 @@ export class QuickConfigurationComponent implements OnInit {
                             me.uploader.onSuccessItem = (item, response, status, headers) =>
                                 me.onSuccessItem(item, response, status, headers);
 
-                            // me.task.taskTemplate = taskTemplate;
-                            //
-                            // me.task.taskOffices = me.associationOffice.taskOfficesArray;
-                            // // Avoid infinite loop
-                            // me.task.taskOffices.forEach(taskOffice => {
-                            //     taskOffice.office.company.offices = [];
-                            // });
-                            //
-                            // me.task.office = me.office;
-                            // me.task.excludeOffice = true;
-                            //
-                            // me.taskService.saveUpdateTask(me.task).subscribe(
-                            //     dataTask => {
-                            //         console.log('QuickConfigurationComponent - createEditTaskSubmit - next');
-                            //
-                            //         me.router.navigate(['/back-office/office-task']);
-                            //     },
-                            //     errorTask => {
-                            //         me.errorDetails = errorTask.error;
-                            //         //    me.showErrorDescriptionSwal();
-                            //         console.log('QuickConfigurationComponent - createEditTaskSubmit - error \n', errorTask);
-                            //     }
-                            // );
                         }, error => {
                             me.errorDetails = error.error;
                             //    me.showErrorDescriptionSwal();
@@ -368,14 +346,14 @@ export class QuickConfigurationComponent implements OnInit {
 
     onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
         this.counterCallback++;
-        if (this.counterUpload === this.counterCallback && !this.isNewForm) {
+        if (this.counterUpload === this.counterCallback) {
             this.router.navigate(['/back-office/office-task']);
         }
     }
 
     onErrorItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any {
         this.counterCallback++;
-        if (this.counterUpload === this.counterCallback && !this.isNewForm) {
+        if (this.counterUpload === this.counterCallback) {
             this.router.navigate(['/back-office/office-task']);
         }
     }
@@ -706,7 +684,6 @@ export class QuickConfigurationComponent implements OnInit {
                         if (!me.taskOffice) {
                             me.taskOffice = new TaskOffice();
                             me.taskOffice.task = me.task;
-                            me.taskOffice.task.excludeOffice = true;
                             me.taskOffice.taskTemplate = me.taskTemplate;
                         }
                         if (!me.taskOffice.task) {
@@ -728,5 +705,86 @@ export class QuickConfigurationComponent implements OnInit {
                 });
         }
     }
+    checkEmptyProvidersBeneficiaries(): boolean {
+        let hasEmptyProvidersBeneficiaries = false;
+        let emptyEmptyProvidersBeneficiariesMsg = '';
 
+        if (this.associationOffice && this.associationOffice.taskOfficesArray) {
+
+            let providerSectionMsg = '';
+            let beneficiarySectionMsg = '';
+
+            this.translateService.get('GENERAL.PROVIDER_SECTION').subscribe(
+                data => {
+                    providerSectionMsg = data;
+                });
+            this.translateService.get('GENERAL.BENEFICIARY_SECTION').subscribe(
+                data => {
+                    beneficiarySectionMsg = data;
+                });
+
+            const taskOfficesArray = this.associationOffice.taskOfficesArray;
+
+            taskOfficesArray.forEach(taskOffice => {
+                if (taskOffice.office) {
+
+                    let hasEmptyProviders = true;
+                    let hasEmptyBeneficiaries = true;
+
+                    const office = taskOffice.office;
+                    if (office.userProviders && office.userProviders.length > 0) {
+                        hasEmptyProviders = false;
+                    }
+                    if (office.userBeneficiaries && office.userBeneficiaries.length > 0) {
+                        hasEmptyBeneficiaries = false;
+                    }
+                    if (hasEmptyProviders || hasEmptyBeneficiaries) {
+                        hasEmptyProvidersBeneficiaries = true;
+
+                        if (hasEmptyProviders) {
+                            emptyEmptyProvidersBeneficiariesMsg += taskOffice.office.description;
+                            emptyEmptyProvidersBeneficiariesMsg += ' ';
+                            emptyEmptyProvidersBeneficiariesMsg += providerSectionMsg;
+                            if (hasEmptyBeneficiaries) {
+                                emptyEmptyProvidersBeneficiariesMsg += ' <br>';
+                            }
+                        }
+                        if (hasEmptyBeneficiaries) {
+                            emptyEmptyProvidersBeneficiariesMsg += taskOffice.office.description;
+                            emptyEmptyProvidersBeneficiariesMsg += ' ';
+                            emptyEmptyProvidersBeneficiariesMsg += beneficiarySectionMsg;
+                        }
+                    }
+                    emptyEmptyProvidersBeneficiariesMsg += ' <br>';
+                } else {
+                    emptyEmptyProvidersBeneficiariesMsg += taskOffice.office.description;
+                    emptyEmptyProvidersBeneficiariesMsg += ' ';
+                    emptyEmptyProvidersBeneficiariesMsg += providerSectionMsg;
+                    emptyEmptyProvidersBeneficiariesMsg += ' <br>';
+
+                    emptyEmptyProvidersBeneficiariesMsg += taskOffice.office.description;
+                    emptyEmptyProvidersBeneficiariesMsg += ' ';
+                    emptyEmptyProvidersBeneficiariesMsg += beneficiarySectionMsg;
+                    emptyEmptyProvidersBeneficiariesMsg += ' <br> ';
+                }
+            });
+
+            let pleaseSelectLeastOneUser = '';
+            this.translateService.get('GENERAL.PLEASE_SELECT_LEAST_ONE_USER').subscribe(
+                data => {
+                    pleaseSelectLeastOneUser = data;
+                });
+
+            this.errorEmptyProvidersBeneficiaries.title = pleaseSelectLeastOneUser;
+            this.errorEmptyProvidersBeneficiaries.html = '<div class="text-left margin-left-55">' + emptyEmptyProvidersBeneficiariesMsg + '</div>';
+
+            this.errorEmptyProvidersBeneficiaries.show();
+
+        } else {
+            hasEmptyProvidersBeneficiaries = false;
+        }
+
+
+        return hasEmptyProvidersBeneficiaries;
+    }
 }
