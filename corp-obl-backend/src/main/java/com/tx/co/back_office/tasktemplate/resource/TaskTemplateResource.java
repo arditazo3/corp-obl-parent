@@ -1,6 +1,7 @@
 package com.tx.co.back_office.tasktemplate.resource;
 
 import static com.tx.co.common.constants.ApiConstants.*;
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +28,7 @@ import com.tx.co.back_office.office.api.model.OfficeResult;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.api.model.TaskResult;
 import com.tx.co.back_office.task.model.Task;
+import com.tx.co.back_office.task.service.ITaskService;
 import com.tx.co.back_office.tasktemplate.api.model.ObjectSearchTaskTemplateResult;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateOfficeResult;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
@@ -34,6 +36,7 @@ import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.service.ITaskTemplateService;
 import com.tx.co.common.api.model.StringResult;
 import com.tx.co.common.api.provider.ObjectResult;
+import com.tx.co.common.utils.UtilStatic;
 
 @Component
 @Path(BACK_OFFICE)
@@ -46,10 +49,16 @@ public class TaskTemplateResource extends ObjectResult {
 	private UriInfo uriInfo; 
 
 	private ITaskTemplateService taskTemplateService;
+	private ITaskService taskService;
 
 	@Autowired
 	public void setTaskTemplateService(ITaskTemplateService taskTemplateService) {
 		this.taskTemplateService = taskTemplateService;
+	}
+
+	@Autowired
+	public void setTaskService(ITaskService taskService) {
+		this.taskService = taskService;
 	}
 
 	@GET
@@ -60,6 +69,7 @@ public class TaskTemplateResource extends ObjectResult {
 	public Response getTaskTemplatesForTable() {
 
 		logger.info("getTaskTemplatesForTable - Path: " + TASK_TEMPLATE_LIST_FOR_TABLE);
+		long startTime = System.currentTimeMillis();
 		
 		Iterable<Task> taskForTableIterable = taskTemplateService.getTasksForTable();
         List<TaskResult> queryDetailsList =
@@ -67,6 +77,8 @@ public class TaskTemplateResource extends ObjectResult {
                         .map(this::toTaskResult)
                         .collect(Collectors.toList());
 
+        UtilStatic.DurationExecutionMethod(startTime, "getTaskTemplatesForTable", logger);
+        
         return Response.ok(queryDetailsList).build();
     }
 	
@@ -77,13 +89,24 @@ public class TaskTemplateResource extends ObjectResult {
 	public Response createUpdateTaskTemplate(TaskTemplateOfficeResult taskTemplateOfficeResult) {
 
 		logger.info("createUpdateTaskTemplate - Path: " + TASK_TEMPLATE_CREATE_UPDATE);
+		long startTime = System.currentTimeMillis();
 		
 		TaskTemplateResult taskTemplateRequest = taskTemplateOfficeResult.getTaskTemplate();
 		OfficeResult officeRequest = taskTemplateOfficeResult.getOffice();
 		Office office = officeRequest == null ? null : toOffice(officeRequest);
+		TaskResult taskRequest = taskTemplateOfficeResult.getTask();
+		Task task = taskRequest == null ? null : toTaskWithTaskOffices(taskRequest);
+		Boolean isSavingTaskTemplateTask = taskTemplateOfficeResult.getIsSavingTaskTemplateTask();
 		
 		TaskTemplate taskTemplateStored = taskTemplateService.saveUpdateTaskTemplate(toTaskTemplate(taskTemplateRequest), office);
 
+		if(isSavingTaskTemplateTask && !isEmpty(task)) {
+			task.setTaskTemplate(taskTemplateStored);
+			taskService.saveUpdateTask(task);
+		}
+		
+		UtilStatic.DurationExecutionMethod(startTime, "createUpdateTaskTemplate", logger);
+		
 		return Response.ok(toTaskTemplateWithTaskResult(taskTemplateStored)).build();
 	}
 	

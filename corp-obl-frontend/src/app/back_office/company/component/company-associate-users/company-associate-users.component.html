@@ -1,5 +1,5 @@
 <div class="form-group row">
-    <label class="col-sm-3 text-right control-label col-form-label">{{ 'BACK_OFFICE.COMPANY.ASSOCIATE_USERS_COMPANY' | translate }}</label>
+    <label class="col-sm-3 {{ isMobile ? 'text-left' : 'text-right' }} control-label col-form-label">{{ 'BACK_OFFICE.COMPANY.ASSOCIATE_USERS_COMPANY' | translate }}</label>
     <div class="col-sm-9">
         <ng-select
                 [items]="usersObservable | async"
@@ -21,7 +21,7 @@
 </div>
 <br/>
 <div class="form-group row">
-    <label class="col-sm-3 text-right control-label col-form-label">{{ 'BACK_OFFICE.COMPANY.ASSIGN_USERS_AS_ADMIN_COMPANY' | translate }}</label>
+    <label class="col-sm-3 {{ isMobile ? 'text-left' : 'text-right' }} control-label col-form-label">{{ 'BACK_OFFICE.COMPANY.ASSIGN_USERS_AS_ADMIN_COMPANY' | translate }}</label>
     <div class="col-sm-9">
         <ng-select
                 [items]="usersAsAdminObservable | async"

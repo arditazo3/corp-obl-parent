@@ -9,7 +9,7 @@
                     </div>
                     <div class="col-4 text-center">
                     </div>
-                    <div class="{{ isMobile ? 'col-3 text-small margin-right-10' : 'col-4' }} text-right">
+                    <div class="{{ isMobile ? 'col-3 text-small margin-right-10' : 'col-4' }} {{ isMobile ? 'text-left' : 'text-right' }}">
                         <span class="float-left">{{expiration.expirationDetail.expirationDescriptionDate}}</span>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                                 [taskTemplate]="expiration.taskTemplate">
                         </app-office-exp-task-template>
                     </div>
-                    <div class="col-md-3 text-right">
+                    <div class="col-md-3 {{ isMobile ? 'text-left' : 'text-right' }}">
                         <div class="form-group">
                             <div ngbDropdown class="d-inline-block btn-group mr-3">
                                 <button type="button" (click)="showHideDetailsMsg()" class="btn-dropdown btn-primary">

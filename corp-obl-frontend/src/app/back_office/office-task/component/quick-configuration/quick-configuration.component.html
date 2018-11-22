@@ -127,7 +127,7 @@
                                     <div *ngIf="submitted && !selectedPeriodWeeklyExpFixedDay && isWeekly" class="invalid-feedback-show">
                                         {{ 'BACK_OFFICE.TASK.DAY_REQUIRED' | translate }}
                                     </div>
-                                    <div *ngIf="submitted && !dayNumberTI && isMonthly" class="invalid-feedback-show">
+                                    <div *ngIf="submitted && !hasValueDayComp() && isMonthly" class="invalid-feedback-show">
                                         {{ 'BACK_OFFICE.TASK.DAY_REQUIRED' | translate }}
                                     </div>
                                     <div *ngIf="submitted && !dayDateDP && isYearly" class="invalid-feedback-show">

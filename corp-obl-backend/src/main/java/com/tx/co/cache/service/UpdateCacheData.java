@@ -6,7 +6,10 @@ import com.tx.co.back_office.company.service.CompanyConsultantService;
 import com.tx.co.back_office.company.service.CompanyService;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.service.OfficeService;
+import com.tx.co.back_office.task.model.IdTaskOfficeUsernameMapKey;
 import com.tx.co.back_office.task.model.Task;
+import com.tx.co.back_office.task.model.TaskOffice;
+import com.tx.co.back_office.task.model.TaskOfficeRelations;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.service.TaskTemplateService;
 import com.tx.co.back_office.tasktemplateattachment.model.TaskTemplateAttachment;
@@ -255,6 +258,17 @@ public abstract class UpdateCacheData {
 
 		return (HashMap<TranslationPairKey, Translation>) storageDataCacheManager.get(TRANSLATION_LIST_CACHE);
 	}
+	
+	/**
+	 * @return get the Task Office Relations from the cache in order to not execute the query to the database
+	 */
+	@SuppressWarnings("unchecked")
+	public Map<IdTaskOfficeUsernameMapKey, TaskOfficeRelations> getTaskOfficeRelationsFromCache() {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		return (HashMap<IdTaskOfficeUsernameMapKey, TaskOfficeRelations>) storageDataCacheManager.get(TASK_OFFICE_RELATIONS_CACHE);
+	}
 
 	/**
 	 * @param user
@@ -284,6 +298,45 @@ public abstract class UpdateCacheData {
 		}
 
 		storageDataCacheManager.put(USER_LIST_CACHE, userList);
+	}
+	
+	/**
+	 * @param taskOfficeRelation
+	 */
+	public void updateTaskOfficeRelationsCache(TaskOfficeRelations taskOfficeRelation) {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		Map<IdTaskOfficeUsernameMapKey, TaskOfficeRelations> taskOfficeRelationsMap = getTaskOfficeRelationsFromCache();
+
+		if(!isEmpty(taskOfficeRelation.getUsername()) && 
+				!isEmpty(taskOfficeRelation.getTaskOffice())) {
+			
+			Long idTaskOffice = taskOfficeRelation.getTaskOffice().getIdTaskOffice();
+			String username = taskOfficeRelation.getUsername();
+			
+			taskOfficeRelationsMap.put(new IdTaskOfficeUsernameMapKey(idTaskOffice, username), taskOfficeRelation);
+		}
+
+		storageDataCacheManager.put(TASK_OFFICE_RELATIONS_CACHE, taskOfficeRelationsMap);
+	}
+	
+	public TaskOfficeRelations getTaskOfficeRelationFromCache(TaskOfficeRelations taskOfficeRelation, TaskOffice taskOffice) {
+
+		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
+
+		Map<IdTaskOfficeUsernameMapKey, TaskOfficeRelations> taskOfficeRelationsMap = getTaskOfficeRelationsFromCache();
+
+		if(!isEmpty(taskOfficeRelation.getUsername()) && 
+				!isEmpty(taskOffice)) {
+			
+			Long idTaskOffice = taskOfficeRelation.getTaskOffice().getIdTaskOffice();
+			String username = taskOfficeRelation.getUsername();
+			
+			return taskOfficeRelationsMap.get(new IdTaskOfficeUsernameMapKey(idTaskOffice, username));
+		} else {
+			return null;
+		}
 	}
 	
 	/**

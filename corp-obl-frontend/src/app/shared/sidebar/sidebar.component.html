@@ -51,7 +51,7 @@
                                [routerLink]="sidebarnavSubItem.submenu.length > 0 ? null : [sidebarnavSubItem.path]"
                                [routerLinkActive]="sidebarnavSubItem.submenu.length > 0 ? '' : 'router-link-active'"
                                [ngClass]="[sidebarnavSubItem.class]" *ngIf="!sidebarnavSubItem.extralink;"
-                               (click)="addActiveClass(sidebarnavSubItem.title)">
+                               (click)="addActiveClass(sidebarnavSubItem.title); closeMobileMenu()">
                                 <i [ngClass]="[sidebarnavSubItem.icon]"></i>
                                 <span class="hide-menu">{{sidebarnavSubItem.title | translate }}</span>
                             </a>
@@ -63,6 +63,7 @@
                                     routerLinkActive="active" [ngClass]="[sidebarnavSubsubItem.class]">
                                     <a class="sidebar-link" [routerLink]="[sidebarnavSubsubItem.path]"
                                        *ngIf="!sidebarnavSubsubItem.extralink;"
+                                       (click)="showMobileMenu = false"
                                        [routerLinkActive]="sidebarnavSubsubItem.submenu.length > 0 ? '' : 'router-link-active'">
                                         <i [ngClass]="[sidebarnavSubsubItem.icon]"></i>
                                         <span class="hide-menu">{{sidebarnavSubsubItem.title | translate }}</span>
@@ -100,7 +101,7 @@
                aria-haspopup="true" aria-expanded="false">
                 <i class="flag-icon {{ flagLanguage }}"></i>
             </a>
-            <div class="dropdown-menu dropdown-menu-right bounceInDown" aria-labelledby="navbarDropdown"
+            <div class="dropdown-menu dropdown-menu-right bounceInDown {{ isMobile ? 'margin-m-l-lang': '' }}" aria-labelledby="navbarDropdown"
                  ngbDropdownMenu>
                 <a class="dropdown-item" (click)="changeLanguage('EN')">
                     <i class="flag-icon flag-icon-us divider"></i> {{ 'GENERAL.ENGLISH' | translate }}</a>

@@ -17,6 +17,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -29,12 +31,15 @@ import com.tx.co.back_office.task.service.ITaskService;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateOfficeResult;
 import com.tx.co.back_office.tasktemplate.api.model.TaskTemplateResult;
 import com.tx.co.common.api.provider.ObjectResult;
+import com.tx.co.common.utils.UtilStatic;
 
 @Component
 @Path(BACK_OFFICE)
 @PreAuthorize(AUTH_ADMIN_FOREIGN_INLAND)
 public class TaskResource extends ObjectResult {
 
+	private static final Logger logger = LogManager.getLogger(TaskResource.class);
+	
 	@Context
 	private UriInfo uriInfo; 
 	
@@ -51,8 +56,12 @@ public class TaskResource extends ObjectResult {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createUpdateTask(TaskResult taskResult) {
 
+		long startTime = System.currentTimeMillis();
+		
 		taskService.saveUpdateTask(toTaskWithTaskOffices(taskResult));
 
+		UtilStatic.DurationExecutionMethod(startTime, "createUpdateTask", logger);
+		
 		return Response.noContent().build();
 	}
 	

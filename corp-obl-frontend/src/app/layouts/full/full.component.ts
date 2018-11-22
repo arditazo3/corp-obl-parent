@@ -5,6 +5,7 @@ declare var $: any;
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {TaskService} from '../../back_office/task/service/task.service';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {UserService} from '../../user/service/user.service';
 
 @Component({
     selector: 'app-full-layout',
@@ -17,16 +18,6 @@ export class FullComponent implements OnInit {
 
     public config: PerfectScrollbarConfigInterface = {};
 
-    constructor(
-        public router?: Router,
-        private deviceService?: DeviceDetectorService
-    ) {
-
-        if (this.deviceService) {
-            this.isMobile = this.deviceService.isMobile();
-        }
-    }
-
     tabStatus = 'justified';
 
     public isCollapsed = false;
@@ -34,7 +25,7 @@ export class FullComponent implements OnInit {
     public innerWidth: any;
     public defaultSidebar: any;
     public showSettings = false;
-    public showMobileMenu = false;
+    showMobileMenu = false;
 
     options = {
         theme: 'light', // two possible values: light, dark
@@ -48,6 +39,23 @@ export class FullComponent implements OnInit {
         sidebarbg: 'skin6', // six possible values: skin(1/2/3/4/5/6)
         logobg: 'skin1' // six possible values: skin(1/2/3/4/5/6)
     };
+
+    constructor(
+        public router?: Router,
+        private deviceService?: DeviceDetectorService,
+        private userService?: UserService
+    ) {
+
+        if (this.deviceService) {
+            this.isMobile = this.deviceService.isMobile();
+        }
+
+        if (this.userService) {
+            userService.showMobileMenu.subscribe(value => {
+                this.showMobileMenu = value;
+            });
+        }
+    }
 
     ngOnInit() {
         if (this.router.url === '/') {

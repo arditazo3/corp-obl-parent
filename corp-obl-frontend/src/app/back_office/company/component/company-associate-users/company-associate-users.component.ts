@@ -10,6 +10,8 @@ import {CompanyService} from '../../service/company.service';
 import {CompanyUser} from '../../model/company_user';
 import {AuthorityEnum} from '../../../../shared/common/api/enum/authority.enum';
 import {Observable} from 'rxjs/Rx';
+import {ConsultantService} from '../../../consultant/service/consultant.service';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
     selector: 'app-company-associate-users',
@@ -17,6 +19,8 @@ import {Observable} from 'rxjs/Rx';
     styleUrls: ['./company-associate-users.component.css']
 })
 export class CompanyAssociateUsersComponent implements OnInit {
+
+    isMobile = false;
 
     usersObservable: Observable<any[]>;
     selectedUsers = [];
@@ -36,8 +40,11 @@ export class CompanyAssociateUsersComponent implements OnInit {
         private userService: UserService,
         private transferService: TransferDataService,
         private formBuilder: FormBuilder,
-        private companyService: CompanyService
+        private companyService: CompanyService,
+        private deviceService: DeviceDetectorService
     ) {
+
+        this.isMobile = this.deviceService.isMobile();
     }
 
     // convenience getter for easy access to form fields

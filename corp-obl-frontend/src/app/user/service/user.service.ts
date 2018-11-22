@@ -1,12 +1,14 @@
 import {AppConfig} from '../../shared/common/api/app-config';
 import {ApiRequestService} from '../../shared/common/service/api-request.service';
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {AuthorityEnum} from '../../shared/common/api/enum/authority.enum';
 import {Observable} from 'rxjs';
 
 @Injectable()
 export class UserService {
+
+    public showMobileMenu = new EventEmitter<boolean>();
 
     constructor(
         private apiRequest: ApiRequestService,
