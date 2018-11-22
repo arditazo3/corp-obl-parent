@@ -246,7 +246,7 @@ public class Scheduler {
                             if (null != expiration) {
                                 expirationService.saveUpdateExpiration(expiration);
                             }
-                        } else if(!expiration.getEnabled()) {
+                        } else if (!expiration.getEnabled()) {
                             expiration.setEnabled(true);
                             expiration.setModificationDate(new Date());
                             //expiration.setModifiedBy();
@@ -264,7 +264,7 @@ public class Scheduler {
                     			if (null != expiration) {
                     				expirationService.saveUpdateExpiration(expiration);
                     			}
-                    		} else if(!expiration.getEnabled()) {
+                    		} else if (!expiration.getEnabled()) {
                     			expiration.setEnabled(true);
                     			expiration.setModificationDate(new Date());
                     			//expiration.setModifiedBy();

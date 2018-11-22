@@ -51,7 +51,7 @@ public class ExpirationActivityService implements IExpirationActivityService, IU
 		ExpirationActivity expirationActivityStored = null;
 
 		// New ExpirationActivity
-		if(isEmpty(expirationActivity.getIdExpirationActivity())) {
+		if (isEmpty(expirationActivity.getIdExpirationActivity())) {
 			expirationActivity.setCreationDate(new Date());
 			expirationActivity.setCreatedBy(username);
 			expirationActivity.setDeleted(false);
@@ -61,7 +61,7 @@ public class ExpirationActivityService implements IExpirationActivityService, IU
 		} else { // Existing ExpirationActivity
 			Optional<ExpirationActivity> expirationActivityOptional = expirationActivityRepository.findById(expirationActivity.getIdExpirationActivity());
 
-			if(expirationActivityOptional.isPresent()) {
+			if (expirationActivityOptional.isPresent()) {
 				expirationActivityStored = expirationActivityOptional.get();
 			} else {
 				throw new GeneralException("ExpirationActivity not found, id: " + expirationActivity.getIdExpirationActivity());

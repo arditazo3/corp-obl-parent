@@ -130,7 +130,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 		}
 		// Filter only its own expiration / grouped expiration
-		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLED) &&
+		if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLED) &&
 				userRelationType.compareTo(CONTROLLED) == 0) {
 			querySql += " and ( e.username = :username " +
 							"or e.username = '' ) " ;
@@ -188,7 +188,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 				taskOfficeExpirationDateKey.expirationDate = expiration.getExpirationDate();
 
-				if(userRelationType.compareTo(CONTROLLED) == 0) {
+				if (userRelationType.compareTo(CONTROLLED) == 0) {
 
 					taskOfficeExpirationDateKey.idOffice = office.getIdOffice();
 					taskOfficeExpirationDateKey.username = expiration.getUsername();
@@ -206,8 +206,8 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		Collections.sort(taskOfficeExpirationsToSort, new Comparator<TaskOfficeExpirations>() {
 			@Override
 			public int compare(TaskOfficeExpirations toe1, TaskOfficeExpirations tof2) {
-				if(isEmpty(toe1.getExpirationDate())) return -1;
-				if(isEmpty(tof2.getExpirationDate())) return 1;
+				if (isEmpty(toe1.getExpirationDate())) return -1;
+				if (isEmpty(tof2.getExpirationDate())) return 1;
 
 				return tof2.getExpirationDate().compareTo(toe1.getExpirationDate());
 			}
@@ -257,7 +257,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 			 * - CONTROLLED & NOT COMPLETED
 			 * 
 			 * */
-			if( ((userRelationType.compareTo(CONTROLLER) == 0 && isEmpty(expirationLoop.getRegistered())) ||
+			if ( ((userRelationType.compareTo(CONTROLLER) == 0 && isEmpty(expirationLoop.getRegistered())) ||
 					(userRelationType.compareTo(CONTROLLED) == 0 && isEmpty(expirationLoop.getCompleted()))) &&
 
 					expirationLoop.getExpirationActivities().stream().allMatch(ea -> ea.getIdExpirationActivity() != null)) {
@@ -299,7 +299,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 			Optional<Expiration> expirationOptional = expirationRepository.findById(idExpiration);
 
-			if(!expirationOptional.isPresent()) {
+			if (!expirationOptional.isPresent()) {
 				throw new NotFoundException();
 			}
 
@@ -312,7 +312,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 			List<TaskOfficeExpirations> taskOfficeExpirations = convertToTaskTemplateExpirations(expirations, userRelationType);
 
-			if(!isEmpty(taskOfficeExpirations)) {
+			if (!isEmpty(taskOfficeExpirations)) {
 				
 				Optional<TaskOfficeExpirations> taskOfficeExpirationsOptional = taskOfficeExpirations.stream()
 						.filter(taskOfficeExpiration -> 
@@ -409,7 +409,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 			String statusExpirationOnChange = expiration.getStatusExpirationOnChange();
 			Integer userRelationType = expiration.getUserRelationType();
 
-			if(isEmpty(statusExpirationOnChange) || isEmpty(userRelationType)) {
+			if (isEmpty(statusExpirationOnChange) || isEmpty(userRelationType)) {
 				return expiration;
 			}
 
@@ -418,7 +418,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 			Optional<Expiration> expirationOptional = expirationRepository.findById(idExpiration);
 
-			if(!expirationOptional.isPresent()) {
+			if (!expirationOptional.isPresent()) {
 				throw new NotFoundException();
 			}
 
@@ -439,7 +439,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 			 * - CONTROLLED & NOT COMPLETED
 			 * 
 			 * */
-			if( ((userRelationType.compareTo(CONTROLLER) == 0 && isEmpty(expiration.getRegistered())) ||
+			if ( ((userRelationType.compareTo(CONTROLLER) == 0 && isEmpty(expiration.getRegistered())) ||
 					(userRelationType.compareTo(CONTROLLED) == 0 && isEmpty(expiration.getCompleted()))) &&
 
 					expiration.getExpirationActivities().stream().allMatch(ea -> ea.getIdExpirationActivity() != null)) {
@@ -457,7 +457,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 	@Override
 	public TaskOfficeExpirations statusAllExpirationOnChange(TaskOfficeExpirations taskOfficeExpirations) {
 
-		if(!isEmpty(taskOfficeExpirations.getExpirations())) {
+		if (!isEmpty(taskOfficeExpirations.getExpirations())) {
 			String statusExpirationOnChange = taskOfficeExpirations.getStatusExpirationOnChange();
 			for (Expiration expiration : taskOfficeExpirations.getExpirations()) {
 				expiration.setStatusExpirationOnChange(statusExpirationOnChange);
@@ -473,23 +473,23 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 		String statusExpirationOnChange = expiration.getStatusExpirationOnChange(); 
 
-		if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.ARCHIVED.name())) {
+		if (statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.ARCHIVED.name())) {
 			expiration.setRegistered(new Date());
-		} else if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.RESTORE.name())) {
+		} else if (statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.RESTORE.name())) {
 			expiration.setRegistered(null);
-		} else if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.REJECT.name())) {
+		} else if (statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.REJECT.name())) {
 			expiration.setCompleted(null);
 
 			// sent the notifying email to Beneficiary
 			String username = expiration.getUsername();
 			sendEmailToBeneficiary(statusExpirationOnChange, username);
-		} else if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.APPROVED.name())) {
+		} else if (statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.APPROVED.name())) {
 			expiration.setApproved(new Date());
-		} else if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.NOT_APPROVED.name())) {
+		} else if (statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.NOT_APPROVED.name())) {
 			expiration.setApproved(null);
-		} else if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.COMPLETED.name())) {
+		} else if (statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.COMPLETED.name())) {
 			expiration.setCompleted(new Date());
-		} else if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.NOT_COMPLETED.name())) {
+		} else if (statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.NOT_COMPLETED.name())) {
 			expiration.setCompleted(null);
 		}
 
@@ -507,7 +507,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 			Optional<Expiration> expirationOptional = expirationRepository.findById(idExpiration);
 
-			if(!expirationOptional.isPresent()) {
+			if (!expirationOptional.isPresent()) {
 				throw new NotFoundException();
 			}
 
@@ -575,7 +575,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 	private void sendEmailToBeneficiary(String statusExpirationOnChange, String username) {
 
-		if(isEmpty(username)) {
+		if (isEmpty(username)) {
 			logger.error("No user found to send the email!");
 			return;
 		}
@@ -585,7 +585,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		String subject = "";
 		String text = "";
 
-		if(statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.REJECT.name())) {
+		if (statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.REJECT.name())) {
 			subject = "Rejected task";
 
 			text = "The task has been rejected";

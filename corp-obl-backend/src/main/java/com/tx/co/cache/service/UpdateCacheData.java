@@ -6,10 +6,7 @@ import com.tx.co.back_office.company.service.CompanyConsultantService;
 import com.tx.co.back_office.company.service.CompanyService;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.service.OfficeService;
-import com.tx.co.back_office.task.model.IdTaskOfficeUsernameMapKey;
 import com.tx.co.back_office.task.model.Task;
-import com.tx.co.back_office.task.model.TaskOffice;
-import com.tx.co.back_office.task.model.TaskOfficeRelations;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.service.TaskTemplateService;
 import com.tx.co.back_office.tasktemplateattachment.model.TaskTemplateAttachment;
@@ -131,7 +128,7 @@ public abstract class UpdateCacheData {
 
 		List<Company> companyListCache = (List<Company>) storageDataCacheManager.get(COMPANY_LIST_CACHE);
 
-		if(isEmpty(companyListCache)) {
+		if (isEmpty(companyListCache)) {
 			return new ArrayList<>();
 		}
 
@@ -258,17 +255,6 @@ public abstract class UpdateCacheData {
 
 		return (HashMap<TranslationPairKey, Translation>) storageDataCacheManager.get(TRANSLATION_LIST_CACHE);
 	}
-	
-	/**
-	 * @return get the Task Office Relations from the cache in order to not execute the query to the database
-	 */
-	@SuppressWarnings("unchecked")
-	public Map<IdTaskOfficeUsernameMapKey, TaskOfficeRelations> getTaskOfficeRelationsFromCache() {
-
-		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
-
-		return (HashMap<IdTaskOfficeUsernameMapKey, TaskOfficeRelations>) storageDataCacheManager.get(TASK_OFFICE_RELATIONS_CACHE);
-	}
 
 	/**
 	 * @param user
@@ -283,60 +269,21 @@ public abstract class UpdateCacheData {
 		// Object to update or to save as new one
 		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyUserList(user.getUsername(), userList); 
 
-		if(updateFromDB) {
+		if (updateFromDB) {
 			user = userService.findByUsername(user.getUsername());
 		}
 
-		if(!user.isEnabled() && indexToUpdateOrInsert != -1) {
+		if (!user.isEnabled() && indexToUpdateOrInsert != -1) {
 			userList.remove(indexToUpdateOrInsert);
-		} else if(indexToUpdateOrInsert == -1) {
+		} else if (indexToUpdateOrInsert == -1) {
 			userList.add(user);
-		} else if(!user.isEnabled()) {
+		} else if (!user.isEnabled()) {
 			userList.remove(indexToUpdateOrInsert);
 		} else {
 			userList.set(indexToUpdateOrInsert, user);
 		}
 
 		storageDataCacheManager.put(USER_LIST_CACHE, userList);
-	}
-	
-	/**
-	 * @param taskOfficeRelation
-	 */
-	public void updateTaskOfficeRelationsCache(TaskOfficeRelations taskOfficeRelation) {
-
-		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
-
-		Map<IdTaskOfficeUsernameMapKey, TaskOfficeRelations> taskOfficeRelationsMap = getTaskOfficeRelationsFromCache();
-
-		if(!isEmpty(taskOfficeRelation.getUsername()) && 
-				!isEmpty(taskOfficeRelation.getTaskOffice())) {
-			
-			Long idTaskOffice = taskOfficeRelation.getTaskOffice().getIdTaskOffice();
-			String username = taskOfficeRelation.getUsername();
-			
-			taskOfficeRelationsMap.put(new IdTaskOfficeUsernameMapKey(idTaskOffice, username), taskOfficeRelation);
-		}
-
-		storageDataCacheManager.put(TASK_OFFICE_RELATIONS_CACHE, taskOfficeRelationsMap);
-	}
-	
-	public TaskOfficeRelations getTaskOfficeRelationFromCache(TaskOfficeRelations taskOfficeRelation, TaskOffice taskOffice) {
-
-		final Cache<String, Object> storageDataCacheManager = cacheManager.getCache(STORAGE_DATA_CACHE);
-
-		Map<IdTaskOfficeUsernameMapKey, TaskOfficeRelations> taskOfficeRelationsMap = getTaskOfficeRelationsFromCache();
-
-		if(!isEmpty(taskOfficeRelation.getUsername()) && 
-				!isEmpty(taskOffice)) {
-			
-			Long idTaskOffice = taskOfficeRelation.getTaskOffice().getIdTaskOffice();
-			String username = taskOfficeRelation.getUsername();
-			
-			return taskOfficeRelationsMap.get(new IdTaskOfficeUsernameMapKey(idTaskOffice, username));
-		} else {
-			return null;
-		}
 	}
 	
 	/**
@@ -352,18 +299,18 @@ public abstract class UpdateCacheData {
 		// Object to update or to save as new one
 		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyCompanyList(company.getIdCompany(), companyList); 
 
-		if(updateFromDB) {
+		if (updateFromDB) {
 			Optional<Company> companyFromDB = companyService.findByIdCompany(company.getIdCompany());
-			if(companyFromDB.isPresent()) {
+			if (companyFromDB.isPresent()) {
 				company = companyFromDB.get();
 			}
 		}
 
-		if(!company.getEnabled() && indexToUpdateOrInsert != -1) {
+		if (!company.getEnabled() && indexToUpdateOrInsert != -1) {
 			companyList.remove(indexToUpdateOrInsert);
-		} else if(indexToUpdateOrInsert == -1) {
+		} else if (indexToUpdateOrInsert == -1) {
 			companyList.add(company);
-		} else if(!company.getEnabled()) {
+		} else if (!company.getEnabled()) {
 			companyList.remove(indexToUpdateOrInsert);
 		} else {
 			companyList.set(indexToUpdateOrInsert, company);
@@ -385,18 +332,18 @@ public abstract class UpdateCacheData {
 		// Object to update or to save as new one
 		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyOfficeList(office.getIdOffice(), officeList); 
 
-		if(updateFromDB) {
+		if (updateFromDB) {
 			Optional<Office> officeFromDB = officeService.findByIdOffice(office.getIdOffice());
-			if(officeFromDB.isPresent()) {
+			if (officeFromDB.isPresent()) {
 				office = officeFromDB.get();
 			}
 		}
 
-		if(!office.getEnabled() && indexToUpdateOrInsert != -1) {
+		if (!office.getEnabled() && indexToUpdateOrInsert != -1) {
 			officeList.remove(indexToUpdateOrInsert);
-		} else if(indexToUpdateOrInsert == -1) {
+		} else if (indexToUpdateOrInsert == -1) {
 			officeList.add(office);
-		} else if(!office.getEnabled()) {
+		} else if (!office.getEnabled()) {
 			officeList.remove(indexToUpdateOrInsert);
 		} else {
 			officeList.set(indexToUpdateOrInsert, office);
@@ -418,22 +365,22 @@ public abstract class UpdateCacheData {
 		// Object to update or to save as new one
 		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyTopicList(topic.getIdTopic(), topicList); 
 
-		if(updateFromDB) {
+		if (updateFromDB) {
 			Optional<Topic> topicFromDB = topicService.findByIdTopic(topic.getIdTopic());
-			if(topicFromDB.isPresent()) {
+			if (topicFromDB.isPresent()) {
 				topic = topicFromDB.get();
 				List<Translation> translationList = translationService.getTranslationByEntityIdAndTablename(topic.getIdTopic(), "co_topic");
-				if(!isEmpty(translationList)) {
+				if (!isEmpty(translationList)) {
 					topic.setTranslationList(translationList);
 				}
 			}
 		}
 
-		if(!topic.getEnabled() && indexToUpdateOrInsert != -1) {
+		if (!topic.getEnabled() && indexToUpdateOrInsert != -1) {
 			topicList.remove(indexToUpdateOrInsert);
-		} else if(indexToUpdateOrInsert == -1) {
+		} else if (indexToUpdateOrInsert == -1) {
 			topicList.add(topic);
-		} else if(!topic.getEnabled()) {
+		} else if (!topic.getEnabled()) {
 			topicList.remove(indexToUpdateOrInsert);
 		} else {
 			topicList.set(indexToUpdateOrInsert, topic);
@@ -447,7 +394,7 @@ public abstract class UpdateCacheData {
 		Map<TranslationPairKey, Translation> translationHashMap = getTranslationsFromCache();
 		
 		for (TranslationPairKey translationPairKeyLoop : translationHashMap.keySet()) {
-			if(translationPairKeyLoop.getLang().equalsIgnoreCase(translationPairKey.getLang())
+			if (translationPairKeyLoop.getLang().equalsIgnoreCase(translationPairKey.getLang())
 					&& translationPairKeyLoop.getTablename().contains(translationPairKey.getTablename())) {
 				
 				return translationHashMap.get(translationPairKeyLoop);
@@ -474,21 +421,21 @@ public abstract class UpdateCacheData {
 		// Object to update or to save as new one
 		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyCompanyConsultantList(companyConsultant.getIdCompanyConsultant(), companyConsultantList); 
 
-		if(updateFromDB) {
+		if (updateFromDB) {
 			Optional<CompanyConsultant> companyConsultantFromDB = companyConsultantService.findByIdCompanyConsultant(companyConsultant.getIdCompanyConsultant());
-			if(companyConsultantFromDB.isPresent()) {
+			if (companyConsultantFromDB.isPresent()) {
 				companyConsultant = companyConsultantFromDB.get();
 			}
 		}
 
-		if(!companyConsultant.getEnabled() && indexToUpdateOrInsert != -1) {
+		if (!companyConsultant.getEnabled() && indexToUpdateOrInsert != -1) {
 			companyConsultantList.remove(indexToUpdateOrInsert);
-		} else if(indexToUpdateOrInsert == -1) {
-			if(isEmpty(companyConsultantList)) {
+		} else if (indexToUpdateOrInsert == -1) {
+			if (isEmpty(companyConsultantList)) {
 				companyConsultantList = new ArrayList<>();	
 			}
 			companyConsultantList.add(companyConsultant);
-		} else if(!companyConsultant.getEnabled()) {
+		} else if (!companyConsultant.getEnabled()) {
 			companyConsultantList.remove(indexToUpdateOrInsert);
 		} else {
 			companyConsultantList.set(indexToUpdateOrInsert, companyConsultant);
@@ -512,18 +459,18 @@ public abstract class UpdateCacheData {
 		// Object to update or to save as new one
 		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyTopicLConsultantist(topicConsultant.getIdTopicConsultant(), topicConsultantList); 
 
-		if(updateFromDB) {
+		if (updateFromDB) {
 			Optional<TopicConsultant> topicConsultantFromDB = topicService.findByIdTopicConsultant(topicConsultant);
-			if(topicConsultantFromDB.isPresent()) {
+			if (topicConsultantFromDB.isPresent()) {
 				topicConsultant = topicConsultantFromDB.get();
 			}
 		}
 
-		if(!topicConsultant.getEnabled() && indexToUpdateOrInsert != -1) {
+		if (!topicConsultant.getEnabled() && indexToUpdateOrInsert != -1) {
 			topicConsultantList.remove(indexToUpdateOrInsert);
-		} else if(indexToUpdateOrInsert == -1) {
+		} else if (indexToUpdateOrInsert == -1) {
 			topicConsultantList.add(topicConsultant);
-		} else if(!topicConsultant.getEnabled()) {
+		} else if (!topicConsultant.getEnabled()) {
 			topicConsultantList.remove(indexToUpdateOrInsert);
 		} else {
 			topicConsultantList.set(indexToUpdateOrInsert, topicConsultant);
@@ -547,18 +494,18 @@ public abstract class UpdateCacheData {
 		// Object to update or to save as new one
 		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyTaskTemplateList(taskTemplate.getIdTaskTemplate(), taskTemplateList); 
 
-		if(updateFromDB) {
+		if (updateFromDB) {
 			Optional<TaskTemplate> taskTemplateFromDB = taskTemplateService.findByIdTaskTemplate(taskTemplate.getIdTaskTemplate());
-			if(taskTemplateFromDB.isPresent()) {
+			if (taskTemplateFromDB.isPresent()) {
 				taskTemplate = taskTemplateFromDB.get();
 			}
 		}
 
-		if(!taskTemplate.getEnabled() && indexToUpdateOrInsert != -1) {
+		if (!taskTemplate.getEnabled() && indexToUpdateOrInsert != -1) {
 			taskTemplateList.remove(indexToUpdateOrInsert);
-		} else if(indexToUpdateOrInsert == -1) {
+		} else if (indexToUpdateOrInsert == -1) {
 			taskTemplateList.add(taskTemplate);
-		} else if(!taskTemplate.getEnabled()) {
+		} else if (!taskTemplate.getEnabled()) {
 			taskTemplateList.remove(indexToUpdateOrInsert);
 		} else {
 			taskTemplateList.set(indexToUpdateOrInsert, taskTemplate);
@@ -580,14 +527,14 @@ public abstract class UpdateCacheData {
 		// Object to update or to save as new one
 		int indexToUpdateOrInsert = UtilStatic.getIndexByPropertyTaskTemplateListAttachment(taskTemplateAttachment.getIdTaskTemplateAttachment(), taskTemplateAttachmentList); 
 
-		if(updateFromDB) {
+		if (updateFromDB) {
 			Optional<TaskTemplateAttachment> taskTemplateFromDB = taskTemplateAttachmentService.findByIdTaskTemplateAttachment(taskTemplateAttachment.getIdTaskTemplateAttachment());
-			if(taskTemplateFromDB.isPresent()) {
+			if (taskTemplateFromDB.isPresent()) {
 				taskTemplateAttachment = taskTemplateFromDB.get();
 			}
 		}
 
-		if(indexToUpdateOrInsert == -1) {
+		if (indexToUpdateOrInsert == -1) {
 			taskTemplateAttachmentList.add(taskTemplateAttachment);
 		} else {
 			taskTemplateAttachmentList.set(indexToUpdateOrInsert, taskTemplateAttachment);
@@ -603,9 +550,9 @@ public abstract class UpdateCacheData {
 	public Company getCompanyById(Long idCompany) {
 		Company company = null;
 		List<Company> companyListCache = getCompaniesFromCache();
-		if(!isEmpty(companyListCache)) {
+		if (!isEmpty(companyListCache)) {
 			for (Company companyLoop : companyListCache) {
-				if(idCompany.compareTo(companyLoop.getIdCompany()) == 0) {
+				if (idCompany.compareTo(companyLoop.getIdCompany()) == 0) {
 					company = companyLoop;
 					break;
 				}
@@ -621,9 +568,9 @@ public abstract class UpdateCacheData {
     public Office getOfficeById(Long idOffice) {
         Office office = null;
         List<Office> officeListCache = getOfficesFromCache();
-        if(!isEmpty(officeListCache)) {
+        if (!isEmpty(officeListCache)) {
             for (Office officeLoop : officeListCache) {
-                if(idOffice.compareTo(officeLoop.getIdOffice()) == 0) {
+                if (idOffice.compareTo(officeLoop.getIdOffice()) == 0) {
                     office = officeLoop;
                     break;
                 }
@@ -639,9 +586,9 @@ public abstract class UpdateCacheData {
     public TaskTemplate getTaskTemplateById(Long idTaskTemaplate) {
     	TaskTemplate taskTemplate = null;
         List<TaskTemplate> taskTemplateListCache = getTaskTemplatesFromCache();
-        if(!isEmpty(taskTemplateListCache)) {
+        if (!isEmpty(taskTemplateListCache)) {
             for (TaskTemplate taskTemplateLoop : taskTemplateListCache) {
-                if(idTaskTemaplate.compareTo(taskTemplateLoop.getIdTaskTemplate()) == 0) {
+                if (idTaskTemaplate.compareTo(taskTemplateLoop.getIdTaskTemplate()) == 0) {
                 	taskTemplate = taskTemplateLoop;
                     break;
                 }
@@ -657,9 +604,9 @@ public abstract class UpdateCacheData {
     public Task getTaskById(Long idTask) {
     	Task task = null;
         List<Task> taskListCache = getTaskFromCache();
-        if(!isEmpty(taskListCache)) {
+        if (!isEmpty(taskListCache)) {
             for (Task taskLoop : taskListCache) {
-                if(idTask.compareTo(taskLoop.getIdTask()) == 0) {
+                if (idTask.compareTo(taskLoop.getIdTask()) == 0) {
                 	task = taskLoop;
                     break;
                 }
@@ -675,9 +622,9 @@ public abstract class UpdateCacheData {
     public TaskTemplateAttachment getTaskTemplateAttachmentById(Long idTaskTemaplateAttachment) {
     	TaskTemplateAttachment taskTemplateAttachment = null;
         List<TaskTemplateAttachment> taskTemplateAttachmentListCache = getTaskTemplatesAttachmentFromCache();
-        if(!isEmpty(taskTemplateAttachmentListCache)) {
+        if (!isEmpty(taskTemplateAttachmentListCache)) {
             for (TaskTemplateAttachment taskTemplateAttachmentLoop : taskTemplateAttachmentListCache) {
-                if(idTaskTemaplateAttachment.compareTo(taskTemplateAttachmentLoop.getIdTaskTemplateAttachment()) == 0) {
+                if (idTaskTemaplateAttachment.compareTo(taskTemplateAttachmentLoop.getIdTaskTemplateAttachment()) == 0) {
                 	taskTemplateAttachment = taskTemplateAttachmentLoop;
                     break;
                 }
@@ -702,7 +649,7 @@ public abstract class UpdateCacheData {
 		List<User> userList = getUsersFromCache();
 		User userRetrived = null;
 		for (User user : userList) {
-			if(user.getUsername().equals(username)) {
+			if (user.getUsername().equals(username)) {
 				userRetrived = user;
 				break;
 			}
@@ -717,11 +664,11 @@ public abstract class UpdateCacheData {
 	public CompanyConsultant getCompanyConsultantById(Long idCompanyConsultant) {
 		CompanyConsultant companyConsultant = null;
 		Map<Long, List<CompanyConsultant>> companyConsultantMap = getCompanyConsultantsFromCache();
-		if(!isEmpty(companyConsultantMap)) {
+		if (!isEmpty(companyConsultantMap)) {
 			for (Map.Entry<Long, List<CompanyConsultant>> companyConsultantEntry : companyConsultantMap.entrySet()) {
 				Long key = companyConsultantEntry.getKey();
 				for (CompanyConsultant companyConsultantLoop : companyConsultantMap.get(key)) {
-					if(idCompanyConsultant.compareTo(companyConsultantLoop.getIdCompanyConsultant()) == 0) {
+					if (idCompanyConsultant.compareTo(companyConsultantLoop.getIdCompanyConsultant()) == 0) {
 						companyConsultant = companyConsultantLoop;
 						break;
 					}
@@ -748,7 +695,7 @@ public abstract class UpdateCacheData {
 
 	public List<CompanyConsultant> getConsultantByIdTopicAndIdCompany(Long idTopic, String idCompany) {
 
-		if(isEmpty(idTopic) || isEmpty(idCompany)) {
+		if (isEmpty(idTopic) || isEmpty(idCompany)) {
 			return new ArrayList<>();
 		}
 
@@ -785,9 +732,9 @@ public abstract class UpdateCacheData {
 		
 		String defaultLang = "EN";
 		
-		if(!isEmpty(getUsersFromCache()) && !isEmpty(username)) {
+		if (!isEmpty(getUsersFromCache()) && !isEmpty(username)) {
 			for (User user : getUsersFromCache()) {
-				if(user.getUsername().equalsIgnoreCase(username)) {
+				if (user.getUsername().equalsIgnoreCase(username)) {
 					defaultLang = user.getLang();
 					break;
 				}

@@ -79,7 +79,7 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 		List<Company> companyList = new ArrayList<>();
 
 		List<Company> companyListFromCache = getCompaniesFromCache();
-		if(!isEmpty(getCompaniesFromCache())) {
+		if (!isEmpty(getCompaniesFromCache())) {
 			companyList = companyListFromCache;
 		} else {
 			companyRepository.findAllByOrderByDescriptionAsc().forEach(companyList::add);
@@ -98,7 +98,7 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 	public Company saveUpdateCompany(Company company) {
 
 		// Check if exist other company with same description
-		if(checkIfExistOtherCompanySameDescription(company)) {
+		if (checkIfExistOtherCompanySameDescription(company)) {
 			throw new GeneralException("This company already exist");
 		}
 
@@ -108,7 +108,7 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 		Company companyStored = null;
 
 		// New Company
-		if(isEmpty(company.getIdCompany())) {
+		if (isEmpty(company.getIdCompany())) {
 			company.setCreationDate(new Date());
 			company.setCreatedBy(username);
 			company.setEnabled(true);
@@ -177,7 +177,7 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 
 			Optional<Company> companyOptional = findByIdCompany(idCompany);
 
-			if(!companyOptional.isPresent()) {
+			if (!companyOptional.isPresent()) {
 				throw new NotFoundException();
 			}
 
@@ -194,25 +194,25 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 
 			updateCompaniesCache(company, false);
 
-			if(!isEmpty(company.getOffice())) {
+			if (!isEmpty(company.getOffice())) {
 				for (Office office : company.getOffice()) {
 					officeService.deleteOffice(office.getIdOffice());
 				}
 			}
 
-			if(!isEmpty(company.getCompanyConsultant())) {
+			if (!isEmpty(company.getCompanyConsultant())) {
 				for (CompanyConsultant companyConsultant : company.getCompanyConsultant()) {
 					companyConsultantService.deleteCompanyConsultant(companyConsultant.getIdCompanyConsultant());
 				}
 			}
 
-			if(!isEmpty(company.getCompanyUsers())) {
+			if (!isEmpty(company.getCompanyUsers())) {
 				for (CompanyUser companyUser : company.getCompanyUsers()) {
 					deleteCompanyUser(companyUser);
 				}
 			}
 
-			if(!isEmpty(company.getCompanyTopic())) {
+			if (!isEmpty(company.getCompanyTopic())) {
 				for (CompanyTopic companyTopic : company.getCompanyTopic()) {
 					companyTopicService.deleteCompanyTopic(companyTopic.getIdCompanyTopic());
 				}
@@ -257,7 +257,7 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 		// The modification of User
 		String username = getTokenUserDetails().getUser().getUsername();
 
-		if(!isEmpty(company) && !isEmpty(company.getCompanyUsers())) {
+		if (!isEmpty(company) && !isEmpty(company.getCompanyUsers())) {
 
 			Long idCompany = company.getIdCompany();
 
@@ -270,18 +270,18 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 				CompanyUser companyUserStored = null;
 
 				Optional<CompanyUser> companyUserCheckIfExist =  companyUserRespository.getCompanyUserByUsernameAndCompanyId(companyUser.getUsername(), company);
-				if(companyUserCheckIfExist.isPresent()) {
+				if (companyUserCheckIfExist.isPresent()) {
 					companyUser.setIdCompanyUser(companyUserCheckIfExist.get().getIdCompanyUser());
 				}
 
 				// New CompanyUser
-				if(isEmpty(companyUser.getIdCompanyUser())) {
+				if (isEmpty(companyUser.getIdCompanyUser())) {
 					String usernameCompanyUser = companyUser.getUsername();
 
 					Optional<CompanyUser> retrievedCompanyUserDeleted = 
 							companyUserRespository.getCompanyUserDisabledByUsernameAndCompanyId(usernameCompanyUser, company);
 
-					if(retrievedCompanyUserDeleted.isPresent()) {
+					if (retrievedCompanyUserDeleted.isPresent()) {
 						companyUserStored = retrievedCompanyUserDeleted.get();
 						companyUserStored.setCompanyAdmin(companyUser.getCompanyAdmin());
 					} else {
@@ -292,7 +292,7 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 				} else {
 					Optional<CompanyUser> retrievedCompanyUser = companyUserRespository.findById(companyUser.getIdCompanyUser());
 
-					if(retrievedCompanyUser.isPresent()) {
+					if (retrievedCompanyUser.isPresent()) {
 						companyUserStored = retrievedCompanyUser.get();
 					} else {
 						throw new GeneralException("Row not found exception");
@@ -305,7 +305,7 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 				companyUserStored.setUsername(companyUser.getUsername());
 
 				User userLoopFromCache = getUserFromUsername(companyUserStored.getUsername());
-				if(!isEmpty(userLoopFromCache) &&
+				if (!isEmpty(userLoopFromCache) &&
 						!isEmpty(userLoopFromCache.getAuthorities()) &&
 						(userLoopFromCache.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) ||
 								userLoopFromCache.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND))) {
@@ -317,16 +317,16 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 			}	
 			companyUserRespository.updateCompanyUserNotEnable(company, userListIncluded, username);
 			updateCompaniesCache(company, true);
-		} else if(!isEmpty(company)) {
+		} else if (!isEmpty(company)) {
 
 			Optional<Company> companyStoredOptional = findByIdCompany(company.getIdCompany());
 
-			if(companyStoredOptional.isPresent()) {
+			if (companyStoredOptional.isPresent()) {
 				Company companyStored = companyStoredOptional.get();
 
 				List<String> userListIncluded = companyStored.getCompanyUsers().stream().map(CompanyUser::getUsername).collect(Collectors.toList());
 
-				if(!isEmpty(userListIncluded)) {
+				if (!isEmpty(userListIncluded)) {
 					companyUserRespository.updateCompanyUserEnable(companyStored, userListIncluded, username);	
 				}
 			}
@@ -339,12 +339,12 @@ public class CompanyService extends UpdateCacheData implements ICompanyService, 
 		User userLoggedIn = getTokenUserDetails().getUser();
 		String username = userLoggedIn.getUsername();
 
-		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+		if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			return companyRepository.findAllByOrderByDescriptionAsc();
-		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) ||
+		} else if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) ||
 				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND)) {
 			return companyRepository.getCompaniesByRole(username);
-		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER)) {
+		} else if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER)) {
 			return companyRepository.getCompaniesByRoleUser(username);
 		}
 

@@ -91,7 +91,7 @@ public class TaskTemplateAttachmentService extends UpdateCacheData implements IT
 	public void deleteTaskTemplateAttachment(Long idTaskTemplateAttachment) {
 
 		Optional<TaskTemplateAttachment> taskTemplateFromDB = findByIdTaskTemplateAttachment(idTaskTemplateAttachment);
-		if(taskTemplateFromDB.isPresent()) {
+		if (taskTemplateFromDB.isPresent()) {
 			TaskTemplateAttachment taskTemplateAttachment = taskTemplateFromDB.get();
 
 			TaskTemplate taskTemplate = taskTemplateAttachment.getTaskTemplate();

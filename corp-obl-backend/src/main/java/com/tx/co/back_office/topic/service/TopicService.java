@@ -137,7 +137,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 
 		mergeTranslationsTopic(topicStored, topic);
 
-		if(!isEmpty(companyListIncluded)) {
+		if (!isEmpty(companyListIncluded)) {
 			topicRepository.updateCompanyTopicNotEnable(topicStored, companyListIncluded);	
 		}
 
@@ -328,7 +328,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 			topicList = topicRepository.getTopicsByRoleInland(userLoggedIn.getUsername(), topOne);
 		}
 		
-		if(!isEmpty(topicList)) {
+		if (!isEmpty(topicList)) {
 			for (Topic topic : topicList) {
 				List<Translation> translationList = translationRepository
 						.getTranslationByEntityIdAndTablename(topic.getIdTopic(), "co_topic");
@@ -352,7 +352,7 @@ public class TopicService extends UpdateCacheData implements ITopicService, IUse
 			topicList = topicRepository.getTopicsByRoleForeign(userLoggedIn.getUsername());
 		}
 
-		if(!isEmpty(topicList)) {
+		if (!isEmpty(topicList)) {
 			for (Topic topic : topicList) {
 				List<Translation> translationList = translationRepository
 						.getTranslationByEntityIdAndTablename(topic.getIdTopic(), "co_topic");

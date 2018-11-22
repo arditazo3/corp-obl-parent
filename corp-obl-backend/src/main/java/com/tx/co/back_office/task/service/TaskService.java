@@ -109,9 +109,9 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		String username = userLoggedIn.getUsername();
 
 		List<Task> tasks = new ArrayList<>();
-		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+		if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			tasks = taskRepository.getTasks();
-		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
+		} else if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
 			tasks = taskRepository.getTasksByRole(username);
 		}
 
@@ -133,7 +133,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		Task taskStored = null;
 
 		// New Task template
-		if(isEmpty(task.getIdTask())) {
+		if (isEmpty(task.getIdTask())) {
 			task.setCreationDate(new Date());
 			task.setCreatedBy(username);
 			task.setEnabled(true);
@@ -143,7 +143,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		} else { // Existing Task template
 			Optional<Task> taskOptional = taskRepository.findById(task.getIdTask());
 
-			if(taskOptional.isPresent()) {
+			if (taskOptional.isPresent()) {
 				taskStored = taskOptional.get();
 			} else {
 				throw new GeneralException("Task not found, id: " + task.getIdTask());
@@ -171,24 +171,23 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	public Task taskTaskOfficeSaveUpdate(Task taskStored, Task task) {
 
 		taskStored.setOffice(task.getOffice());
-		taskStored.setExcludeOffice(task.getExcludeOffice());
 
 		long startTime = System.currentTimeMillis();
-		
+
 		taskStored.setTaskOffices(mergeTaskOffice(taskStored, task.getTaskOfficesFilterEnabled()));
 
 		UtilStatic.DurationExecutionMethod(startTime, "mergeTaskOffice", logger);
-		
-		if(!isEmpty(task.getTaskOfficesFilterEnabled())) {
+
+		if (!isEmpty(task.getTaskOfficesFilterEnabled())) {
 			List<TaskOffice> taskOffices = new ArrayList<>();
 			for (TaskOffice taskOfficeLoop : task.getTaskOffices()) {
 
 				startTime = System.currentTimeMillis();
-				
+
 				TaskOffice taskOffice = saveUpdateTaskOffice(taskStored, taskOfficeLoop);
-				
+
 				UtilStatic.DurationExecutionMethod(startTime, "saveUpdateTaskOffice", logger);
-				
+
 				taskOffices.add(taskOffice);
 			}
 			taskStored.setTaskOffices(new HashSet<TaskOffice>(taskOffices));
@@ -202,35 +201,21 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	@Override
 	public TaskOffice saveUpdateTaskOffice(Task task, TaskOffice taskOffice) {
 
-		Task taskLight = new Task();
-		taskLight.setIdTask(task.getIdTask());
-		
-		TaskTemplate taskTemplateLight = new TaskTemplate();
-		Office officeLight = new Office();
-		
-		taskTemplateLight.setIdTaskTemplate(task.getTaskTemplate().getIdTaskTemplate());
-		officeLight.setIdOffice(taskOffice.getOffice().getIdOffice());
-		
-		TaskOffice taskOfficeLight = new TaskOffice();
-		taskOfficeLight.setIdTaskOffice(taskOffice.getIdTaskOffice());
-		taskOfficeLight.setTaskTemplate(taskTemplateLight);
-		taskOfficeLight.setOffice(officeLight);
-		
 		// The modification of User
 		String username = getTokenUserDetails().getUser().getUsername();
 
 		TaskOffice taskOfficeStored = null;
 
 		// New Task office
-		if(isEmpty(taskOfficeLight.getIdTaskOffice())) {
+		if (isEmpty(taskOffice.getIdTaskOffice())) {
 
-			if(!isEmpty(taskLight.getTaskTemplate()) && !isEmpty(taskLight.getTaskTemplate().getIdTaskTemplate()) &&
-					!isEmpty(taskOfficeLight.getTask()) && !isEmpty(taskOfficeLight.getTask().getIdTask()) &&
-					!isEmpty(taskOfficeLight.getOffice()) && !isEmpty(taskOfficeLight.getOffice().getIdOffice())) {
-				taskOfficeStored = taskOfficeRepository.getAllTaskOfficeByTaskTemplateAndTaskAndOffice(taskLight.getTaskTemplate(), taskOfficeLight.getTask(), taskOfficeLight.getOffice());	
+			if (!isEmpty(task.getTaskTemplate()) && !isEmpty(task.getTaskTemplate().getIdTaskTemplate()) &&
+					!isEmpty(taskOffice.getTask()) && !isEmpty(taskOffice.getTask().getIdTask()) &&
+					!isEmpty(taskOffice.getOffice()) && !isEmpty(taskOffice.getOffice().getIdOffice())) {
+				taskOfficeStored = taskOfficeRepository.getAllTaskOfficeByTaskTemplateAndTaskAndOffice(task.getTaskTemplate(), taskOffice.getTask(), taskOffice.getOffice());	
 			}
 
-			if(isEmpty(taskOfficeStored)) {
+			if (isEmpty(taskOfficeStored)) {
 				taskOffice.setCreationDate(new Date());
 				taskOffice.setCreatedBy(username);
 
@@ -247,8 +232,19 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 				logger.error("Error parsing date", e);
 			}
 			taskOfficeStored.setEndDate(date);
+
+			taskOfficeStored.setTask(task);
+			taskOfficeStored.setStartDate(new Date());
+			taskOfficeStored.setEnabled(taskOfficeStored.getTask().getEnabled());
+			taskOfficeStored.setCreatedBy(username);
+			taskOfficeStored.setCreationDate(new Date());
+			taskOfficeStored.setModifiedBy(username);
+			taskOfficeStored.setModificationDate(new Date());
+
+			taskOfficeStored = taskOfficeRepository.save(taskOfficeStored);
+
 		} else { // Existing Task template
-			Optional<TaskOffice> taskOfficeOptional = taskOfficeRepository.findById(taskOfficeLight.getIdTaskOffice());
+			Optional<TaskOffice> taskOfficeOptional = taskOfficeRepository.findById(taskOffice.getIdTaskOffice());
 
 			if (taskOfficeOptional.isPresent()) {
 				taskOfficeStored = taskOfficeOptional.get();
@@ -259,17 +255,13 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			logger.info("Updating the taskOffice with id: " + taskOfficeStored.getIdTaskOffice());
 		}
 
-		taskOfficeStored.setTask(task);
-		taskOfficeStored.setStartDate(new Date());
-		taskOfficeStored.setEnabled(taskOfficeStored.getTask().getEnabled());
-		taskOfficeStored.setCreatedBy(username);
-		taskOfficeStored.setCreationDate(new Date());
-		taskOfficeStored.setModifiedBy(username);
-		taskOfficeStored.setModificationDate(new Date());
+		// Verify if the object has been changed by the user
+		// if yes, process the data otherwise skip it
+		Boolean taskOfficeWithRelationOnChange = checkTaskOfficeWithRelation(taskOffice, taskOfficeStored);
 
-		taskOfficeStored = taskOfficeRepository.save(taskOfficeStored);
-
-		if(!isEmpty(taskOffice.getTaskOfficeRelations()) && !isEmpty(taskOfficeStored.getIdTaskOffice())) {
+		if (!isEmpty(taskOffice.getTaskOfficeRelations()) && 
+				!isEmpty(taskOfficeStored.getIdTaskOffice()) &&
+				taskOfficeWithRelationOnChange) {
 			List<TaskOfficeRelations> taskOfficeRelations = new ArrayList<>();
 			for (TaskOfficeRelations taskOfficeRelationLoop : taskOffice.getTaskOfficeRelations()) {
 				taskOfficeRelationLoop.setTaskOffice(taskOfficeStored);
@@ -279,16 +271,21 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		}
 
 
-		if(!isEmpty(taskOfficeStored.getTaskOfficeRelations())) {
+		if (!isEmpty(taskOfficeStored.getTaskOfficeRelations())) {
 
-			taskOfficeRelationRepository.updateTaskOfficeRelationsNotEnableByTaskOffice(taskOfficeStored, username);
+			if (taskOfficeWithRelationOnChange) {
+				taskOfficeRelationRepository.updateTaskOfficeRelationsNotEnableByTaskOffice(taskOfficeStored, username);	
+			}
 
 			for (TaskOfficeRelations taskOfficeRelationLoop : taskOfficeStored.getTaskOfficeRelations()) {
-				
+
 				long startTime = System.currentTimeMillis();
-				
-				saveUpdateTaskOfficeRelation(taskOfficeRelationLoop, taskOfficeStored);
-				
+
+				if (taskOfficeWithRelationOnChange) {
+					saveUpdateTaskOfficeRelation(taskOfficeRelationLoop, taskOfficeStored);	
+				}
+
+
 				UtilStatic.DurationExecutionMethod(startTime, "saveUpdateTaskOfficeRelation", logger);
 			}
 		}
@@ -298,35 +295,55 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		return taskOffice;
 	}
 
+	/**
+	 * Verify if the object has been changed by the user
+	 * 
+	 * @param taskOffice
+	 * @param taskOfficeStored
+	 * @return if true the data base been changed process the data, otherwise skip it
+	 */
+	private boolean checkTaskOfficeWithRelation(TaskOffice taskOffice, TaskOffice taskOfficeStored) {
+
+		if (isEmpty(taskOffice.getTaskOfficeRelations()) ||
+				taskOffice.getTaskOfficeRelations().size() != taskOfficeStored.getTaskOfficeRelations().size()) {
+			return true;
+		} else if (taskOffice.getTaskOfficeRelations().size() == taskOfficeStored.getTaskOfficeRelations().size() &&
+				taskOffice.getTaskOfficeRelations().equals(taskOfficeStored.getTaskOfficeRelations())) {
+			return false;
+		}
+
+		return true;
+	}
+
 	@Override
 	public TaskOfficeRelations saveUpdateTaskOfficeRelation(TaskOfficeRelations taskOfficeRelation, TaskOffice taskOffice) {
 
 		TaskOffice taskOfficeLight = new TaskOffice();
 		taskOfficeLight.setIdTaskOffice(taskOffice.getIdTaskOffice());
-		
+
 		// The modification of User
 		String username = getTokenUserDetails().getUser().getUsername();
 
 		TaskOfficeRelations taskOfficeRelationStored = null;
 
 		long startTime = System.currentTimeMillis();
-		
+
 		Optional<TaskOfficeRelations> taskOfficeRelationOptional = taskOfficeRelationRepository.
 				getTaskOfficeRelationsByUsernameAndTaskOffice(taskOfficeRelation.getUsername(), taskOffice);
 
 		UtilStatic.DurationExecutionMethod(startTime, "getTaskOfficeRelationsByUsernameAndTaskOffice", logger);
-		
+
 		// Existing Task template
 		if (taskOfficeRelationOptional.isPresent()){ 
 			taskOfficeRelationStored = taskOfficeRelationOptional.get();
 
-			if(taskOfficeRelationStored == null) {
+			if (taskOfficeRelationStored == null) {
 				taskOfficeRelationStored = taskOfficeRelation;
 			}
 			logger.info("Updating the taskOfficeRelation with id: " + (!isEmpty(taskOfficeRelationStored) ? taskOfficeRelationStored.getIdTaskOfficeRelation() : ""));
 
 			// New Task office relation
-		} else if(isEmpty(taskOfficeRelation.getIdTaskOfficeRelation())) {
+		} else if (isEmpty(taskOfficeRelation.getIdTaskOfficeRelation())) {
 			taskOfficeRelation.setCreationDate(new Date());
 			taskOfficeRelation.setCreatedBy(username);
 
@@ -335,8 +352,8 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			logger.info("Creating the new taskOfficeRelation");
 		} 
 
-		if(!isEmpty(taskOfficeRelationStored)) {
-			
+		if (!isEmpty(taskOfficeRelationStored)) {
+
 			taskOfficeRelationStored.setUsername(taskOfficeRelation.getUsername());
 			taskOfficeRelationStored.setTaskOffice(taskOffice);
 			taskOfficeRelationStored.setRelationType(taskOfficeRelation.getRelationType());
@@ -345,9 +362,9 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			taskOfficeRelationStored.setEnabled(taskOffice.getEnabled());
 
 			startTime = System.currentTimeMillis();
-			
+
 			taskOfficeRelationStored = taskOfficeRelationRepository.save(taskOfficeRelationStored);
-			
+
 			UtilStatic.DurationExecutionMethod(startTime, "save taskOfficeRelationStored", logger);
 
 			logger.info("Stored the taskOfficeRelation with id: " + taskOfficeRelationStored.getIdTaskOfficeRelation());
@@ -366,8 +383,20 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		Set<TaskOffice> taskOfficesToSave = new HashSet<>();
 		for (TaskOffice taskOffice : taskOffices) {
 
+			if (isEmpty(taskOffice.getIdTaskOffice())) {
+				taskOffice.setTaskTemplate(taskStored.getTaskTemplate());
+				taskOfficesToSave.add(taskOffice);
+			} else if (!taskStored.getTaskOfficesFilterEnabled()
+					.stream()
+					.anyMatch(toff -> toff.getIdTaskOffice()
+							.compareTo(taskOffice.getIdTaskOffice()) == 0)) {
+
+				taskOfficesToSave.add(taskOffice);
+			}
+
+
 			for (TaskOffice taskOfficeStored : taskStored.getTaskOfficesFilterEnabled()) {
-				if(isEmpty(taskOffice.getIdTaskOffice()) || 
+				if (isEmpty(taskOffice.getIdTaskOffice()) || 
 						(!isEmpty(taskOffice.getIdTaskOffice()) && !isEmpty(taskOfficeStored.getIdTaskOffice()) && 
 								taskOffice.getIdTaskOffice().compareTo(taskOfficeStored.getIdTaskOffice()) == 0)) {
 
@@ -376,27 +405,25 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 			}
 		}
 
-		taskOfficesToSave.addAll(taskOffices);
-
 		Set<TaskOffice> taskOfficesToRemove = taskStored.getTaskOfficesFilterEnabled();
 		taskOfficesToRemove.removeAll(taskOfficesToSave);
-		if(!isEmpty(taskOfficesToRemove)) {
+		if (!isEmpty(taskOfficesToRemove)) {
 			logger.info("Number of task offices to remove: " + taskOfficesToRemove.size());
 
 			for (TaskOffice taskOffice : taskOfficesToRemove) {
-				if( taskStored.getExcludeOffice()  ||
+				if ( (isEmpty(taskStored.getOffice()) || 
 						(!isEmpty(taskOffice.getOffice()) && 
 								!isEmpty(taskStored.getOffice()) &&
-								taskOffice.getOffice().getIdOffice().compareTo(taskStored.getOffice().getIdOffice()) == 0)) {
+								taskOffice.getOffice().getIdOffice().compareTo(taskStored.getOffice().getIdOffice()) == 0))) {
 
 					taskOffice.setEnabled(false);
 					taskOffice.setEndDate(new Date());
 					taskOffice.setModifiedBy(username);
 
-					if(taskOfficeRepository.findById(taskOffice.getIdTaskOffice()).isPresent()) {
+					if (taskOfficeRepository.findById(taskOffice.getIdTaskOffice()).isPresent()) {
 						taskOfficeRepository.save(taskOffice);	
 
-						if(!isEmpty(taskOffice.getTaskOfficeRelations())) {
+						if (!isEmpty(taskOffice.getTaskOfficeRelations())) {
 							for (TaskOfficeRelations taskOfficeRelations : taskOffice.getTaskOfficeRelations()) {
 								officeService.deleteTaskOfficeRelations(taskOfficeRelations);
 							}
@@ -421,7 +448,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 	@Override
 	public void deleteTask(Task task) {
 
-		if(!isEmpty(task)) {
+		if (!isEmpty(task)) {
 
 			// The modification of User
 			String username = getTokenUserDetails().getUser().getUsername();
@@ -440,12 +467,9 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 			taskStored = taskRepository.save(taskStored);
 
-			taskStored.setExcludeOffice(true);
-			task.setExcludeOffice(true);
-
 			taskTaskOfficeSaveUpdate(taskStored, task);
 
-			if(!isEmpty(taskStored.getExpirationsFilterEnabled())) {
+			if (!isEmpty(taskStored.getExpirationsFilterEnabled())) {
 				for (Expiration expiration : taskStored.getExpirationsFilterEnabled()) {
 					expirationService.deleteExpiration(expiration.getIdExpiration());
 				}
@@ -462,10 +486,10 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 		// The modification of User
 		String username = getTokenUserDetails().getUser().getUsername();
 
-		if(!isEmpty(taskOffice) && !isEmpty(taskOffice.getOffice())) {
+		if (!isEmpty(taskOffice) && !isEmpty(taskOffice.getOffice())) {
 
 			Optional<TaskOffice> taskOfficeOptional = taskOfficeRepository.findById(taskOffice.getIdTaskOffice());
-			if(taskOfficeOptional.isPresent()) {
+			if (taskOfficeOptional.isPresent()) {
 
 				TaskOffice taskOfficeStored = taskOfficeOptional.get();
 
@@ -477,10 +501,10 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 				taskOfficeRelationRepository.updateTaskOfficeRelationsNotEnableByTaskOffice(taskOfficeStored, username);
 
-				if(isEmpty(taskOfficeStored.getTask().getTaskOfficesFilterEnabled())) {
+				if (isEmpty(taskOfficeStored.getTask().getTaskOfficesFilterEnabled())) {
 					deleteTask(taskOfficeStored.getTask());
 
-					if(isEmpty(taskOfficeStored.getTask().getTaskTemplate().getTaskFilterEnabled())) {
+					if (isEmpty(taskOfficeStored.getTask().getTaskTemplate().getTaskFilterEnabled())) {
 						taskTemplateService.deleteTaskTemplate(taskOfficeStored.getTask().getTaskTemplate());
 					}
 				}
@@ -491,7 +515,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 			deleteTask(taskOffice.getTask());
 
-			if(isEmpty(taskOffice.getTask().getTaskTemplate().getTaskFilterEnabled())) {
+			if (isEmpty(taskOffice.getTask().getTaskTemplate().getTaskFilterEnabled())) {
 				taskTemplateService.deleteTaskTemplate(taskOffice.getTask().getTaskTemplate());
 			}
 		}
@@ -504,7 +528,7 @@ public class TaskService extends UpdateCacheData implements ITaskService, IUserM
 
 		Optional<Task> firstTask = tasks.stream().findFirst();
 
-		if(firstTask.isPresent()) {
+		if (firstTask.isPresent()) {
 			return firstTask.get();
 		}
 		return null;

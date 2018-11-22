@@ -55,7 +55,7 @@ public class UserService extends UpdateCacheData implements IUserService, IUserM
         List<User> userList = new ArrayList<>();
 
         List<User> userListFromCache = getUsersFromCache();
-        if(!isEmpty(userListFromCache)) {
+        if (!isEmpty(userListFromCache)) {
             userList = userListFromCache;
         } else {
             userRepository.findAll().forEach(userList::add);
@@ -82,7 +82,7 @@ public class UserService extends UpdateCacheData implements IUserService, IUserM
     	List<User> userListToRemove = new ArrayList<>();
 
     	for (User user : userList) {
-    		if(!isEmpty(user.getAuthorities()) && 
+    		if (!isEmpty(user.getAuthorities()) && 
     				user.getAuthorities().contains(Authority.valueOf(role))) {
     			userListToRemove.add(user);
     		}
@@ -104,17 +104,17 @@ public class UserService extends UpdateCacheData implements IUserService, IUserM
 
 	@Override
 	public void setUserRelationType(User user) {
-		if(!isEmpty(user) &&
+		if (!isEmpty(user) &&
 				!isEmpty(user.getAuthorities()) && 
 				user.getAuthorities().contains(Authority.CORPOBLIG_USER)) {
 
 			String username = user.getUsername();
 			
-			if(!isEmpty(taskOfficeRelationRepository.
+			if (!isEmpty(taskOfficeRelationRepository.
 					getTaskOfficeRelationsByUsernameAndRelationType(username, CONTROLLER))) {
 				user.getAuthorities().add(Authority.CORPOBLIG_CONTROLLER);
 			}
-			if(!isEmpty(taskOfficeRelationRepository.
+			if (!isEmpty(taskOfficeRelationRepository.
 					getTaskOfficeRelationsByUsernameAndRelationType(username, CONTROLLED))) {
 				user.getAuthorities().add(Authority.CORPOBLIG_CONTROLLED);
 			}
@@ -127,7 +127,7 @@ public class UserService extends UpdateCacheData implements IUserService, IUserM
 
 		List<Company> companies = companyRepository.getCompaniesByRoleUser(user.getUsername());
 		
-		if(!isEmpty(companies)) {
+		if (!isEmpty(companies)) {
 			user.getAuthorities().add(Authority.CORPOBLIG_USER_ADMIN_COMPANY);
 		}
 		

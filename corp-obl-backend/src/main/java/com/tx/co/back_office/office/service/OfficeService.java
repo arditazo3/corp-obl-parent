@@ -210,7 +210,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 
 	public void deleteTaskOffice(Office office) {
 
-		if(!isEmpty(office.getTaskOffices())) {
+		if (!isEmpty(office.getTaskOffices())) {
 
 			// The modification of User
 			String username = getTokenUserDetails().getUser().getUsername();
@@ -224,13 +224,13 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 
 				logger.info("Delete Task office with id: " + taskOffice.getIdTaskOffice());
 
-				if(!isEmpty(taskOffice.getTaskOfficeRelations())) {
+				if (!isEmpty(taskOffice.getTaskOfficeRelations())) {
 					for (TaskOfficeRelations taskOfficeRelations : taskOffice.getTaskOfficeRelations()) {
 						deleteTaskOfficeRelations(taskOfficeRelations);
 					}
 				}
 
-				if(!isEmpty(taskOffice.getTaskTemplate())) {
+				if (!isEmpty(taskOffice.getTaskTemplate())) {
 					taskTemplateService.deleteTaskTemplate(taskOffice.getTaskTemplate());
 				}
 			}
@@ -276,7 +276,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		query = em.createQuery(querySql);
 
 		List<Office> offices;
-		if(isEmpty(taskTempOffices.getOffices())) {
+		if (isEmpty(taskTempOffices.getOffices())) {
 			offices = getOfficesByRole();
 		} else {
 			offices = taskTempOffices.getOffices();
@@ -360,7 +360,7 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		for (Office officeLoop : officeTaskTemplatesMap.keySet()) {
 
 			List<TaskTemplate> taskTemplates = officeTaskTemplatesMap.get(officeLoop);
-			if(!isEmpty(taskTemplates)) {
+			if (!isEmpty(taskTemplates)) {
 				for (TaskTemplate taskTemplate : taskTemplates) {
 
 					List<DescriptionLangResult> descriptionLangList = taskTemplateService.buildDescriptionList(taskTemplate, langs, 0);
@@ -384,9 +384,9 @@ public class OfficeService extends UpdateCacheData implements IOfficeService, IU
 		User userLoggedIn = getTokenUserDetails().getUser();
 		String username = userLoggedIn.getUsername();
 
-		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+		if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			return officeRepository.findAllByOrderByDescriptionAsc();
-		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) ||
+		} else if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) ||
 				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND) ||
 				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLER) ||
 				userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_USER)) {

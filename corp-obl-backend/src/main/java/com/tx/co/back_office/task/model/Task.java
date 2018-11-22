@@ -113,9 +113,6 @@ public class Task implements Serializable {
 	@Transient
 	private Office office;
 	
-	@Transient
-	private Boolean excludeOffice = false; 
-	
 	public Long getIdTask() {
 		return idTask;
 	}
@@ -268,16 +265,8 @@ public class Task implements Serializable {
 		this.office = office;
 	}
 
-	public Boolean getExcludeOffice() {
-		return excludeOffice;
-	}
-
-	public void setExcludeOffice(Boolean excludeOffice) {
-		this.excludeOffice = excludeOffice;
-	}
-
 	public Set<TaskOffice> getTaskOfficesFilterEnabled() {
-		if(!isEmpty(taskOffices)) {
+		if (!isEmpty(taskOffices)) {
 			
 			setTaskOffices(taskOffices.stream()
 				    .filter(taskOffice -> (isEmpty(taskOffice.getEnabled()) || taskOffice.getEnabled()) ).collect(Collectors.toSet()));
@@ -286,7 +275,7 @@ public class Task implements Serializable {
 	}
 	
 	public Set<Expiration> getExpirationsFilterEnabled() {
-		if(!isEmpty(expirations)) {
+		if (!isEmpty(expirations)) {
 			
     		setExpirations(expirations.stream()
     				.filter(expiration -> (isEmpty(expiration.getEnabled()) || expiration.getEnabled()) ).collect(Collectors.toSet()));

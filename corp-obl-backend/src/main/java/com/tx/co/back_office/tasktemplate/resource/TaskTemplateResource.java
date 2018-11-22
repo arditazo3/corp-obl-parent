@@ -95,12 +95,12 @@ public class TaskTemplateResource extends ObjectResult {
 		OfficeResult officeRequest = taskTemplateOfficeResult.getOffice();
 		Office office = officeRequest == null ? null : toOffice(officeRequest);
 		TaskResult taskRequest = taskTemplateOfficeResult.getTask();
-		Task task = taskRequest == null ? null : toTaskWithTaskOffices(taskRequest);
+		Task task = taskRequest == null ? null : toTaskWithTaskOffices(taskRequest.setTaskTemplateReturnTask(taskTemplateRequest));
 		Boolean isSavingTaskTemplateTask = taskTemplateOfficeResult.getIsSavingTaskTemplateTask();
 		
 		TaskTemplate taskTemplateStored = taskTemplateService.saveUpdateTaskTemplate(toTaskTemplate(taskTemplateRequest), office);
 
-		if(isSavingTaskTemplateTask && !isEmpty(task)) {
+		if (isSavingTaskTemplateTask && !isEmpty(task)) {
 			task.setTaskTemplate(taskTemplateStored);
 			taskService.saveUpdateTask(task);
 		}

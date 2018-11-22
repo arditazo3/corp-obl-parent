@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -85,6 +86,9 @@ public class TaskOffice implements Serializable {
 
     @Column(nullable = false, name = "modifiedby")
     private String modifiedBy;
+    
+    @Transient
+    private Boolean isChangedObject = false;
 
 	public Long getIdTaskOffice() {
 		return idTaskOffice;

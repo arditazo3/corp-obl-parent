@@ -90,7 +90,7 @@ public class ExpirationActivityAttachmentService implements IExpirationActivityA
 		Optional<ExpirationActivityAttachment> expirationActivityAttachmentFromDB = 
 				findByIdExpirationActivityAttachment(idExpirationActivityAttachment);
 		
-		if(expirationActivityAttachmentFromDB.isPresent()) {
+		if (expirationActivityAttachmentFromDB.isPresent()) {
 			ExpirationActivityAttachment expirationActivityAttachment = expirationActivityAttachmentFromDB.get();
 
 			ExpirationActivity expirationActivity = expirationActivityAttachment.getExpirationActivity();

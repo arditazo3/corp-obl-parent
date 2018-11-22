@@ -95,7 +95,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		TaskTemplate taskTemplateStored = null;
 
 		// New Task template
-		if(isEmpty(taskTemplate.getIdTaskTemplate())) {
+		if (isEmpty(taskTemplate.getIdTaskTemplate())) {
 			taskTemplate.setCreationDate(new Date());
 			taskTemplate.setCreatedBy(username);
 			taskTemplate.setEnabled(true);
@@ -105,7 +105,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		} else { // Existing Task template
 			taskTemplateStored = getTaskTemplateById(taskTemplate.getIdTaskTemplate());
 
-			if(!isEmpty(taskTemplate.getEnabled())) {
+			if (!isEmpty(taskTemplate.getEnabled())) {
 				taskTemplateStored.setEnabled(taskTemplate.getEnabled());	
 			}
 
@@ -162,9 +162,9 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		String username = userLoggedIn.getUsername();
 		List<Task> tasks = new ArrayList<>();
 
-		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
+		if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			tasks = convertToTaskForTable(taskTemplateRepository.findAllOrderNotRapidConfigurationByDescriptionAsc(), new ArrayList<>());
-		} else if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
+		} else if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN)) {
 			tasks = convertToTaskForTable(taskTemplateRepository.getTaskTemplatesByRole(username), new ArrayList<>());
 		}
 
@@ -190,14 +190,14 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 				"left join cu.user u on cu.username = u.username " +
 				"where tt.enabled <> 0 and tt.isRapidConfiguration <> 1";
 
-		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) &&
+		if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) &&
 				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			querySql += "and u.username = :username ";
 		}
 
 		Query query;
 
-		if(isEmpty(objectSearchTaskTemplate.getCompanies()) && isEmpty(objectSearchTaskTemplate.getTopics())) {
+		if (isEmpty(objectSearchTaskTemplate.getCompanies()) && isEmpty(objectSearchTaskTemplate.getTopics())) {
 
 
 			querySql += "and tt.description like :description "
@@ -206,10 +206,10 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 			query.setParameter(DESCRIPTION_QUERY_PARAM, "%" + objectSearchTaskTemplate.getDescriptionTaskTemplate() + "%");
 		} else {
-			if(!isEmpty(objectSearchTaskTemplate.getCompanies())) {
+			if (!isEmpty(objectSearchTaskTemplate.getCompanies())) {
 				querySql += "and c in :companiesList ";
 			}
-			if(!isEmpty(objectSearchTaskTemplate.getTopics())) {
+			if (!isEmpty(objectSearchTaskTemplate.getTopics())) {
 				querySql += "and t in :topicsList ";
 			}
 
@@ -221,15 +221,15 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 		query.setParameter(DESCRIPTION_QUERY_PARAM, "%" + objectSearchTaskTemplate.getDescriptionTaskTemplate() + "%");
 
-		if(!isEmpty(objectSearchTaskTemplate.getTopics())) {
+		if (!isEmpty(objectSearchTaskTemplate.getTopics())) {
 			query.setParameter("topicsList",   objectSearchTaskTemplate.getTopics());
 		}
 
-		if(!isEmpty(objectSearchTaskTemplate.getCompanies())) {
+		if (!isEmpty(objectSearchTaskTemplate.getCompanies())) {
 			query.setParameter("companiesList", objectSearchTaskTemplate.getCompanies());	
 		}
 
-		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) &&
+		if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_FOREIGN) &&
 				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			query.setParameter("username", username);
 		}
@@ -247,7 +247,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 		for (TaskTemplate taskTemplate : taskTemplates) {
 
 			int index = 1;
-			if(!isEmpty(taskTemplate.getTasks())) {
+			if (!isEmpty(taskTemplate.getTasks())) {
 				for (Task taskLoop : taskTemplate.getTasks()) {
 
 					List<Company> coumpanyCounterList = new ArrayList<>();
@@ -268,7 +268,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 						idCompanies = getCompanies.stream().map(Company::getIdCompany).collect(Collectors.toList());
 					}
 
-					if(!isEmpty(getCompanies) && !CollectionUtils.containsAny(idCompaniesUnique, idCompanies)) {  
+					if (!isEmpty(getCompanies) && !CollectionUtils.containsAny(idCompaniesUnique, idCompanies)) {  
 						continue;
 					}
 
@@ -301,7 +301,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 	private void setTranslationsToTopicsAndDescription(Task taskLoop, String lang) {
 
-		if(!isEmpty(taskLoop.getTaskTemplate()) && 
+		if (!isEmpty(taskLoop.getTaskTemplate()) && 
 				!isEmpty(taskLoop.getTaskTemplate().getTopic()) &&
 				isEmpty(taskLoop.getTaskTemplate().getTopic().getTranslationList())) {
 
@@ -311,9 +311,9 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 					.getTranslationByEntityIdAndTablename(topic.getIdTopic(), "co_topic");
 			topic.setTranslationList(translationList);
 
-			if(!isEmpty(translationList) && !isEmpty(lang)) {
+			if (!isEmpty(translationList) && !isEmpty(lang)) {
 				for (Translation translation : translationList) {
-					if(translation.getLang().equalsIgnoreCase(lang)) {
+					if (translation.getLang().equalsIgnoreCase(lang)) {
 						topic.setDescription(translation.getDescription());
 					}
 				}
@@ -327,7 +327,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 		logger.info("Searching Office Task Templates by Description");
 
-		if(isEmpty(description)) {
+		if (isEmpty(description)) {
 			description = "";
 		}
 
@@ -336,7 +336,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 		String querySql = "select tt from TaskTemplate tt ";
 
-		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND) &&
+		if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND) &&
 				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			querySql += "left join tt.topic t " + 
 					"left join t.topicConsultants tc " + 
@@ -360,7 +360,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 		query.setParameter(DESCRIPTION_QUERY_PARAM, "%" + description + "%");
 
-		if(userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND) &&
+		if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_BACKOFFICE_INLAND) &&
 				!userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_ADMIN)) {
 			query.setParameter("username", username);
 		}
@@ -370,7 +370,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 	private List<TaskTemplate> setDescriptionTaskTemplate(List<TaskTemplate> taskTemplates) {
 		
-		if(!isEmpty(taskTemplates)) {
+		if (!isEmpty(taskTemplates)) {
 			
 			List<String> langs = getLanguagesFromCache();
 
@@ -389,7 +389,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 				List<Office> officeCounterList = new ArrayList<>();
 
-				if(!isEmpty(taskTemplate.getTasks())) {
+				if (!isEmpty(taskTemplate.getTasks())) {
 
 					Task singleTask = taskTemplate.getTasks().iterator().next();
 
@@ -421,7 +421,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 			Optional<TaskTemplate> taskTemplateOptional = findByIdTaskTemplate(idTaskTemplate);
 
-			if(!taskTemplateOptional.isPresent()) {
+			if (!taskTemplateOptional.isPresent()) {
 				throw new NotFoundException();
 			}
 
@@ -436,7 +436,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 			taskTemplateRepository.save(taskTemplateStored);
 
-			if(!isEmpty(taskTemplateStored.getTasks())) {
+			if (!isEmpty(taskTemplateStored.getTasks())) {
 				for (Task task : taskTemplateStored.getTasks()) {
 					taskService.deleteTask(task);
 				}
@@ -459,17 +459,17 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 
 		List<DescriptionLangResult> descriptionLangList = new ArrayList<>();
 
-		if(!isEmpty(object) && !isEmpty(langs)) {
+		if (!isEmpty(object) && !isEmpty(langs)) {
 			for (String lang : new ArrayList<String>(langs)) {
 
 
-				if(object instanceof Task) {
+				if (object instanceof Task) {
 					Task task = (Task) object;
 					String description = "";
 
 					description = getTranslationByLangLikeTablename(new TranslationPairKey("configurationinterval", lang)).getDescription();
 
-					if(index != 0) {
+					if (index != 0) {
 						description += " " + index + ": ";
 					}
 
@@ -478,13 +478,13 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 					description += getTranslationByLangLikeTablename(new TranslationPairKey(task.getExpirationType(), lang)).getDescription();
 
 					if (task.getExpirationType().compareTo(EXP_FIX_DAY) == 0 && !isEmpty(task.getDay())) {
-						if(task.getRecurrence().compareTo(REC_YEARLY) == 0) {
+						if (task.getRecurrence().compareTo(REC_YEARLY) == 0) {
 							String dayString = task.getDay().toString();
-							if(dayString.length() == 8) {
+							if (dayString.length() == 8) {
 								String[] splitYearMonthDay = {dayString.substring(0, 4), dayString.substring(4, 6), dayString.substring(6)};
 								description += " - " + splitYearMonthDay[2] + "/" + splitYearMonthDay[1];
 							}
-						} else if(task.getRecurrence().compareTo(REC_WEEKLY) == 0) {
+						} else if (task.getRecurrence().compareTo(REC_WEEKLY) == 0) {
 							description += " - " + getTranslationByLangLikeTablename(new TranslationPairKey("period_weekly_exp_fixed_day#".concat(task.getDay().toString()), lang)).getDescription();
 						} else {
 							description += " - " + task.getDay();
@@ -494,7 +494,7 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 					
 					descriptionLangList.add(new DescriptionLangResult(description, lang));
 					
-				} else if(object instanceof TaskTemplate) {
+				} else if (object instanceof TaskTemplate) {
 					TaskTemplate taskTemplate = (TaskTemplate) object;
 					String description = "";
 
@@ -503,13 +503,13 @@ public class TaskTemplateService extends UpdateCacheData implements ITaskTemplat
 					description += getTranslationByLangLikeTablename(new TranslationPairKey(taskTemplate.getExpirationType(), lang)).getDescription();
 
 					if (taskTemplate.getExpirationType().compareTo(EXP_FIX_DAY) == 0) {
-						if(taskTemplate.getRecurrence().compareTo(REC_YEARLY) == 0) {
+						if (taskTemplate.getRecurrence().compareTo(REC_YEARLY) == 0) {
 							String dayString = taskTemplate.getDay().toString();
-							if(dayString.length() == 8) {
+							if (dayString.length() == 8) {
 								String[] splitYearMonthDay = {dayString.substring(0, 4), dayString.substring(4, 6), dayString.substring(6)};
 								description += " - " + splitYearMonthDay[2] + "/" + splitYearMonthDay[1];
 							}
-						} else if(taskTemplate.getRecurrence().compareTo(REC_WEEKLY) == 0) {
+						} else if (taskTemplate.getRecurrence().compareTo(REC_WEEKLY) == 0) {
 							description += " - " + getTranslationByLangLikeTablename(new TranslationPairKey("period_weekly_exp_fixed_day#".concat(taskTemplate.getDay().toString()), lang)).getDescription();
 						} else {
 							description += " - " + taskTemplate.getDay();

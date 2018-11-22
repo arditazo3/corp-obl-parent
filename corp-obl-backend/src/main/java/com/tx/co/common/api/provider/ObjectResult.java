@@ -780,7 +780,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		task.setDaysOfNotice(taskResult.getDaysOfNotice());
 		task.setFrequenceOfNotice(taskResult.getFrequenceOfNotice());
 		task.setDaysBeforeShowExpiration(taskResult.getDaysBeforeShowExpiration());
-		if(!isEmpty(taskResult.getTaskTemplate())) {
+		if (!isEmpty(taskResult.getTaskTemplate())) {
 			task.setTaskTemplate(toTaskTemplate(taskResult.getTaskTemplate()));	
 		}
 		return task;
@@ -804,9 +804,6 @@ public abstract class ObjectResult extends UpdateCacheData {
 		}
 		if (!isEmpty(taskResult.getOffice())) {
 			task.setOffice(toOffice(taskResult.getOffice()));
-		}
-		if (!isEmpty(taskResult.getExcludeOffice())) {
-			task.setExcludeOffice(taskResult.getExcludeOffice());
 		}
 
 		return task;
@@ -913,7 +910,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		taskOffice.setTaskTemplate(toTaskTemplate(taskOfficeResult.getTaskTemplate()));
 		taskOffice.setTask(toTask(taskOfficeResult.getTask()));
 		
-		if(!isEmpty(taskOfficeResult.getOffice())) {
+		if (!isEmpty(taskOfficeResult.getOffice())) {
 			taskOffice.setOffice(toOffice(taskOfficeResult.getOffice()));	
 			
 			if (!isEmpty(taskOfficeResult.getOffice().getUserProviders())) {
@@ -1122,13 +1119,13 @@ public abstract class ObjectResult extends UpdateCacheData {
 		expiration.setStatusExpirationOnChange(expirationResult.getStatusExpirationOnChange());
 		expiration.setUserRelationType(expirationResult.getUserRelationType());
 
-		if(!isEmpty(expirationResult.getOffice())) {
+		if (!isEmpty(expirationResult.getOffice())) {
 			expiration.setOffice(toOffice(expirationResult.getOffice()));	
 		}
-		if(!isEmpty(expirationResult.getTask())) {
+		if (!isEmpty(expirationResult.getTask())) {
 			expiration.setTask(toTask(expirationResult.getTask()));	
 		}
-		if(!isEmpty(expirationResult.getTaskTemplate())) {
+		if (!isEmpty(expirationResult.getTaskTemplate())) {
 			expiration.setTaskTemplate(toTaskTemplate(expirationResult.getTaskTemplate()));	
 		}
 		return expiration;
@@ -1177,15 +1174,15 @@ public abstract class ObjectResult extends UpdateCacheData {
 	public List<ExpirationActivityResult> toExpirationActivityResult(Set<ExpirationActivity> expirationActivities) {
 		List<ExpirationActivityResult> expirationActivityResults = new ArrayList<>();
 
-		if(!isEmpty(expirationActivities)) {
+		if (!isEmpty(expirationActivities)) {
 
 			// sort activities
 			List<ExpirationActivity> expirationActivitiesToSort = new ArrayList<>(expirationActivities);
 			Collections.sort(expirationActivitiesToSort, new Comparator<ExpirationActivity>() {
 				@Override
 				public int compare(ExpirationActivity ea1, ExpirationActivity ea2) {
-					if(isEmpty(ea1.getModifiedBy())) return -1;
-					if(isEmpty(ea2.getModifiedBy())) return 1;
+					if (isEmpty(ea1.getModifiedBy())) return -1;
+					if (isEmpty(ea2.getModifiedBy())) return 1;
 
 					return ea2.getModificationDate().before(ea1.getModificationDate()) ? -1 : 1;
 				}
@@ -1217,7 +1214,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		expirationActivity.setIdExpirationActivity(expirationActivityResult.getIdExpirationActivity());
 		expirationActivity.setBody(expirationActivityResult.getBody());
 		expirationActivity.setExpiration(toExpiration(expirationActivityResult.getExpiration()));
-		if(!isEmpty(expirationActivityResult.getExpirationActivityAttachments())) {
+		if (!isEmpty(expirationActivityResult.getExpirationActivityAttachments())) {
 			List<ExpirationActivityAttachment> expirationActivityAttachments = new ArrayList<>();
 			for (ExpirationActivityAttachmentResult expirationActivityAttachmentResult : expirationActivityResult.getExpirationActivityAttachments()) {
 				expirationActivityAttachments.add(toExpirationActivityAttachment(expirationActivityAttachmentResult));

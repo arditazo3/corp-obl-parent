@@ -78,7 +78,7 @@ public class CompanyTopicService extends UpdateCacheData implements ICompanyTopi
     		
     		Optional<CompanyTopic> companyTopicOptional = companyTopicRepository.findById(idCompanyTopic);
 
-    		if(!companyTopicOptional.isPresent()) {
+    		if (!companyTopicOptional.isPresent()) {
     			throw new NotFoundException();
     		}
 
@@ -93,7 +93,7 @@ public class CompanyTopicService extends UpdateCacheData implements ICompanyTopi
 
     		companyTopicRepository.save(companyTopic);
 
-    		if(!isEmpty(companyTopic.getTopic())) {
+    		if (!isEmpty(companyTopic.getTopic())) {
     			topicService.deleteTopic(companyTopic.getTopic().getIdTopic());
     		}
     		

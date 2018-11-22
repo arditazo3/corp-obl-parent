@@ -14,7 +14,7 @@ public class FileUploadExceptionMapper implements javax.ws.rs.ext.ExceptionMappe
     @Override
     public Response toResponse(FileUploadException fileUploadException) {
 
-        if(logger.isErrorEnabled()) {
+        if (logger.isErrorEnabled()) {
             logger.error("An error occured", fileUploadException);
         }
 

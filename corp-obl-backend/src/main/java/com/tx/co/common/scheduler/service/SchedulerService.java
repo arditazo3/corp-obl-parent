@@ -27,7 +27,7 @@ public class SchedulerService extends CacheDataLoader implements ISchedulerServi
 	@Scheduled(cron="0 0 0 * * *")
 	@Override
 	public void jobScheduled() {
-		if(scheduledJobEnabled) {
+		if (scheduledJobEnabled) {
 			init();
 			
 			scheduler.execute();

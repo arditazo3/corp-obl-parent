@@ -34,7 +34,7 @@ public class UtilStatic {
 
 	public static int getIndexByPropertyCompanyList(Long idCompany, List<Company> comparableList) {
 
-		if(!isEmpty(comparableList)) {
+		if (!isEmpty(comparableList)) {
 			for (int i = 0; i < comparableList.size(); i++) {
 				Company company = comparableList.get(i);
 
@@ -48,7 +48,7 @@ public class UtilStatic {
 
 	public static int getIndexByPropertyOfficeList(Long idOffice, List<Office> comparableList) {
 
-		if(!isEmpty(comparableList)) {
+		if (!isEmpty(comparableList)) {
 			for (int i = 0; i < comparableList.size(); i++) {
 				Office office = comparableList.get(i);
 
@@ -62,7 +62,7 @@ public class UtilStatic {
 
 	public static int getIndexByPropertyTopicList(Long idTopic, List<Topic> comparableList) {
 
-		if(!isEmpty(comparableList)) {
+		if (!isEmpty(comparableList)) {
 			for (int i = 0; i < comparableList.size(); i++) {
 				Topic topic = comparableList.get(i);
 
@@ -76,7 +76,7 @@ public class UtilStatic {
 
 	public static int getIndexByPropertyTopicLConsultantist(Long idTopicConsultant, List<TopicConsultant> comparableList) {
 
-		if(!isEmpty(comparableList)) {
+		if (!isEmpty(comparableList)) {
 			for (int i = 0; i < comparableList.size(); i++) {
 				TopicConsultant topicConsultant = comparableList.get(i);
 
@@ -90,7 +90,7 @@ public class UtilStatic {
 
 	public static int getIndexByPropertyCompanyConsultantList(Long idCompanyConsultant, List<CompanyConsultant> comparableList) {
 
-		if(!isEmpty(comparableList)) {
+		if (!isEmpty(comparableList)) {
 			for (int i = 0; i < comparableList.size(); i++) {
 				CompanyConsultant companyConsultant = comparableList.get(i);
 
@@ -104,7 +104,7 @@ public class UtilStatic {
 
 	public static int getIndexByPropertyTaskTemplateList(Long idTaskTemplate, List<TaskTemplate> comparableList) {
 
-		if(!isEmpty(comparableList)) {
+		if (!isEmpty(comparableList)) {
 			for (int i = 0; i < comparableList.size(); i++) {
 				TaskTemplate taskTemplate = comparableList.get(i);
 
@@ -118,7 +118,7 @@ public class UtilStatic {
 
 	public static int getIndexByPropertyTaskTemplateListAttachment(Long idTaskTemplateAttachment, List<TaskTemplateAttachment> comparableList) {
 
-		if(!isEmpty(comparableList)) {
+		if (!isEmpty(comparableList)) {
 			for (int i = 0; i < comparableList.size(); i++) {
 				TaskTemplateAttachment taskTemplateAttachment = comparableList.get(i);
 
@@ -132,7 +132,7 @@ public class UtilStatic {
 
 	public static int getIndexByPropertyUserList(String username, List<User> comparableList) {
 
-		if(!isEmpty(comparableList)) {
+		if (!isEmpty(comparableList)) {
 			for (int i = 0; i < comparableList.size(); i++) {
 				User user = comparableList.get(i);
 
@@ -167,7 +167,7 @@ public class UtilStatic {
 
 	public static Date formatStringToDate(String dateString) {
 
-		if(isEmpty(dateString)) {
+		if (isEmpty(dateString)) {
 			return null;
 		}
 
@@ -189,12 +189,12 @@ public class UtilStatic {
 		Integer totalExpired = taskExpiration.getTotalExpired();
 
 		String colorDefined = "";
-		if(totalExpirations > 0) {
-			if(totalExpirations.compareTo(totalArchived) == 0) {
+		if (totalExpirations > 0) {
+			if (totalExpirations.compareTo(totalArchived) == 0) {
 				colorDefined = ALERT_PRIMARY;
-			} else if(totalExpirations.compareTo(totalCompleted) == 0) {
+			} else if (totalExpirations.compareTo(totalCompleted) == 0) {
 				colorDefined = ALERT_SUCCESS;
-			} else if(totalExpirations.compareTo(totalExpired) == 0) {
+			} else if (totalExpirations.compareTo(totalExpired) == 0) {
 				colorDefined = ALERT_WARNING;
 			}
 		} else {
@@ -218,25 +218,25 @@ public class UtilStatic {
 		Date expirationDate = expiration.getExpirationDate();
 
 		// expired
-		if(!isEmpty(expirationDate) && expirationDate.before(dateNow) &&
+		if (!isEmpty(expirationDate) && expirationDate.before(dateNow) &&
 				isEmpty(completed) && isEmpty(registred)) {
 			colorDefined = ALERT_WARNING;
 			// base
-		} else if(isEmpty(completed) && isEmpty(approved) && isEmpty(registred)) {
+		} else if (isEmpty(completed) && isEmpty(approved) && isEmpty(registred)) {
 			colorDefined = "";
 			statusExpiration = StatusExpirationEnum.BASE;
 			// archived	
-		} else if(!isEmpty(registred)) {
+		} else if (!isEmpty(registred)) {
 			colorDefined = ALERT_PRIMARY;
 			descriptionDate = "Archived at " + formatDateToString(registred);
 			statusExpiration = StatusExpirationEnum.ARCHIVED;
 			// completed	
-		} else if(!isEmpty(completed) && isEmpty(approved) && isEmpty(registred)) {
+		} else if (!isEmpty(completed) && isEmpty(approved) && isEmpty(registred)) {
 			colorDefined = ALERT_SUCCESS;
 			descriptionDate = "Completed at " + formatDateToString(completed);
 			statusExpiration = StatusExpirationEnum.COMPLETED;
 			// approved 	
-		} else if(!isEmpty(completed) && !isEmpty(approved) && isEmpty(registred)) {
+		} else if (!isEmpty(completed) && !isEmpty(approved) && isEmpty(registred)) {
 			colorDefined = ALERT_PRIMARY;
 			descriptionDate = "Approved at " + formatDateToString(approved);
 			statusExpiration = StatusExpirationEnum.APPROVED;
@@ -259,7 +259,7 @@ public class UtilStatic {
 		String userModify = expirationActivity.getModifiedBy();
 		Date lastModify = expirationActivity.getModificationDate();
 
-		if(!isEmpty(userModify) && !isEmpty(lastModify)) {
+		if (!isEmpty(userModify) && !isEmpty(lastModify)) {
 			descriptionLastActivity += userModify + ", " + formatDateToString(lastModify) + ", at " + formatHoursMinutesToString(lastModify) + " wrote";	
 		}
 

@@ -287,7 +287,7 @@ public class TaskTemplate implements Serializable {
 	}
 	
 	public Set<Task> getTaskFilterEnabled() {
-		if(!isEmpty(tasks)) {
+		if (!isEmpty(tasks)) {
 			
 			setTasks(tasks.stream()
 				    .filter(task -> (isEmpty(task.getEnabled()) || task.getEnabled()) ).collect(Collectors.toSet()));

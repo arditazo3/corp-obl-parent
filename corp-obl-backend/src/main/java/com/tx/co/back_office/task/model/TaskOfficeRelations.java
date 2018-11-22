@@ -132,7 +132,36 @@ public class TaskOfficeRelations implements Serializable {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((taskOffice == null) ? 0 : taskOffice.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TaskOfficeRelations other = (TaskOfficeRelations) obj;
+		if (taskOffice == null) {
+			if (other.taskOffice != null)
+				return false;
+		} else if (!taskOffice.getIdTaskOffice().equals(other.taskOffice.getIdTaskOffice()))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
+	}
+	
+	
 }

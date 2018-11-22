@@ -60,7 +60,7 @@ public class LocalStorageFileUploadHandler implements IFileUploadHandler {
 	public FileUploadResponse handle(FileUploadRequest request) {
 
 		// Early exit, if there is no Request:
-		if(request == null) {
+		if (request == null) {
 			throw new FileUploadException(new ServiceError("missingFile", "Missing File data"), "Missing Parameter: request");
 		}
 
@@ -68,7 +68,7 @@ public class LocalStorageFileUploadHandler implements IFileUploadHandler {
 		HttpFile httpFile = request.getHttpFile();
 
 		// Early exit, if the Request has no data assigned:
-		if(httpFile == null) {
+		if (httpFile == null) {
 			throw new FileUploadException(new ServiceError("missingFile", "Missing File data"), "Missing Parameter: request.httpFile");
 		}
 
@@ -80,7 +80,7 @@ public class LocalStorageFileUploadHandler implements IFileUploadHandler {
 
 		setSizeFileTypeTaskTempAttach(request);
 
-		if(request.getIncoming().equals(TASK_FILE_ICOMING)) {
+		if (request.getIncoming().equals(TASK_FILE_ICOMING)) {
 
 			TaskTemplateAttachment taskTemplateAttachment = taskTemplateAttachmentService.saveUpdateTaskTemplateAttachment(request);
 			return new FileUploadResponse(taskTemplateAttachment);
@@ -92,11 +92,11 @@ public class LocalStorageFileUploadHandler implements IFileUploadHandler {
 	}
 
 	private void setSizeFileTypeTaskTempAttach(FileUploadRequest request) {
-		if(!isEmpty(request.getHttpFile().getStream())) {
+		if (!isEmpty(request.getHttpFile().getStream())) {
 			try {
 				byte[] bytes = Files.readAllBytes(new File(request.getHttpFile().getFilePath()).toPath());
 				long fileSize = bytes.length;
-				if(BigInteger.valueOf(fileSize).divide(FileUtils.ONE_MB_BI).compareTo(new BigInteger(FILE_MAX_SIZE)) > 0) {
+				if (BigInteger.valueOf(fileSize).divide(FileUtils.ONE_MB_BI).compareTo(new BigInteger(FILE_MAX_SIZE)) > 0) {
 					throw new GeneralException("Maximum file size is " + FILE_MAX_SIZE + " MB");
 				}
 				request.getHttpFile().setSize(fileSize);
@@ -148,7 +148,7 @@ public class LocalStorageFileUploadHandler implements IFileUploadHandler {
 		
 		try{
 			File file = new File(taskTemplateAttachmentResult.getFilePath());
-			if(file.delete()){
+			if (file.delete()){
 				taskTemplateAttachmentService.deleteTaskTemplateAttachment(taskTemplateAttachmentResult.getIdTaskTemplateAttachment());
 				logger.info(file.getName() + " is deleted!");
 			}else{
@@ -163,7 +163,7 @@ public class LocalStorageFileUploadHandler implements IFileUploadHandler {
 	public void deleteFileExp(ExpirationActivityAttachmentResult expirationActivityAttachmentResult) {
 		try{
 			File file = new File(expirationActivityAttachmentResult.getFilePath());
-			if(file.delete()){
+			if (file.delete()){
 				expirationActivityAttachmentService.deleteExpirationActivityAttachment(expirationActivityAttachmentResult.getIdExpirationActivityAttachment());
 				logger.info(file.getName() + " is deleted!");
 			}else{

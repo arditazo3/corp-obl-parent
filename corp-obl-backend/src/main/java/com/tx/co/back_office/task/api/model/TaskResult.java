@@ -28,7 +28,6 @@ public class TaskResult {
 	private List<TaskOfficeResult> taskOffices;
 	private Integer counterCompany;
 	private OfficeResult office;
-	private Boolean excludeOffice = false; 
 	private List<DescriptionLangResult> descriptionLangList = new ArrayList<>();
 	
 	public Long getIdTask() {
@@ -48,6 +47,10 @@ public class TaskResult {
 	}
 	public void setTaskTemplate(TaskTemplateResult taskTemplate) {
 		this.taskTemplate = taskTemplate;
+	}
+	public TaskResult setTaskTemplateReturnTask(TaskTemplateResult taskTemplate) {
+		this.taskTemplate = taskTemplate;
+		return this;
 	}
 	public String getRecurrence() {
 		return recurrence;
@@ -102,12 +105,6 @@ public class TaskResult {
 	}
 	public void setOffice(OfficeResult office) {
 		this.office = office;
-	}
-	public Boolean getExcludeOffice() {
-		return excludeOffice;
-	}
-	public void setExcludeOffice(Boolean excludeOffice) {
-		this.excludeOffice = excludeOffice;
 	}
 	public List<DescriptionLangResult> getDescriptionLangList() {
 		return descriptionLangList;

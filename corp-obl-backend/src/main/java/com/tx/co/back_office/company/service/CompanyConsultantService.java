@@ -69,7 +69,7 @@ public class CompanyConsultantService extends UpdateCacheData implements ICompan
         CompanyConsultant companyConsultantStored = null;
 
         // New CompanyConsultant
-        if(isEmpty(companyConsultant.getIdCompanyConsultant())) {
+        if (isEmpty(companyConsultant.getIdCompanyConsultant())) {
             companyConsultant.setCreationDate(new Date());
             companyConsultant.setCreatedBy(username);
             companyConsultant.setEnabled(true);
@@ -84,7 +84,7 @@ public class CompanyConsultantService extends UpdateCacheData implements ICompan
             logger.info("Updating the companyConsultant with id: " + companyConsultantStored.getIdCompanyConsultant());
         }
         
-        if(!isEmpty(companyConsultant.getCompany())) {
+        if (!isEmpty(companyConsultant.getCompany())) {
         	companyConsultantStored.setCompany(companyConsultant.getCompany());
         }
         
@@ -122,7 +122,7 @@ public class CompanyConsultantService extends UpdateCacheData implements ICompan
 			
     		Optional<CompanyConsultant> companyConsultantOptional = findByIdCompanyConsultant(idCompanyConsultant);
 
-    		if(!companyConsultantOptional.isPresent()) {
+    		if (!companyConsultantOptional.isPresent()) {
     			throw new NotFoundException();
     		}
 

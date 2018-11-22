@@ -59,13 +59,13 @@ public class AuthenticationResource implements IUserManagementDetails {
         String username = credentials.getUsername();
         User userLogIn = null;
 
-        if(!StringUtils.isEmpty(username)) {
+        if (!StringUtils.isEmpty(username)) {
 
             userLogIn = userService.findByUsername(username);
 
-            if(userLogIn == null) {
+            if (userLogIn == null) {
                 throw new GeneralException("The user doesn't exist");
-            } else if(userLogIn.getAuthorities().isEmpty()) {
+            } else if (userLogIn.getAuthorities().isEmpty()) {
                 throw new GeneralException("The user should contain at least one role");
             }
 
