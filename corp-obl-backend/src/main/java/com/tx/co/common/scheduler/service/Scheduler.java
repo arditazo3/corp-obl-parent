@@ -422,7 +422,7 @@ public class Scheduler {
                             while (iExpirationDate <= maxDeadline) {
                                 currentDate = UtilDate.postpone(currentDate, MONTH, 1);
                                 // First day of month
-                                iExpirationDate = iCurrentYear * 10000 + UtilDate.getMonth(currentDate) * 100 + 1;
+                                iExpirationDate = UtilDate.getYear(currentDate) * 10000 + UtilDate.getMonth(currentDate) * 100 + 1;
                                 if (iExpirationDate <= maxDeadline) {
                                     result.add(iExpirationDate);
                                 }
@@ -437,7 +437,7 @@ public class Scheduler {
                             while (iExpirationDate <= maxDeadline) {
                                 currentDate = UtilDate.postpone(currentDate, MONTH, 1);
                                 // Last day of month
-                                iExpirationDate = iCurrentYear * 10000 + UtilDate.getMonth(currentDate) * 100 + UtilDate.getActualMaximumDayOfMonth(currentDate);
+                                iExpirationDate = UtilDate.getYear(currentDate) * 10000 + UtilDate.getMonth(currentDate) * 100 + UtilDate.getActualMaximumDayOfMonth(currentDate);
                                 if (iExpirationDate <= maxDeadline) {
                                     result.add(iExpirationDate);
                                 }
@@ -451,7 +451,7 @@ public class Scheduler {
                             // Add all the expiration until the max deadline
                             while (iExpirationDate <= maxDeadline) {
                                 currentDate = UtilDate.postpone(currentDate, MONTH, 1);
-                                iExpirationDate = iCurrentYear * 10000 + UtilDate.getMonth(currentDate) * 100 + day;
+                                iExpirationDate = UtilDate.getYear(currentDate) * 10000 + UtilDate.getMonth(currentDate) * 100 + day;
                                 if (iExpirationDate <= maxDeadline) {
                                     result.add(iExpirationDate);
                                 }
