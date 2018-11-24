@@ -7,7 +7,6 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {AgmCoreModule} from '@agm/core';
 
 import {FullComponent} from './layouts/full/full.component';
 import {BlankComponent} from './layouts/blank/blank.component';
@@ -64,9 +63,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         ReactiveFormsModule,
         HttpClientModule,
         NgbModule,
-        RouterModule.forRoot(Approutes, {useHash: false}),
+        RouterModule.forRoot(Approutes),
         PerfectScrollbarModule,
-        AgmCoreModule.forRoot({apiKey: 'AIzaSyBUb3jDWJQ28vDJhuQZxkC0NXr_zycm8D0'}),
         SweetAlert2Module.forRoot({
             buttonsStyling: false,
             customClass: 'modal-content',
