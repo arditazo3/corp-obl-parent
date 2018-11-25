@@ -10,7 +10,6 @@ import com.tx.co.back_office.topic.domain.TopicConsultant;
 import com.tx.co.front_end.expiration.api.model.ExpirationDetailResult;
 import com.tx.co.front_end.expiration.api.model.TaskOfficeExpirationsResult;
 import com.tx.co.front_end.expiration.domain.Expiration;
-import com.tx.co.front_end.expiration.domain.ExpirationActivity;
 import com.tx.co.front_end.expiration.enums.StatusExpirationEnum;
 import com.tx.co.user.domain.User;
 
@@ -251,19 +250,6 @@ public class UtilStatic {
 		expirationDetail.setStatusExpiration(statusExpiration);
 
 		return expirationDetail;
-	}
-
-	public static String buildDescriptionLastActivity(ExpirationActivity expirationActivity) {
-
-		String descriptionLastActivity = "";
-		String userModify = expirationActivity.getModifiedBy();
-		Date lastModify = expirationActivity.getModificationDate();
-
-		if (!isEmpty(userModify) && !isEmpty(lastModify)) {
-			descriptionLastActivity += userModify + ", " + formatDateToString(lastModify) + ", at " + formatHoursMinutesToString(lastModify) + " wrote";	
-		}
-
-		return descriptionLastActivity;
 	}
 
 	public static void DurationExecutionMethod(long startTime, String methodString, Logger logger) {

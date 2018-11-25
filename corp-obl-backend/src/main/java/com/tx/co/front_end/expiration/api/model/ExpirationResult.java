@@ -30,7 +30,8 @@ public class ExpirationResult {
 	private ExpirationDetailResult expirationDetail;
 	private String statusExpirationOnChange;
 	private Integer userRelationType;
-
+	private String fullName;
+	
 	public Long getIdExpiration() {
 		return idExpiration;
 	}
@@ -141,5 +142,13 @@ public class ExpirationResult {
 
 	public void setUserRelationType(Integer userRelationType) {
 		this.userRelationType = userRelationType;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 }

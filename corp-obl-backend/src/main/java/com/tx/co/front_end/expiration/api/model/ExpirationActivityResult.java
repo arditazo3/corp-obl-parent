@@ -1,9 +1,11 @@
 package com.tx.co.front_end.expiration.api.model;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.tx.co.common.api.model.DescriptionLangResult;
 
 /**
  * API model for returning expiration activity details.
@@ -16,7 +18,7 @@ public class ExpirationActivityResult {
 	private Long idExpirationActivity;
     private ExpirationResult expiration;
     private String body;
-    private String descriptionLastActivity;
+    private List<DescriptionLangResult> descriptionActivity = new ArrayList<>();
     private List<ExpirationActivityAttachmentResult> expirationActivityAttachments;
     
 	public Long getIdExpirationActivity() {
@@ -37,11 +39,11 @@ public class ExpirationActivityResult {
 	public void setBody(String body) {
 		this.body = body;
 	}
-	public String getDescriptionLastActivity() {
-		return descriptionLastActivity;
+	public List<DescriptionLangResult> getDescriptionActivity() {
+		return descriptionActivity;
 	}
-	public void setDescriptionLastActivity(String descriptionLastActivity) {
-		this.descriptionLastActivity = descriptionLastActivity;
+	public void setDescriptionActivity(List<DescriptionLangResult> descriptionActivity) {
+		this.descriptionActivity = descriptionActivity;
 	}
 	public List<ExpirationActivityAttachmentResult> getExpirationActivityAttachments() {
 		return expirationActivityAttachments;

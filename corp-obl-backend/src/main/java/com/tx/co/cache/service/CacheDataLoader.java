@@ -7,7 +7,6 @@ import com.tx.co.back_office.company.service.ICompanyConsultantService;
 import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.office.repository.OfficeRepository;
 import com.tx.co.back_office.task.model.Task;
-import com.tx.co.back_office.task.repository.TaskOfficeRelationRepository;
 import com.tx.co.back_office.task.repository.TaskRepository;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.back_office.tasktemplate.repository.TaskTemplateRepository;

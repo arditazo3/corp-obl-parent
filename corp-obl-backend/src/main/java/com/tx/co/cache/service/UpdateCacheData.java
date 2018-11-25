@@ -56,7 +56,7 @@ public abstract class UpdateCacheData {
 	public void setCacheManager(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
 	}
-	
+
 	@Autowired
 	public void setUserService(IUserService userService) {
 		this.userService = userService;
@@ -86,7 +86,7 @@ public abstract class UpdateCacheData {
 	public void setCompanyConsultantService(CompanyConsultantService companyConsultantService) {
 		this.companyConsultantService = companyConsultantService;
 	}
-	
+
 	@Autowired
 	public void setTaskTemplateService(TaskTemplateService taskTemplateService) {
 		this.taskTemplateService = taskTemplateService;
@@ -214,7 +214,7 @@ public abstract class UpdateCacheData {
 
 		return taskTemplateListCache;
 	}
-	
+
 	/**
 	 * @return get the Task  from the cache in order to not execute the query to the database
 	 */
@@ -244,7 +244,7 @@ public abstract class UpdateCacheData {
 
 		return taskTemplateAttachmentListCache;
 	}
-	
+
 	/**
 	 * @return get the Translation from the cache in order to not execute the query to the database
 	 */
@@ -285,7 +285,7 @@ public abstract class UpdateCacheData {
 
 		storageDataCacheManager.put(USER_LIST_CACHE, userList);
 	}
-	
+
 	/**
 	 * @param company
 	 * @param updateFromDB
@@ -388,19 +388,19 @@ public abstract class UpdateCacheData {
 
 		storageDataCacheManager.put(TOPIC_LIST_CACHE, topicList);
 	}
-	
+
 	public Translation getTranslationByLangLikeTablename(TranslationPairKey translationPairKey) {
-		
+
 		Map<TranslationPairKey, Translation> translationHashMap = getTranslationsFromCache();
-		
+
 		for (TranslationPairKey translationPairKeyLoop : translationHashMap.keySet()) {
 			if (translationPairKeyLoop.getLang().equalsIgnoreCase(translationPairKey.getLang())
 					&& translationPairKeyLoop.getTablename().contains(translationPairKey.getTablename())) {
-				
+
 				return translationHashMap.get(translationPairKeyLoop);
 			}
 		}
-		
+
 		return new Translation();
 	}
 
@@ -480,7 +480,7 @@ public abstract class UpdateCacheData {
 
 		updateTopicsCache(topicConsultant.getTopic(), true);
 	}
-	
+
 	/**
 	 * @param taskTemplate
 	 * @param updateFromDB
@@ -513,7 +513,7 @@ public abstract class UpdateCacheData {
 
 		storageDataCacheManager.put(TASK_TEMPLATE_LIST_CACHE, taskTemplateList);
 	}
-	
+
 	/**
 	 * @param taskTemplateAttachment
 	 * @param updateFromDB
@@ -560,78 +560,78 @@ public abstract class UpdateCacheData {
 		}
 		return company;
 	}
-	
+
 	/**
-     * @param idOffice
-     * @return the existing Office on the cache
-     */
-    public Office getOfficeById(Long idOffice) {
-        Office office = null;
-        List<Office> officeListCache = getOfficesFromCache();
-        if (!isEmpty(officeListCache)) {
-            for (Office officeLoop : officeListCache) {
-                if (idOffice.compareTo(officeLoop.getIdOffice()) == 0) {
-                    office = officeLoop;
-                    break;
-                }
-            }
-        }
-        return office;
-    }
-    
-    /**
-     * @param idTaskTemaplate
-     * @return the existing Task template on the cache
-     */
-    public TaskTemplate getTaskTemplateById(Long idTaskTemaplate) {
-    	TaskTemplate taskTemplate = null;
-        List<TaskTemplate> taskTemplateListCache = getTaskTemplatesFromCache();
-        if (!isEmpty(taskTemplateListCache)) {
-            for (TaskTemplate taskTemplateLoop : taskTemplateListCache) {
-                if (idTaskTemaplate.compareTo(taskTemplateLoop.getIdTaskTemplate()) == 0) {
-                	taskTemplate = taskTemplateLoop;
-                    break;
-                }
-            }
-        }
-        return taskTemplate;
-    }
-    
-    /**
-     * @param idTask
-     * @return the existing Task on the cache
-     */
-    public Task getTaskById(Long idTask) {
-    	Task task = null;
-        List<Task> taskListCache = getTaskFromCache();
-        if (!isEmpty(taskListCache)) {
-            for (Task taskLoop : taskListCache) {
-                if (idTask.compareTo(taskLoop.getIdTask()) == 0) {
-                	task = taskLoop;
-                    break;
-                }
-            }
-        }
-        return task;
-    }
-    
-    /**
-     * @param idTaskTemaplate
-     * @return the existing Task template on the cache
-     */
-    public TaskTemplateAttachment getTaskTemplateAttachmentById(Long idTaskTemaplateAttachment) {
-    	TaskTemplateAttachment taskTemplateAttachment = null;
-        List<TaskTemplateAttachment> taskTemplateAttachmentListCache = getTaskTemplatesAttachmentFromCache();
-        if (!isEmpty(taskTemplateAttachmentListCache)) {
-            for (TaskTemplateAttachment taskTemplateAttachmentLoop : taskTemplateAttachmentListCache) {
-                if (idTaskTemaplateAttachment.compareTo(taskTemplateAttachmentLoop.getIdTaskTemplateAttachment()) == 0) {
-                	taskTemplateAttachment = taskTemplateAttachmentLoop;
-                    break;
-                }
-            }
-        }
-        return taskTemplateAttachment;
-    }
+	 * @param idOffice
+	 * @return the existing Office on the cache
+	 */
+	public Office getOfficeById(Long idOffice) {
+		Office office = null;
+		List<Office> officeListCache = getOfficesFromCache();
+		if (!isEmpty(officeListCache)) {
+			for (Office officeLoop : officeListCache) {
+				if (idOffice.compareTo(officeLoop.getIdOffice()) == 0) {
+					office = officeLoop;
+					break;
+				}
+			}
+		}
+		return office;
+	}
+
+	/**
+	 * @param idTaskTemaplate
+	 * @return the existing Task template on the cache
+	 */
+	public TaskTemplate getTaskTemplateById(Long idTaskTemaplate) {
+		TaskTemplate taskTemplate = null;
+		List<TaskTemplate> taskTemplateListCache = getTaskTemplatesFromCache();
+		if (!isEmpty(taskTemplateListCache)) {
+			for (TaskTemplate taskTemplateLoop : taskTemplateListCache) {
+				if (idTaskTemaplate.compareTo(taskTemplateLoop.getIdTaskTemplate()) == 0) {
+					taskTemplate = taskTemplateLoop;
+					break;
+				}
+			}
+		}
+		return taskTemplate;
+	}
+
+	/**
+	 * @param idTask
+	 * @return the existing Task on the cache
+	 */
+	public Task getTaskById(Long idTask) {
+		Task task = null;
+		List<Task> taskListCache = getTaskFromCache();
+		if (!isEmpty(taskListCache)) {
+			for (Task taskLoop : taskListCache) {
+				if (idTask.compareTo(taskLoop.getIdTask()) == 0) {
+					task = taskLoop;
+					break;
+				}
+			}
+		}
+		return task;
+	}
+
+	/**
+	 * @param idTaskTemaplate
+	 * @return the existing Task template on the cache
+	 */
+	public TaskTemplateAttachment getTaskTemplateAttachmentById(Long idTaskTemaplateAttachment) {
+		TaskTemplateAttachment taskTemplateAttachment = null;
+		List<TaskTemplateAttachment> taskTemplateAttachmentListCache = getTaskTemplatesAttachmentFromCache();
+		if (!isEmpty(taskTemplateAttachmentListCache)) {
+			for (TaskTemplateAttachment taskTemplateAttachmentLoop : taskTemplateAttachmentListCache) {
+				if (idTaskTemaplateAttachment.compareTo(taskTemplateAttachmentLoop.getIdTaskTemplateAttachment()) == 0) {
+					taskTemplateAttachment = taskTemplateAttachmentLoop;
+					break;
+				}
+			}
+		}
+		return taskTemplateAttachment;
+	}
 
 	/**
 	 * @return get the Users from the cache in order to not execute the query to the database
@@ -729,9 +729,9 @@ public abstract class UpdateCacheData {
 	}
 
 	public String getLangOfUsername(String username) {
-		
+
 		String defaultLang = "EN";
-		
+
 		if (!isEmpty(getUsersFromCache()) && !isEmpty(username)) {
 			for (User user : getUsersFromCache()) {
 				if (user.getUsername().equalsIgnoreCase(username)) {
@@ -742,5 +742,20 @@ public abstract class UpdateCacheData {
 		}
 		return defaultLang;
 	}
-	
+
+	public String getFullnameOfUsername(String username) {
+
+		String fullName = "";
+
+		if (!isEmpty(getUsersFromCache()) && !isEmpty(username)) {
+			for (User user : getUsersFromCache()) {
+				if (user.getUsername().equalsIgnoreCase(username)) {
+					fullName = user.getFullName();
+					break;
+				}
+			}
+		}
+		return fullName;
+	}
+
 }

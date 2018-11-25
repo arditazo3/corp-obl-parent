@@ -35,6 +35,8 @@ public class EmailService implements IEmailService {
 			emailSender.send(message);
 		} catch (MailException exception) {
 			logger.error(exception);
+		} catch (Exception e) {
+			logger.error(e);
 		}
 	}
 

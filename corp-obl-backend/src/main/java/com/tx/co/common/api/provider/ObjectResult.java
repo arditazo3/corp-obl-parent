@@ -5,6 +5,7 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,6 +45,9 @@ import com.tx.co.back_office.topic.domain.TopicConsultant;
 import com.tx.co.cache.service.UpdateCacheData;
 
 import static com.tx.co.common.constants.AppConstants.*;
+
+import com.tx.co.common.api.model.DescriptionLangResult;
+import com.tx.co.common.translation.api.model.TranslationPairKey;
 import com.tx.co.common.translation.api.model.TranslationResult;
 import com.tx.co.common.translation.domain.Translation;
 import com.tx.co.common.utils.UtilStatic;
@@ -289,12 +293,12 @@ public abstract class ObjectResult extends UpdateCacheData {
 		TopicResult result = toTopicObjectResult(topic);
 
 		toTopicIncludeOfficesResult(topic, result);
-		
+
 		toTopicIncludeTranslationsResult(topic, result);
 
 		return result;
 	}
-	
+
 	/**
 	 * Map a {@link Topic} instance to a {@link TopicResult} instance.
 	 *
@@ -380,15 +384,15 @@ public abstract class ObjectResult extends UpdateCacheData {
 		}
 		return topic;
 	}
-	
+
 	/**
 	 * @param topicResult
 	 * @return
 	 */
 	public Topic toTopic(TopicResult topicResult) {
-		
+
 		Topic topic = toTopicSingleObject(topicResult);
-		
+
 		if (!isEmpty(topicResult.getCompanyList())) {
 			for (CompanyResult companyResult : topicResult.getCompanyList()) {
 				CompanyTopicResult companyTopicResult = new CompanyTopicResult();
@@ -427,7 +431,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 
 		return topic;
 	}
-	
+
 	/**
 	 * @param topicResult,
 	 *            hasTranslations
@@ -909,10 +913,10 @@ public abstract class ObjectResult extends UpdateCacheData {
 		taskOffice.setIdTaskOffice(taskOfficeResult.getIdTaskOffice());
 		taskOffice.setTaskTemplate(toTaskTemplate(taskOfficeResult.getTaskTemplate()));
 		taskOffice.setTask(toTask(taskOfficeResult.getTask()));
-		
+
 		if (!isEmpty(taskOfficeResult.getOffice())) {
 			taskOffice.setOffice(toOffice(taskOfficeResult.getOffice()));	
-			
+
 			if (!isEmpty(taskOfficeResult.getOffice().getUserProviders())) {
 				List<TaskOfficeRelations> taskOfficeRelations = new ArrayList<>();
 				for (User user : taskOfficeResult.getOffice().getUserProviders()) {
@@ -938,7 +942,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 				taskOffice.getTaskOfficeRelations().addAll(new HashSet<TaskOfficeRelations>(taskOfficeRelations));
 			}
 		}
-		
+
 		taskOffice.setStartDate(taskOfficeResult.getStartDate());
 		taskOffice.setEndDate(taskOfficeResult.getEndDate());
 
@@ -1139,6 +1143,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 		// (as DB)
 		expirationResult.setExpirationClosableBy(expiration.getExpirationClosableBy() + "");
 		expirationResult.setUsername(expiration.getUsername());
+		expirationResult.setFullName(getFullnameOfUsername(expiration.getCreatedBy()));
 		expirationResult.setExpirationDate(expiration.getExpirationDate());
 		expirationResult.setCompleted(expiration.getCompleted());
 		expirationResult.setApproved(expiration.getApproved());
@@ -1166,7 +1171,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 
 		expirationActivityResult.setIdExpirationActivity(expirationActivity.getIdExpirationActivity());
 		expirationActivityResult.setBody(expirationActivity.getBody());
-		expirationActivityResult.setDescriptionLastActivity(UtilStatic.buildDescriptionLastActivity(expirationActivity));
+		expirationActivityResult.setDescriptionActivity(buildDescriptionLastActivity(expirationActivity));
 
 		return expirationActivityResult;
 	}
@@ -1194,7 +1199,7 @@ public abstract class ObjectResult extends UpdateCacheData {
 
 				expirationActivityResult.setIdExpirationActivity(expirationActivity.getIdExpirationActivity());
 				expirationActivityResult.setBody(expirationActivity.getBody());
-				expirationActivityResult.setDescriptionLastActivity(UtilStatic.buildDescriptionLastActivity(expirationActivity));
+				expirationActivityResult.setDescriptionActivity(buildDescriptionLastActivity(expirationActivity));
 				if (!isEmpty(expirationActivity.getExpirationActivityAttachments())) {
 					List<ExpirationActivityAttachmentResult> expirationActivityAttachmentResults = new ArrayList<>();
 					for (ExpirationActivityAttachment expirationActivityAttachment : expirationActivity.getExpirationActivityAttachments()) {
@@ -1245,4 +1250,31 @@ public abstract class ObjectResult extends UpdateCacheData {
 		expirationActivityAttachment.setFileSize(expirationActivityAttachmentResult.getFileSize());
 		return expirationActivityAttachment;
 	}
+
+	public List<DescriptionLangResult> buildDescriptionLastActivity(ExpirationActivity expirationActivity) {
+
+		List<DescriptionLangResult> descriptionLangList = new ArrayList<>();
+		
+		String userName = getFullnameOfUsername(expirationActivity.getModifiedBy());
+		Date lastModify = expirationActivity.getModificationDate();
+		List<String> langs = getLanguagesFromCache();
+
+		if (!isEmpty(lastModify) && !isEmpty(langs)) {
+			for (String lang : langs) {
+				String descriptionLastActivity = "";
+				
+				descriptionLastActivity += 
+						userName + 
+						getTranslationByLangLikeTablename(new TranslationPairKey("expiration_activity#at", lang)).getDescription() + 
+						UtilStatic.formatDateToString(lastModify) + 
+						getTranslationByLangLikeTablename(new TranslationPairKey("expiration_activity#wrote", lang)).getDescription() + 
+						UtilStatic.formatHoursMinutesToString(lastModify);
+
+				descriptionLangList.add(new DescriptionLangResult(descriptionLastActivity, lang));
+			}
+		}
+
+		return descriptionLangList;
+	}
+
 }

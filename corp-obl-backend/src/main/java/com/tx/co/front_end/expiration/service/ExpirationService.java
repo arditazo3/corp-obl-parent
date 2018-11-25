@@ -67,6 +67,11 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 	}
 
 	@Autowired
+	public void setEmailService(IEmailService emailService) {
+		this.emailService = emailService;
+	}
+
+	@Autowired
 	public void setEm(EntityManager em) {
 		this.em = em;
 	}
@@ -253,14 +258,15 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 			/**
 			 * Create new blank activity:
 			 * 
-			 * - CONTROLLER & NOT ARCHIVED
+			 * - CONTROLLER & NOT ARCHIVED & NOT APPROVED
 			 * - CONTROLLED & NOT COMPLETED
 			 * 
 			 * */
-			if ( ((userRelationType.compareTo(CONTROLLER) == 0 && isEmpty(expirationLoop.getRegistered())) ||
+			if ( ((userRelationType.compareTo(CONTROLLER) == 0 && (isEmpty(expirationLoop.getRegistered()) && isEmpty(expirationLoop.getApproved())) ) ||
 					(userRelationType.compareTo(CONTROLLED) == 0 && isEmpty(expirationLoop.getCompleted()))) &&
 
 					expirationLoop.getExpirationActivities().stream().allMatch(ea -> ea.getIdExpirationActivity() != null)) {
+				
 				expirationLoop.getExpirationActivities().add(new ExpirationActivity());
 			}
 
@@ -581,7 +587,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		}
 		
 		User beneficiary = getUserFromUsername(username);
-		String beneficiaryEmail = beneficiary.getEmail();
+		String beneficiaryEmail = beneficiary.getEmail() + ",";
 		String subject = "";
 		String text = "";
 
