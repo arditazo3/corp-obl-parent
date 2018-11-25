@@ -1,6 +1,15 @@
 <div *ngIf="company">
     <ngb-accordion #acc="ngbAccordion" activeIds="static-1">
-        <ngb-panel id="static-1" title="{{ 'BACK_OFFICE.CONSULTANT.LIST_CONSULTANTS' | translate }}">
+        <ngb-panel id="static-1" >
+            <ng-template ngbPanelTitle>
+                <div id="{{ isMobile ? 'container-fluid-mobile' : 'container-fluid' }}">
+                    <div class="row">
+                        <div class="col-5 float-left">
+                            <span class="float-left">{{ 'BACK_OFFICE.CONSULTANT.LIST_CONSULTANTS' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
             <ng-template ngbPanelContent>
                 <div class="controls">
                     <div class="input-group">
