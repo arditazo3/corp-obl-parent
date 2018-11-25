@@ -1,11 +1,13 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 
 declare var $: any;
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {TaskService} from '../../back_office/task/service/task.service';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {UserService} from '../../user/service/user.service';
+import {filter, map, mergeMap} from 'rxjs/operators';
+import {Title} from '@angular/platform-browser';
 
 @Component({
     selector: 'app-full-layout',
@@ -27,6 +29,9 @@ export class FullComponent implements OnInit {
     public showSettings = false;
     showMobileMenu = false;
 
+    currentPage = 'Current page';
+    pageInfo;
+
     options = {
         theme: 'light', // two possible values: light, dark
         dir: 'ltr', // two possible values: ltr, rtl
@@ -43,7 +48,10 @@ export class FullComponent implements OnInit {
     constructor(
         public router?: Router,
         private deviceService?: DeviceDetectorService,
-        private userService?: UserService
+        private userService?: UserService,
+        private titleService?: Title,
+        private activatedRoute?: ActivatedRoute,
+        private route?: ActivatedRoute
     ) {
 
         if (this.deviceService) {
@@ -54,6 +62,26 @@ export class FullComponent implements OnInit {
             userService.showMobileMenu.subscribe(value => {
                 this.showMobileMenu = value;
             });
+        }
+
+        if (this.router) {
+            this.router.events
+                .pipe(filter(event => event instanceof NavigationEnd))
+                .pipe(map(() => this.activatedRoute))
+                .pipe(
+                    map(route => {
+                        while (route.firstChild) {
+                            route = route.firstChild;
+                        }
+                        return route;
+                    })
+                )
+                .pipe(filter(route => route.outlet === 'primary'))
+                .pipe(mergeMap(route => route.data))
+                .subscribe(event => {
+                    this.titleService.setTitle(event['title']);
+                    this.pageInfo = event;
+                });
         }
     }
 

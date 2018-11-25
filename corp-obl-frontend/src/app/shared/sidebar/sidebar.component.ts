@@ -27,7 +27,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     showSubMenu = '';
     public sidebarnavItems: any[];
     fullname = '';
-    currentPage = 'Current page';
     pageInfo;
     public logoutVariable = '/authentication/logout';
 
