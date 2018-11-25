@@ -65,7 +65,7 @@
                                [scrollbarH]="true"
                                [headerHeight]="50"
                                [footerHeight]="50"
-                               [rowHeight]="40"
+                               [rowHeight]="'auto'"
                                [rows]='rows'
                                [limit]="10"
                                [messages]="{emptyMessage: ('GENERAL.NODATA' | translate), totalMessage: ('GENERAL.TOTAL' | translate), selectedMessage: false}"
@@ -100,7 +100,7 @@
                                 </div>
 
                                 <div class="col-4">
-                                    <b>{{ group.value[0].taskTemplate.description }}</b>
+                                    <b class="text-nowrap">{{ group.value[0].taskTemplate.description }}</b>
                                 </div>
 
                                 <div class="col-4" *ngIf="!isMobile">
@@ -141,7 +141,7 @@
                                           [width]='isMobile ? 150 : 33' prop="descriptionTask">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
                                      let-group="group" let-rowHeight="rowHeight">
-                           {{ row.descriptionTask }}
+                            <div class="text-wrap">{{ row.descriptionTask }}</div>
                         </ng-template>
                     </ngx-datatable-column>
 
