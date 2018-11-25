@@ -10,6 +10,7 @@ import {FileItem, FileLikeObject, ParsedResponseHeaders} from 'ng2-file-upload';
 import {ExpirationActivityAttachment} from '../../model/expiration-activity-attachment';
 import {saveAs as importedSaveAs} from 'file-saver';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'app-expiration-activity-controlled',
@@ -28,7 +29,7 @@ export class ExpirationActivityControlledComponent implements OnInit {
 
     errorDetails: ApiErrorDetails = new ApiErrorDetails();
 
-    expActivityMsg;
+    expActivityMsg = '';
     submitted = false;
     expirationActivityStored: ExpirationActivity;
 
@@ -36,12 +37,27 @@ export class ExpirationActivityControlledComponent implements OnInit {
     counterCallback = 0;
     uploader;
 
+    langOnChange = '';
+    descriptionActivityLangOnChange = '';
+
     constructor(
         private router: Router,
         private uploadService: UploadService,
         private expirationService: ExpirationService,
-        private deviceService: DeviceDetectorService
+        private deviceService: DeviceDetectorService,
+        private translateService: TranslateService
     ) {
+        const me = this;
+
+        me.langOnChange = me.translateService.currentLang;
+
+        me.translateService.onLangChange
+            .subscribe((event: LangChangeEvent) => {
+                if (event.lang) {
+                    me.langOnChange = event.lang;
+                    me.descriptionActivityOnChange();
+                }
+            });
 
         this.isMobile = this.deviceService.isMobile();
     }
@@ -55,6 +71,8 @@ export class ExpirationActivityControlledComponent implements OnInit {
         };
         this.uploader.onWhenAddingFileFailed = (item, filter, options) => this.onWhenAddingFileFailed(item, filter, options);
         this.onLoadFilesUploaded();
+
+        this.descriptionActivityOnChange();
     }
 
     onLoadFilesUploaded() {
@@ -236,5 +254,27 @@ export class ExpirationActivityControlledComponent implements OnInit {
         this.uploader.queue = [];
 
         this.updateExpirationActivities.emit(true);
+    }
+
+    doTextareaValueChange(ev) {
+        try {
+            this.expActivityMsg = ev.target.value;
+        } catch (e) {
+            console.error('could not set textarea-value');
+        }
+    }
+
+    descriptionActivityOnChange() {
+        const me = this;
+
+        if (this.expirationActivity && this.expirationActivity.descriptionActivity) {
+            this.expirationActivity.descriptionActivity.forEach(
+                descriptionActivity => {
+                    if (descriptionActivity.lang === me.langOnChange) {
+                        me.descriptionActivityLangOnChange = descriptionActivity.description;
+                    }
+                }
+            );
+        }
     }
 }

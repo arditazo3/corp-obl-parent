@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Expiration} from '../../model/expiration';
 import {saveAs as importedSaveAs} from 'file-saver';
 import {UploadService} from '../../../shared/common/service/upload.service';
@@ -10,6 +10,8 @@ import {ExpirationService} from '../../service/expiration.service';
 import {ExpirationActivity} from '../../model/expiration-activity';
 import {Router} from '@angular/router';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
+import {TransferDataService} from '../../../shared/common/service/transfer-data.service';
 
 @Component({
     selector: 'app-expiration-activity',
@@ -28,7 +30,7 @@ export class ExpirationActivityComponent implements OnInit {
 
     errorDetails: ApiErrorDetails = new ApiErrorDetails();
 
-    expActivityMsg;
+    expActivityMsg = '';
     submitted = false;
     expirationActivityStored: ExpirationActivity;
 
@@ -36,12 +38,27 @@ export class ExpirationActivityComponent implements OnInit {
     counterCallback = 0;
     uploader;
 
+    langOnChange = '';
+    descriptionActivityLangOnChange = '';
+
     constructor(
         private router: Router,
         private uploadService: UploadService,
         private expirationService: ExpirationService,
-        private deviceService: DeviceDetectorService
+        private deviceService: DeviceDetectorService,
+        private translateService: TranslateService
     ) {
+        const me = this;
+
+        me.langOnChange = me.translateService.currentLang;
+
+        me.translateService.onLangChange
+            .subscribe((event: LangChangeEvent) => {
+                if (event.lang) {
+                    me.langOnChange = event.lang;
+                    me.descriptionActivityOnChange();
+                }
+            });
 
         this.isMobile = this.deviceService.isMobile();
     }
@@ -55,6 +72,8 @@ export class ExpirationActivityComponent implements OnInit {
         };
         this.uploader.onWhenAddingFileFailed = (item, filter, options) => this.onWhenAddingFileFailed(item, filter, options);
         this.onLoadFilesUploaded();
+
+        this.descriptionActivityOnChange();
     }
 
     onLoadFilesUploaded() {
@@ -238,4 +257,25 @@ export class ExpirationActivityComponent implements OnInit {
         this.updateExpirationActivities.emit(true);
     }
 
+    doTextareaValueChange(ev) {
+        try {
+            this.expActivityMsg = ev.target.value;
+        } catch (e) {
+            console.error('could not set textarea-value');
+        }
+    }
+
+    descriptionActivityOnChange() {
+        const me = this;
+
+        if (this.expirationActivity && this.expirationActivity.descriptionActivity) {
+            this.expirationActivity.descriptionActivity.forEach(
+              descriptionActivity => {
+                  if (descriptionActivity.lang === me.langOnChange) {
+                      me.descriptionActivityLangOnChange = descriptionActivity.description;
+                  }
+              }
+            );
+        }
+    }
 }

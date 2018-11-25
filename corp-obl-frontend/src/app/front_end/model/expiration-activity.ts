@@ -1,11 +1,12 @@
 import {Expiration} from './expiration';
 import {ExpirationActivityAttachment} from './expiration-activity-attachment';
+import {DescriptionLang} from '../../shared/common/api/model/description-lang';
 
 export class ExpirationActivity {
 
     idExpirationActivity: number;
     expiration: Expiration;
     body: string;
-    descriptionLastActivity: string;
+    descriptionActivity: DescriptionLang[];
     expirationActivityAttachments: ExpirationActivityAttachment[];
 }

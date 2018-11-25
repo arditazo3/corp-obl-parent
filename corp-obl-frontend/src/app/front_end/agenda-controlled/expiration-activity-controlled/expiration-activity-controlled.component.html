@@ -1,31 +1,19 @@
 <div class="d-md-flex align-items-center">
 
-    <div *ngIf="expirationActivity && expirationActivity.descriptionLastActivity === ''"
+    <div *ngIf="expirationActivity && expirationActivity.descriptionActivity.length === 0"
          class="w-100">
-        <div class="card">
-            <br/>
+        <div class="card bg-grey text-black-50 p-2">
             <div>
                 <form>
                     <div class="input-group">
-                        <input type="text" [(ngModel)]="expActivityMsg"
-                               [ngModelOptions]="{standalone: true}"
-                               class="form-control col-md-9"
-                               placeholder="{{ 'FRONT_END.AGENDA.TYPE_SOMETHING' | translate }}">
-                        <div class="input-group-append">
-                            <div class="col-md-2 no-padding">
-                                <button type="button" (click)="fileInput.click()" class="btn-inline btn-default">
-                                    <span *ngIf="!isMobile">{{ 'GENERAL.UPLOAD_FILES' | translate }}</span>
-                                    <i *ngIf="isMobile" class="fas fa-upload fa-xs"></i>
-                                </button>
-                                <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
-                                    <input #selectedFile type="file" #fileInput ng2FileSelect [uploader]="uploader"
-                                           multiple/>
-                                </span>
-                            </div>
-                        </div>
+                        <textarea class="form-control col-md-12 br-div" rows="2"
+                                  (keyup)="doTextareaValueChange($event)"
+                                  placeholder="{{ 'FRONT_END.AGENDA.TYPE_SOMETHING' | translate }}"
+                                  [ngModelOptions]="{standalone: true}"
+                                  [(ngModel)]="expActivityMsg"></textarea>
                     </div>
                     <div *ngIf="submitted && !expActivityMsg" class="invalid-feedback-show">
-                        Message is required
+                        {{ 'FRONT_END.AGENDA.MESSAGE_REQUIRED' | translate }}
                     </div>
 
                     <div class="row">
@@ -63,13 +51,23 @@
 
                     <div class="row">
                         <div class="m-b-0 col text-left">
-                            <button #cancelBtn type="button"
-                                    class="btn btn-outline-secondary waves-effect waves-light">
+                            <button #cancelBtn type="button" (click)="cleanFormAfterInsert()"
+                                    class="btn btn-light">
                                 {{ 'GENERAL.CANCEL' | translate }}
                             </button>
                             <button #submitBtn type="button" (click)="saveExpActivDetail()"
-                                    class="btn btn-success waves-effect waves-light">{{ 'GENERAL.SAVE' | translate }}
+                                    class="btn btn-success">{{ 'GENERAL.SAVE' | translate }}
                             </button>
+
+                            <button type="button" (click)="fileInput.click()" class="btn btn-primary">
+                                <span *ngIf="!isMobile">{{ 'GENERAL.UPLOAD_FILES' | translate }}</span>
+                                <i *ngIf="isMobile" class="fas fa-upload fa-xs"></i>
+                            </button>
+                            <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
+                                    <input #selectedFile type="file" #fileInput ng2FileSelect [uploader]="uploader"
+                                           multiple/>
+                                </span>
+
                         </div>
                     </div>
 
@@ -79,13 +77,18 @@
         <br/>
     </div>
 
-    <div class="border p-2 w-100"
+    <div class="card bg-grey text-black-50 p-2 w-100"
          *ngIf="expirationActivity && expirationActivity.idExpirationActivity">
         <div class="{{ isMobile ? 'text-small' : '' }}">
-            <p><i>{{ expirationActivity?.descriptionLastActivity }}</i></p>
-            <h6><b>{{ expirationActivity?.body }}</b></h6>
+            <p class="align-middle">
+                <i class="fas fa-user-circle fa-2x align-middle c-grey"></i>
+                {{ descriptionActivityLangOnChange }}
+            </p>
+            <h6 class="m-h-56 p-2 bg-white br-div">
+                <b>{{ expirationActivity?.body }}</b>
+            </h6>
 
-            <div class="col-md-12 table-responsive">
+            <div class="col-md-12 table-responsive no-padding">
                 <table class="table table-borderless table-sm">
                     <thead>
                     <tr>
@@ -94,7 +97,7 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let expirationActivityAttachment of expirationActivity?.expirationActivityAttachments">
-                        <td>
+                        <td class="no-padding">
                             <strong><a (click)="downloadFileExp(expirationActivityAttachment)"
                                        class="text-primary" style="cursor: pointer;">
                                 {{ expirationActivityAttachment?.fileName }}

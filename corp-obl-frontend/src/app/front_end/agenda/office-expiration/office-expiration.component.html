@@ -3,9 +3,9 @@
         <ng-template ngbPanelTitle>
             <div id="{{ isMobile ? 'container-fluid-mobile' : 'container-fluid' }} text-left">
                 <div class="row">
-                    <div class="{{ isMobile ? 'col-3 text-small margin-left-10' : 'col-4' }}">
+                    <div class="{{ isMobile ? 'col-3 text-small margin-left-10 ' : 'col-4 text-left' }}">
                         <span class="{{ isMobile ? 'float-left' : '' }}">{{ expiration?.office?.description }}
-                            <i *ngIf="expiration.username !== ''">-</i> {{ expiration.username }}</span>
+                            <i *ngIf="expiration.fullName !== ''">-</i> {{ expiration.fullName }}</span>
                     </div>
                     <div class="col-4 text-center">
                     </div>
@@ -18,21 +18,71 @@
         <ng-template ngbPanelContent>
 
             <div class="form-body">
-                <div class="row">
-                    <div class="col-md-9">
+                <div class="{{ isMobile ? '' : 'row' }}">
+
+                    <div class="col-md-9" *ngIf="!isMobile">
                         <app-office-exp-task-template
                                 *ngIf="expiration && expiration.taskTemplate && hideDetailsBtn"
                                 [taskTemplate]="expiration.taskTemplate">
                         </app-office-exp-task-template>
                     </div>
-                    <div class="col-md-3 {{ isMobile ? 'text-left' : 'text-right' }}">
-                        <div class="form-group">
-                            <div ngbDropdown class="d-inline-block btn-group mr-3">
-                                <button type="button" (click)="showHideDetailsMsg()" class="btn-dropdown btn-primary">
+
+                    <div class="col-md-3 form-group {{ isMobile ? 'text-left' : 'text-right' }}">
+                        <div ngbDropdown class="d-inline-block btn-group mr-3">
+
+                            <div *ngIf="isMobile" class="row">
+                                <div *ngIf="restoreBtn">
+                                    <button class="btn btn-small"
+                                            (click)="restoreExp()">
+                                        {{ 'FRONT_END.AGENDA.RESTORE' | translate }}
+                                    </button>
+                                </div>
+
+                                <div *ngIf="rejectBtn">
+                                    <button class="btn btn-small"
+                                            (click)="rejectExp()">
+                                        {{ 'FRONT_END.AGENDA.REJECT' | translate }}
+                                    </button>
+                                </div>
+
+                                <div *ngIf="archivedBtn">
+                                    <button class="btn btn-small btn-primary"
+                                            (click)="archivedExp()">
+                                        {{ 'FRONT_END.AGENDA.ARCHIVED' | translate }}
+                                    </button>
+                                </div>
+
+                                <div *ngIf="approvedBtn">
+                                    <button class="btn btn-small btn-primary"
+                                            (click)="approvedExp()">
+                                        {{ 'FRONT_END.AGENDA.APPROVED' | translate }}
+                                    </button>
+                                </div>
+
+                                <div *ngIf="notApprovedBtn">
+                                    <button class="btn btn-small"
+                                            (click)="notApprovedExp()">
+                                        {{ 'FRONT_END.AGENDA.NOT_APPROVED' | translate }}
+                                    </button>
+                                </div>
+
+                                <button type="button" (click)="showHideDetailsMsg()"
+                                        class="btn-dropdown-mobile btn-small btn-primary">
                                     <span *ngIf="!isMobile">{{ hideDetailsBtn ? ('GENERAL.HIDE' | translate) : ('GENERAL.DETAILS' | translate) }}</span>
-                                    <i *ngIf="isMobile" class="{{ hideDetailsBtn ? 'far fa-folder-open' : 'far fa-folder' }} fa-xs"></i>
+                                    <i *ngIf="isMobile"
+                                       class="{{ hideDetailsBtn ? 'far fa-folder-open' : 'far fa-folder' }} fa-xs"></i>
                                 </button>
-                                <div class="btn-group" ngbDropdown role="group"
+                            </div>
+
+                            <div *ngIf="!isMobile">
+                                <button type="button" (click)="showHideDetailsMsg()"
+                                        class="{{ isMobile ? 'btn-dropdown-mobile' : 'btn-dropdown'}} btn-primary">
+                                    <span *ngIf="!isMobile">{{ hideDetailsBtn ? ('GENERAL.HIDE' | translate) : ('GENERAL.DETAILS' | translate) }}</span>
+                                    <i *ngIf="isMobile"
+                                       class="{{ hideDetailsBtn ? 'far fa-folder-open' : 'far fa-folder' }} fa-xs"></i>
+                                </button>
+                                <div class="btn-group"
+                                     ngbDropdown role="group"
                                      aria-label="Button group with nested dropdown">
                                     <button class="btn btn-primary dropdown-toggle-split"
                                             ngbDropdownToggle></button>
@@ -42,7 +92,8 @@
                                                     (click)="restoreExp()">
                                                 {{ 'FRONT_END.AGENDA.RESTORE' | translate }}
                                             </button>
-                                            <li *ngIf="rejectBtn || archivedBtn || approvedBtn || notApprovedBtn" class="divider dropdown-divider"></li>
+                                            <li *ngIf="rejectBtn || archivedBtn || approvedBtn || notApprovedBtn"
+                                                class="divider dropdown-divider"></li>
                                         </div>
 
                                         <div *ngIf="rejectBtn">
@@ -50,7 +101,8 @@
                                                     (click)="rejectExp()">
                                                 {{ 'FRONT_END.AGENDA.REJECT' | translate }}
                                             </button>
-                                            <li *ngIf="archivedBtn || approvedBtn || notApprovedBtn" class="divider dropdown-divider"></li>
+                                            <li *ngIf="archivedBtn || approvedBtn || notApprovedBtn"
+                                                class="divider dropdown-divider"></li>
                                         </div>
 
                                         <div *ngIf="archivedBtn">
@@ -58,7 +110,8 @@
                                                     (click)="archivedExp()">
                                                 {{ 'FRONT_END.AGENDA.ARCHIVED' | translate }}
                                             </button>
-                                            <li *ngIf="approvedBtn || notApprovedBtn" class="divider dropdown-divider"></li>
+                                            <li *ngIf="approvedBtn || notApprovedBtn"
+                                                class="divider dropdown-divider"></li>
                                         </div>
 
                                         <div *ngIf="approvedBtn">
@@ -80,6 +133,14 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="pb-1" *ngIf="isMobile">
+                        <app-office-exp-task-template
+                                *ngIf="expiration && expiration.taskTemplate && hideDetailsBtn"
+                                [taskTemplate]="expiration.taskTemplate">
+                        </app-office-exp-task-template>
+                    </div>
+
                 </div>
 
                 <div class="row">

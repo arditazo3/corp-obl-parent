@@ -12,6 +12,7 @@ export class Expiration {
     office: Office;
     expirationClosableBy: string;
     username: string;
+    fullName: string;
     expirationDate: Date;
     completed: Date;
     approved: Date;

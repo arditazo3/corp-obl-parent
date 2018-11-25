@@ -4,7 +4,7 @@
             <ng-template ngbPanelTitle>
                 <div id="{{ isMobile ? 'container-fluid-mobile' : 'container-fluid' }}">
                     <div class="row">
-                        <div class="{{ isMobile ? 'col-7 text-small margin-left-10' : 'col-8' }}">
+                        <div class="{{ isMobile ? 'col-7 text-small margin-left-10 text-wrap' : 'col-8' }}">
                             <span class="float-left">{{ taskExpiration.description }} - {{ taskExpiration.office.description }} <i *ngIf="taskExpiration?.expirations[0].username !== ''">-</i> {{ taskExpiration?.expirations[0].username }}</span>
                         </div>
                         <div class="{{ isMobile ? 'col-5 text-small margin-left-2' : 'col-4' }} {{ isMobile ? 'text-left' : 'text-right' }}">

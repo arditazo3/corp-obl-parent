@@ -16,6 +16,10 @@
   border-radius: 0.25rem !important;
 }
 
+.br-div {
+  border-radius: 0.25rem !important;
+}
+
 .card-header {
   border-top-right-radius: 0.25rem !important;
   border-top-left-radius: 0.25rem !important;
@@ -98,6 +102,11 @@
   flex-wrap: wrap;
 }
 
+.btn-dropdown-mobile {
+  border-bottom-left-radius: 0.25rem !important;
+  border-top-left-radius: 0.25rem !important;
+}
+
 .dropdown-item {
   padding: 0.1rem 0.5rem !important;
 }
@@ -110,4 +119,20 @@
   word-break: break-word;
   white-space: normal;
   height: 100%;
+}
+
+.bg-grey {
+  background-color: $gray-200 !important;
+}
+
+.bg-white {
+  background-color: white !important;
+}
+
+.c-grey {
+  color: $gray-500 !important;
+}
+
+.m-h-56 {
+  min-height: 56px !important;
 }
