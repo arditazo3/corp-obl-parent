@@ -108,6 +108,22 @@ export class UserInfoService {
         return null;
     }
 
+    isRoleController(): boolean | null {
+        const userInStorage: UserTokenInStorage = this.getUserInfo();
+        if (userInStorage !== null) {
+            return userInStorage.user.authorities.includes(AuthorityEnum[AuthorityEnum.CORPOBLIG_CONTROLLER]);
+        }
+        return null;
+    }
+
+    isRoleControlled(): boolean | null {
+        const userInStorage: UserTokenInStorage = this.getUserInfo();
+        if (userInStorage !== null) {
+            return userInStorage.user.authorities.includes(AuthorityEnum[AuthorityEnum.CORPOBLIG_CONTROLLED]);
+        }
+        return null;
+    }
+
     getAuthorities(): AuthorityEnum[] | null {
         const userInStorage: UserTokenInStorage = this.getUserInfo();
         if (userInStorage !== null) {
