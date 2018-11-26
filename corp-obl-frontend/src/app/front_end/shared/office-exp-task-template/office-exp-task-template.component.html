@@ -1,8 +1,9 @@
-<div class="d-md-flex align-items-center">
-    <div class="border border-blue p-2 w-100">
+<div class="card bg-grey text-black-50 p-2 w-100">
         <div class="{{ isMobile ? 'text-small' : '' }}">
-            <p><i>{{ 'FRONT_END.AGENDA.EXPIRY_INFORMATION' | translate }}</i></p>
-            <h6 >{{ taskTemplate?.description }}</h6>
+            <p>{{ 'FRONT_END.AGENDA.EXPIRY_INFORMATION' | translate }}</p>
+            <h6 class="m-h-56 p-2 bg-white br-div">
+                {{ taskTemplate?.description }}
+            </h6>
 
             <div class="col-md-12 table-responsive">
                 <table class="table table-borderless table-sm">
@@ -24,8 +25,6 @@
                 </table>
             </div>
         </div>
-
-    </div>
 
     <swal
             #errorTaskTemplateSwal

@@ -19,14 +19,16 @@
                         </div>
 
                         <div class="{{ isMobile ? 'col-3 ' : 'col-3' }} text-center">
-                            <div class=""
-                                 *ngIf="taskExpiration.totalArchived !== taskExpiration.totalExpirations &&
-                                 taskExpiration.totalCompleted === taskExpiration.totalExpirations">
+                            <div *ngIf="taskExpiration.totalArchived >= 1">
                                 <button type="button" class="{{ isMobile ? 'btn btn-small btn-danger' : 'btn btn-accordion btn-warning' }}"
                                         (click)="restoreAll(taskExpiration)">
                                     <span *ngIf="!isMobile">{{ 'FRONT_END.AGENDA.RESTORE_ALL' | translate }}</span>
                                     <i *ngIf="isMobile" class="far fa-window-close"></i>
                                 </button>
+                            </div>
+
+                            <div *ngIf="taskExpiration.totalArchived !== taskExpiration.totalExpirations &&
+                                 taskExpiration.totalCompleted === taskExpiration.totalExpirations">
                                 <button type="button" class="{{ isMobile ? 'btn btn-small btn-success' : 'btn btn-accordion btn-success' }}"
                                         (click)="archiveAll(taskExpiration)">
                                     <span *ngIf="!isMobile">{{ 'FRONT_END.AGENDA.ARCHIVE_ALL' | translate }}</span>
