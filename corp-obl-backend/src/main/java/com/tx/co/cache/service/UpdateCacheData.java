@@ -649,7 +649,7 @@ public abstract class UpdateCacheData {
 		List<User> userList = getUsersFromCache();
 		User userRetrived = null;
 		for (User user : userList) {
-			if (user.getUsername().equals(username)) {
+			if (user.getUsername().equalsIgnoreCase(username)) {
 				userRetrived = user;
 				break;
 			}
@@ -732,7 +732,8 @@ public abstract class UpdateCacheData {
 
 		String defaultLang = "EN";
 
-		if (!isEmpty(getUsersFromCache()) && !isEmpty(username)) {
+		List<User> users = getUsersFromCache();
+		if (!isEmpty(users) && !isEmpty(username)) {
 			for (User user : getUsersFromCache()) {
 				if (user.getUsername().equalsIgnoreCase(username)) {
 					defaultLang = user.getLang();
@@ -747,7 +748,8 @@ public abstract class UpdateCacheData {
 
 		String fullName = "";
 
-		if (!isEmpty(getUsersFromCache()) && !isEmpty(username)) {
+		List<User> users = getUsersFromCache();
+		if (!isEmpty(users) && !isEmpty(username)) {
 			for (User user : getUsersFromCache()) {
 				if (user.getUsername().equalsIgnoreCase(username)) {
 					fullName = user.getFullName();
@@ -756,6 +758,24 @@ public abstract class UpdateCacheData {
 			}
 		}
 		return fullName;
+	}
+
+	public String getTextFromTranslation(String tablename, String username) {
+
+		String text = "";
+		String lang = getLangOfUsername(username);
+
+		HashMap<TranslationPairKey, Translation> translations = (HashMap<TranslationPairKey, Translation>) getTranslationsFromCache();
+		if (!isEmpty(translations) && !isEmpty(tablename) && !isEmpty(lang)) {
+
+			TranslationPairKey translationPairKey = new TranslationPairKey(tablename, lang);
+
+			Translation translation = translations.get(translationPairKey);
+			if (!isEmpty(translation)) {
+				text = translation.getDescription();
+			}
+		}
+		return text;
 	}
 
 }

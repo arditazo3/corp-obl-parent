@@ -34,6 +34,36 @@ public class TranslationPairKey implements Serializable {
 	public void setLang(String lang) {
 		this.lang = lang;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((lang == null) ? 0 : lang.hashCode());
+		result = prime * result + ((tablename == null) ? 0 : tablename.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TranslationPairKey other = (TranslationPairKey) obj;
+		if (lang == null) {
+			if (other.lang != null)
+				return false;
+		} else if (!lang.equalsIgnoreCase(other.lang))
+			return false;
+		if (tablename == null) {
+			if (other.tablename != null)
+				return false;
+		} else if (!tablename.equalsIgnoreCase(other.tablename))
+			return false;
+		return true;
+	}
+	
 	
 	
 }

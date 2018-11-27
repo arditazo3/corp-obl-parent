@@ -1,12 +1,12 @@
 package com.tx.co.common.mail.service;
 
-import org.springframework.mail.SimpleMailMessage;
+import com.tx.co.common.mail.model.Mail;
 
 public interface IEmailService {
 
-    public void sendSimpleMessage(String to, String cc, String bcc, String subject, String text);
+    public void sendMail(Mail mail);
 
-    void sendSimpleMessageUsingTemplate(String to, String cc, String bcc, String subject, SimpleMailMessage template, String... templateArgs);
+    void sendMailUsingTemplate(Mail mail);
 
-    void sendMessageWithAttachment(String to, String cc, String bcc, String subject, String text, String pathToAttachment);
+    void sendMailWithAttachment(Mail mail);
 }

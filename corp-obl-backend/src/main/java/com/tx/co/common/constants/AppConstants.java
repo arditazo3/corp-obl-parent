@@ -51,4 +51,14 @@ public final class AppConstants  {
 	public static final String ALERT_PRIMARY = "alert alert-primary";
 	public static final String ALERT_WARNING = "alert alert-warning";
 	public static final String ALERT_SUCCESS = "alert alert-success";
+	
+	/* Email components */
+	public static final String EXPIRATION_SUBJECT_REJECT = "expiration#subject#reject";
+	public static final String EXPIRATION_TEXT_REJECT = "expiration#text#reject";
+	public static final String EXPIRATION_SUBJECT_EXPIRED = "expiration#subject#expired";
+	public static final String EXPIRATION_TEXT_EXPIRED = "expiration#text#expired";
+	
+	public static final String MAIL_SEND_FROM = "test@test.com";
+	public static final String MAIL_TEMPLATE_REJECT = "mailTemplateReject";
+	public static final String MAIL_TEMPLATE_EXPIRED = "mailTemplateExpired";
 }

@@ -4,6 +4,7 @@ import com.tx.co.back_office.office.domain.Office;
 import com.tx.co.back_office.task.model.Task;
 import com.tx.co.back_office.tasktemplate.domain.TaskTemplate;
 import com.tx.co.cache.service.UpdateCacheData;
+import com.tx.co.common.mail.model.Mail;
 import com.tx.co.common.mail.service.IEmailService;
 import com.tx.co.common.utils.UtilStatic;
 import com.tx.co.front_end.expiration.api.model.DateExpirationOfficesHasArchived;
@@ -138,7 +139,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 		if (userLoggedIn.getAuthorities().contains(Authority.CORPOBLIG_CONTROLLED) &&
 				userRelationType.compareTo(CONTROLLED) == 0) {
 			querySql += " and ( e.username = :username " +
-							"or e.username = '' ) " ;
+					"or e.username = '' ) " ;
 		}
 
 		querySql += "group by e.idExpiration " + 
@@ -266,7 +267,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 					(userRelationType.compareTo(CONTROLLED) == 0 && isEmpty(expirationLoop.getCompleted()))) &&
 
 					expirationLoop.getExpirationActivities().stream().allMatch(ea -> ea.getIdExpirationActivity() != null)) {
-				
+
 				expirationLoop.getExpirationActivities().add(new ExpirationActivity());
 			}
 
@@ -319,12 +320,12 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 			List<TaskOfficeExpirations> taskOfficeExpirations = convertToTaskTemplateExpirations(expirations, userRelationType);
 
 			if (!isEmpty(taskOfficeExpirations)) {
-				
+
 				Optional<TaskOfficeExpirations> taskOfficeExpirationsOptional = taskOfficeExpirations.stream()
 						.filter(taskOfficeExpiration -> 
 						taskOfficeExpiration.getExpirations().iterator().next().getIdExpiration()
 						.compareTo(expiration.getIdExpiration()) == 0).findFirst();
-				
+
 				if (taskOfficeExpirationsOptional.isPresent()) {
 					return taskOfficeExpirationsOptional.get();
 				} else {
@@ -488,7 +489,7 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 			// sent the notifying email to Beneficiary
 			String username = expiration.getUsername();
-			sendEmailToBeneficiary(statusExpirationOnChange, username);
+			sendEmailToBeneficiary(expiration, username);
 		} else if (statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.APPROVED.name())) {
 			expiration.setApproved(new Date());
 		} else if (statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.NOT_APPROVED.name())) {
@@ -579,25 +580,27 @@ public class ExpirationService extends UpdateCacheData implements IExpirationSer
 
 	}
 
-	private void sendEmailToBeneficiary(String statusExpirationOnChange, String username) {
+	private void sendEmailToBeneficiary(Expiration expiration, String username) {
+
+		String statusExpirationOnChange = expiration.getStatusExpirationOnChange();
 
 		if (isEmpty(username)) {
 			logger.error("No user found to send the email!");
 			return;
 		}
-		
+
 		User beneficiary = getUserFromUsername(username);
-		String beneficiaryEmail = beneficiary.getEmail() + ",";
+		String beneficiaryEmail = beneficiary.getEmail();
 		String subject = "";
 		String text = "";
 
 		if (statusExpirationOnChange.equalsIgnoreCase(StatusExpirationEnum.REJECT.name())) {
-			subject = "Rejected task";
-
-			text = "The task has been rejected";
+			
+			subject = getTextFromTranslation(EXPIRATION_SUBJECT_REJECT, username);
+			text = getTextFromTranslation(EXPIRATION_TEXT_REJECT, username);
 		}
 
-		emailService.sendSimpleMessage(beneficiaryEmail, null, null, subject, text);
+		emailService.sendMailUsingTemplate(new Mail(beneficiaryEmail, null, null, subject, text, MAIL_TEMPLATE_REJECT));
 	}
 
 	/**
