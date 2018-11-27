@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+    production: false,
+    apiPort: '8100',
+    apiProtocol: '',
+    apiHostName: '',
+    apiBasePath: 'admin-rest'
 };
 
 /*

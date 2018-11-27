@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {environment} from '../../../../environments/environment';
 
 @Injectable()
 export class AppConfig {
@@ -8,9 +9,10 @@ export class AppConfig {
     public locale = 'en-US';
 
     // API Related configs
-    public apiPort = '8100';
-    public apiProtocol: string;
-    public apiHostName: string;
+
+    public apiPort = environment.apiPort;
+    public apiProtocol: string = environment.apiProtocol;
+    public apiHostName: string = environment.apiHostName;
     public apiBasePath = 'admin-rest';
     public baseApiPath: string;
 
@@ -124,17 +126,21 @@ export class AppConfig {
     constructor() {
         console.log('AppConfig - constructor');
 
-        if (this.apiProtocol === undefined) {
+        if (!this.apiProtocol) {
             this.apiProtocol = window.location.protocol;
         }
-        if (this.apiHostName === undefined) {
+        if (!this.apiHostName) {
             this.apiHostName = window.location.hostname;
         }
-        if (this.apiPort === undefined) {
-            this.apiPort = window.location.port;
-        } else {
-            this.baseApiPath = this.apiProtocol + '//' + this.apiHostName + ':' + this.apiPort + '/' + this.apiBasePath + '/';
+
+        this.baseApiPath = this.apiProtocol + '//' + this.apiHostName;
+
+        if (this.apiPort) {
+            this.baseApiPath += ':' + this.apiPort;
         }
+
+        this.baseApiPath += '/' + this.apiBasePath + '/';
+
         if (this.locale === undefined) {
             this.locale = navigator.language;
         }
