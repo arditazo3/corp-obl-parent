@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/corp-obl-backend/src/main/resources/db_scripts/001_creation_tables.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/corp-obl-backend/src/main/resources/db_scripts/002_update_tables.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/corp-obl-backend/src/main/resources/db_scripts/003_insert_translations.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/corp-obl-backend/src/main/resources/db_scripts/004_frequence_notice.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/corp-obl-backend/src/main/resources/db_scripts/005_taskofficerelations.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/corp-obl-backend/src/main/resources/db_scripts/006_insert_translations.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/corp-obl-backend/src/main/resources/db_scripts/007_expiration_attachment_new_column.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/corp-obl-backend/src/main/resources/db_scripts/008_periodicity_expirations.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/corp-obl-backend/src/main/resources/db_scripts/009_alter_columns.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/corp-obl-backend/src/main/resources/db_scripts/010_alter_column_is_rapid_configuration.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/corp-obl-backend/src/main/resources/db_scripts/011_new_translations_expiration_activity.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/corp-obl-backend/src/main/resources/db_scripts/012_new_translations_mail.sql" dialect="MySQL" />
+  </component>
+</project>
